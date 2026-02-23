@@ -3,132 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nuestra Boda</title>
+<title>Ivon & Julio | Nos Casamos</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#fff;color:#111;overflow-x:hidden;}
+section{padding:100px 20px;text-align:center;}
+h2{font-size:2rem;margin-bottom:40px;font-weight:600;}
 
-body{
-  font-family:'Montserrat',sans-serif;
-  background:#ffffff;
-  color:#333;
-  overflow-x:hidden;
-}
-
-h1,h2{
-  font-family:'Playfair Display',serif;
-  font-weight:500;
-}
-
-section{
-  padding:80px 20px;
-  text-align:center;
-}
-
-/* HERO VIDEO */
+/* HERO */
 .hero{
-  position:relative;
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#fff;
+position:relative;height:100vh;display:flex;align-items:center;justify-content:center;
+color:#fff;text-align:center;overflow:hidden;
 }
-
 .hero video{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-1;
+position:absolute;width:100%;height:100%;object-fit:cover;top:0;left:0;z-index:-2;
 }
-
 .overlay{
-  background:rgba(0,0,0,0.45);
-  position:absolute;
-  width:100%;
-  height:100%;
-  z-index:1;
+position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:-1;
 }
-
-.hero-content{
-  z-index:2;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:60px;
-  letter-spacing:3px;
-}
-
-.hero p{
-  margin-top:20px;
-  font-size:22px;
-}
+.hero h1{font-size:3rem;font-weight:600;letter-spacing:2px;}
+.hero p{margin-top:15px;font-size:1.2rem;font-weight:300;}
 
 /* COUNTDOWN */
-.countdown{
-  font-size:60px;
-  font-weight:300;
-  margin-top:30px;
+.countdown{display:flex;justify-content:center;gap:40px;font-size:2rem;}
+.countdown div{display:flex;flex-direction:column;}
+.countdown span{font-size:3rem;font-weight:600;}
+
+/* BUTTON */
+.button{
+padding:14px 28px;border-radius:30px;border:none;background:#111;color:#fff;
+cursor:pointer;transition:0.3s;margin:10px;
+}
+.button:hover{background:#333;}
+
+/* FORM */
+input,textarea{
+width:100%;max-width:400px;padding:12px;margin:10px auto;
+border-radius:12px;border:1px solid #ddd;display:block;
+}
+textarea{resize:none;height:100px;}
+
+/* PETALS */
+.petal{
+position:fixed;top:-10px;width:8px;height:8px;
+background:#f5c6d6;border-radius:50%;opacity:0.7;
+animation:fall linear infinite;
+}
+@keyframes fall{
+to{transform:translateY(110vh);opacity:0;}
 }
 
-/* GALERIA */
-.gallery img{
-  width:200px;
-  margin:10px;
-  border-radius:10px;
-  transition:0.3s;
-}
-.gallery img:hover{
-  transform:scale(1.05);
-}
+footer{padding:40px;font-size:0.9rem;color:#777;}
 
-/* FORMULARIOS */
-input, textarea{
-  width:300px;
-  padding:10px;
-  margin:10px;
-  border:1px solid #ddd;
-  border-radius:5px;
-}
-
-button{
-  padding:10px 20px;
-  border:none;
-  background:#000;
-  color:#fff;
-  cursor:pointer;
-  border-radius:5px;
-}
-
-button:hover{
-  background:#444;
-}
-
-.message-box{
-  max-width:500px;
-  margin:10px auto;
-  padding:15px;
-  border-bottom:1px solid #eee;
-}
-
-/* RESPONSIVE */
 @media(max-width:768px){
-  .hero h1{
-    font-size:40px;
-  }
-  .countdown{
-    font-size:35px;
-  }
-  input, textarea{
-    width:90%;
-  }
+.hero h1{font-size:2rem;}
+.countdown{flex-direction:column;gap:20px;}
 }
 </style>
 </head>
@@ -136,121 +69,142 @@ button:hover{
 <body>
 
 <!-- HERO -->
-<div class="hero">
-
-  <video autoplay muted loop playsinline>
-    <source src="doble.mp4" type="video/mp4">
-  </video>
-
-  <div class="overlay"></div>
-
-  <div class="hero-content">
-    <h1>Ana & Luis</h1>
-    <p>15 Agosto 2026</p>
-  </div>
-
+<section class="hero">
+<video autoplay muted loop playsinline>
+<source src="doble.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+<div data-aos="fade-up">
+<h1>Ivon & Julio</h1>
+<p>Nos casamos · 15 Agosto 2026</p>
 </div>
-
-<!-- CUENTA REGRESIVA -->
-<section>
-  <h2>Faltan</h2>
-  <div class="countdown" id="countdown"></div>
 </section>
 
-<!-- SUBIR FOTOS -->
+<!-- COUNTDOWN -->
 <section>
-  <h2>Comparte tus fotos 📸</h2>
-  <input type="file" id="photoInput">
-  <button onclick="uploadPhoto()">Subir</button>
-  <div class="gallery" id="gallery"></div>
+<h2 data-aos="fade-up">Faltan</h2>
+<div class="countdown" data-aos="zoom-in">
+<div><span id="days">0</span>Días</div>
+<div><span id="hours">0</span>Horas</div>
+<div><span id="minutes">0</span>Min</div>
+<div><span id="seconds">0</span>Seg</div>
+</div>
 </section>
 
-<!-- LIBRO DE MENSAJES -->
+<!-- HISTORIA -->
 <section>
-  <h2>Déjanos un mensaje 📝</h2>
-  <input type="text" id="name" placeholder="Tu nombre"><br>
-  <textarea id="message" placeholder="Escribe tu mensaje"></textarea><br>
-  <button onclick="saveMessage()">Enviar</button>
-  <div id="messages"></div>
+<h2 data-aos="fade-up">Nuestra Historia</h2>
+<p data-aos="fade-up">
+Desde el primer momento supimos que queríamos caminar juntos.
+Hoy comenzamos un nuevo capítulo y queremos compartirlo contigo.
+</p>
 </section>
+
+<!-- UBICACIÓN -->
+<section>
+<h2 data-aos="fade-up">Detalles del Evento</h2>
+<button class="button" onclick="window.open('https://maps.google.com')">Ver ubicación 📍</button>
+<button class="button" onclick="window.open('https://waze.com')">Cómo llegar 🚗</button>
+<p style="margin-top:20px;" data-aos="fade-up">
+Código de vestimenta: Elegante
+</p>
+</section>
+
+<!-- RSVP -->
+<section>
+<h2 data-aos="fade-up">Confirma tu asistencia</h2>
+<button class="button" onclick="alert('Próximamente confirmación automática 💌')">
+Confirmar asistencia
+</button>
+</section>
+
+<!-- MENSAJES -->
+<section>
+<h2 data-aos="fade-up">
+Déjanos unas palabras que recordaremos para siempre ❤️
+</h2>
+<input type="text" id="nombre" placeholder="Tu nombre">
+<textarea id="mensaje" placeholder="Escribe tu mensaje..."></textarea>
+<button class="button" onclick="guardarMensaje()">Enviar mensaje</button>
+</section>
+
+<!-- FOTOS -->
+<section>
+<h2 data-aos="fade-up">Comparte tus fotos del evento 📸</h2>
+<input type="file" id="foto">
+<button class="button" onclick="subirFoto()">Subir foto</button>
+</section>
+
+<footer>
+Con amor, Ivon & Julio
+</footer>
+
+<!-- MÚSICA -->
+<audio id="musica" src="musica.mp3" loop></audio>
+<button class="button" onclick="toggleMusica()" style="position:fixed;bottom:20px;right:20px;">
+🎵
+</button>
+
+<!-- LIBRERÍAS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
 
 <script>
+AOS.init();
+
+// PETALOS
+for(let i=0;i<25;i++){
+let petal=document.createElement("div");
+petal.className="petal";
+petal.style.left=Math.random()*100+"vw";
+petal.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(petal);
+}
+
 // CUENTA REGRESIVA
-const weddingDate = new Date("2026-08-15T18:00:00").getTime();
+const fechaBoda=new Date("Aug 15, 2026 00:00:00").getTime();
 setInterval(()=>{
-  const now = new Date().getTime();
-  const distance = weddingDate - now;
-
-  const days = Math.floor(distance / (1000*60*60*24));
-  const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
-  const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
-  const seconds = Math.floor((distance % (1000*60))/1000);
-
-  document.getElementById("countdown").innerHTML =
-  `${days}d ${hours}h ${minutes}m ${seconds}s`;
+const ahora=new Date().getTime();
+const diff=fechaBoda-ahora;
+document.getElementById("days").innerText=Math.floor(diff/(1000*60*60*24));
+document.getElementById("hours").innerText=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+document.getElementById("minutes").innerText=Math.floor((diff%(1000*60*60))/(1000*60));
+document.getElementById("seconds").innerText=Math.floor((diff%(1000*60))/1000);
 },1000);
-</script>
 
-<!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// MUSICA
+function toggleMusica(){
+let musica=document.getElementById("musica");
+if(musica.paused){musica.play();}else{musica.pause();}
+}
 
-const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+// FIREBASE (REEMPLAZAR CONFIG)
+const firebaseConfig={
+apiKey:"TU_API_KEY",
+authDomain:"TU_PROJECT.firebaseapp.com",
+projectId:"TU_PROJECT",
+storageBucket:"TU_PROJECT.appspot.com",
+messagingSenderId:"XXXX",
+appId:"XXXX"
 };
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+const storage=firebase.storage();
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-const db = getFirestore(app);
-
-window.uploadPhoto = async function(){
-  const file = document.getElementById("photoInput").files[0];
-  if(!file) return alert("Selecciona una foto");
-
-  const storageRef = ref(storage, "fotos/" + Date.now() + "_" + file.name);
-  await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
-
-  const img = document.createElement("img");
-  img.src = url;
-  document.getElementById("gallery").appendChild(img);
+function guardarMensaje(){
+const nombre=document.getElementById("nombre").value;
+const mensaje=document.getElementById("mensaje").value;
+db.collection("mensajes").add({nombre,mensaje,fecha:new Date()});
+alert("Mensaje enviado ❤️");
 }
 
-window.saveMessage = async function(){
-  const name = document.getElementById("name").value;
-  const message = document.getElementById("message").value;
-
-  if(!name || !message) return alert("Completa los campos");
-
-  await addDoc(collection(db,"messages"),{
-    name,
-    message,
-    date:new Date()
-  });
-
-  document.getElementById("name").value="";
-  document.getElementById("message").value="";
+function subirFoto(){
+const archivo=document.getElementById("foto").files[0];
+const ref=storage.ref("fotos/"+archivo.name);
+ref.put(archivo).then(()=>alert("Foto subida 📸"));
 }
-
-onSnapshot(collection(db,"messages"),(snapshot)=>{
-  const container = document.getElementById("messages");
-  container.innerHTML="";
-  snapshot.forEach(doc=>{
-    const data = doc.data();
-    container.innerHTML += `
-      <div class="message-box">
-        <strong>${data.name}</strong>
-        <p>${data.message}</p>
-      </div>`;
-  });
-});
 </script>
 
 </body>

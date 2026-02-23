@@ -27,7 +27,7 @@ section{
   text-align:center;
 }
 
-/* HERO VIDEO YOUTUBE */
+/* HERO VIDEO */
 .hero{
   position:relative;
   height:100vh;
@@ -38,14 +38,14 @@ section{
   color:#fff;
 }
 
-.hero iframe{
+.hero video{
   position:absolute;
-  top:50%;
-  left:50%;
-  width:177.77vh; 
-  height:100vh;
-  transform:translate(-50%, -50%);
-  pointer-events:none;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
 }
 
 .overlay{
@@ -117,12 +117,27 @@ button:hover{
   padding:15px;
   border-bottom:1px solid #eee;
 }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero h1{
+    font-size:40px;
+  }
+  .countdown{
+    font-size:35px;
+  }
+  input, textarea{
+    width:90%;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<!-- HERO CON YOUTUBE -->
+<!-- HERO -->
 <div class="hero">
+
   <video autoplay muted loop playsinline>
     <source src="doble.mp4" type="video/mp4">
   </video>
@@ -133,6 +148,7 @@ button:hover{
     <h1>Ana & Luis</h1>
     <p>15 Agosto 2026</p>
   </div>
+
 </div>
 
 <!-- CUENTA REGRESIVA -->
@@ -183,10 +199,10 @@ import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstati
 
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH",
+  authDomain: "TU_AUTH_DOMAIN",
   projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_BUCKET",
-  messagingSenderId: "TU_SENDER",
+  storageBucket: "TU_STORAGE_BUCKET",
+  messagingSenderId: "TU_SENDER_ID",
   appId: "TU_APP_ID"
 };
 
@@ -198,7 +214,7 @@ window.uploadPhoto = async function(){
   const file = document.getElementById("photoInput").files[0];
   if(!file) return alert("Selecciona una foto");
 
-  const storageRef = ref(storage, "fotos/" + file.name);
+  const storageRef = ref(storage, "fotos/" + Date.now() + "_" + file.name);
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);
 
@@ -239,8 +255,3 @@ onSnapshot(collection(db,"messages"),(snapshot)=>{
 
 </body>
 </html>
-
-
-
-
-

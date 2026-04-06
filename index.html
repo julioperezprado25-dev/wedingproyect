@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ivon & Julio</title>
 
-<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
-body{color:#fff;overflow-x:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden;}
 
 /* VIDEO */
 .bg-video{
@@ -37,77 +38,97 @@ overflow:hidden;
 /* SOBRE */
 .envelope{
 position:relative;
-width:320px;
-height:220px;
+width:340px;
+height:240px;
 cursor:pointer;
-overflow:hidden;
 }
 
-.top,.bottom{
+/* CUERPO */
+.body-envelope{
 position:absolute;
 width:100%;
-height:50%;
-background:#ad5b73;
-transition:1s;
-z-index:2;
-}
-
-.top{
-top:0;
-clip-path:polygon(0 0,100% 0,50% 100%);
-transform-origin:top;
-}
-
-.bottom{
-bottom:0;
-clip-path:polygon(0 100%,100% 100%,50% 0);
-transform-origin:bottom;
-}
-
-.letter{
-position:absolute;
-bottom:-100%;
-width:90%;
-left:5%;
-background:#fff;
-color:#000;
-padding:25px;
+height:100%;
+background:linear-gradient(135deg,#f5c6d6,#f2a1c2);
 border-radius:10px;
-text-align:center;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
-transform:translateY(0) scale(0.8);
-opacity:0;
 transition:1s;
 z-index:1;
 }
 
+/* TAPA */
+.flap{
+position:absolute;
+top:0;
+width:100%;
+height:120px;
+background:#e48fb1;
+clip-path:polygon(0 0,100% 0,50% 100%);
+transform-origin:top;
+transition:1s;
+z-index:2;
+}
+
+/* TEXTO DESLIZAR */
+.hint{
+position:absolute;
+bottom:-40px;
+width:100%;
+text-align:center;
+font-family:'Great Vibes',cursive;
+font-size:20px;
+color:#fff;
+opacity:0.8;
+}
+
+/* CARTA */
+.letter{
+position:absolute;
+bottom:0;
+left:5%;
+width:90%;
+height:90%;
+background:#fff;
+color:#333;
+border-radius:10px;
+padding:30px;
+text-align:center;
+font-family:'Great Vibes',cursive;
+font-size:26px;
+
+transform:translateY(100%) scale(0.8);
+opacity:0;
+transition:1.5s;
+z-index:0;
+}
+
 /* ANIMACIONES */
-.envelope.open .top{
+
+/* abrir tapa */
+.envelope.open .flap{
 transform:rotateX(180deg);
 }
 
-.envelope.open .bottom{
-transform:rotateX(-180deg);
+/* cuerpo baja */
+.envelope.open .body-envelope{
+transform:translateY(120px);
 }
 
+/* carta sale */
 .envelope.open .letter{
-transform:translateY(-140%) scale(1);
+transform:translateY(-40%) scale(1);
 opacity:1;
 }
 
+/* zoom */
 .envelope.zoom .letter{
-transform:translateY(-140%) scale(1.6);
-transition:1.2s;
+transform:translateY(-40%) scale(2.5);
+transition:2s;
 }
 
-/* TEXTO */
-.letter h2{
-animation:fadeInUp 1s ease;
-}
-
-@keyframes fadeInUp{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+/* fade final */
+.fade-out{
+opacity:0;
+transition:1.5s;
 }
 
 /* SECCIONES */
@@ -130,29 +151,6 @@ color:#fff;
 cursor:pointer;
 margin:5px;
 }
-
-/* GALERÍA */
-.modal{
-display:none;
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.8);
-z-index:999;
-}
-.modal-content{
-background:#fff;color:#000;
-padding:20px;
-margin:50px auto;
-max-width:500px;
-border-radius:12px;
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-}
-.grid img{width:100%;border-radius:10px;}
 
 /* PÉTALOS */
 .petal{
@@ -178,19 +176,23 @@ to{transform:translateY(110vh);opacity:0;}
 </video>
 <div class="overlay"></div>
 
-<!-- INTRO SOBRE -->
+<!-- INTRO -->
 <div id="intro" class="intro">
-<div class="envelope" onclick="abrirSobre()">
-<div class="top"></div>
-<div class="bottom"></div>
 
-<div class="letter">
-<h2 id="nombreInvitado">Invitado</h2>
-<p>Estás invitado a la boda de</p>
-<h3>Ivon & Julio</h3>
-<p>14 Agosto · 8:30 PM</p>
-<small>Haz clic para abrir</small>
+<div class="envelope" onclick="abrirSobre()">
+
+<div class="flap"></div>
+<div class="body-envelope"></div>
+
+<div class="letter" id="cartaTexto">
+Ivon & Julio<br><br>
+Con mucho amor queremos invitarte<br>
+a compartir uno de los días más importantes<br>
+de nuestras vidas 💍<br><br>
+Tu presencia hará este momento aún más especial
 </div>
+
+<div class="hint">Desliza hacia arriba para abrir</div>
 
 </div>
 </div>
@@ -205,80 +207,46 @@ to{transform:translateY(110vh);opacity:0;}
 <h2>Detalles del Evento</h2>
 
 <button onclick="window.open('https://maps.app.goo.gl/wC8v6kQmJdUNZViA6')">
-📍 Ver en Google Maps
+📍 Google Maps
 </button>
 
 <button onclick="window.open('https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location')">
-🚗 Ir con Waze
+🚗 Waze
 </button>
 
 <p>
-Código de vestimenta: Elegante<br>
-Hora: 8:30 PM<br>
-Recomendación: Llevar abrigo
+Elegante · Llevar abrigo
 </p>
 </section>
 
-<section>
-<h2>Déjanos un mensaje ❤️</h2>
-<input id="nombre" placeholder="Tu nombre">
-<textarea id="mensaje"></textarea>
-<button onclick="guardarMensaje()">Enviar</button>
-</section>
-
-<section>
-<h2>Fotos 📸</h2>
-<button onclick="abrirGaleria()">Abrir Galería</button>
-</section>
-
-<!-- GALERÍA -->
-<div id="galeria" class="modal">
-<div class="modal-content">
-<h2>Galería</h2>
-<div id="gridFotos" class="grid"></div>
-
-<input id="nombreFoto" placeholder="Nombre">
-<input type="file" id="foto">
-
-<button onclick="subirFoto()">Subir</button>
-<button onclick="cerrarGaleria()">Cerrar</button>
-</div>
-</div>
-
 <audio id="musica" src="musica.mp3" loop></audio>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
 
 <script>
 
-/* INVITADO DINÁMICO */
-const params=new URLSearchParams(window.location.search);
-const nombre=params.get("nombre");
-if(nombre){
-document.getElementById("nombreInvitado").innerText=decodeURIComponent(nombre);
-}
-
-/* ABRIR SOBRE */
+/* ANIMACIÓN SOBRE */
 function abrirSobre(){
+
 let env=document.querySelector(".envelope");
 
+/* abrir */
 env.classList.add("open");
 
+/* zoom carta */
 setTimeout(()=>{
 env.classList.add("zoom");
-},1200);
+},1500);
 
+/* fade */
 setTimeout(()=>{
-document.getElementById("intro").style.opacity="0";
-},2200);
+document.getElementById("intro").classList.add("fade-out");
+},3500);
 
+/* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("musica").play().catch(()=>{});
-},3000);
+},4500);
+
 }
 
 /* PÉTALOS */
@@ -294,66 +262,6 @@ document.body.appendChild(p);
 }
 }
 crearPetalos();
-
-/* FIREBASE */
-const firebaseConfig={
-apiKey:"TU_API_KEY",
-authDomain:"TU.firebaseapp.com",
-projectId:"TU",
-storageBucket:"TU.appspot.com",
-appId:"XXXX"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-const storage=firebase.storage();
-
-/* MENSAJES */
-function guardarMensaje(){
-db.collection("mensajes").add({
-nombre:nombre.value,
-mensaje:mensaje.value
-});
-alert("Mensaje enviado ❤️");
-}
-
-/* GALERÍA */
-function abrirGaleria(){
-document.getElementById("galeria").style.display="block";
-cargarFotos();
-}
-function cerrarGaleria(){
-document.getElementById("galeria").style.display="none";
-}
-
-function subirFoto(){
-let file=document.getElementById("foto").files[0];
-if(!file)return alert("Selecciona archivo");
-
-let nombreArchivo=Date.now()+".jpg";
-
-storage.ref("fotos/"+nombreArchivo)
-.put(file)
-.then(()=>{
-db.collection("fotos").add({nombre:nombreArchivo});
-alert("Foto subida 📸");
-cargarFotos();
-});
-}
-
-function cargarFotos(){
-db.collection("fotos").get().then(snap=>{
-gridFotos.innerHTML="";
-snap.forEach(doc=>{
-storage.ref("fotos/"+doc.data().nombre)
-.getDownloadURL().then(url=>{
-let img=document.createElement("img");
-img.src=url;
-gridFotos.appendChild(img);
-});
-});
-});
-}
 
 </script>
 

@@ -7,141 +7,169 @@
 <title>Ivon & Julio</title>
 
 <link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{color:#111;overflow-x:hidden;}
+body{color:#fff;overflow-x:hidden;}
 
+/* VIDEO */
 .bg-video{
 position:fixed;top:0;left:0;width:100%;height:100%;
 object-fit:cover;z-index:-3;
 }
 
-.overlay-global{
+.overlay{
 position:fixed;width:100%;height:100%;
-background:rgba(0,0,0,0.4);z-index:-2;
+background:rgba(0,0,0,0.5);z-index:-2;
 }
 
+/* LATERALES */
+body::before, body::after{
+content:"";position:fixed;top:0;width:15px;height:100%;
+z-index:-1;
+}
+body::before{left:0;background:#2e7d32;}
+body::after{right:0;background:#ad5b73;}
+
+/* SOBRE */
 .intro{
 position:fixed;width:100%;height:100%;
-background:#000;color:#fff;
-display:flex;align-items:center;justify-content:center;
-z-index:999;text-align:center;
+background:linear-gradient(135deg,#f5c6d6,#a5d6a7);
+display:flex;justify-content:center;align-items:center;
+z-index:999;
 }
 
+.sobre{
+width:320px;height:220px;
+background:#fff;
+position:relative;
+border-radius:10px;
+overflow:hidden;
+cursor:pointer;
+}
+
+.tapa{
+position:absolute;
+width:100%;height:100%;
+background:#ad5b73;
+clip-path:polygon(0 0,100% 0,50% 60%);
+transform-origin:top;
+transition:1s;
+z-index:2;
+}
+
+.carta{
+position:absolute;
+width:100%;height:100%;
+background:#fff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
+z-index:1;
+}
+
+.sobre.abierto .tapa{
+transform:rotateX(180deg);
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#2e7d32;
+color:#fff;
+}
+
+/* SECCIONES */
 section{
-padding:80px 20px;text-align:center;
-background:rgba(255,255,255,0.85);
-margin:20px;border-radius:20px;
+padding:80px 20px;
+text-align:center;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+margin:20px;
+border-radius:20px;
 }
 
-h2{color:#ad5b73;}
+/* GALERÍA */
+.modal{
+display:none;
+position:fixed;
+width:100%;height:100%;
+background:rgba(0,0,0,0.8);
+z-index:999;
+}
 
-.button{
-padding:12px 25px;border:none;border-radius:30px;
-background:#2e7d32;color:#fff;cursor:pointer;
+.modal-content{
+background:#fff;
+color:#000;
+padding:20px;
+margin:50px auto;
+max-width:500px;
+border-radius:12px;
 }
 
 .grid{
-display:grid;grid-template-columns:repeat(3,1fr);
+display:grid;
+grid-template-columns:repeat(3,1fr);
 gap:10px;
 }
 
 .grid img{width:100%;border-radius:10px;}
 
-.modal{
-display:none;position:fixed;width:100%;height:100%;
-background:rgba(0,0,0,0.8);z-index:999;
-}
-
-.modal-content{
-background:#fff;padding:20px;margin:50px auto;
-max-width:500px;border-radius:12px;
-}
-
-.petal{
-position:fixed;top:-10px;width:8px;height:8px;
-border-radius:50%;animation:fall linear infinite;
-}
-
-@keyframes fall{to{transform:translateY(110vh);opacity:0;}}
 </style>
 </head>
 
 <body>
 
 <video class="bg-video" autoplay muted loop>
-<source src="doble.mp4" type="video/mp4">
+<source src="doble.mp4">
 </video>
-<div class="overlay-global"></div>
+<div class="overlay"></div>
 
-<!-- INTRO CON CLAVE -->
+<!-- SOBRE -->
 <div id="intro" class="intro">
-<div>
-<h2>Bienvenido</h2>
-<p>Ingresa tu código de invitación</p>
-<button class="button" onclick="entrar()">Entrar</button>
+<div class="sobre" onclick="abrirSobre()">
+<div class="tapa"></div>
+
+<div class="carta">
+<h3 id="nombreInvitado">Invitado</h3>
+<p>Has sido invitado a la boda de</p>
+<b>Ivon & Julio</b>
+<small>Presiona para abrir</small>
+</div>
+
 </div>
 </div>
 
-<!-- HERO -->
+<!-- CONTENIDO -->
 <section>
 <h1>Ivon & Julio</h1>
 <p>14 Agosto 2026 · 8:30 PM</p>
 </section>
 
-<!-- COUNTDOWN -->
-<section>
-<h2>Faltan</h2>
-<div>
-<span id="days"></span>d
-<span id="hours"></span>h
-<span id="minutes"></span>m
-<span id="seconds"></span>s
-</div>
-</section>
-
-<!-- DETALLES -->
-<section>
-<h2>Detalles</h2>
-<button class="button" onclick="window.open('https://maps.google.com/?q=-12.0464,-77.0428')">Google Maps</button>
-<button class="button" onclick="window.open('https://waze.com/ul?ll=-12.0464,-77.0428&navigate=yes')">Waze</button>
-
-<p>
-Elegante<br>
-Hora: 8:30 PM<br>
-Llevar abrigo
-</p>
-</section>
-
-<!-- MENSAJES -->
-<section>
-<h2>Mensaje</h2>
-<input id="nombre" placeholder="Nombre">
-<textarea id="mensaje"></textarea>
-<button class="button" onclick="guardarMensaje()">Enviar</button>
-</section>
-
-<!-- GALERÍA -->
 <section>
 <h2>Fotos</h2>
-<button class="button" onclick="abrirGaleria()">Abrir</button>
+<button onclick="abrirGaleria()">Abrir</button>
 </section>
 
 <div id="galeria" class="modal">
 <div class="modal-content">
 <h2>Galería</h2>
-
 <div id="gridFotos" class="grid"></div>
 
 <input id="nombreFoto" placeholder="Nombre">
 <input type="file" id="foto">
 
-<button class="button" onclick="subirFoto()">Subir</button>
-<button class="button" onclick="cerrarGaleria()">Cerrar</button>
+<button onclick="subirFoto()">Subir</button>
+<button onclick="cerrarGaleria()">Cerrar</button>
 </div>
 </div>
+
+<audio id="musica" src="musica.mp3" loop></audio>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
@@ -149,59 +177,31 @@ Llevar abrigo
 
 <script>
 
-/* SERVICE WORKER */
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js");
+/* INVITADO DINÁMICO */
+const params=new URLSearchParams(window.location.search);
+const nombre=params.get("nombre");
+
+if(nombre){
+document.getElementById("nombreInvitado").innerText=decodeURIComponent(nombre);
 }
 
-/* ACCESO */
-function entrar(){
-let c=prompt("Código:");
-if(c==="BODA2026"){intro.style.display="none";}
-}
+/* ABRIR SOBRE */
+function abrirSobre(){
+let sobre=document.querySelector(".sobre");
+sobre.classList.add("abierto");
 
-/* PÉTALOS */
-const colores=["#f5c6d6","#a5d6a7","#81c784"];
-for(let i=0;i<30;i++){
-let p=document.createElement("div");
-p.className="petal";
-p.style.left=Math.random()*100+"vw";
-p.style.background=colores[Math.floor(Math.random()*3)];
-p.style.animationDuration=(5+Math.random()*5)+"s";
-document.body.appendChild(p);
-}
-
-/* COUNTDOWN */
-const fecha=new Date("Aug 14, 2026 20:30:00").getTime();
-setInterval(()=>{
-let d=fecha-new Date().getTime();
-days.innerText=Math.floor(d/86400000);
-hours.innerText=Math.floor((d%86400000)/3600000);
-minutes.innerText=Math.floor((d%3600000)/60000);
-seconds.innerText=Math.floor((d%60000)/1000);
+setTimeout(()=>{
+document.getElementById("intro").style.display="none";
+document.getElementById("musica").play();
 },1000);
-
-/* MENSAJES */
-function msg(t){
-let m=document.createElement("div");
-m.innerText=t;
-m.style.position="fixed";
-m.style.bottom="20px";
-m.style.left="50%";
-m.style.transform="translateX(-50%)";
-m.style.background="#000";
-m.style.color="#fff";
-m.style.padding="10px";
-document.body.appendChild(m);
-setTimeout(()=>m.remove(),3000);
 }
 
 /* FIREBASE */
 const firebaseConfig={
 apiKey:"TU_API_KEY",
-authDomain:"TU_PROYECTO.firebaseapp.com",
-projectId:"TU_PROYECTO",
-storageBucket:"TU_PROYECTO.appspot.com",
+authDomain:"TU.firebaseapp.com",
+projectId:"TU",
+storageBucket:"TU.appspot.com",
 appId:"XXXX"
 };
 
@@ -209,67 +209,30 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const storage=firebase.storage();
 
-/* MENSAJE */
-function guardarMensaje(){
-db.collection("mensajes").add({
-nombre:nombre.value,
-mensaje:mensaje.value
-});
-msg("Enviado");
-}
-
-/* COMPRESIÓN */
-async function comprimirImagen(file){
-const bitmap=await createImageBitmap(file);
-const canvas=document.createElement("canvas");
-const ctx=canvas.getContext("2d");
-
-canvas.width=800;
-canvas.height=(bitmap.height/bitmap.width)*800;
-
-ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
-
-return new Promise(res=>{
-canvas.toBlob(blob=>res(blob),"image/jpeg",0.7);
-});
-}
-
-/* SUBIR FOTO */
-async function subirFoto(){
-let file=foto.files[0];
-if(!file){msg("Selecciona archivo");return;}
-
-let comprimido=await comprimirImagen(file);
-let nombreArchivo=Date.now()+".jpg";
-
-let ref=storage.ref("fotos/"+nombreArchivo);
-
-ref.put(comprimido).then(()=>{
-db.collection("fotos").add({nombre:nombreArchivo});
-msg("Foto subida");
-cargarFotos();
-});
-}
-
 /* GALERÍA */
 function abrirGaleria(){
-galeria.style.display="block";
+document.getElementById("galeria").style.display="block";
 cargarFotos();
 }
 
 function cerrarGaleria(){
-galeria.style.display="none";
+document.getElementById("galeria").style.display="none";
+}
+
+async function subirFoto(){
+let file=document.getElementById("foto").files[0];
+if(!file) return alert("Selecciona archivo");
+
+let ref=storage.ref("fotos/"+Date.now()+".jpg");
+ref.put(file).then(()=>alert("Subida"));
 }
 
 function cargarFotos(){
 db.collection("fotos").get().then(snap=>{
 gridFotos.innerHTML="";
 snap.forEach(doc=>{
-let data=doc.data();
-
-storage.ref("fotos/"+data.nombre)
-.getDownloadURL()
-.then(url=>{
+storage.ref("fotos/"+doc.data().nombre)
+.getDownloadURL().then(url=>{
 let img=document.createElement("img");
 img.src=url;
 gridFotos.appendChild(img);

@@ -1,0 +1,11 @@
+self.addEventListener("install", e=>{
+e.waitUntil(
+caches.open("boda-cache").then(cache=>{
+return cache.addAll([
+"/",
+"/index.html",
+"/doble.mp4"
+]);
+})
+);
+});

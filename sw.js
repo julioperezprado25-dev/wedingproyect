@@ -1,11 +1,7 @@
-self.addEventListener("install", e=>{
+self.addEventListener("install",e=>{
 e.waitUntil(
-caches.open("boda-cache").then(cache=>{
-return cache.addAll([
-"/",
-"/index.html",
-"/doble.mp4"
-]);
+caches.open("cache").then(c=>{
+return c.addAll(["/","/index.html"]);
 })
 );
 });

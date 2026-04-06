@@ -33,6 +33,7 @@ justify-content:center;
 align-items:center;
 z-index:9999;
 overflow:hidden;
+perspective:1200px;
 }
 
 /* SOBRE */
@@ -41,7 +42,7 @@ position:relative;
 width:340px;
 height:240px;
 cursor:pointer;
-z-index:2;
+z-index:5;
 }
 
 .body-envelope{
@@ -50,7 +51,6 @@ width:100%;
 height:100%;
 background:linear-gradient(135deg,#f5c6d6,#f2a1c2);
 border-radius:10px;
-z-index:1;
 }
 
 .flap{
@@ -62,60 +62,99 @@ background:#e48fb1;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:1s;
-z-index:3;
+z-index:6;
 }
 
-/* CARTA DENTRO DEL SOBRE */
-.letter{
-position:absolute;
-top:50%;
-left:50%;
-width:90%;
-padding:20px;
-background:white;
-color:#333;
-border-radius:10px;
-text-align:center;
-font-family:'Great Vibes',cursive;
-font-size:22px;
-transform:translate(-50%, -50%) scale(0.2);
-opacity:0;
-z-index:2;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-transition:all 1.2s ease;
-}
-
-/* abrir tapa */
 .envelope.open .flap{
 transform:rotateX(180deg);
 }
 
-/* carta sale */
-.envelope.open .letter{
-opacity:1;
-transform:translate(-50%, -120%) scale(1);
-}
-
-/* sobre baja */
 .envelope.drop{
-transform:translateY(500px);
-transition:1.5s;
+transform:translateY(600px);
+transition:1.5s ease;
 }
 
-/* carta crece */
-.letter.expand{
+/* CARTA 3D */
+.letter{
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%, -50%) scale(4);
-transition:2.5s cubic-bezier(0.22, 1, 0.36, 1);
+width:80vw;
+max-width:700px;
+padding:40px;
+border-radius:12px;
+
+font-family:'Great Vibes',cursive;
+font-size:28px;
+text-align:center;
+color:#333;
+
+/* textura papel */
+background:
+linear-gradient(white, #fdfdfd),
+repeating-linear-gradient(
+0deg,
+rgba(0,0,0,0.02) 0px,
+rgba(0,0,0,0.02) 1px,
+transparent 1px,
+transparent 4px
+);
+
+box-shadow:
+0 30px 60px rgba(0,0,0,0.4),
+inset 0 0 40px rgba(0,0,0,0.05);
+
+transform:
+translate(-50%, -50%)
+scale(0.2)
+rotateX(70deg);
+
+opacity:0;
 z-index:10000;
+
+transition:
+transform 1.2s ease,
+opacity 1s ease;
 }
 
-/* fade */
+/* sale del sobre */
+.letter.show{
+opacity:1;
+transform:
+translate(-50%, -80%)
+scale(0.9)
+rotateX(40deg);
+}
+
+/* se centra y expande */
+.letter.expand{
+transform:
+translate(-50%, -50%)
+scale(1.2)
+rotateX(0deg);
+transition:2.5s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* pantalla completa */
+.letter.full{
+width:100vw;
+height:100vh;
+border-radius:0;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:60px;
+
+transform:
+translate(-50%, -50%)
+scale(1.4)
+rotateX(0deg);
+}
+
+/* fade elegante */
 .letter.fade{
 opacity:0;
-transition:2s ease;
+transition:2.5s ease;
 }
 
 /* TEXTO */
@@ -168,7 +207,6 @@ to{transform:translateY(110vh);opacity:0;}
 
 <body>
 
-<!-- VIDEO -->
 <video class="bg-video" autoplay muted loop>
 <source src="doble.mp4">
 </video>
@@ -178,21 +216,20 @@ to{transform:translateY(110vh);opacity:0;}
 <div id="intro" class="intro">
 
 <div class="envelope" onclick="abrirSobre()">
-
 <div class="flap"></div>
 <div class="body-envelope"></div>
+<div class="hint">Toca el sobre</div>
+</div>
 
+</div>
+
+<!-- CARTA -->
 <div class="letter" id="carta">
 Ivon & Julio<br><br>
 Con mucho amor queremos invitarte<br>
 a compartir uno de los días más importantes<br>
 de nuestras vidas 💍<br><br>
 Tu presencia hará este momento aún más especial
-</div>
-
-<div class="hint">Toca el sobre</div>
-
-</div>
 </div>
 
 <!-- CONTENIDO -->
@@ -227,26 +264,36 @@ let carta=document.getElementById("carta");
 /* abrir tapa */
 env.classList.add("open");
 
-/* bajar sobre */
+/* carta sale */
+setTimeout(()=>{
+carta.classList.add("show");
+},800);
+
+/* sobre baja SOLO */
 setTimeout(()=>{
 env.classList.add("drop");
 },1200);
 
-/* expandir carta */
+/* carta se centra */
 setTimeout(()=>{
 carta.classList.add("expand");
-},2200);
+},2000);
 
-/* fade */
+/* pantalla completa */
+setTimeout(()=>{
+carta.classList.add("full");
+},3500);
+
+/* fade correcto */
 setTimeout(()=>{
 carta.classList.add("fade");
-},5000);
+},6000);
 
 /* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("musica").play().catch(()=>{});
-},7000);
+},8500);
 
 }
 

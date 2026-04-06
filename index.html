@@ -43,8 +43,7 @@ cursor:pointer;
 overflow:hidden;
 }
 
-/* TAPAS */
-.top, .bottom{
+.top,.bottom{
 position:absolute;
 width:100%;
 height:50%;
@@ -65,7 +64,6 @@ clip-path:polygon(0 100%,100% 100%,50% 0);
 transform-origin:bottom;
 }
 
-/* CARTA */
 .letter{
 position:absolute;
 bottom:-100%;
@@ -77,7 +75,6 @@ padding:25px;
 border-radius:10px;
 text-align:center;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
-
 transform:translateY(0) scale(0.8);
 opacity:0;
 transition:1s;
@@ -102,6 +99,17 @@ opacity:1;
 transform:translateY(-140%) scale(1.6);
 transition:1.2s;
 }
+
+/* TEXTO */
+.letter h2{
+animation:fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
 /* SECCIONES */
 section{
 padding:80px 20px;
@@ -164,12 +172,13 @@ to{transform:translateY(110vh);opacity:0;}
 
 <body>
 
+<!-- VIDEO -->
 <video class="bg-video" autoplay muted loop>
 <source src="doble.mp4">
 </video>
 <div class="overlay"></div>
 
-<!-- INTRO -->
+<!-- INTRO SOBRE -->
 <div id="intro" class="intro">
 <div class="envelope" onclick="abrirSobre()">
 <div class="top"></div>
@@ -194,11 +203,20 @@ to{transform:translateY(110vh);opacity:0;}
 
 <section>
 <h2>Detalles del Evento</h2>
-<button onclick="window.open('https://maps.app.goo.gl/KAbTL9gu7VVBgx7y9')">Ubicación</button>
-<button onclick="window.open('https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location')">
-Cómo llegar con Waze 🚗
+
+<button onclick="window.open('https://maps.app.goo.gl/wC8v6kQmJdUNZViA6')">
+📍 Ver en Google Maps
 </button>
-<p>Elegante · Llevar abrigo</p>
+
+<button onclick="window.open('https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location')">
+🚗 Ir con Waze
+</button>
+
+<p>
+Código de vestimenta: Elegante<br>
+Hora: 8:30 PM<br>
+Recomendación: Llevar abrigo
+</p>
 </section>
 
 <section>
@@ -245,31 +263,24 @@ document.getElementById("nombreInvitado").innerText=decodeURIComponent(nombre);
 
 /* ABRIR SOBRE */
 function abrirSobre(){
-
 let env=document.querySelector(".envelope");
 
-/* abrir tapas */
 env.classList.add("open");
 
-/* sacar carta */
 setTimeout(()=>{
 env.classList.add("zoom");
 },1200);
 
-/* desaparecer intro */
 setTimeout(()=>{
 document.getElementById("intro").style.opacity="0";
 },2200);
 
-/* mostrar web + música */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
-
-let musica=document.getElementById("musica");
-musica.play().catch(()=>{});
+document.getElementById("musica").play().catch(()=>{});
 },3000);
-
 }
+
 /* PÉTALOS */
 function crearPetalos(){
 const colores=["#f5c6d6","#a5d6a7","#81c784"];
@@ -297,13 +308,13 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const storage=firebase.storage();
 
-/* MENSAJE */
+/* MENSAJES */
 function guardarMensaje(){
 db.collection("mensajes").add({
 nombre:nombre.value,
 mensaje:mensaje.value
 });
-alert("Mensaje enviado");
+alert("Mensaje enviado ❤️");
 }
 
 /* GALERÍA */
@@ -325,7 +336,7 @@ storage.ref("fotos/"+nombreArchivo)
 .put(file)
 .then(()=>{
 db.collection("fotos").add({nombre:nombreArchivo});
-alert("Subido");
+alert("Foto subida 📸");
 cargarFotos();
 });
 }

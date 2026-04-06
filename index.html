@@ -41,6 +41,7 @@ position:relative;
 width:340px;
 height:240px;
 cursor:pointer;
+z-index:2;
 }
 
 .body-envelope{
@@ -49,7 +50,6 @@ width:100%;
 height:100%;
 background:linear-gradient(135deg,#f5c6d6,#f2a1c2);
 border-radius:10px;
-transition:1s;
 z-index:1;
 }
 
@@ -62,9 +62,63 @@ background:#e48fb1;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:1s;
-z-index:2;
+z-index:3;
 }
 
+/* CARTA DENTRO DEL SOBRE */
+.letter{
+position:absolute;
+top:50%;
+left:50%;
+width:90%;
+padding:20px;
+background:white;
+color:#333;
+border-radius:10px;
+text-align:center;
+font-family:'Great Vibes',cursive;
+font-size:22px;
+transform:translate(-50%, -50%) scale(0.2);
+opacity:0;
+z-index:2;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+transition:all 1.2s ease;
+}
+
+/* abrir tapa */
+.envelope.open .flap{
+transform:rotateX(180deg);
+}
+
+/* carta sale */
+.envelope.open .letter{
+opacity:1;
+transform:translate(-50%, -120%) scale(1);
+}
+
+/* sobre baja */
+.envelope.drop{
+transform:translateY(500px);
+transition:1.5s;
+}
+
+/* carta crece */
+.letter.expand{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%) scale(4);
+transition:2.5s cubic-bezier(0.22, 1, 0.36, 1);
+z-index:10000;
+}
+
+/* fade */
+.letter.fade{
+opacity:0;
+transition:2s ease;
+}
+
+/* TEXTO */
 .hint{
 position:absolute;
 bottom:-40px;
@@ -73,43 +127,6 @@ text-align:center;
 font-family:'Great Vibes',cursive;
 font-size:20px;
 opacity:0.8;
-}
-
-/* CARTA (FUERA DEL SOBRE) */
-.letter{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%, -50%) scale(0.3);
-transform-origin:center;
-}
-/* abrir tapa */
-.envelope.open .flap{
-transform:rotateX(180deg);
-}
-
-/* bajar sobre */
-.envelope.drop{
-transform:translateY(500px);
-transition:1.5s;
-}
-
-/* carta aparece */
-.letter.show{
-opacity:1;
-transform:translate(-50%, -50%) scale(1);
-}
-
-/* zoom a pantalla */
-.letter.zoom{
-transform:translate(-50%, -50%) scale(6);
-transition:3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* fade */
-.letter.fade{
-opacity:0;
-transition:1.5s;
 }
 
 /* SECCIONES */
@@ -161,20 +178,21 @@ to{transform:translateY(110vh);opacity:0;}
 <div id="intro" class="intro">
 
 <div class="envelope" onclick="abrirSobre()">
+
 <div class="flap"></div>
 <div class="body-envelope"></div>
-<div class="hint">Desliza hacia arriba para abrir</div>
-</div>
 
-</div>
-
-<!-- CARTA INDEPENDIENTE -->
 <div class="letter" id="carta">
 Ivon & Julio<br><br>
 Con mucho amor queremos invitarte<br>
 a compartir uno de los días más importantes<br>
 de nuestras vidas 💍<br><br>
 Tu presencia hará este momento aún más especial
+</div>
+
+<div class="hint">Toca el sobre</div>
+
+</div>
 </div>
 
 <!-- CONTENIDO -->
@@ -209,25 +227,20 @@ let carta=document.getElementById("carta");
 /* abrir tapa */
 env.classList.add("open");
 
-/* mostrar carta */
-setTimeout(()=>{
-carta.classList.add("show");
-},1000);
-
 /* bajar sobre */
 setTimeout(()=>{
 env.classList.add("drop");
 },1200);
 
-/* zoom carta */
+/* expandir carta */
 setTimeout(()=>{
-carta.classList.add("zoom");
-},2000);
+carta.classList.add("expand");
+},2200);
 
-/* fade carta */
+/* fade */
 setTimeout(()=>{
 carta.classList.add("fade");
-},3000);
+},5000);
 
 /* mostrar web */
 setTimeout(()=>{

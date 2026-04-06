@@ -1,7 +1,7 @@
 self.addEventListener("install",e=>{
 e.waitUntil(
-caches.open("cache").then(c=>{
-return c.addAll(["/","/index.html"]);
+caches.open("boda-cache").then(cache=>{
+return cache.addAll(["/","/index.html"]);
 })
 );
 });

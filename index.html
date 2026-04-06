@@ -80,22 +80,9 @@ opacity:0.8;
 position:fixed;
 top:50%;
 left:50%;
-width:300px;
-height:400px;
-background:#fff;
-color:#333;
-border-radius:10px;
-padding:30px;
-text-align:center;
-font-family:'Great Vibes',cursive;
-font-size:26px;
-
 transform:translate(-50%, -50%) scale(0.3);
-opacity:0;
-transition:1.5s;
-z-index:10000;
+transform-origin:center;
 }
-
 /* abrir tapa */
 .envelope.open .flap{
 transform:rotateX(180deg);
@@ -115,11 +102,8 @@ transform:translate(-50%, -50%) scale(1);
 
 /* zoom a pantalla */
 .letter.zoom{
-width:100vw;
-height:100vh;
-border-radius:0;
-transform:translate(-50%, -50%) scale(1);
-transition:2s;
+transform:translate(-50%, -50%) scale(6);
+transition:3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* fade */
@@ -228,28 +212,28 @@ env.classList.add("open");
 /* mostrar carta */
 setTimeout(()=>{
 carta.classList.add("show");
-},800);
+},1000);
 
 /* bajar sobre */
 setTimeout(()=>{
 env.classList.add("drop");
-},1200);
+},2000);
 
 /* zoom carta */
 setTimeout(()=>{
 carta.classList.add("zoom");
-},2000);
+},3000);
 
 /* fade carta */
 setTimeout(()=>{
 carta.classList.add("fade");
-},4000);
+},7000);
 
 /* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("musica").play().catch(()=>{});
-},5000);
+},7000);
 
 }
 

@@ -38,7 +38,7 @@ align-items:center;
 z-index:9999;
 }
 
-/* SOBRE REAL */
+/* SOBRE REALISTA */
 .envelope{
 position:relative;
 width:340px;
@@ -57,7 +57,7 @@ box-shadow:0 20px 40px rgba(0,0,0,0.5);
 z-index:1;
 }
 
-/* interior (profundidad) */
+/* interior */
 .envelope-inner{
 position:absolute;
 width:100%;
@@ -67,7 +67,7 @@ border-radius:10px;
 z-index:2;
 }
 
-/* solapa real */
+/* tapa */
 .envelope-flap{
 position:absolute;
 top:0;
@@ -87,7 +87,7 @@ box-shadow:0 10px 20px rgba(0,0,0,0.4);
 z-index:3;
 }
 
-/* línea unión visible */
+/* línea */
 .envelope::after{
 content:"";
 position:absolute;
@@ -102,8 +102,12 @@ z-index:4;
 transform:rotateX(170deg);
 }
 
-  
-/* TEXTO */
+.envelope.drop{
+transform:translateY(600px);
+transition:2s;
+}
+
+/* TEXTO HINT */
 .hint{
 margin-top:20px;
 font-family:'Great Vibes',cursive;
@@ -145,7 +149,7 @@ transition:2s;
 .letter.expand{transform:translate(-50%,-50%) scale(1.4);}
 .letter.fade{opacity:0;transition:3s;}
 
-/* tinta */
+/* TINTA */
 #texto span{
 opacity:0;
 filter:blur(5px);
@@ -166,7 +170,7 @@ opacity:0;transition:2s;
 section{
 padding:60px 20px;
 text-align:center;
-background:rgba(255,255,255,0.02); /* ultra transparente */
+background:rgba(255,255,255,0.02);
 backdrop-filter:blur(15px);
 margin:15px;
 border-radius:20px;
@@ -203,11 +207,12 @@ border:none;
 <!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" onclick="abrirSobre()">
-  <div class="envelope-back"></div>
-  <div class="envelope-flap"></div>
-  <div class="envelope-inner"></div>
+<div class="envelope-back"></div>
+<div class="envelope-flap"></div>
+<div class="envelope-inner"></div>
 </div>
 <div class="hint">Toca el sobre para abrir</div>
+</div>
 
 <!-- CARTA -->
 <div class="letter" id="carta">
@@ -242,11 +247,12 @@ Llevar abrigo
 <a href="https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank">
 <button>🚗 Waze</button>
 </a>
+
 </section>
 
 <section>
 <h2>Álbum de Fotos</h2>
-<button onclick="alert('Abrir álbum')">Ver álbum</button>
+<button onclick="alert('Aquí puedes integrar tu galería real')">Ver álbum</button>
 <input type="file" multiple>
 </section>
 
@@ -279,7 +285,6 @@ cont.innerHTML="";
 let s=document.createElement("span");
 s.textContent=l;
 cont.appendChild(s);
-
 setTimeout(()=>s.classList.add("show"),i*25);
 });
 }
@@ -301,7 +306,6 @@ carta.classList.add("expand");
 efectoTinta();
 },2000);
 
-/* tiempo dinámico */
 let duracion = mensaje.length * 25 + 4000;
 
 setTimeout(()=>{

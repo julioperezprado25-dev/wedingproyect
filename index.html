@@ -32,7 +32,6 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
-perspective:1200px;
 }
 
 /* SOBRE */
@@ -41,7 +40,6 @@ position:relative;
 width:340px;
 height:240px;
 cursor:pointer;
-z-index:5;
 }
 
 .body-envelope{
@@ -61,7 +59,6 @@ background:#e48fb1;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:1s;
-z-index:6;
 }
 
 .envelope.open .flap{
@@ -73,36 +70,21 @@ transform:translateY(600px);
 transition:2s ease;
 }
 
-/* CARTA CONTENEDOR */
+/* CARTA */
 .letter{
 position:fixed;
 top:50%;
 left:50%;
-width:600px;
-height:350px;
-transform:translate(-50%, -50%) scale(0.2);
-transform-style:preserve-3d;
-opacity:0;
-z-index:10000;
-transition:all 1.5s ease;
-}
+width:80vw;
+max-width:700px;
+padding:40px;
+border-radius:12px;
 
-/* HOJAS */
-.page{
-position:absolute;
-width:50%;
-height:100%;
-background:white;
-box-shadow:0 20px 40px rgba(0,0,0,0.3);
-backface-visibility:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
+font-family:'Great Vibes',cursive;
+font-size:28px;
+text-align:center;
+color:#333;
 
-/* textura papel */
-.page{
 background:
 linear-gradient(white,#fdfdfd),
 repeating-linear-gradient(
@@ -112,69 +94,49 @@ rgba(0,0,0,0.02) 1px,
 transparent 1px,
 transparent 4px
 );
-}
 
-/* izquierda */
-.left{
-left:0;
-transform-origin:left;
-}
+box-shadow:
+0 30px 60px rgba(0,0,0,0.4),
+inset 0 0 40px rgba(0,0,0,0.05);
 
-/* derecha */
-.right{
-right:0;
-transform-origin:right;
-}
-
-/* contenido interior */
-.inner{
-position:absolute;
-width:100%;
-height:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-font-family:'Great Vibes',cursive;
-font-size:28px;
-color:#333;
+transform:translate(-50%, -50%) scale(0.2) rotateX(60deg);
 opacity:0;
-padding:40px;
+z-index:10000;
+
+transition:all 2s ease;
 }
 
-/* mostrar carta */
 .letter.show{
 opacity:1;
-transform:translate(-50%, -50%) scale(1);
+transform:translate(-50%, -50%) scale(1) rotateX(0deg);
 }
 
-/* abrir hojas */
-.letter.openBook .left{
-transform:rotateY(-160deg);
-transition:2s ease;
-}
-
-.letter.openBook .right{
-transform:rotateY(160deg);
-transition:2s ease;
-}
-
-/* mostrar contenido */
-.letter.openBook .inner{
-opacity:1;
-transition:2s ease 1s;
-}
-
-/* expandir */
 .letter.expand{
-transform:translate(-50%, -50%) scale(1.6);
-transition:2s ease;
+transform:translate(-50%, -50%) scale(1.4);
 }
 
 /* fade */
 .letter.fade{
 opacity:0;
 transition:3s ease;
+}
+
+/* TEXTO */
+#texto{
+min-height:200px;
+}
+
+/* cursor efecto */
+.cursor{
+display:inline-block;
+width:2px;
+background:#333;
+margin-left:5px;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+50%{opacity:0;}
 }
 
 /* SECCIONES */
@@ -215,19 +177,9 @@ margin:10px;
 </div>
 </div>
 
-<!-- CARTA DOBLE -->
+<!-- CARTA -->
 <div class="letter" id="carta">
-
-<div class="page left"></div>
-<div class="page right"></div>
-
-<div class="inner">
-Ivon & Julio<br><br>
-Con mucho amor queremos invitarte<br>
-a compartir uno de los días más importantes<br>
-de nuestras vidas 💍
-</div>
-
+<div id="texto"></div><span class="cursor"></span>
 </div>
 
 <!-- CONTENIDO -->
@@ -242,8 +194,10 @@ de nuestras vidas 💍
 <p>
 La misa se celebrará a las 7:00 PM<br>
 Parroquia San José – Jesús María<br><br>
+
 La recepción se realizará en:<br>
 (Ver ubicación abajo)<br><br>
+
 Llegar temprano<br>
 Llevar abrigo
 </p>
@@ -252,7 +206,7 @@ Llevar abrigo
 📍 Google Maps
 </button>
 
-<button onclick="window.open('https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&navigate=yes','_blank')">
+<button onclick="window.open('https://ul.waze.com/ul?navigate=yes','_blank')">
 🚗 Waze
 </button>
 
@@ -262,40 +216,59 @@ Llevar abrigo
 
 <script>
 
+const mensaje = `Ivon & Julio
+
+Con mucho amor queremos invitarte
+a compartir uno de los días más importantes
+de nuestras vidas 💍
+
+Tu presencia hará este momento aún más especial`;
+
+function escribirTexto(){
+let i=0;
+let speed=40;
+let textoDiv=document.getElementById("texto");
+
+function escribir(){
+if(i < mensaje.length){
+textoDiv.innerHTML += mensaje.charAt(i) === "\n" ? "<br>" : mensaje.charAt(i);
+i++;
+setTimeout(escribir, speed);
+}
+}
+escribir();
+}
+
 function abrirSobre(){
 
 let env=document.querySelector(".envelope");
 let carta=document.getElementById("carta");
 
-/* abrir */
+/* abrir (1s) */
 env.classList.add("open");
 
-/* bajar sobre */
+/* bajar + mostrar carta */
 setTimeout(()=>{
 env.classList.add("drop");
 carta.classList.add("show");
 },1000);
 
-/* abrir carta tipo libro */
-setTimeout(()=>{
-carta.classList.add("openBook");
-},2000);
-
 /* expandir */
 setTimeout(()=>{
 carta.classList.add("expand");
-},3000);
+escribirTexto(); /* inicia escritura */
+},2000);
 
-/* fade */
+/* fade después de 8s */
 setTimeout(()=>{
 carta.classList.add("fade");
-},11000);
+},10000);
 
 /* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("musica").play().catch(()=>{});
-},14000);
+},13000);
 
 }
 

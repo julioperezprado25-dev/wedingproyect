@@ -27,42 +27,63 @@ background:rgba(0,0,0,0.4);z-index:-2;
 position:fixed;
 top:0;left:0;
 width:100vw;height:100vh;
-background:#111;
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
 }
 
-/* SOBRE */
+/* SOBRE REALISTA */
 .envelope{
 position:relative;
 width:340px;
 height:240px;
 cursor:pointer;
+perspective:1000px;
 }
 
-.body-envelope{
+/* base */
+.envelope-body{
 position:absolute;
 width:100%;
 height:100%;
-background:linear-gradient(135deg,#f5c6d6,#f2a1c2);
+background:linear-gradient(145deg,#f5c6d6,#e8a0bd);
 border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+z-index:1;
 }
 
-.flap{
+/* solapa real */
+.envelope-flap{
 position:absolute;
 top:0;
 width:100%;
 height:120px;
-background:#e48fb1;
-clip-path:polygon(0 0,100% 0,50% 100%);
+background:linear-gradient(145deg,#e48fb1,#d97aa0);
+border-top-left-radius:10px;
+border-top-right-radius:10px;
 transform-origin:top;
-transition:1s;
+transition:1s ease;
+z-index:2;
+
+/* forma curva */
+clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
 }
 
-.envelope.open .flap{
-transform:rotateX(180deg);
+/* sombra interior */
+.envelope::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom, rgba(0,0,0,0.2), transparent 40%);
+border-radius:10px;
+z-index:2;
+pointer-events:none;
+}
+
+.envelope.open .envelope-flap{
+transform:rotateX(160deg);
 }
 
 .envelope.drop{
@@ -77,27 +98,28 @@ top:50%;
 left:50%;
 width:80vw;
 max-width:700px;
-padding:40px;
-border-radius:12px;
+padding:50px;
+border-radius:8px;
 
 font-family:'Great Vibes',cursive;
-font-size:28px;
+font-size:30px;
 text-align:center;
-color:#333;
+color:#2b2b2b;
 
+/* papel antiguo */
 background:
-linear-gradient(white,#fdfdfd),
+linear-gradient(#f4e4c1,#ecd8a6),
 repeating-linear-gradient(
 0deg,
-rgba(0,0,0,0.02) 0px,
-rgba(0,0,0,0.02) 1px,
+rgba(0,0,0,0.03) 0px,
+rgba(0,0,0,0.03) 1px,
 transparent 1px,
-transparent 4px
+transparent 3px
 );
 
 box-shadow:
-0 30px 60px rgba(0,0,0,0.4),
-inset 0 0 40px rgba(0,0,0,0.05);
+0 25px 60px rgba(0,0,0,0.5),
+inset 0 0 30px rgba(0,0,0,0.1);
 
 transform:translate(-50%, -50%) scale(0.2) rotateX(60deg);
 opacity:0;
@@ -121,29 +143,24 @@ opacity:0;
 transition:3s ease;
 }
 
-/* TEXTO */
-#texto{
-min-height:200px;
-}
-
-/* cursor efecto */
-.cursor{
+/* TEXTO TINTA */
+#texto span{
+opacity:0;
+filter:blur(6px);
+transition:all 0.6s ease;
 display:inline-block;
-width:2px;
-background:#333;
-margin-left:5px;
-animation:blink 1s infinite;
 }
 
-@keyframes blink{
-50%{opacity:0;}
+#texto span.show{
+opacity:1;
+filter:blur(0);
 }
 
 /* SECCIONES */
 section{
 padding:80px 20px;
 text-align:center;
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.04);
 backdrop-filter:blur(12px);
 margin:20px;
 border-radius:20px;
@@ -172,14 +189,14 @@ margin:10px;
 <!-- INTRO -->
 <div id="intro" class="intro">
 <div class="envelope" onclick="abrirSobre()">
-<div class="flap"></div>
-<div class="body-envelope"></div>
+<div class="envelope-flap"></div>
+<div class="envelope-body"></div>
 </div>
 </div>
 
 <!-- CARTA -->
 <div class="letter" id="carta">
-<div id="texto"></div><span class="cursor"></span>
+<div id="texto"></div>
 </div>
 
 <!-- CONTENIDO -->
@@ -224,19 +241,19 @@ de nuestras vidas 💍
 
 Tu presencia hará este momento aún más especial`;
 
-function escribirTexto(){
-let i=0;
-let speed=40;
-let textoDiv=document.getElementById("texto");
+function efectoTinta(){
+let cont = document.getElementById("texto");
+cont.innerHTML = "";
 
-function escribir(){
-if(i < mensaje.length){
-textoDiv.innerHTML += mensaje.charAt(i) === "\n" ? "<br>" : mensaje.charAt(i);
-i++;
-setTimeout(escribir, speed);
-}
-}
-escribir();
+[...mensaje].forEach((letra,i)=>{
+let span = document.createElement("span");
+span.innerHTML = letra === "\n" ? "<br>" : letra;
+cont.appendChild(span);
+
+setTimeout(()=>{
+span.classList.add("show");
+}, i * 40);
+});
 }
 
 function abrirSobre(){
@@ -244,7 +261,7 @@ function abrirSobre(){
 let env=document.querySelector(".envelope");
 let carta=document.getElementById("carta");
 
-/* abrir (1s) */
+/* abrir */
 env.classList.add("open");
 
 /* bajar + mostrar carta */
@@ -253,13 +270,13 @@ env.classList.add("drop");
 carta.classList.add("show");
 },1000);
 
-/* expandir */
+/* expandir + tinta */
 setTimeout(()=>{
 carta.classList.add("expand");
-escribirTexto(); /* inicia escritura */
+efectoTinta();
 },2000);
 
-/* fade después de 8s */
+/* fade */
 setTimeout(()=>{
 carta.classList.add("fade");
 },10000);

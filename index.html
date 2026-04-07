@@ -10,16 +10,31 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden;}
+body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden;background:#000;}
 
-/* VIDEO */
+/* VIDEO (oculto al inicio) */
 .bg-video{
 position:fixed;top:0;left:0;width:100%;height:100%;
-object-fit:cover;z-index:-3;
+object-fit:cover;
+z-index:-3;
+opacity:0;
+transition:2s ease;
 }
+
+.bg-video.show{
+opacity:1;
+}
+
 .overlay{
 position:fixed;width:100%;height:100%;
-background:rgba(0,0,0,0.4);z-index:-2;
+background:rgba(0,0,0,0.4);
+z-index:-2;
+opacity:0;
+transition:2s;
+}
+
+.overlay.show{
+opacity:1;
 }
 
 /* INTRO */
@@ -27,33 +42,31 @@ background:rgba(0,0,0,0.4);z-index:-2;
 position:fixed;
 top:0;left:0;
 width:100vw;height:100vh;
+background:#000;
 display:flex;
 justify-content:center;
 align-items:center;
+flex-direction:column;
 z-index:9999;
 }
 
-/* SOBRE REALISTA */
+/* SOBRE */
 .envelope{
 position:relative;
 width:340px;
 height:240px;
 cursor:pointer;
-perspective:1000px;
 }
 
-/* base */
 .envelope-body{
 position:absolute;
 width:100%;
 height:100%;
 background:linear-gradient(145deg,#f5c6d6,#e8a0bd);
 border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-z-index:1;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* solapa real */
 .envelope-flap{
 position:absolute;
 top:0;
@@ -64,22 +77,7 @@ border-top-left-radius:10px;
 border-top-right-radius:10px;
 transform-origin:top;
 transition:1s ease;
-z-index:2;
-
-/* forma curva */
 clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
-}
-
-/* sombra interior */
-.envelope::after{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(to bottom, rgba(0,0,0,0.2), transparent 40%);
-border-radius:10px;
-z-index:2;
-pointer-events:none;
 }
 
 .envelope.open .envelope-flap{
@@ -89,6 +87,20 @@ transform:rotateX(160deg);
 .envelope.drop{
 transform:translateY(600px);
 transition:2s ease;
+}
+
+/* TEXTO HINT */
+.hint{
+margin-top:20px;
+font-family:'Great Vibes',cursive;
+font-size:22px;
+opacity:0.8;
+animation:fadePulse 2s infinite;
+}
+
+@keyframes fadePulse{
+0%,100%{opacity:0.5;}
+50%{opacity:1;}
 }
 
 /* CARTA */
@@ -106,7 +118,6 @@ font-size:30px;
 text-align:center;
 color:#2b2b2b;
 
-/* papel antiguo */
 background:
 linear-gradient(#f4e4c1,#ecd8a6),
 repeating-linear-gradient(
@@ -137,7 +148,6 @@ transform:translate(-50%, -50%) scale(1) rotateX(0deg);
 transform:translate(-50%, -50%) scale(1.4);
 }
 
-/* fade */
 .letter.fade{
 opacity:0;
 transition:3s ease;
@@ -156,7 +166,16 @@ opacity:1;
 filter:blur(0);
 }
 
-/* SECCIONES */
+/* CONTENIDO */
+.main-content{
+opacity:0;
+transition:2s;
+}
+
+.main-content.show{
+opacity:1;
+}
+
 section{
 padding:80px 20px;
 text-align:center;
@@ -181,10 +200,10 @@ margin:10px;
 
 <body>
 
-<video class="bg-video" autoplay muted loop>
+<video class="bg-video" id="video" autoplay muted loop>
 <source src="doble.mp4">
 </video>
-<div class="overlay"></div>
+<div class="overlay" id="overlay"></div>
 
 <!-- INTRO -->
 <div id="intro" class="intro">
@@ -192,6 +211,7 @@ margin:10px;
 <div class="envelope-flap"></div>
 <div class="envelope-body"></div>
 </div>
+<div class="hint">Toca el sobre para abrir</div>
 </div>
 
 <!-- CARTA -->
@@ -200,6 +220,8 @@ margin:10px;
 </div>
 
 <!-- CONTENIDO -->
+<div class="main-content" id="contenido">
+
 <section>
 <h1>Ivon & Julio</h1>
 <p>14 Agosto 2026 · 8:30 PM</p>
@@ -229,17 +251,20 @@ Llevar abrigo
 
 </section>
 
+</div>
+
 <audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
 
-const mensaje = `Ivon & Julio
+const mensaje = `Eres una persona muy especial para nosotros,
 
-Con mucho amor queremos invitarte
-a compartir uno de los días más importantes
-de nuestras vidas 💍
+y por ello queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas.
 
-Tu presencia hará este momento aún más especial`;
+Nos encantaría compartir contigo este momento lleno de amor, alegría y emoción 💍
+
+Tu presencia hará que este día sea aún más inolvidable.`;
+
 
 function efectoTinta(){
 let cont = document.getElementById("texto");
@@ -252,7 +277,7 @@ cont.appendChild(span);
 
 setTimeout(()=>{
 span.classList.add("show");
-}, i * 40);
+}, i * 35);
 });
 }
 
@@ -264,13 +289,13 @@ let carta=document.getElementById("carta");
 /* abrir */
 env.classList.add("open");
 
-/* bajar + mostrar carta */
+/* bajar + carta */
 setTimeout(()=>{
 env.classList.add("drop");
 carta.classList.add("show");
 },1000);
 
-/* expandir + tinta */
+/* expandir + texto */
 setTimeout(()=>{
 carta.classList.add("expand");
 efectoTinta();
@@ -284,6 +309,9 @@ carta.classList.add("fade");
 /* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
+document.getElementById("contenido").classList.add("show");
+document.getElementById("video").classList.add("show");
+document.getElementById("overlay").classList.add("show");
 document.getElementById("musica").play().catch(()=>{});
 },13000);
 

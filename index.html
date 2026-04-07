@@ -10,19 +10,33 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+body{
+font-family:'Inter',sans-serif;
+background:#000;
+color:#fff;
+overflow-x:hidden;
+}
 
-/* VIDEO */
+/* VIDEO FONDO */
 .bg-video{
-position:fixed;top:0;left:0;width:100%;height:100%;
-object-fit:cover;z-index:-3;opacity:0;transition:2s;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+object-fit:cover;
+z-index:-3;
+opacity:0;
+transition:2s;
 }
 .bg-video.show{opacity:1;}
 
 .overlay{
-position:fixed;width:100%;height:100%;
-background:rgba(0,0,0,0.4);
-z-index:-2;opacity:0;transition:2s;
+position:fixed;
+width:100%;height:100%;
+background:rgba(0,0,0,0.3);
+z-index:-2;
+opacity:0;
+transition:2s;
+pointer-events:none;
 }
 .overlay.show{opacity:1;}
 
@@ -38,64 +52,32 @@ align-items:center;
 z-index:9999;
 }
 
-/* SOBRE REALISTA */
+/* SOBRE */
 .envelope{
 position:relative;
-width:340px;
-height:240px;
+width:300px;
+height:200px;
 cursor:pointer;
 }
 
-/* base */
 .envelope-back{
 position:absolute;
-width:100%;
-height:100%;
+width:100%;height:100%;
 background:linear-gradient(145deg,#f5c6d6,#e8a0bd);
 border-radius:10px;
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
-z-index:1;
 }
 
-/* interior */
-.envelope-inner{
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(to bottom,rgba(0,0,0,0.2),transparent 40%);
-border-radius:10px;
-z-index:2;
-}
-
-/* tapa */
 .envelope-flap{
 position:absolute;
 top:0;
 width:100%;
-height:130px;
+height:110px;
 background:linear-gradient(145deg,#e48fb1,#d97aa0);
-border-top-left-radius:10px;
-border-top-right-radius:10px;
-
 clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
-
 transform-origin:top;
-transition:1s ease;
-
-box-shadow:0 10px 20px rgba(0,0,0,0.4);
-
-z-index:3;
-}
-
-/* línea */
-.envelope::after{
-content:"";
-position:absolute;
-top:130px;
-width:100%;
-height:2px;
-background:rgba(0,0,0,0.3);
-z-index:4;
+transition:1s;
+z-index:2;
 }
 
 .envelope.open .envelope-flap{
@@ -107,12 +89,10 @@ transform:translateY(600px);
 transition:2s;
 }
 
-/* TEXTO HINT */
 .hint{
 margin-top:20px;
 font-family:'Great Vibes',cursive;
-font-size:22px;
-opacity:0.8;
+font-size:20px;
 animation:pulse 2s infinite;
 }
 @keyframes pulse{
@@ -120,18 +100,22 @@ animation:pulse 2s infinite;
 50%{opacity:1;}
 }
 
-/* CARTA */
+/* CARTA RESPONSIVE */
 .letter{
 position:fixed;
 top:50%;
 left:50%;
-width:80vw;
-max-width:700px;
-padding:50px;
+width:90%;
+max-width:600px;
+max-height:80vh;
+overflow:auto;
+
+padding:30px;
 border-radius:8px;
 
 font-family:'Great Vibes',cursive;
-font-size:28px;
+font-size:24px;
+line-height:1.4;
 text-align:center;
 color:#2b2b2b;
 
@@ -142,50 +126,73 @@ box-shadow:0 25px 60px rgba(0,0,0,0.5);
 transform:translate(-50%,-50%) scale(0.2);
 opacity:0;
 z-index:10000;
+
 transition:2s;
 }
 
-.letter.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
-.letter.expand{transform:translate(-50%,-50%) scale(1.4);}
-.letter.fade{opacity:0;transition:3s;}
+.letter.show{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
 
-/* TINTA */
+.letter.expand{
+transform:translate(-50%,-50%) scale(1.2);
+}
+
+.letter.fade{
+opacity:0;
+transition:3s;
+}
+
+/* TEXTO TINTA */
 #texto span{
 opacity:0;
 filter:blur(5px);
 transition:0.4s;
-white-space:pre;
+white-space:pre-wrap;
 }
 #texto span.show{
 opacity:1;
 filter:blur(0);
 }
 
-/* CONTENIDO */
+/* MAIN */
 .main{
-opacity:0;transition:2s;
+opacity:0;
+transition:2s;
 }
 .main.show{opacity:1;}
 
+/* HERO VIDEO */
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* SECCIONES */
 section{
 padding:60px 20px;
-text-align:center;
-background:rgba(255,255,255,0.02);
-backdrop-filter:blur(15px);
-margin:15px;
+background:rgba(255,255,255,0.03);
+backdrop-filter:blur(10px);
+margin:20px;
 border-radius:20px;
 }
 
-button{
+/* BOTONES */
+.btn{
+display:inline-block;
 padding:12px 20px;
-border:none;
 border-radius:20px;
 background:#2e7d32;
 color:#fff;
-cursor:pointer;
+text-decoration:none;
 margin:10px;
 }
 
+/* FORM */
 input,textarea{
 width:80%;
 padding:10px;
@@ -209,7 +216,6 @@ border:none;
 <div class="envelope" onclick="abrirSobre()">
 <div class="envelope-back"></div>
 <div class="envelope-flap"></div>
-<div class="envelope-inner"></div>
 </div>
 <div class="hint">Toca el sobre para abrir</div>
 </div>
@@ -222,37 +228,35 @@ border:none;
 <!-- CONTENIDO -->
 <div class="main" id="main">
 
-<section>
+<div class="hero">
 <h1>Ivon & Julio</h1>
-<p>14 Agosto 2026 · 8:30 PM</p>
-</section>
+</div>
 
 <section>
 <h2>Detalles del Evento</h2>
+
 <p>
 La misa se celebrará a las 7:00 PM<br>
 Parroquia San José – Jesús María<br><br>
 
-La recepción será en:<br>
-Ubicación abajo<br><br>
+La recepción será en:<br><br>
 
 Llegar temprano<br>
 Llevar abrigo
 </p>
 
-<a href="https://maps.app.goo.gl/CqNcsCcYM4gEs4K17" target="_blank">
-<button>📍 Google Maps</button>
+<a href="https://maps.app.goo.gl/CqNcsCcYM4gEs4K17" target="_blank" class="btn">
+📍 Google Maps
 </a>
 
-<a href="https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank">
-<button>🚗 Waze</button>
+<a href="https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn">
+🚗 Waze
 </a>
 
 </section>
 
 <section>
 <h2>Álbum de Fotos</h2>
-<button onclick="alert('Aquí puedes integrar tu galería real')">Ver álbum</button>
 <input type="file" multiple>
 </section>
 
@@ -260,7 +264,6 @@ Llevar abrigo
 <h2>Enviar mensaje a los novios</h2>
 <input placeholder="Tu nombre">
 <textarea placeholder="Escribe tu mensaje"></textarea>
-<button>Enviar</button>
 </section>
 
 </div>
@@ -271,11 +274,11 @@ Llevar abrigo
 
 const mensaje = `Eres una persona muy especial para nosotros,
 
-y por ello queremos invitarte a compartir
+y queremos invitarte a compartir
 uno de los días más importantes de nuestras vidas.
 
-Nos encantaría contar con tu presencia
-en este momento lleno de amor y alegría 💍`;
+Nos encantaría contar contigo
+en este momento lleno de amor y felicidad 💍`;
 
 function efectoTinta(){
 let cont=document.getElementById("texto");
@@ -285,7 +288,7 @@ cont.innerHTML="";
 let s=document.createElement("span");
 s.textContent=l;
 cont.appendChild(s);
-setTimeout(()=>s.classList.add("show"),i*25);
+setTimeout(()=>s.classList.add("show"),i*20);
 });
 }
 
@@ -306,7 +309,7 @@ carta.classList.add("expand");
 efectoTinta();
 },2000);
 
-let duracion = mensaje.length * 25 + 4000;
+let duracion = mensaje.length * 20 + 4000;
 
 setTimeout(()=>{
 carta.classList.add("fade");

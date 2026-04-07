@@ -10,47 +10,35 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden;background:#000;}
+body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
 
-/* VIDEO (oculto al inicio) */
+/* VIDEO */
 .bg-video{
 position:fixed;top:0;left:0;width:100%;height:100%;
-object-fit:cover;
-z-index:-3;
-opacity:0;
-transition:2s ease;
+object-fit:cover;z-index:-3;opacity:0;transition:2s;
 }
-
-.bg-video.show{
-opacity:1;
-}
+.bg-video.show{opacity:1;}
 
 .overlay{
 position:fixed;width:100%;height:100%;
 background:rgba(0,0,0,0.4);
-z-index:-2;
-opacity:0;
-transition:2s;
+z-index:-2;opacity:0;transition:2s;
 }
-
-.overlay.show{
-opacity:1;
-}
+.overlay.show{opacity:1;}
 
 /* INTRO */
 .intro{
 position:fixed;
-top:0;left:0;
 width:100vw;height:100vh;
 background:#000;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
 z-index:9999;
 }
 
-/* SOBRE */
+/* SOBRE REAL */
 .envelope{
 position:relative;
 width:340px;
@@ -58,15 +46,17 @@ height:240px;
 cursor:pointer;
 }
 
+/* base */
 .envelope-body{
 position:absolute;
 width:100%;
 height:100%;
 background:linear-gradient(145deg,#f5c6d6,#e8a0bd);
 border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
 }
 
+/* solapa */
 .envelope-flap{
 position:absolute;
 top:0;
@@ -76,8 +66,19 @@ background:linear-gradient(145deg,#e48fb1,#d97aa0);
 border-top-left-radius:10px;
 border-top-right-radius:10px;
 transform-origin:top;
-transition:1s ease;
-clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
+transition:1s;
+clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);
+box-shadow:0 5px 10px rgba(0,0,0,0.3);
+}
+
+/* línea unión */
+.envelope-line{
+position:absolute;
+top:118px;
+width:100%;
+height:2px;
+background:rgba(0,0,0,0.2);
+z-index:2;
 }
 
 .envelope.open .envelope-flap{
@@ -86,19 +87,18 @@ transform:rotateX(160deg);
 
 .envelope.drop{
 transform:translateY(600px);
-transition:2s ease;
+transition:2s;
 }
 
-/* TEXTO HINT */
+/* TEXTO */
 .hint{
 margin-top:20px;
 font-family:'Great Vibes',cursive;
 font-size:22px;
 opacity:0.8;
-animation:fadePulse 2s infinite;
+animation:pulse 2s infinite;
 }
-
-@keyframes fadePulse{
+@keyframes pulse{
 0%,100%{opacity:0.5;}
 50%{opacity:1;}
 }
@@ -114,74 +114,48 @@ padding:50px;
 border-radius:8px;
 
 font-family:'Great Vibes',cursive;
-font-size:30px;
+font-size:28px;
 text-align:center;
 color:#2b2b2b;
 
-background:
-linear-gradient(#f4e4c1,#ecd8a6),
-repeating-linear-gradient(
-0deg,
-rgba(0,0,0,0.03) 0px,
-rgba(0,0,0,0.03) 1px,
-transparent 1px,
-transparent 3px
-);
+background:linear-gradient(#f4e4c1,#ecd8a6);
 
-box-shadow:
-0 25px 60px rgba(0,0,0,0.5),
-inset 0 0 30px rgba(0,0,0,0.1);
+box-shadow:0 25px 60px rgba(0,0,0,0.5);
 
-transform:translate(-50%, -50%) scale(0.2) rotateX(60deg);
+transform:translate(-50%,-50%) scale(0.2);
 opacity:0;
 z-index:10000;
-
-transition:all 2s ease;
+transition:2s;
 }
 
-.letter.show{
-opacity:1;
-transform:translate(-50%, -50%) scale(1) rotateX(0deg);
-}
+.letter.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.letter.expand{transform:translate(-50%,-50%) scale(1.4);}
+.letter.fade{opacity:0;transition:3s;}
 
-.letter.expand{
-transform:translate(-50%, -50%) scale(1.4);
-}
-
-.letter.fade{
-opacity:0;
-transition:3s ease;
-}
-
-/* TEXTO TINTA */
+/* tinta */
 #texto span{
 opacity:0;
-filter:blur(6px);
-transition:all 0.6s ease;
-display:inline-block;
+filter:blur(5px);
+transition:0.4s;
+white-space:pre;
 }
-
 #texto span.show{
 opacity:1;
 filter:blur(0);
 }
 
 /* CONTENIDO */
-.main-content{
-opacity:0;
-transition:2s;
+.main{
+opacity:0;transition:2s;
 }
-
-.main-content.show{
-opacity:1;
-}
+.main.show{opacity:1;}
 
 section{
-padding:80px 20px;
+padding:60px 20px;
 text-align:center;
-background:rgba(255,255,255,0.04);
-backdrop-filter:blur(12px);
-margin:20px;
+background:rgba(255,255,255,0.02); /* ultra transparente */
+backdrop-filter:blur(15px);
+margin:15px;
 border-radius:20px;
 }
 
@@ -195,6 +169,14 @@ cursor:pointer;
 margin:10px;
 }
 
+input,textarea{
+width:80%;
+padding:10px;
+margin:10px;
+border-radius:10px;
+border:none;
+}
+
 </style>
 </head>
 
@@ -206,10 +188,11 @@ margin:10px;
 <div class="overlay" id="overlay"></div>
 
 <!-- INTRO -->
-<div id="intro" class="intro">
+<div class="intro" id="intro">
 <div class="envelope" onclick="abrirSobre()">
 <div class="envelope-flap"></div>
 <div class="envelope-body"></div>
+<div class="envelope-line"></div>
 </div>
 <div class="hint">Toca el sobre para abrir</div>
 </div>
@@ -220,7 +203,7 @@ margin:10px;
 </div>
 
 <!-- CONTENIDO -->
-<div class="main-content" id="contenido">
+<div class="main" id="main">
 
 <section>
 <h1>Ivon & Julio</h1>
@@ -229,26 +212,33 @@ margin:10px;
 
 <section>
 <h2>Detalles del Evento</h2>
-
 <p>
 La misa se celebrará a las 7:00 PM<br>
 Parroquia San José – Jesús María<br><br>
 
-La recepción se realizará en:<br>
-(Ver ubicación abajo)<br><br>
+La recepción será en:<br>
+Ubicación abajo<br><br>
 
 Llegar temprano<br>
 Llevar abrigo
 </p>
 
-<button onclick="window.open('https://maps.app.goo.gl/wC8v6kQmJdUNZViA6','_blank')">
-📍 Google Maps
-</button>
+<button onclick="window.open('https://www.google.com/maps?q=-12.06412670,-77.08234230','_blank')">📍 Maps</button>
+<button onclick="window.open('https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes','_blank')">🚗 Waze</button>
 
-<button onclick="window.open('https://ul.waze.com/ul?navigate=yes','_blank')">
-🚗 Waze
-</button>
+</section>
 
+<section>
+<h2>Álbum de Fotos</h2>
+<button onclick="alert('Abrir álbum')">Ver álbum</button>
+<input type="file" multiple>
+</section>
+
+<section>
+<h2>Enviar mensaje a los novios</h2>
+<input placeholder="Tu nombre">
+<textarea placeholder="Escribe tu mensaje"></textarea>
+<button>Enviar</button>
 </section>
 
 </div>
@@ -259,25 +249,22 @@ Llevar abrigo
 
 const mensaje = `Eres una persona muy especial para nosotros,
 
-y por ello queremos invitarte a ser parte de uno de los días más importantes de nuestras vidas.
+y por ello queremos invitarte a compartir
+uno de los días más importantes de nuestras vidas.
 
-Nos encantaría compartir contigo este momento lleno de amor, alegría y emoción 💍
-
-Tu presencia hará que este día sea aún más inolvidable.`;
-
+Nos encantaría contar con tu presencia
+en este momento lleno de amor y alegría 💍`;
 
 function efectoTinta(){
-let cont = document.getElementById("texto");
-cont.innerHTML = "";
+let cont=document.getElementById("texto");
+cont.innerHTML="";
 
-[...mensaje].forEach((letra,i)=>{
-let span = document.createElement("span");
-span.innerHTML = letra === "\n" ? "<br>" : letra;
-cont.appendChild(span);
+[...mensaje].forEach((l,i)=>{
+let s=document.createElement("span");
+s.textContent=l;
+cont.appendChild(s);
 
-setTimeout(()=>{
-span.classList.add("show");
-}, i * 35);
+setTimeout(()=>s.classList.add("show"),i*25);
 });
 }
 
@@ -286,34 +273,32 @@ function abrirSobre(){
 let env=document.querySelector(".envelope");
 let carta=document.getElementById("carta");
 
-/* abrir */
 env.classList.add("open");
 
-/* bajar + carta */
 setTimeout(()=>{
 env.classList.add("drop");
 carta.classList.add("show");
 },1000);
 
-/* expandir + texto */
 setTimeout(()=>{
 carta.classList.add("expand");
 efectoTinta();
 },2000);
 
-/* fade */
+/* tiempo dinámico */
+let duracion = mensaje.length * 25 + 4000;
+
 setTimeout(()=>{
 carta.classList.add("fade");
-},10000);
+},duracion);
 
-/* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
-document.getElementById("contenido").classList.add("show");
+document.getElementById("main").classList.add("show");
 document.getElementById("video").classList.add("show");
 document.getElementById("overlay").classList.add("show");
 document.getElementById("musica").play().catch(()=>{});
-},13000);
+},duracion+3000);
 
 }
 

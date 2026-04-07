@@ -47,49 +47,62 @@ cursor:pointer;
 }
 
 /* base */
-.envelope-body{
+.envelope-back{
 position:absolute;
 width:100%;
 height:100%;
 background:linear-gradient(145deg,#f5c6d6,#e8a0bd);
 border-radius:10px;
-box-shadow:0 15px 40px rgba(0,0,0,0.5);
+box-shadow:0 20px 40px rgba(0,0,0,0.5);
+z-index:1;
 }
 
-/* solapa */
+/* interior (profundidad) */
+.envelope-inner{
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(to bottom,rgba(0,0,0,0.2),transparent 40%);
+border-radius:10px;
+z-index:2;
+}
+
+/* solapa real */
 .envelope-flap{
 position:absolute;
 top:0;
 width:100%;
-height:120px;
+height:130px;
 background:linear-gradient(145deg,#e48fb1,#d97aa0);
 border-top-left-radius:10px;
 border-top-right-radius:10px;
+
+clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
+
 transform-origin:top;
-transition:1s;
-clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%);
-box-shadow:0 5px 10px rgba(0,0,0,0.3);
+transition:1s ease;
+
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
+
+z-index:3;
 }
 
-/* línea unión */
-.envelope-line{
+/* línea unión visible */
+.envelope::after{
+content:"";
 position:absolute;
-top:118px;
+top:130px;
 width:100%;
 height:2px;
-background:rgba(0,0,0,0.2);
-z-index:2;
+background:rgba(0,0,0,0.3);
+z-index:4;
 }
 
 .envelope.open .envelope-flap{
-transform:rotateX(160deg);
+transform:rotateX(170deg);
 }
 
-.envelope.drop{
-transform:translateY(600px);
-transition:2s;
-}
-
+  
 /* TEXTO */
 .hint{
 margin-top:20px;
@@ -190,12 +203,11 @@ border:none;
 <!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" onclick="abrirSobre()">
-<div class="envelope-flap"></div>
-<div class="envelope-body"></div>
-<div class="envelope-line"></div>
+  <div class="envelope-back"></div>
+  <div class="envelope-flap"></div>
+  <div class="envelope-inner"></div>
 </div>
 <div class="hint">Toca el sobre para abrir</div>
-</div>
 
 <!-- CARTA -->
 <div class="letter" id="carta">
@@ -223,9 +235,13 @@ Llegar temprano<br>
 Llevar abrigo
 </p>
 
-<button onclick="window.open('https://www.google.com/maps?q=-12.06412670,-77.08234230','_blank')">📍 Maps</button>
-<button onclick="window.open('https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes','_blank')">🚗 Waze</button>
+<a href="https://maps.app.goo.gl/CqNcsCcYM4gEs4K17" target="_blank">
+<button>📍 Google Maps</button>
+</a>
 
+<a href="https://ul.waze.com/ul?place=ChIJv2CrSkDJBZERkocHAm6SlYM&ll=-12.06412670%2C-77.08234230&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank">
+<button>🚗 Waze</button>
+</a>
 </section>
 
 <section>

@@ -21,24 +21,13 @@ url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
 #f5e6c8;
 }
 
-/* PARTÍCULAS */
+/* PARTICULAS */
 canvas{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
+top:0;left:0;
+width:100%;height:100%;
 z-index:5;
-}
-
-/* IMÁGENES FLOTANTES */
-.bg-float{
-position:fixed;
-width:260px;
-opacity:0;
-z-index:-1;
-transition:8s ease;
+pointer-events:none;
 }
 
 /* INTRO */
@@ -57,13 +46,12 @@ z-index:9999;
 position:relative;
 width:360px;
 height:250px;
-perspective:1000px;
+transition:1s;
 }
 
 .envelope-body{
 background:linear-gradient(145deg,#f0d28a,#d9b36a);
-width:100%;
-height:100%;
+width:100%;height:100%;
 border-radius:10px;
 }
 
@@ -82,16 +70,19 @@ transition:1s;
 transform:rotateX(180deg);
 }
 
-/* CARTA SALIENDO */
+/* CARTA */
 .letter{
-position:absolute;
-bottom:0;
+position:fixed;
+top:50%;
 left:50%;
-transform:translateX(-50%) translateY(100%);
+transform:translate(-50%,-50%) scale(0.3);
 width:90%;
 max-width:600px;
 padding:30px;
 border-radius:10px;
+opacity:0;
+transition:2.5s;
+z-index:10000;
 
 background:
 url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
@@ -100,14 +91,15 @@ url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
 font-family:'Great Vibes';
 font-size:26px;
 text-align:center;
-opacity:0;
-transition:2.5s;
-z-index:10000;
 }
 
 .letter.show{
-transform:translateX(-50%) translateY(-50%);
 opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
+
+.letter.fade{
+opacity:0;
 }
 
 /* TEXTO POLVO */
@@ -122,7 +114,7 @@ animation:rebuild 1.4s forwards;
 100%{opacity:1;filter:blur(0);}
 }
 
-/* HERO */
+/* MAIN */
 .main{
 opacity:0;
 transition:2s;
@@ -138,15 +130,13 @@ align-items:center;
 text-align:center;
 }
 
-.hero-content h1{
-font-family:'Great Vibes';
-font-size:55px;
-}
-
-/* ICONO */
+/* ICONO (ARREGLADO PNG) */
 .icon{
 width:90px;
 margin:20px auto;
+display:block;
+image-rendering:auto;
+filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
 animation:flotar 4s ease-in-out infinite;
 }
 
@@ -163,10 +153,9 @@ border-radius:20px;
 background:
 url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
 rgba(255,255,255,0.6);
-backdrop-filter:blur(4px);
 }
 
-/* BOTÓN */
+/* BOTONES */
 .btn{
 padding:12px 20px;
 border-radius:20px;
@@ -177,6 +166,13 @@ margin:10px;
 display:inline-block;
 }
 
+/* GALERIA */
+#galeria img{
+width:140px;
+margin:10px;
+border-radius:10px;
+}
+
 </style>
 </head>
 
@@ -184,15 +180,18 @@ display:inline-block;
 
 <canvas id="particles"></canvas>
 
-<img src="fondo.jpg" class="bg-float" id="bg1">
-<img src="fondo.jpg" class="bg-float" id="bg2">
-<img src="fondo.jpg" class="bg-float" id="bg3">
-
 <div class="intro" id="intro">
-<div class="envelope">
+<div class="envelope" id="sobre">
 <div class="envelope-body"></div>
 <div class="envelope-flap"></div>
-<div class="seal" onclick="abrirSobre()" style="position:absolute;top:60%;left:50%;transform:translate(-50%,-50%);background:#7f0000;color:#fff;width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">IJ</div>
+
+<div onclick="abrirSobre()" 
+style="position:absolute;top:60%;left:50%;transform:translate(-50%,-50%);
+background:#7f0000;color:#fff;width:70px;height:70px;border-radius:50%;
+display:flex;align-items:center;justify-content:center;cursor:pointer;">
+IJ
+</div>
+
 </div>
 </div>
 
@@ -203,13 +202,12 @@ display:inline-block;
 <div class="main" id="main">
 
 <div class="hero">
-<div class="hero-content">
+<div>
+<h1 style="font-family:'Great Vibes';font-size:55px;">Ivon & Julio</h1>
 
-<h1>Ivon & Julio</h1>
 <img src="icon.png" class="icon">
 
 <p>Nos llena de alegría invitarte a nuestro gran día 💍</p>
-
 </div>
 </div>
 
@@ -217,6 +215,25 @@ display:inline-block;
 <h2>Detalles del Evento</h2>
 <a class="btn" onclick="abrirMaps()">📍 Google Maps</a>
 <a class="btn" onclick="abrirWaze()">🚗 Waze</a>
+</section>
+
+<section>
+<h2>Álbum de Fotos</h2>
+<input type="file" id="foto">
+<button class="btn" onclick="subirFoto()">Subir</button>
+<div id="galeria"></div>
+</section>
+
+<section>
+<h2>Mensajes</h2>
+<input id="nombre" placeholder="Tu nombre">
+<textarea id="mensaje" placeholder="Mensaje"></textarea>
+<button class="btn" onclick="enviarMensaje()">Enviar</button>
+</section>
+
+<section>
+<h2>Regalos</h2>
+<p>Tu presencia es nuestro mejor regalo 💛</p>
 </section>
 
 </div>
@@ -228,11 +245,11 @@ display:inline-block;
 /* MENSAJE */
 const mensaje=`¡Nos casamos!
 
-Queremos compartir este momento único contigo.
+Queremos compartir este momento contigo.
 
 Tu presencia hará este día inolvidable 💍`;
 
-/* TEXTO POLVO */
+/* TEXTO */
 function efectoPolvo(){
 let cont=document.getElementById("texto");
 cont.innerHTML="";
@@ -247,10 +264,10 @@ cont.appendChild(s);
 
 /* SOBRE */
 function abrirSobre(){
-let env=document.querySelector(".envelope");
+let sobre=document.getElementById("sobre");
 let carta=document.getElementById("carta");
 
-env.classList.add("open");
+sobre.classList.add("open");
 
 setTimeout(()=>{
 carta.classList.add("show");
@@ -258,89 +275,74 @@ efectoPolvo();
 fadeInAudio();
 },2000);
 
+/* ESCONDER SOBRE */
+setTimeout(()=>{
+sobre.style.transform="translateY(600px) rotateX(20deg)";
+},2500);
+
+/* DESAPARECER CARTA */
+setTimeout(()=>{
+carta.classList.add("fade");
+},9000);
+
+/* MOSTRAR WEB */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
-animarFondos();
-},8000);
+},10000);
 }
 
-/* AUDIO FADE */
+/* AUDIO */
 function fadeInAudio(){
 let audio=document.getElementById("musica");
 audio.volume=0;
 audio.play().catch(()=>{});
-
 let v=0;
-let interval=setInterval(()=>{
+let i=setInterval(()=>{
 v+=0.05;
 audio.volume=v;
-if(v>=1) clearInterval(interval);
+if(v>=1) clearInterval(i);
 },300);
-}
-
-/* FONDOS */
-function animarFondos(){
-let imgs=[bg1,bg2,bg3];
-
-setInterval(()=>{
-let img=imgs[Math.floor(Math.random()*imgs.length)];
-
-img.style.left=Math.random()*70+"%";
-img.style.top=Math.random()*70+"%";
-img.style.opacity=0.25;
-
-setTimeout(()=>img.style.opacity=0,6000);
-
-},7000);
 }
 
 /* PARTÍCULAS */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-
-for(let i=0;i<120;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2,
-dx:(Math.random()-0.5)*0.5,
-dy:(Math.random()-0.5)*0.5
-});
+let p=[];
+for(let i=0;i<100;i++){
+p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,dx:(Math.random()-0.5),dy:(Math.random()-0.5)});
 }
 
 function draw(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
-particles.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="rgba(255,255,255,0.3)";
-ctx.fill();
-
-p.x+=p.dx;
-p.y+=p.dy;
-
-if(p.x<0||p.x>canvas.width) p.dx*=-1;
-if(p.y<0||p.y>canvas.height) p.dy*=-1;
+p.forEach(a=>{
+ctx.fillRect(a.x,a.y,2,2);
+a.x+=a.dx;
+a.y+=a.dy;
 });
-
 requestAnimationFrame(draw);
 }
-
 draw();
 
 /* MAPS */
-function abrirMaps(){
-window.open("https://www.google.com/maps","_blank");
+function abrirMaps(){window.open("https://google.com/maps");}
+function abrirWaze(){window.open("https://waze.com");}
+
+/* FOTO */
+function subirFoto(){
+let file=document.getElementById("foto").files[0];
+if(!file) return;
+let img=document.createElement("img");
+img.src=URL.createObjectURL(file);
+document.getElementById("galeria").appendChild(img);
 }
-function abrirWaze(){
-window.open("https://waze.com","_blank");
+
+/* MENSAJE */
+function enviarMensaje(){
+alert("Mensaje enviado 💌");
 }
 
 </script>

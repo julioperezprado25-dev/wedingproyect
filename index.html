@@ -156,9 +156,53 @@ transform:translate(-50%,-50%) scale(1);
 
 #texto div{
 opacity:0;
-transform:translateY(20px);
+transform:translateY(30px) scale(0.95);
+filter:blur(15px);
+transition:1.2s ease-out;
+letter-spacing:2px;
+}
+
+/* estado visible */
+#texto div.show{
+opacity:1;
+transform:translateY(0) scale(1);
+filter:blur(0);
+}
+
+/* humo mágico */
+#texto div::after{
+content:"";
+position:absolute;
+left:50%;
+top:50%;
+width:120%;
+height:120%;
+transform:translate(-50%,-50%);
+background:radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+opacity:0;
+pointer-events:none;
+}
+
+/* animación humo */
+#texto div.show::after{
+animation:humo 1.5s ease-out;
+}
+
+@keyframes humo{
+0%{
+opacity:0.8;
+transform:translate(-50%,-60%) scale(0.8);
 filter:blur(10px);
-transition:1s;
+}
+50%{
+opacity:0.5;
+transform:translate(-50%,-80%) scale(1.2);
+}
+100%{
+opacity:0;
+transform:translate(-50%,-120%) scale(1.5);
+filter:blur(20px);
+}
 }
 
 /* CONTENIDO */
@@ -341,14 +385,9 @@ lineas.forEach((l,i)=>{
 let d=document.createElement("div");
 d.textContent=l;
 cont.appendChild(d);
-
 setTimeout(()=>{
-d.style.opacity=1;
-d.style.transform="translateY(0)";
-d.style.filter="blur(0)";
-},i*800);
-});
-}
+d.classList.add("show");
+},i*900);
 
 function abrirSobre(){
 let env=document.querySelector(".envelope");

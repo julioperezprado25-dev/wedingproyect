@@ -6,7 +6,7 @@
 
 <title>Ivon & Julio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -18,7 +18,7 @@ color:#fff;
 overflow-x:hidden;
 }
 
-/* FONDO IMAGEN ANIMADA */
+/* FONDO */
 .bg-img{
 position:fixed;
 top:0;left:0;
@@ -27,20 +27,20 @@ object-fit:cover;
 z-index:-3;
 opacity:0;
 transition:2s;
-animation:zoom 12s infinite alternate;
+animation:zoom 14s infinite alternate;
 }
 
 .bg-img.show{opacity:1;}
 
 @keyframes zoom{
 0%{transform:scale(1);}
-100%{transform:scale(1.1);}
+100%{transform:scale(1.08);}
 }
 
 .overlay{
 position:fixed;
 width:100%;height:100%;
-background:rgba(0,0,0,0.3);
+background:rgba(0,0,0,0.35);
 z-index:-2;
 opacity:0;
 transition:2s;
@@ -65,20 +65,16 @@ z-index:9999;
 position:relative;
 width:340px;
 height:240px;
-cursor:pointer;
 }
 
-/* cuerpo */
 .envelope-body{
 position:absolute;
 width:100%;
 height:100%;
 background:#e6c27a;
 border-radius:10px;
-box-shadow:0 20px 40px rgba(0,0,0,0.5);
 }
 
-/* tapa estilo carta */
 .envelope-flap{
 position:absolute;
 top:0;
@@ -95,107 +91,61 @@ z-index:2;
 transform:rotateX(180deg);
 }
 
-/* logo superior */
+/* LOGO SUPERIOR */
 .logo{
 position:absolute;
 top:15px;
 left:50%;
 transform:translateX(-50%);
-font-family:'Great Vibes',cursive;
-font-size:28px;
-color:#3e2c00;
+font-family:'Cinzel',serif;
+font-size:20px;
+letter-spacing:2px;
 }
 
-/* sello */
+/* SELLO PRO */
 .seal{
 position:absolute;
 top:60%;
 left:50%;
 transform:translate(-50%,-50%);
-width:70px;
-height:70px;
-background:#b71c1c;
+width:75px;
+height:75px;
+background:radial-gradient(circle,#b71c1c,#7f0000);
 border-radius:50%;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-color:#fff;
-font-size:22px;
+color:#f5e6c8;
+font-family:'Cinzel',serif;
+font-size:14px;
 font-weight:bold;
 z-index:3;
-box-shadow:0 5px 10px rgba(0,0,0,0.5);
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,0.6);
 }
 
-/* animación caída */
-.envelope.drop{
-transform:translateY(600px);
-transition:2s;
+.seal span{
+font-size:18px;
 }
 
-/* TEXTO CARTA */
-.letter{
-position:fixed;
-top:50%;
-left:50%;
-width:90%;
-max-width:600px;
-max-height:80vh;
-overflow:auto;
-
-padding:30px;
-border-radius:8px;
-
-font-family:'Great Vibes',cursive;
-font-size:26px;
-text-align:center;
-color:#2b2b2b;
-
-background:linear-gradient(#f4e4c1,#ecd8a6);
-
-box-shadow:0 25px 60px rgba(0,0,0,0.5);
-
-transform:translate(-50%,-50%) scale(0.2);
-opacity:0;
-z-index:10000;
-
-transition:2s;
+/* HERO */
+.hero{
+height:100vh;
 }
 
-.letter.show{
-opacity:1;
-transform:translate(-50%,-50%) scale(1);
-}
-
-.letter.fade{
-opacity:0;
-transition:3s;
-}
-
-/* TEXTO EFECTO MAGICO */
-#texto div{
-opacity:0;
-transform:translateY(20px);
-filter:blur(10px);
-transition:1s;
-}
-
-/* CONTENIDO */
-.main{
-opacity:0;
-transition:2s;
-position:relative;
-z-index:5;
-}
-
-.main.show{opacity:1;}
-
+/* SECCIONES */
 section{
-padding:60px 20px;
+padding:80px 20px;
 background:rgba(255,255,255,0.05);
 margin:20px;
 border-radius:20px;
-position:relative;
-z-index:5;
+}
+
+/* TITULOS */
+h1,h2{
+font-family:'Great Vibes',cursive;
+text-align:center;
 }
 
 /* BOTONES */
@@ -207,9 +157,65 @@ background:#2e7d32;
 color:#fff;
 text-decoration:none;
 margin:10px;
-position:relative;
-z-index:10;
 }
+
+/* INPUTS */
+input,textarea{
+width:80%;
+padding:10px;
+margin:10px;
+border-radius:10px;
+border:none;
+}
+
+/* AUDIO BTN */
+.audio-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#000;
+padding:10px 15px;
+border-radius:50px;
+cursor:pointer;
+z-index:999;
+}
+
+/* CARTA */
+.letter{
+position:fixed;
+top:50%;
+left:50%;
+width:90%;
+max-width:600px;
+padding:30px;
+background:#f4e4c1;
+color:#2b2b2b;
+transform:translate(-50%,-50%) scale(0.2);
+opacity:0;
+transition:2s;
+z-index:10000;
+border-radius:10px;
+font-family:'Great Vibes';
+font-size:26px;
+text-align:center;
+}
+
+.letter.show{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+}
+
+.letter.fade{opacity:0;}
+
+#texto div{
+opacity:0;
+transform:translateY(20px);
+filter:blur(10px);
+transition:1s;
+}
+
+.main{opacity:0;transition:2s;}
+.main.show{opacity:1;}
 
 </style>
 </head>
@@ -223,13 +229,14 @@ z-index:10;
 <div class="intro" id="intro">
 
 <div class="envelope">
-
 <div class="envelope-body"></div>
 <div class="envelope-flap"></div>
 
-<div class="logo">I & J</div>
+<div class="logo">I V O N N E &nbsp; ✧ &nbsp; J U L I O</div>
 
-<div class="seal" onclick="abrirSobre()">IJ</div>
+<div class="seal" onclick="abrirSobre()">
+<span>IJ</span>
+</div>
 
 </div>
 
@@ -243,25 +250,63 @@ z-index:10;
 <!-- CONTENIDO -->
 <div class="main" id="main">
 
+<div class="hero"></div>
+
+<section>
+<h1>Ivon & Julio</h1>
+<p style="text-align:center;margin-top:20px;">
+Con mucha alegría queremos invitarte a compartir este momento tan especial con nosotros.
+</p>
+</section>
+
 <section>
 <h2>Detalles del Evento</h2>
-
 <p>
-La misa será a las 7:00 PM<br>
-Parroquia San José – Jesús María
+Ceremonia: 7:00 PM<br>
+Parroquia San José – Jesús María<br><br>
+
+Recepción: <br>
+Llegar temprano<br>
+Llevar abrigo
 </p>
 
-<a href="https://www.google.com/maps/search/?api=1&query=-12.06412670,-77.08234230" target="_blank" class="btn">
+<a href="https://www.google.com/maps/search/?api=1&query=-12.06412670,-77.08234230" class="btn">
 📍 Google Maps
 </a>
 
-<a href="https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes" target="_blank" class="btn">
+<a href="https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes" class="btn">
 🚗 Waze
 </a>
 
 </section>
 
+<section>
+<h2>Álbum de Fotos</h2>
+<input type="file" multiple>
+</section>
+
+<section>
+<h2>Mensajes para los novios</h2>
+<input placeholder="Tu nombre">
+<textarea placeholder="Escribe tu mensaje"></textarea>
+</section>
+
+<section>
+<h2>Regalos</h2>
+<p style="text-align:center;">
+Tu presencia es nuestro mejor regalo,  
+pero si deseas tener un detalle con nosotros,  
+puedes hacerlo mediante los siguientes medios:
+</p>
+
+<p style="text-align:center;margin-top:20px;">
+(Aquí agregar cuentas o números)
+</p>
+</section>
+
 </div>
+
+<div class="audio-btn" onclick="toggleAudio()">🔊</div>
 
 <audio id="musica" src="musica.mp3" loop></audio>
 
@@ -273,43 +318,35 @@ y queremos invitarte a compartir
 
 uno de los días más importantes de nuestras vidas.
 
-Nos encantaría contar contigo
-
-en este momento lleno de amor y felicidad 💍`;
+Nos encantaría contar contigo 💍`;
 
 function efectoTinta(){
-
-let cont = document.getElementById("texto");
+let cont=document.getElementById("texto");
 cont.innerHTML="";
 
-let lineas = mensaje.split("\n");
+let lineas=mensaje.split("\n");
 
-lineas.forEach((linea,i)=>{
-
-let div = document.createElement("div");
-div.textContent = linea;
-
-cont.appendChild(div);
+lineas.forEach((l,i)=>{
+let d=document.createElement("div");
+d.textContent=l;
+cont.appendChild(d);
 
 setTimeout(()=>{
-div.style.opacity=1;
-div.style.transform="translateY(0)";
-div.style.filter="blur(0)";
-}, i*800);
-
+d.style.opacity=1;
+d.style.transform="translateY(0)";
+d.style.filter="blur(0)";
+},i*800);
 });
-
 }
 
 function abrirSobre(){
-
 let env=document.querySelector(".envelope");
 let carta=document.getElementById("carta");
 
 env.classList.add("open");
 
 setTimeout(()=>{
-env.classList.add("drop");
+env.style.transform="translateY(600px)";
 carta.classList.add("show");
 },1000);
 
@@ -317,7 +354,7 @@ setTimeout(()=>{
 efectoTinta();
 },2000);
 
-let duracion = mensaje.split("\n").length * 800 + 4000;
+let duracion=mensaje.split("\n").length*800+4000;
 
 setTimeout(()=>{
 carta.classList.add("fade");
@@ -330,10 +367,14 @@ document.getElementById("bgimg").classList.add("show");
 document.getElementById("overlay").classList.add("show");
 document.getElementById("musica").play().catch(()=>{});
 },duracion+3000);
+}
 
+function toggleAudio(){
+let audio=document.getElementById("musica");
+audio.muted=!audio.muted;
 }
 
 </script>
 
 </body>
-</html>
+</html> 

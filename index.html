@@ -28,9 +28,8 @@ z-index:-3;
 opacity:0;
 transition:2s;
 animation:zoom 14s infinite alternate;
+pointer-events:none;
 }
-
-.bg-img.show{opacity:1;}
 
 @keyframes zoom{
 0%{transform:scale(1);}
@@ -47,8 +46,6 @@ transition:2s;
 pointer-events:none;
 }
 
-.overlay.show{opacity:1;}
-
 /* INTRO */
 .intro{
 position:fixed;
@@ -60,7 +57,7 @@ align-items:center;
 z-index:9999;
 }
 
-/* SOBRE */
+/* SOBRE REALISTA */
 .envelope{
 position:relative;
 width:340px;
@@ -68,11 +65,14 @@ height:240px;
 }
 
 .envelope-body{
-position:absolute;
+background:linear-gradient(145deg,#f0d28a,#d9b36a);
 width:100%;
 height:100%;
-background:#e6c27a;
 border-radius:10px;
+box-shadow:
+inset 0 5px 10px rgba(255,255,255,0.3),
+inset 0 -5px 10px rgba(0,0,0,0.2),
+0 20px 40px rgba(0,0,0,0.5);
 }
 
 .envelope-flap{
@@ -80,29 +80,27 @@ position:absolute;
 top:0;
 width:100%;
 height:120px;
-background:#d9b36a;
+background:linear-gradient(145deg,#e8c273,#cfa85c);
 clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
 transform-origin:top;
 transition:1s;
 z-index:2;
+box-shadow:inset 0 -3px 8px rgba(0,0,0,0.3);
 }
 
 .envelope.open .envelope-flap{
 transform:rotateX(180deg);
 }
 
-/* LOGO SUPERIOR */
 .logo{
 position:absolute;
 top:15px;
 left:50%;
 transform:translateX(-50%);
 font-family:'Cinzel',serif;
-font-size:20px;
-letter-spacing:2px;
+font-size:18px;
 }
 
-/* SELLO PRO */
 .seal{
 position:absolute;
 top:60%;
@@ -113,71 +111,17 @@ height:75px;
 background:radial-gradient(circle,#b71c1c,#7f0000);
 border-radius:50%;
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:center;
 color:#f5e6c8;
-font-family:'Cinzel',serif;
-font-size:14px;
+font-family:'Cinzel';
 font-weight:bold;
-z-index:3;
 cursor:pointer;
-box-shadow:0 5px 15px rgba(0,0,0,0.6);
+transition:0.3s;
 }
 
-.seal span{
-font-size:18px;
-}
-
-/* HERO */
-.hero{
-height:100vh;
-}
-
-/* SECCIONES */
-section{
-padding:80px 20px;
-background:rgba(255,255,255,0.05);
-margin:20px;
-border-radius:20px;
-}
-
-/* TITULOS */
-h1,h2{
-font-family:'Great Vibes',cursive;
-text-align:center;
-}
-
-/* BOTONES */
-.btn{
-display:inline-block;
-padding:12px 20px;
-border-radius:20px;
-background:#2e7d32;
-color:#fff;
-text-decoration:none;
-margin:10px;
-}
-
-/* INPUTS */
-input,textarea{
-width:80%;
-padding:10px;
-margin:10px;
-border-radius:10px;
-border:none;
-}
-
-/* AUDIO BTN */
-.audio-btn{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#000;
-padding:10px 15px;
-border-radius:50px;
-cursor:pointer;
-z-index:999;
+.seal:active{
+transform:translate(-50%,-50%) scale(0.9);
 }
 
 /* CARTA */
@@ -214,8 +158,65 @@ filter:blur(10px);
 transition:1s;
 }
 
-.main{opacity:0;transition:2s;}
+/* CONTENIDO */
+.main{
+opacity:0;
+transition:2s;
+position:relative;
+z-index:10;
+}
+
 .main.show{opacity:1;}
+
+.hero{
+height:100vh;
+}
+
+section{
+padding:80px 20px;
+background:rgba(255,255,255,0.05);
+margin:20px;
+border-radius:20px;
+position:relative;
+z-index:20;
+}
+
+.btn{
+display:inline-block;
+padding:12px 20px;
+border-radius:20px;
+background:#2e7d32;
+color:#fff;
+margin:10px;
+cursor:pointer;
+}
+
+input,textarea{
+width:80%;
+padding:10px;
+margin:10px;
+border-radius:10px;
+border:none;
+}
+
+/* GALERIA */
+#galeria img{
+width:150px;
+margin:10px;
+border-radius:10px;
+}
+
+/* AUDIO */
+.audio-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#000;
+padding:10px;
+border-radius:50px;
+cursor:pointer;
+z-index:999;
+}
 
 </style>
 </head>
@@ -227,19 +228,12 @@ transition:1s;
 
 <!-- INTRO -->
 <div class="intro" id="intro">
-
 <div class="envelope">
 <div class="envelope-body"></div>
 <div class="envelope-flap"></div>
-
-<div class="logo">I V O N N E &nbsp; ✧ &nbsp; J U L I O</div>
-
-<div class="seal" onclick="abrirSobre()">
-<span>IJ</span>
+<div class="logo">IVONNE ✧ JULIO</div>
+<div class="seal" onclick="abrirSobre()">IJ</div>
 </div>
-
-</div>
-
 </div>
 
 <!-- CARTA -->
@@ -253,54 +247,40 @@ transition:1s;
 <div class="hero"></div>
 
 <section>
-<h1>Ivon & Julio</h1>
-<p style="text-align:center;margin-top:20px;">
-Con mucha alegría queremos invitarte a compartir este momento tan especial con nosotros.
-</p>
+<h1 style="text-align:center;">Ivon & Julio</h1>
+<p style="text-align:center;">Con mucha alegría queremos invitarte...</p>
 </section>
 
 <section>
 <h2>Detalles del Evento</h2>
-<p>
-Ceremonia: 7:00 PM<br>
-Parroquia San José – Jesús María<br><br>
 
-Recepción: <br>
-Llegar temprano<br>
-Llevar abrigo
-</p>
-
-<a href="https://www.google.com/maps/search/?api=1&query=-12.06412670,-77.08234230" class="btn">
-📍 Google Maps
-</a>
-
-<a href="https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes" class="btn">
-🚗 Waze
-</a>
-
+<a onclick="abrirMaps()" class="btn">📍 Google Maps</a>
+<a onclick="abrirWaze()" class="btn">🚗 Waze</a>
 </section>
 
 <section>
 <h2>Álbum de Fotos</h2>
-<input type="file" multiple>
+
+<input type="file" id="foto" accept="image/*" capture="environment">
+<button class="btn" onclick="subirFoto()">Subir</button>
+
+<div id="galeria"></div>
+
 </section>
 
 <section>
-<h2>Mensajes para los novios</h2>
-<input placeholder="Tu nombre">
-<textarea placeholder="Escribe tu mensaje"></textarea>
+<h2>Mensajes</h2>
+
+<input id="nombre" placeholder="Tu nombre">
+<textarea id="mensaje" placeholder="Mensaje"></textarea>
+<button class="btn" onclick="enviarMensaje()">Enviar</button>
+
 </section>
 
 <section>
 <h2>Regalos</h2>
 <p style="text-align:center;">
-Tu presencia es nuestro mejor regalo,  
-pero si deseas tener un detalle con nosotros,  
-puedes hacerlo mediante los siguientes medios:
-</p>
-
-<p style="text-align:center;margin-top:20px;">
-(Aquí agregar cuentas o números)
+Tu presencia es nuestro mejor regalo...
 </p>
 </section>
 
@@ -312,18 +292,15 @@ puedes hacerlo mediante los siguientes medios:
 
 <script>
 
-const mensaje = `Eres una persona muy especial para nosotros,
+const mensaje = `¡Nos casamos!
 
-y queremos invitarte a compartir
+Queremos contar contigo en este día tan especial en nuestras vidas.
 
-uno de los días más importantes de nuestras vidas.
-
-Nos encantaría contar contigo 💍`;
+Tu presencia hará este momento aún más inolvidable 💍`;
 
 function efectoTinta(){
 let cont=document.getElementById("texto");
 cont.innerHTML="";
-
 let lineas=mensaje.split("\n");
 
 lineas.forEach((l,i)=>{
@@ -346,27 +323,63 @@ let carta=document.getElementById("carta");
 env.classList.add("open");
 
 setTimeout(()=>{
-env.style.transform="translateY(600px)";
+env.style.transform="translateY(600px) rotateX(20deg)";
 carta.classList.add("show");
 },1000);
 
-setTimeout(()=>{
-efectoTinta();
-},2000);
-
-let duracion=mensaje.split("\n").length*800+4000;
+setTimeout(()=>efectoTinta(),2000);
 
 setTimeout(()=>{
 carta.classList.add("fade");
-},duracion);
+},6000);
 
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
-document.getElementById("bgimg").classList.add("show");
-document.getElementById("overlay").classList.add("show");
+document.getElementById("bgimg").style.opacity=1;
+document.getElementById("overlay").style.opacity=1;
 document.getElementById("musica").play().catch(()=>{});
-},duracion+3000);
+},9000);
+}
+
+/* BOTONES */
+function abrirMaps(){
+window.open("https://www.google.com/maps/search/?api=1&query=-12.06412670,-77.08234230","_blank");
+}
+
+function abrirWaze(){
+window.open("https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes","_blank");
+}
+
+/* FOTO CLOUDINARY */
+function subirFoto(){
+let file=document.getElementById("foto").files[0];
+let formData=new FormData();
+formData.append("file",file);
+formData.append("upload_preset","unsigned_preset");
+
+fetch("https://api.cloudinary.com/v1_1/TU_CLOUD_NAME/image/upload",{
+method:"POST",
+body:formData
+})
+.then(r=>r.json())
+.then(data=>{
+let img=document.createElement("img");
+img.src=data.secure_url;
+document.getElementById("galeria").appendChild(img);
+});
+}
+
+/* MENSAJES FIREBASE */
+function enviarMensaje(){
+let nombre=document.getElementById("nombre").value;
+let mensaje=document.getElementById("mensaje").value;
+
+fetch("https://TU_FIREBASE_URL/mensajes.json",{
+method:"POST",
+body:JSON.stringify({nombre,mensaje})
+})
+.then(()=>alert("Mensaje enviado 💌"));
 }
 
 function toggleAudio(){
@@ -377,4 +390,4 @@ audio.muted=!audio.muted;
 </script>
 
 </body>
-</html> 
+</html>

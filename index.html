@@ -16,21 +16,47 @@ font-family:'Inter',sans-serif;
 color:#2b2b2b;
 overflow-x:hidden;
 
+/* PAPEL BASE */
 background:
 url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
 #f5e6c8;
 }
 
-/* PARTICULAS */
-canvas{
+/* ===== IMÁGENES DE FONDO ===== */
+.bg-img{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-z-index:5;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+opacity:0.15;
+animation:respirar 12s infinite ease-in-out;
 pointer-events:none;
 }
 
-/* INTRO */
+.bg2{
+z-index:-3;
+animation-delay:6s;
+}
+
+@keyframes respirar{
+0%{
+opacity:0.1;
+filter:brightness(0.8) blur(1px);
+}
+50%{
+opacity:0.35;
+filter:brightness(1.1) blur(0px);
+}
+100%{
+opacity:0.1;
+filter:brightness(0.8) blur(1px);
+}
+}
+
+/* ===== INTRO ===== */
 .intro{
 position:fixed;
 width:100vw;height:100vh;
@@ -98,9 +124,7 @@ opacity:1;
 transform:translate(-50%,-50%) scale(1);
 }
 
-.letter.fade{
-opacity:0;
-}
+.letter.fade{opacity:0;}
 
 /* TEXTO POLVO */
 #texto span{
@@ -119,7 +143,6 @@ animation:rebuild 1.4s forwards;
 opacity:0;
 transition:2s;
 }
-
 .main.show{opacity:1;}
 
 .hero{
@@ -130,29 +153,32 @@ align-items:center;
 text-align:center;
 }
 
-/* ICONO (ARREGLADO PNG) */
+/* ICONO */
 .icon{
 width:90px;
 margin:20px auto;
 display:block;
-image-rendering:auto;
-filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
 animation:flotar 4s ease-in-out infinite;
 }
 
 @keyframes flotar{
 0%,100%{transform:translateY(0);}
-50%{transform:translateY(-15px);}
+50%{transform:translateY(-12px);}
 }
 
-/* SECCIONES */
+/* ===== SECCIONES TRANSLÚCIDAS ===== */
 section{
 padding:60px;
 margin:20px;
 border-radius:20px;
-background:
-url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
-rgba(255,255,255,0.6);
+
+/* GLASS EFECTO */
+background:rgba(255,255,255,0.25);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+
+border:1px solid rgba(255,255,255,0.4);
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
 /* BOTONES */
@@ -178,8 +204,11 @@ border-radius:10px;
 
 <body>
 
-<canvas id="particles"></canvas>
+<!-- FONDOS -->
+<img src="fondo.jpg" class="bg-img">
+<img src="fondo2.jpg" class="bg-img bg2">
 
+<!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" id="sobre">
 <div class="envelope-body"></div>
@@ -195,10 +224,12 @@ IJ
 </div>
 </div>
 
+<!-- CARTA -->
 <div class="letter" id="carta">
 <div id="texto"></div>
 </div>
 
+<!-- CONTENIDO -->
 <div class="main" id="main">
 
 <div class="hero">
@@ -304,28 +335,6 @@ audio.volume=v;
 if(v>=1) clearInterval(i);
 },300);
 }
-
-/* PARTÍCULAS */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-
-let p=[];
-for(let i=0;i<100;i++){
-p.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,dx:(Math.random()-0.5),dy:(Math.random()-0.5)});
-}
-
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-p.forEach(a=>{
-ctx.fillRect(a.x,a.y,2,2);
-a.x+=a.dx;
-a.y+=a.dy;
-});
-requestAnimationFrame(draw);
-}
-draw();
 
 /* MAPS */
 function abrirMaps(){window.open("https://google.com/maps");}

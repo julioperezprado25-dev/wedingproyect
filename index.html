@@ -232,7 +232,32 @@ z-index:10;
 
 .main.show{opacity:1;}
 
-.hero{height:100vh;}
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+}
+
+/* CONTENIDO HERO */
+.hero-content{
+z-index:10;
+max-width:600px;
+padding:20px;
+}
+
+.hero-content h1{
+font-family:'Great Vibes',cursive;
+font-size:50px;
+margin-bottom:20px;
+}
+
+.hero-content p{
+font-size:18px;
+line-height:1.5;
+}
 
 section{
 padding:80px 20px;
@@ -301,7 +326,20 @@ z-index:999;
 </div>
 
 <div class="main" id="main">
-<div class="hero"></div>
+  
+<div class="hero">
+
+<div class="hero-content">
+<h1>Ivon & Julio</h1>
+
+<p>
+Nos llena de alegría invitarte a ser parte de uno de los momentos más importantes de nuestras vidas.
+Acompáñanos a celebrar nuestro amor 💍
+</p>
+
+</div>
+
+</div>
 
 <section>
 <h1 style="text-align:center;">Ivon & Julio</h1>

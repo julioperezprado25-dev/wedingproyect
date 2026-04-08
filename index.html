@@ -127,6 +127,24 @@ transition:0.3s;
 transform:translate(-50%,-50%) scale(0.9);
 }
 
+/* TEXTO HINT */
+.hint{
+position:absolute;
+bottom:-40px;
+left:50%;
+transform:translateX(-50%);
+font-family:'Great Vibes',cursive;
+font-size:22px;
+color:#fff;
+animation:brillo 1.5s infinite;
+}
+
+@keyframes brillo{
+0%{opacity:0.4;text-shadow:0 0 5px #fff;}
+50%{opacity:1;text-shadow:0 0 20px #fff,0 0 40px #ffd700;}
+100%{opacity:0.4;text-shadow:0 0 5px #fff;}
+}
+
 /* CARTA */
 .letter{
 position:fixed;
@@ -154,22 +172,22 @@ transform:translate(-50%,-50%) scale(1);
 
 .letter.fade{opacity:0;}
 
+/* TEXTO MAGICO PRO */
 #texto div{
 opacity:0;
 transform:translateY(30px) scale(0.95);
 filter:blur(15px);
 transition:1.2s ease-out;
 letter-spacing:2px;
+position:relative;
 }
 
-/* estado visible */
 #texto div.show{
 opacity:1;
 transform:translateY(0) scale(1);
 filter:blur(0);
 }
 
-/* humo mágico */
 #texto div::after{
 content:"";
 position:absolute;
@@ -178,12 +196,11 @@ top:50%;
 width:120%;
 height:120%;
 transform:translate(-50%,-50%);
-background:radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+background:radial-gradient(circle, rgba(255,255,255,0.3), rgba(200,200,255,0.2), transparent 70%);
 opacity:0;
 pointer-events:none;
 }
 
-/* animación humo */
 #texto div.show::after{
 animation:humo 1.5s ease-out;
 }
@@ -215,9 +232,7 @@ z-index:10;
 
 .main.show{opacity:1;}
 
-.hero{
-height:100vh;
-}
+.hero{height:100vh;}
 
 section{
 padding:80px 20px;
@@ -246,14 +261,12 @@ border-radius:10px;
 border:none;
 }
 
-/* GALERIA */
 #galeria img{
 width:150px;
 margin:10px;
 border-radius:10px;
 }
 
-/* AUDIO */
 .audio-btn{
 position:fixed;
 bottom:20px;
@@ -265,35 +278,6 @@ cursor:pointer;
 z-index:999;
 }
 
-
-.hint{
-position:absolute;
-bottom:-40px;
-left:50%;
-transform:translateX(-50%);
-font-family:'Great Vibes',cursive;
-font-size:22px;
-color:#fff;
-text-align:center;
-
-/* efecto brillo */
-animation:brillo 1.5s infinite;
-}
-
-@keyframes brillo{
-0%{
-opacity:0.4;
-text-shadow:0 0 5px #fff;
-}
-50%{
-opacity:1;
-text-shadow:0 0 20px #fff, 0 0 40px #ffd700;
-}
-100%{
-opacity:0.4;
-text-shadow:0 0 5px #fff;
-}
-}
 </style>
 </head>
 
@@ -302,7 +286,6 @@ text-shadow:0 0 5px #fff;
 <img src="fondo.jpg" class="bg-img" id="bgimg">
 <div class="overlay" id="overlay"></div>
 
-<!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope">
 <div class="envelope-body"></div>
@@ -310,18 +293,14 @@ text-shadow:0 0 5px #fff;
 <div class="logo">IVONNE ✧ JULIO</div>
 <div class="seal" onclick="abrirSobre()">IJ</div>
 <div class="hint">Presiona el sello</div>
-
 </div>
 </div>
 
-<!-- CARTA -->
 <div class="letter" id="carta">
 <div id="texto"></div>
 </div>
 
-<!-- CONTENIDO -->
 <div class="main" id="main">
-
 <div class="hero"></div>
 
 <section>
@@ -331,35 +310,27 @@ text-shadow:0 0 5px #fff;
 
 <section>
 <h2>Detalles del Evento</h2>
-
 <a onclick="abrirMaps()" class="btn">📍 Google Maps</a>
 <a onclick="abrirWaze()" class="btn">🚗 Waze</a>
 </section>
 
 <section>
 <h2>Álbum de Fotos</h2>
-
 <input type="file" id="foto" accept="image/*" capture="environment">
 <button class="btn" onclick="subirFoto()">Subir</button>
-
 <div id="galeria"></div>
-
 </section>
 
 <section>
 <h2>Mensajes</h2>
-
 <input id="nombre" placeholder="Tu nombre">
 <textarea id="mensaje" placeholder="Mensaje"></textarea>
 <button class="btn" onclick="enviarMensaje()">Enviar</button>
-
 </section>
 
 <section>
 <h2>Regalos</h2>
-<p style="text-align:center;">
-Tu presencia es nuestro mejor regalo...
-</p>
+<p style="text-align:center;">Tu presencia es nuestro mejor regalo...</p>
 </section>
 
 </div>
@@ -385,9 +356,12 @@ lineas.forEach((l,i)=>{
 let d=document.createElement("div");
 d.textContent=l;
 cont.appendChild(d);
+
 setTimeout(()=>{
 d.classList.add("show");
 },i*900);
+});
+}
 
 function abrirSobre(){
 let env=document.querySelector(".envelope");
@@ -402,9 +376,7 @@ carta.classList.add("show");
 
 setTimeout(()=>efectoTinta(),2000);
 
-setTimeout(()=>{
-carta.classList.add("fade");
-},6000);
+setTimeout(()=>carta.classList.add("fade"),6000);
 
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
@@ -415,7 +387,6 @@ document.getElementById("musica").play().catch(()=>{});
 },9000);
 }
 
-/* BOTONES */
 function abrirMaps(){
 window.open("https://www.google.com/maps/search/?api=1&query=-12.06412670,-77.08234230","_blank");
 }
@@ -424,7 +395,6 @@ function abrirWaze(){
 window.open("https://waze.com/ul?ll=-12.06412670,-77.08234230&navigate=yes","_blank");
 }
 
-/* FOTO CLOUDINARY */
 function subirFoto(){
 let file=document.getElementById("foto").files[0];
 let formData=new FormData();
@@ -443,7 +413,6 @@ document.getElementById("galeria").appendChild(img);
 });
 }
 
-/* MENSAJES FIREBASE */
 function enviarMensaje(){
 let nombre=document.getElementById("nombre").value;
 let mensaje=document.getElementById("mensaje").value;

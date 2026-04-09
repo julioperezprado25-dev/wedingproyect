@@ -46,38 +46,43 @@ animation:respirar 14s infinite ease-in-out;
 100%{opacity:0.08;transform:scale(0.95);}
 }
 
-/* ===== 🌿 MARCO HOJAS ===== */
+/* ===== 🌿 MARCO LATERAL HOJAS ===== */
 .hojas{
 position:fixed;
 top:0;
 width:160px;
 height:100%;
-z-index:1;
+z-index:2;
 pointer-events:none;
 background-repeat:repeat-y;
 background-size:contain;
-opacity:0.85;
+opacity:0.9;
+
+/* movimiento */
+animation:hojasMove 10s ease-in-out infinite;
 }
 
 /* IZQUIERDA */
 .hojas.left{
 left:0;
 background-image:url('flores_lateral.png');
-animation:hojas 12s ease-in-out infinite;
+transform-origin:center;
 }
 
-/* DERECHA */
+/* DERECHA (ESPEJO REAL) */
 .hojas.right{
 right:0;
-transform:scaleX(-1);
 background-image:url('flores_lateral.png');
-animation:hojas 12s ease-in-out infinite;
+transform:scaleX(-1);
+transform-origin:center;
 }
 
-/* 🌿 MOVIMIENTO SUAVE */
-@keyframes hojas{
+/* 🌿 ANIMACIÓN SUAVE REALISTA */
+@keyframes hojasMove{
 0%{transform:translateY(0px) rotate(0deg);}
+25%{transform:translateY(8px) rotate(0.5deg);}
 50%{transform:translateY(15px) rotate(1deg);}
+75%{transform:translateY(8px) rotate(0.5deg);}
 100%{transform:translateY(0px) rotate(0deg);}
 }
 
@@ -223,13 +228,12 @@ animation:flotar 4s infinite ease-in-out;
 50%{transform:translateY(-10px);}
 }
 
-/* ===== SECCIONES (TRANSPARENTES) ===== */
+/* ===== SECCIONES TRANSPARENTES ===== */
 section{
 padding:40px;
 margin:15px;
 border-radius:20px;
 background:transparent;
-backdrop-filter:none;
 }
 
 /* BOTONES */
@@ -255,7 +259,7 @@ border-radius:10px;
 .envelope{width:260px;height:180px;}
 .hojas{width:90px;}
 }
-</style></head><body><!-- 🌿 MARCO --><div class="hojas left"></div>
+</style></head><body><!-- 🌿 MARCOS --><div class="hojas left"></div>
 <div class="hojas right"></div><div class="bg-container">
 <img src="fondo.jpg" class="bg-img">
 <img src="fondo2.jpg" class="bg-img bg2">

@@ -46,44 +46,49 @@ animation:respirar 14s infinite ease-in-out;
 100%{opacity:0.08;transform:scale(0.95);}
 }
 
-/* ===== 🌿 MARCO LATERAL HOJAS ===== */
-.hojas{
+/* ===== 🌿 MARCO CORREGIDO ===== */
+.hojas-container{
 position:fixed;
 top:0;
 width:160px;
 height:100%;
 z-index:2;
 pointer-events:none;
+overflow:hidden;
+}
+
+/* IZQUIERDA */
+.hojas-left{
+left:0;
+}
+
+.hojas-left .hojas{
+background-image:url('flores_lateral.png');
+}
+
+/* DERECHA (ESPEJO REAL SIN DESPLAZAR) */
+.hojas-right{
+right:0;
+transform:scaleX(-1); /* espejo limpio */
+}
+
+/* CAPA ANIMADA */
+.hojas{
+width:100%;
+height:100%;
 background-repeat:repeat-y;
 background-size:contain;
 opacity:0.9;
 
-/* movimiento */
+/* SOLO animación aquí */
 animation:hojasMove 10s ease-in-out infinite;
 }
 
-/* IZQUIERDA */
-.hojas.left{
-left:0;
-background-image:url('flores_lateral.png');
-transform-origin:center;
-}
-
-/* DERECHA (ESPEJO REAL) */
-.hojas.right{
-right:0;
-background-image:url('flores_lateral.png');
-transform:scaleX(-1);
-transform-origin:center;
-}
-
-/* 🌿 ANIMACIÓN SUAVE REALISTA */
+/* 🌿 ANIMACIÓN SUAVE */
 @keyframes hojasMove{
-0%{transform:translateY(0px) rotate(0deg);}
-25%{transform:translateY(8px) rotate(0.5deg);}
-50%{transform:translateY(15px) rotate(1deg);}
-75%{transform:translateY(8px) rotate(0.5deg);}
-100%{transform:translateY(0px) rotate(0deg);}
+0%{transform:translateY(0px);}
+50%{transform:translateY(15px);}
+100%{transform:translateY(0px);}
 }
 
 /* ===== INTRO ===== */
@@ -257,10 +262,13 @@ border-radius:10px;
 @media(max-width:480px){
 .letter{font-size:20px;}
 .envelope{width:260px;height:180px;}
-.hojas{width:90px;}
+.hojas-container{width:90px;}
 }
-</style></head><body><!-- 🌿 MARCOS --><div class="hojas left"></div>
-<div class="hojas right"></div><div class="bg-container">
+</style></head><body><!-- 🌿 MARCOS CORREGIDOS --><div class="hojas-container hojas-left">
+  <div class="hojas"></div>
+</div><div class="hojas-container hojas-right">
+  <div class="hojas"></div>
+</div><div class="bg-container">
 <img src="fondo.jpg" class="bg-img">
 <img src="fondo2.jpg" class="bg-img bg2">
 </div><div class="intro" id="intro">
@@ -294,7 +302,7 @@ border-radius:10px;
 </section></div><audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-
+// (sin cambios)
 const mensaje=`¡Nos casamos!
 
 Queremos compartir este momento contigo.
@@ -365,6 +373,5 @@ document.getElementById("galeria").appendChild(img);
 function enviarMensaje(){
 alert("Mensaje enviado 💌");
 }
-
 </script></body>
 </html>

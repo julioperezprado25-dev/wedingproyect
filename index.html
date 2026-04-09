@@ -6,7 +6,7 @@
 
 <title>Ivon & Julio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -16,43 +16,42 @@ font-family:'Inter',sans-serif;
 color:#2b2b2b;
 overflow-x:hidden;
 
-/* PAPEL BASE */
+/* PAPEL REAL */
 background:
 url('papel.png'),
 linear-gradient(#f5e6c8,#f2ddb5);
 
-/* ===== IMÁGENES DE FONDO ===== */
-.bg-img{
+background-size:300px,cover;
+}
+
+/* ===== FONDOS ===== */
+.bg-container{
 position:fixed;
-top:0;
-left:0;
+top:0;left:0;
 width:100%;
 height:100%;
-object-fit:cover;
+display:flex;
+justify-content:center;
+align-items:center;
 z-index:-2;
-opacity:0.15;
-animation:respirar 12s infinite ease-in-out;
 pointer-events:none;
 }
 
-.bg2{
-z-index:-3;
-animation-delay:6s;
+.bg-img{
+position:absolute;
+width:75%;
+max-width:800px;
+border-radius:20px;
+opacity:0.12;
+animation:respirar 14s infinite ease-in-out;
 }
 
+.bg2{animation-delay:7s;}
+
 @keyframes respirar{
-0%{
-opacity:0.1;
-filter:brightness(0.8) blur(1px);
-}
-50%{
-opacity:0.35;
-filter:brightness(1.1) blur(0px);
-}
-100%{
-opacity:0.1;
-filter:brightness(0.8) blur(1px);
-}
+0%{opacity:0.08;transform:scale(0.95);}
+50%{opacity:0.25;transform:scale(1);}
+100%{opacity:0.08;transform:scale(0.95);}
 }
 
 /* ===== INTRO ===== */
@@ -64,13 +63,14 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+color:#fff;
 }
 
 /* SOBRE */
 .envelope{
 position:relative;
-width:360px;
-height:250px;
+width:300px;
+height:200px;
 transition:1s;
 }
 
@@ -84,7 +84,7 @@ border-radius:10px;
 position:absolute;
 top:0;
 width:100%;
-height:120px;
+height:100px;
 background:#e0b96e;
 clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
 transform-origin:top;
@@ -95,7 +95,38 @@ transition:1s;
 transform:rotateX(180deg);
 }
 
-/* CARTA */
+/* SELLO */
+.seal{
+position:absolute;
+top:60%;
+left:50%;
+transform:translate(-50%,-50%);
+width:70px;height:70px;
+background:#7f0000;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+/* TEXTO INFERIOR */
+.hint{
+position:absolute;
+bottom:-35px;
+left:50%;
+transform:translateX(-50%);
+font-family:'Great Vibes';
+font-size:22px;
+animation:brillo 1.5s infinite;
+}
+
+@keyframes brillo{
+0%,100%{opacity:0.4;}
+50%{opacity:1;}
+}
+
+/* ===== CARTA ===== */
 .letter{
 position:fixed;
 top:50%;
@@ -103,10 +134,10 @@ left:50%;
 transform:translate(-50%,-50%) scale(0.3);
 width:90%;
 max-width:600px;
-padding:30px;
+padding:25px;
 border-radius:10px;
 opacity:0;
-transition:2.5s;
+transition:2s;
 z-index:10000;
 
 background:
@@ -114,7 +145,7 @@ url('papel.png'),
 #f4e4c1;
 
 font-family:'Great Vibes';
-font-size:26px;
+font-size:24px;
 text-align:center;
 }
 
@@ -125,16 +156,18 @@ transform:translate(-50%,-50%) scale(1);
 
 .letter.fade{opacity:0;}
 
-/* TEXTO POLVO */
+/* TEXTO */
 #texto span{
 opacity:0;
 filter:blur(10px);
-animation:rebuild 1.4s forwards;
+animation:rebuild 1.2s forwards;
 }
 
 @keyframes rebuild{
-0%{opacity:0;filter:blur(15px);}
-100%{opacity:1;filter:blur(0);}
+to{
+opacity:1;
+filter:blur(0);
+}
 }
 
 /* MAIN */
@@ -154,48 +187,45 @@ text-align:center;
 
 /* ICONO */
 .icon{
-width:90px;
+width:70px;
 margin:20px auto;
-display:block;
-animation:flotar 4s ease-in-out infinite;
+animation:flotar 4s infinite ease-in-out;
 }
 
 @keyframes flotar{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-12px);}
+50%{transform:translateY(-10px);}
 }
 
-/* ===== SECCIONES TRANSLÚCIDAS ===== */
+/* SECCIONES */
 section{
-padding:60px;
-margin:20px;
+padding:40px;
+margin:15px;
 border-radius:20px;
-
-/* GLASS EFECTO */
 background:rgba(255,255,255,0.25);
-backdrop-filter:blur(10px);
--webkit-backdrop-filter:blur(10px);
-
-border:1px solid rgba(255,255,255,0.4);
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
+backdrop-filter:blur(8px);
 }
 
 /* BOTONES */
 .btn{
-padding:12px 20px;
+padding:10px 18px;
 border-radius:20px;
 background:#2e7d32;
 color:#fff;
 cursor:pointer;
-margin:10px;
+margin:8px;
 display:inline-block;
 }
 
-/* GALERIA */
 #galeria img{
-width:140px;
-margin:10px;
+width:120px;
+margin:8px;
 border-radius:10px;
+}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+.letter{font-size:20px;}
+.envelope{width:260px;height:180px;}
 }
 
 </style>
@@ -203,40 +233,34 @@ border-radius:10px;
 
 <body>
 
-<!-- FONDOS -->
+<div class="bg-container">
 <img src="fondo.jpg" class="bg-img">
 <img src="fondo2.jpg" class="bg-img bg2">
+</div>
 
-<!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" id="sobre">
+
 <div class="envelope-body"></div>
 <div class="envelope-flap"></div>
 
-<div onclick="abrirSobre()" 
-style="position:absolute;top:60%;left:50%;transform:translate(-50%,-50%);
-background:#7f0000;color:#fff;width:70px;height:70px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;cursor:pointer;">
-IJ
-</div>
+<div class="seal" onclick="abrirSobre()">IJ</div>
+
+<div class="hint">Presiona el sello</div>
 
 </div>
 </div>
 
-<!-- CARTA -->
 <div class="letter" id="carta">
 <div id="texto"></div>
 </div>
 
-<!-- CONTENIDO -->
 <div class="main" id="main">
 
 <div class="hero">
 <div>
-<h1 style="font-family:'Great Vibes';font-size:55px;">Ivon & Julio</h1>
-
+<h1 style="font-family:'Great Vibes';font-size:50px;">Ivon & Julio</h1>
 <img src="icon.png" class="icon">
-
 <p>Nos llena de alegría invitarte a nuestro gran día 💍</p>
 </div>
 </div>
@@ -272,18 +296,15 @@ IJ
 
 <script>
 
-/* MENSAJE */
 const mensaje=`¡Nos casamos!
 
 Queremos compartir este momento contigo.
 
 Tu presencia hará este día inolvidable 💍`;
 
-/* TEXTO */
 function efectoPolvo(){
 let cont=document.getElementById("texto");
 cont.innerHTML="";
-
 [...mensaje].forEach((l,i)=>{
 let s=document.createElement("span");
 s.textContent=l;
@@ -292,37 +313,38 @@ cont.appendChild(s);
 });
 }
 
-/* SOBRE */
 function abrirSobre(){
 let sobre=document.getElementById("sobre");
 let carta=document.getElementById("carta");
 
+/* abrir */
 sobre.classList.add("open");
 
+/* carta */
 setTimeout(()=>{
 carta.classList.add("show");
 efectoPolvo();
 fadeInAudio();
-},2000);
+},1800);
 
-/* ESCONDER SOBRE */
+/* esconder sobre */
 setTimeout(()=>{
-sobre.style.transform="translateY(600px) rotateX(20deg)";
+sobre.style.transform="translateY(500px)";
+sobre.style.opacity="0";
 },2500);
 
-/* DESAPARECER CARTA */
+/* ocultar carta */
 setTimeout(()=>{
 carta.classList.add("fade");
-},9000);
+},8500);
 
-/* MOSTRAR WEB */
+/* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
-},10000);
+},9500);
 }
 
-/* AUDIO */
 function fadeInAudio(){
 let audio=document.getElementById("musica");
 audio.volume=0;
@@ -335,20 +357,17 @@ if(v>=1) clearInterval(i);
 },300);
 }
 
-/* MAPS */
 function abrirMaps(){window.open("https://google.com/maps");}
 function abrirWaze(){window.open("https://waze.com");}
 
-/* FOTO */
 function subirFoto(){
 let file=document.getElementById("foto").files[0];
-if(!file) return;
+if(!file)return;
 let img=document.createElement("img");
 img.src=URL.createObjectURL(file);
 document.getElementById("galeria").appendChild(img);
 }
 
-/* MENSAJE */
 function enviarMensaje(){
 alert("Mensaje enviado 💌");
 }

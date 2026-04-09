@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Ivon & Julio</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ivon & Julio</title><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet"><style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
@@ -16,7 +9,6 @@ font-family:'Inter',sans-serif;
 color:#2b2b2b;
 overflow-x:hidden;
 
-/* PAPEL REAL */
 background:
 url('papel.png'),
 linear-gradient(#f5e6c8,#f2ddb5);
@@ -52,6 +44,41 @@ animation:respirar 14s infinite ease-in-out;
 0%{opacity:0.08;transform:scale(0.95);}
 50%{opacity:0.25;transform:scale(1);}
 100%{opacity:0.08;transform:scale(0.95);}
+}
+
+/* ===== 🌿 MARCO HOJAS ===== */
+.hojas{
+position:fixed;
+top:0;
+width:160px;
+height:100%;
+z-index:1;
+pointer-events:none;
+background-repeat:repeat-y;
+background-size:contain;
+opacity:0.85;
+}
+
+/* IZQUIERDA */
+.hojas.left{
+left:0;
+background-image:url('flores_lateral.png');
+animation:hojas 12s ease-in-out infinite;
+}
+
+/* DERECHA */
+.hojas.right{
+right:0;
+transform:scaleX(-1);
+background-image:url('flores_lateral.png');
+animation:hojas 12s ease-in-out infinite;
+}
+
+/* 🌿 MOVIMIENTO SUAVE */
+@keyframes hojas{
+0%{transform:translateY(0px) rotate(0deg);}
+50%{transform:translateY(15px) rotate(1deg);}
+100%{transform:translateY(0px) rotate(0deg);}
 }
 
 /* ===== INTRO ===== */
@@ -196,13 +223,13 @@ animation:flotar 4s infinite ease-in-out;
 50%{transform:translateY(-10px);}
 }
 
-/* SECCIONES */
+/* ===== SECCIONES (TRANSPARENTES) ===== */
 section{
 padding:40px;
 margin:15px;
 border-radius:20px;
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(8px);
+background:transparent;
+backdrop-filter:none;
 }
 
 /* BOTONES */
@@ -226,73 +253,41 @@ border-radius:10px;
 @media(max-width:480px){
 .letter{font-size:20px;}
 .envelope{width:260px;height:180px;}
+.hojas{width:90px;}
 }
-
-</style>
-</head>
-
-<body>
-
-<div class="bg-container">
+</style></head><body><!-- 🌿 MARCO --><div class="hojas left"></div>
+<div class="hojas right"></div><div class="bg-container">
 <img src="fondo.jpg" class="bg-img">
 <img src="fondo2.jpg" class="bg-img bg2">
-</div>
-
-<div class="intro" id="intro">
-<div class="envelope" id="sobre">
-
-<div class="envelope-body"></div>
-<div class="envelope-flap"></div>
-
-<div class="seal" onclick="abrirSobre()">IJ</div>
-
-<div class="hint">Presiona el sello</div>
-
-</div>
-</div>
-
-<div class="letter" id="carta">
+</div><div class="intro" id="intro">
+<div class="envelope" id="sobre"><div class="envelope-body"></div>
+<div class="envelope-flap"></div><div class="seal" onclick="abrirSobre()">IJ</div><div class="hint">Presiona el sello</div></div>
+</div><div class="letter" id="carta">
 <div id="texto"></div>
-</div>
-
-<div class="main" id="main">
-
-<div class="hero">
+</div><div class="main" id="main"><div class="hero">
 <div>
 <h1 style="font-family:'Great Vibes';font-size:50px;">Ivon & Julio</h1>
 <img src="icon.png" class="icon">
 <p>Nos llena de alegría invitarte a nuestro gran día 💍</p>
 </div>
-</div>
-
-<section>
+</div><section>
 <h2>Detalles del Evento</h2>
 <a class="btn" onclick="abrirMaps()">📍 Google Maps</a>
 <a class="btn" onclick="abrirWaze()">🚗 Waze</a>
-</section>
-
-<section>
+</section><section>
 <h2>Álbum de Fotos</h2>
 <input type="file" id="foto">
 <button class="btn" onclick="subirFoto()">Subir</button>
 <div id="galeria"></div>
-</section>
-
-<section>
+</section><section>
 <h2>Mensajes</h2>
 <input id="nombre" placeholder="Tu nombre">
 <textarea id="mensaje" placeholder="Mensaje"></textarea>
 <button class="btn" onclick="enviarMensaje()">Enviar</button>
-</section>
-
-<section>
+</section><section>
 <h2>Regalos</h2>
 <p>Tu presencia es nuestro mejor regalo 💛</p>
-</section>
-
-</div>
-
-<audio id="musica" src="musica.mp3" loop></audio>
+</section></div><audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
 
@@ -317,28 +312,23 @@ function abrirSobre(){
 let sobre=document.getElementById("sobre");
 let carta=document.getElementById("carta");
 
-/* abrir */
 sobre.classList.add("open");
 
-/* carta */
 setTimeout(()=>{
 carta.classList.add("show");
 efectoPolvo();
 fadeInAudio();
 },1800);
 
-/* esconder sobre */
 setTimeout(()=>{
 sobre.style.transform="translateY(500px)";
 sobre.style.opacity="0";
 },2500);
 
-/* ocultar carta */
 setTimeout(()=>{
 carta.classList.add("fade");
 },8500);
 
-/* mostrar web */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
@@ -372,7 +362,5 @@ function enviarMensaje(){
 alert("Mensaje enviado 💌");
 }
 
-</script>
-
-</body>
+</script></body>
 </html>

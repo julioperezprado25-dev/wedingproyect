@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="es">
+I <!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ivon & Julio</title><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400&display=swap" rel="stylesheet"><style>
@@ -16,16 +16,12 @@ linear-gradient(#f5e6c8,#f2ddb5);
 background-size:300px,cover;
 }
 
-/* ===== 🌿 ESQUINAS FLORALES SVG ===== */
-.flor{
+/* ===== 🌿 CONTENEDORES ===== */
+.flor-box{
 position:fixed;
 width:220px;
 z-index:2;
 pointer-events:none;
-opacity:0.95;
-
-/* animación base */
-animation:viento 6s ease-in-out infinite;
 }
 
 /* POSICIONES */
@@ -34,25 +30,42 @@ animation:viento 6s ease-in-out infinite;
 .top-right{top:0; right:0;}
 .bottom-right{bottom:0; right:0;}
 
-/* ESPEJO DERECHA */
+/* ESPEJO SOLO EN CONTENEDOR */
 .mirror{
 transform:scaleX(-1);
 }
 
-/* 🌬️ ANIMACIÓN PRO */
+/* ===== 🌿 CAPA ANIMADA ===== */
+.flor{
+width:100%;
+animation:viento 5s ease-in-out infinite;
+transform-origin:center;
+}
+
+/* 🌬️ VIENTO REAL (NO BLOQUE) */
 @keyframes viento{
-0%{transform:translateY(0px) rotate(0deg);}
-25%{transform:translateY(4px) rotate(0.5deg);}
-50%{transform:translateY(8px) rotate(1deg);}
-75%{transform:translateY(4px) rotate(0.5deg);}
-100%{transform:translateY(0px) rotate(0deg);}
+0%{
+transform:rotate(0deg) translateY(0px) skewX(0deg);
+}
+25%{
+transform:rotate(0.6deg) translateY(3px) skewX(0.5deg);
+}
+50%{
+transform:rotate(1.2deg) translateY(6px) skewX(1deg);
+}
+75%{
+transform:rotate(0.6deg) translateY(3px) skewX(0.5deg);
+}
+100%{
+transform:rotate(0deg) translateY(0px) skewX(0deg);
+}
 }
 
 /* DESFASE NATURAL */
-.delay1{animation-delay:0s;}
-.delay2{animation-delay:1.5s;}
-.delay3{animation-delay:3s;}
-.delay4{animation-delay:4.5s;}
+.delay1 .flor{animation-delay:0s;}
+.delay2 .flor{animation-delay:1.2s;}
+.delay3 .flor{animation-delay:2.4s;}
+.delay4 .flor{animation-delay:3.6s;}
 
 /* ===== FONDOS ===== */
 .bg-container{
@@ -255,11 +268,17 @@ border-radius:10px;
 @media(max-width:480px){
 .letter{font-size:20px;}
 .envelope{width:260px;height:180px;}
-.flor{width:140px;}
+.flor-box{width:140px;}
 }
-</style></head><body><!-- 🌿 ESQUINAS --><img src="flores_lateral.svg" class="flor top-left delay1">
-<img src="flores_lateral.svg" class="flor bottom-left delay2"><img src="flores_lateral.svg" class="flor top-right mirror delay3">
-<img src="flores_lateral.svg" class="flor bottom-right mirror delay4"><div class="bg-container">
+</style></head><body><!-- 🌿 ESQUINAS CORREGIDAS --><div class="flor-box top-left delay1">
+  <img src="flores_lateral.svg" class="flor">
+</div><div class="flor-box bottom-left delay2">
+  <img src="flores_lateral.svg" class="flor">
+</div><div class="flor-box top-right mirror delay3">
+  <img src="flores_lateral.svg" class="flor">
+</div><div class="flor-box bottom-right mirror delay4">
+  <img src="flores_lateral.svg" class="flor">
+</div><div class="bg-container">
 <img src="fondo.jpg" class="bg-img">
 <img src="fondo2.jpg" class="bg-img bg2">
 </div><div class="intro" id="intro">

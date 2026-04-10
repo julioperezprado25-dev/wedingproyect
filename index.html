@@ -295,7 +295,16 @@ background:#7f0000;
 
 <section>
 <h2>Detalles del Evento</h2>
-<p>Fecha, hora y lugar aquí</p>
+
+<p>Fecha: 25 de Diciembre</p>
+<p>Hora: 6:00 PM</p>
+<p>Lugar: Salón de Eventos Ejemplo</p>
+
+<br>
+
+<a class="btn" onclick="abrirMaps()">📍 Ver en Google Maps</a>
+<a class="btn" onclick="abrirWaze()">🚗 Ver en Waze</a>
+
 </section>
 
 <section>
@@ -372,6 +381,14 @@ function toggleAudio(){
 let audio=document.getElementById("musica");
 audio.muted = !audio.muted;
 }
+  
+function abrirMaps(){
+  window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9");
+}
+
+function abrirWaze(){
+  window.open("https://waze.com/ul/h6mc5mgy3k");
+  }
 </script>
 
 </body>

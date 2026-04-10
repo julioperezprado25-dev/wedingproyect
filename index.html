@@ -6,145 +6,114 @@
 
 <title>Ivon & Julio</title>
 
-<!-- FUENTES -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:'Cinzel',serif;
-color:#2b2b2b;
-overflow-x:hidden;
-
-background:
-url('papel.png'),
-linear-gradient(#f5e6c8,#f2ddb5);
-
-background-size:300px,cover;
-}
-
-/* ===== 🌿 FLORES ===== */
-.flor-box{
-position:fixed;
-width:180px;
-z-index:2;
-pointer-events:none;
-}
-
-.top-left{top:0; left:0;}
-.bottom-left{bottom:0; left:0;}
-.right-center{top:50%; right:0; transform:translateY(-50%);}
-
-.flor{
-width:100%;
-animation:respirarFlor 6s infinite ease-in-out;
-}
-
-@keyframes respirarFlor{
-0%{transform:scale(0.95);}
-50%{transform:scale(1);}
-100%{transform:scale(0.95);}
-}
-
-/* ===== FONDO ===== */
-.bg-container{
-position:fixed;
-top:0;left:0;
-width:100%;
-height:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:-2;
-pointer-events:none;
-}
-
-.bg-img{
-position:absolute;
-width:75%;
-max-width:800px;
-opacity:0.1;
-animation:respirar 14s infinite ease-in-out;
-}
-
-.bg2{animation-delay:7s;}
-
-@keyframes respirar{
-0%{opacity:0.08;transform:scale(0.95);}
-50%{opacity:0.2;transform:scale(1);}
-100%{opacity:0.08;transform:scale(0.95);}
+background:#000;
+color:#fff;
+overflow:hidden;
 }
 
 /* ===== INTRO ===== */
 .intro{
 position:fixed;
 width:100vw;height:100vh;
-background:#000;
 display:flex;
 justify-content:center;
 align-items:center;
+background:#000;
 z-index:9999;
-color:#fff;
 }
 
-/* SOBRE */
+/* ===== SOBRE ===== */
 .envelope{
 position:relative;
-width:300px;
+width:320px;
 height:200px;
-transition:1s;
+perspective:1000px;
 }
 
+/* CUERPO */
 .envelope-body{
-background:linear-gradient(145deg,#c9a24a,#8d6b2f);
-width:100%;height:100%;
-border-radius:10px;
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(145deg,#e8d3a5,#c9b07a);
+border-radius:8px;
+overflow:hidden;
 }
 
-.envelope-flap{
+/* TAPAS (izq y der) */
+.flap-left, .flap-right{
 position:absolute;
 top:0;
-width:100%;
-height:100px;
-background:#b58a3c;
-clip-path:polygon(0 0,100% 0,100% 70%,50% 100%,0 70%);
-transform-origin:top;
-transition:1s;
+width:50%;
+height:100%;
+background:linear-gradient(145deg,#e8d3a5,#c9b07a);
+transition:1.5s;
 }
 
-.envelope.open .envelope-flap{
-transform:rotateX(180deg);
+.flap-left{left:0; transform-origin:left;}
+.flap-right{right:0; transform-origin:right;}
+
+/* APERTURA */
+.envelope.open .flap-left{
+transform:rotateY(-100deg);
 }
 
+.envelope.open .flap-right{
+transform:rotateY(100deg);
+}
+
+/* ===== SELLO DE CERA ===== */
 .seal{
 position:absolute;
-top:60%;
+top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-width:70px;height:70px;
-background:#7f0000;
+width:80px;
+height:80px;
+background:radial-gradient(circle at 30% 30%,#a00000,#5a0000);
 border-radius:50%;
+box-shadow:0 4px 10px rgba(0,0,0,0.5);
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
+font-family:'Cinzel';
 color:#fff;
+font-size:18px;
 }
 
-/* TEXTO INTRO */
+/* EFECTO DESINTEGRAR */
+.fade-dust{
+animation:desintegrar 1s forwards;
+}
+
+@keyframes desintegrar{
+to{
+opacity:0;
+transform:translateY(-20px) scale(0.8);
+filter:blur(10px);
+}
+}
+
+/* TEXTO INFERIOR */
 .hint{
 position:absolute;
-bottom:-35px;
+bottom:-40px;
 left:50%;
 transform:translateX(-50%);
-font-size:22px;
-animation:brillo 1.5s infinite;
+font-family:'Great Vibes';
+font-size:26px;
 }
 
-@keyframes brillo{
-0%,100%{opacity:0.4;}
-50%{opacity:1;}
+.hint.fade{
+animation:desintegrar 1s forwards;
 }
 
 /* ===== CARTA ===== */
@@ -152,20 +121,19 @@ animation:brillo 1.5s infinite;
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) scale(0.3);
-width:90%;
+transform:translate(-50%,-50%) scale(0.5);
+width:85%;
 max-width:600px;
-padding:25px;
+padding:30px;
 border-radius:10px;
 opacity:0;
 transition:2s;
-z-index:10000;
 
-background:
-url('papel.png'),
-#f4e4c1;
+background:linear-gradient(#f5e6c8,#e8d3a5);
 
-font-size:22px;
+font-family:'Great Vibes';
+font-size:28px;
+color:#3b2a1a;
 text-align:center;
 }
 
@@ -174,221 +142,99 @@ opacity:1;
 transform:translate(-50%,-50%) scale(1);
 }
 
-.letter.fade{opacity:0;}
-
+/* TEXTO EFECTO */
 #texto span{
 opacity:0;
-filter:blur(10px);
-animation:rebuild 1.2s forwards;
+filter:blur(8px);
+animation:aparecer 1s forwards;
 }
 
-@keyframes rebuild{
-to{opacity:1;filter:blur(0);}
+@keyframes aparecer{
+to{
+opacity:1;
+filter:blur(0);
+}
 }
 
-/* ===== MAIN ===== */
-.main{opacity:0;transition:2s;}
-.main.show{opacity:1;}
+/* ===== RESTO ===== */
+.main{display:none;}
 
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-}
-
-/* TITULO */
-.titulo{
-font-family:'Great Vibes';
-font-size:60px;
-color:#8b0000;
-}
-
-/* ICONO */
-.icon{
-width:70px;
-margin:20px auto;
-animation:flotar 4s infinite ease-in-out;
-}
-
-@keyframes flotar{
-50%{transform:translateY(-10px);}
-}
-
-section{
-padding:40px;
-margin:15px;
-border-radius:20px;
-text-align:center;
-}
-
-.btn{
-padding:10px 18px;
-border-radius:20px;
-background:#2e7d32;
-color:#fff;
-cursor:pointer;
-margin:8px;
-display:inline-block;
-}
-
-/* BOTON AUDIO */
-.btn-audio{
-background:#7f0000;
-}
-
-/* RESPONSIVE */
-@media(max-width:480px){
-.letter{font-size:18px;}
-.flor-box{width:120px;}
-.titulo{font-size:40px;}
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🌿 FLORES -->
-<div class="flor-box top-left">
-<img src="flores_izquierdaU.png" class="flor">
-</div>
-
-<div class="flor-box bottom-left">
-<img src="flores_izquierdaD.png" class="flor">
-</div>
-
-<div class="flor-box right-center">
-<img src="flores_derechaC.png" class="flor">
-</div>
-
-<!-- FONDO -->
-<div class="bg-container">
-<img src="fondo.jpg" class="bg-img">
-<img src="fondo2.jpg" class="bg-img bg2">
-</div>
-
 <!-- INTRO -->
 <div class="intro" id="intro">
-<div class="envelope" id="sobre">
-<div class="envelope-body"></div>
-<div class="envelope-flap"></div>
-<div class="seal" onclick="abrirSobre()">IJ</div>
-<div class="hint">Presiona el sello</div>
-</div>
+  <div class="envelope" id="sobre">
+
+    <div class="envelope-body"></div>
+
+    <div class="flap-left"></div>
+    <div class="flap-right"></div>
+
+    <div class="seal" id="sello" onclick="abrirSobre()">IJ</div>
+
+    <div class="hint" id="hint">Presiona el sello</div>
+
+  </div>
 </div>
 
 <!-- CARTA -->
 <div class="letter" id="carta">
-<div id="texto"></div>
+  <div id="texto"></div>
 </div>
 
-<!-- CONTENIDO -->
+<!-- CONTENIDO PRINCIPAL -->
 <div class="main" id="main">
-<div class="hero">
-<div>
-<h1 class="titulo">Ivon & Julio</h1>
-<img src="icon.png" class="icon">
-<p>Nos llena de alegría invitarte a nuestro gran día 💍</p>
+<h1 style="text-align:center;margin-top:50px;">Ivon & Julio</h1>
 </div>
-</div>
-
-<section>
-<h2>Detalles del Evento</h2>
-
-<p>Fecha: 25 de Diciembre</p>
-<p>Hora: 6:00 PM</p>
-<p>Lugar: Salón de Eventos Ejemplo</p>
-
-<br>
-
-<a class="btn" onclick="abrirMaps()">📍 Ver en Google Maps</a>
-<a class="btn" onclick="abrirWaze()">🚗 Ver en Waze</a>
-
-</section>
-
-<section>
-<h2>Regalos</h2>
-<p>Tu presencia es nuestro mejor regalo 💛</p>
-</section>
-
-<section>
-<button class="btn btn-audio" onclick="toggleAudio()">🔇 Silenciar / Activar Música</button>
-</section>
-
-</div>
-
-<audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-const mensaje=`¡Nos casamos!
 
-Queremos compartir este momento contigo.
+const mensaje = `Travesura realizada...
 
-Tu presencia hará este día inolvidable 💍`;
+¡Nos casamos!
+Y has sido invitado a celebrar este momento con nosotros 💍`;
 
-function efectoPolvo(){
+function efectoTexto(){
 let cont=document.getElementById("texto");
 cont.innerHTML="";
+
 [...mensaje].forEach((l,i)=>{
 let s=document.createElement("span");
 s.textContent=l;
-s.style.animationDelay=(i*0.04)+"s";
+s.style.animationDelay=(i*0.05)+"s";
 cont.appendChild(s);
 });
 }
 
 function abrirSobre(){
+
+let sello=document.getElementById("sello");
+let hint=document.getElementById("hint");
 let sobre=document.getElementById("sobre");
 let carta=document.getElementById("carta");
 
+sello.classList.add("fade-dust");
+hint.classList.add("fade");
+
+setTimeout(()=>{
 sobre.classList.add("open");
+},800);
 
 setTimeout(()=>{
 carta.classList.add("show");
-efectoPolvo();
-fadeInAudio();
-},1800);
-
-setTimeout(()=>{
-sobre.style.transform="translateY(500px)";
-sobre.style.opacity="0";
-},2500);
-
-setTimeout(()=>{
-carta.classList.add("fade");
-},8500);
+efectoTexto();
+},2000);
 
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
-document.getElementById("main").classList.add("show");
-},9500);
+document.getElementById("main").style.display="block";
+},8000);
+
 }
 
-function fadeInAudio(){
-let audio=document.getElementById("musica");
-audio.volume=0;
-audio.play().catch(()=>{});
-let v=0;
-let i=setInterval(()=>{
-v+=0.05;
-audio.volume=v;
-if(v>=1) clearInterval(i);
-},300);
-}
-
-function toggleAudio(){
-let audio=document.getElementById("musica");
-audio.muted = !audio.muted;
-}
-  
-function abrirMaps(){
-  window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9");
-}
-
-function abrirWaze(){
-  window.open("https://waze.com/ul/h6mc5mgy3k");
-  }
 </script>
 
 </body>

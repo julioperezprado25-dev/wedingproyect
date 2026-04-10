@@ -29,12 +29,12 @@ background:#000;
 z-index:9999;
 }
 
-/* ===== SOBRE ===== */
+/* SOBRE */
 .envelope{
 position:relative;
 width:320px;
 height:200px;
-perspective:1000px;
+perspective:1200px;
 }
 
 /* CUERPO */
@@ -44,23 +44,21 @@ width:100%;
 height:100%;
 background:linear-gradient(145deg,#e8d3a5,#c9b07a);
 border-radius:8px;
-overflow:hidden;
 }
 
-/* TAPAS (izq y der) */
+/* TAPAS */
 .flap-left, .flap-right{
 position:absolute;
 top:0;
 width:50%;
 height:100%;
 background:linear-gradient(145deg,#e8d3a5,#c9b07a);
-transition:1.5s;
+transition:1.5s ease-in-out;
 }
 
 .flap-left{left:0; transform-origin:left;}
 .flap-right{right:0; transform-origin:right;}
 
-/* APERTURA */
 .envelope.open .flap-left{
 transform:rotateY(-100deg);
 }
@@ -69,7 +67,7 @@ transform:rotateY(-100deg);
 transform:rotateY(100deg);
 }
 
-/* ===== SELLO DE CERA ===== */
+/* SELLO */
 .seal{
 position:absolute;
 top:50%;
@@ -79,27 +77,23 @@ width:80px;
 height:80px;
 background:radial-gradient(circle at 30% 30%,#a00000,#5a0000);
 border-radius:50%;
-box-shadow:0 4px 10px rgba(0,0,0,0.5);
+box-shadow:0 6px 12px rgba(0,0,0,0.6);
 display:flex;
 align-items:center;
 justify-content:center;
 cursor:pointer;
-font-family:'Cinzel';
 color:#fff;
-font-size:18px;
+font-family:'Cinzel';
 }
 
-/* EFECTO DESINTEGRAR */
+/* DESINTEGRACIÓN (SIN MOVIMIENTO) */
 .fade-dust{
-animation:desintegrar 1s forwards;
+animation:desintegrar 2s forwards;
 }
 
 @keyframes desintegrar{
-to{
-opacity:0;
-transform:translateY(-20px) scale(0.8);
-filter:blur(10px);
-}
+0%{opacity:1;filter:blur(0);}
+100%{opacity:0;filter:blur(8px);}
 }
 
 /* TEXTO INFERIOR */
@@ -110,24 +104,31 @@ left:50%;
 transform:translateX(-50%);
 font-family:'Great Vibes';
 font-size:26px;
+animation:respirar 2s infinite;
 }
 
 .hint.fade{
-animation:desintegrar 1s forwards;
+animation:desintegrar 2s forwards;
 }
 
-/* ===== CARTA ===== */
+@keyframes respirar{
+0%{opacity:0.5;}
+50%{opacity:1;}
+100%{opacity:0.5;}
+}
+
+/* CARTA */
 .letter{
-position:fixed;
+position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) scale(0.5);
+transform:translate(-50%,-50%) scale(0.6);
 width:85%;
 max-width:600px;
 padding:30px;
 border-radius:10px;
 opacity:0;
-transition:2s;
+transition:1.5s ease;
 
 background:linear-gradient(#f5e6c8,#e8d3a5);
 
@@ -140,7 +141,8 @@ text-align:center;
 .letter.show{
 opacity:1;
 transform:translate(-50%,-50%) scale(1);
-}
+  }
+
 
 /* TEXTO EFECTO */
 #texto span{
@@ -204,6 +206,8 @@ cont.innerHTML="";
 [...mensaje].forEach((l,i)=>{
 let s=document.createElement("span");
 s.textContent=l;
+s.style.opacity="0";
+s.style.animation="aparecer 1s forwards";
 s.style.animationDelay=(i*0.05)+"s";
 cont.appendChild(s);
 });
@@ -219,21 +223,23 @@ let carta=document.getElementById("carta");
 sello.classList.add("fade-dust");
 hint.classList.add("fade");
 
+/* ABRIR SOBRE */
 setTimeout(()=>{
 sobre.classList.add("open");
-},800);
 
-setTimeout(()=>{
+/* CARTA APARECE INMEDIATO */
 carta.classList.add("show");
 efectoTexto();
-},2000);
 
+},1800);
+
+/* TRANSICIÓN A WEB */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
-document.getElementById("main").style.display="block";
-},8000);
+document.getElementById("main").classList.add("show");
+},7000);
 
-}
+  }
 
 </script>
 

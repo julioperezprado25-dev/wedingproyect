@@ -21,7 +21,7 @@ background:#000;
 /* ===== 🌿 FLORES ===== */
 .flor-box{
 position:fixed;
-width:160px;
+width:140px;
 z-index:3;
 pointer-events:none;
 }
@@ -35,9 +35,7 @@ animation:respirarFlor 6s infinite ease-in-out;
 }
 
 @keyframes respirarFlor{
-0%{transform:scale(0.95);}
-50%{transform:scale(1);}
-100%{transform:scale(0.95);}
+50%{transform:scale(1.05);}
 }
 
 /* ===== 🌄 FONDO ===== */
@@ -48,19 +46,22 @@ left:0;
 width:100%;
 height:100%;
 z-index:-1;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .bg img{
 position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
+width:80%;
+max-width:900px;
+border-radius:20px;
 opacity:0;
 transition:2s;
 }
 
 .bg img.active{
-opacity:1;
+opacity:0.25;
 }
 
 /* ===== INTRO ===== */
@@ -71,54 +72,41 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
-transition:1s;
 
-/* FONDO MÁGICO */
 background:
-radial-gradient(circle at center, rgba(255,215,0,0.08), transparent 60%),
-radial-gradient(circle at top, rgba(30,30,60,0.9), #000 80%);
+radial-gradient(circle at center, rgba(255,215,0,0.1), transparent 60%),
+radial-gradient(circle at top, rgba(20,20,50,0.9), #000 80%);
 }
 
+/* SOBRE */
 .envelope{
 position:relative;
 width:320px;
 height:200px;
 perspective:1200px;
 }
+
 .envelope-body{
 position:absolute;
 width:100%;
 height:100%;
+background:linear-gradient(145deg,#e8d3a5,#c9b07a);
 border-radius:8px;
-
-/* PAPEL ANTIGUO */
-background:
-linear-gradient(145deg,#e8d3a5,#c9b07a);
-
-/* SOMBRA INTERNA (REALISMO) */
-box-shadow:
-inset 0 0 25px rgba(0,0,0,0.25),
-0 8px 20px rgba(0,0,0,0.4);
+box-shadow:inset 0 0 25px rgba(0,0,0,0.3),0 8px 20px rgba(0,0,0,0.5);
 }
 
-/* TAPAS */
 .flap-left,.flap-right{
 position:absolute;
 top:0;
 width:50%;
 height:100%;
-border-radius:8px;
-
-/* TONO DIFERENTE PARA PROFUNDIDAD */
-background:
-linear-gradient(145deg,#d9c292,#b89a60);
-
-transition:1.5s ease-in-out;
-
-/* BORDE SOMBREADO */
-box-shadow:
-inset 0 0 20px rgba(0,0,0,0.2);
+background:linear-gradient(145deg,#d9c292,#b89a60);
+transition:1.5s;
+box-shadow:inset 0 0 20px rgba(0,0,0,0.3);
 }
+
+.flap-left{left:0; transform-origin:left;}
+.flap-right{right:0; transform-origin:right;}
 
 .envelope.open .flap-left{transform:rotateY(-100deg);}
 .envelope.open .flap-right{transform:rotateY(100deg);}
@@ -129,39 +117,30 @@ position:absolute;
 top:50%;left:50%;
 transform:translate(-50%,-50%);
 width:80px;height:80px;
-
-/* CERA REALISTA */
-background:
-radial-gradient(circle at 30% 30%, #b30000, #5a0000 70%);
-
-/* RELIEVE */
-box-shadow:
-inset 0 3px 6px rgba(255,255,255,0.2),
+background:radial-gradient(circle,#b30000,#5a0000);
+border-radius:50%;
+box-shadow:inset 0 3px 6px rgba(255,255,255,0.2),
 inset 0 -4px 10px rgba(0,0,0,0.6),
 0 6px 12px rgba(0,0,0,0.6);
-
-border-radius:50%;
 
 display:flex;
 align-items:center;
 justify-content:center;
-
-color:#fff;
-font-family:'Cinzel';
-font-weight:bold;
-letter-spacing:2px;
-
 cursor:pointer;
 }
 
-.fade-dust{
-animation:fadeDust 2s forwards;
+/* TEXTO DEL SELLO */
+.seal span{
+pointer-events:none; /* SOLUCIÓN */
+color:#fff;
+font-weight:bold;
 }
 
-@keyframes fadeDust{
-to{opacity:0;filter:blur(6px);}
-}
+/* EFECTO */
+.fade-dust{animation:fadeDust 2s forwards;}
+@keyframes fadeDust{to{opacity:0;filter:blur(6px);}}
 
+/* TEXTO BRILLANTE */
 .hint{
 position:absolute;
 bottom:-40px;
@@ -169,49 +148,31 @@ left:50%;
 transform:translateX(-50%);
 font-family:'Great Vibes';
 font-size:26px;
+color:#ffd700;
+text-shadow:0 0 10px #ffd700,0 0 20px #ffcc00;
 animation:respirar 2s infinite;
-}
-
-@keyframes respirar{
-50%{opacity:1;}
-0%,100%{opacity:0.5;}
 }
 
 .hint.fade{animation:fadeDust 2s forwards;}
 
-/* ===== CARTA ===== */
+/* CARTA */
 .letter{
 position:fixed;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%) scale(0.6);
-
 width:85%;
 max-width:600px;
 padding:35px;
-
+background:linear-gradient(#f5e6c8,#e8d3a5);
 border-radius:12px;
-
+box-shadow:0 10px 30px rgba(0,0,0,0.6),
+inset 0 0 30px rgba(0,0,0,0.2);
 opacity:0;
 transition:2s;
-
-/* PERGAMINO REALISTA */
-background:
-linear-gradient(180deg,#f5e6c8,#e8d3a5);
-
-/* PROFUNDIDAD */
-box-shadow:
-0 10px 30px rgba(0,0,0,0.5),
-inset 0 0 30px rgba(0,0,0,0.2);
-
-/* BORDE OSCURECIDO */
-border:2px solid rgba(120,90,40,0.4);
-
 font-family:'Great Vibes';
 font-size:30px;
-color:#3b2a1a;
 text-align:center;
-
 z-index:10000;
 }
 
@@ -220,9 +181,7 @@ opacity:1;
 transform:translate(-50%,-50%) scale(1);
 }
 
-.letter.hide{
-opacity:0;
-}
+.letter.hide{opacity:0;}
 
 /* TEXTO */
 #texto span{
@@ -230,14 +189,13 @@ opacity:0;
 animation:aparecer 1s forwards;
 }
 
-@keyframes aparecer{
-to{opacity:1;}
-}
+@keyframes aparecer{to{opacity:1;}}
 
 /* ===== MAIN ===== */
 .main{
 opacity:0;
 transition:2s;
+padding:0 12%;
 }
 .main.show{opacity:1;}
 
@@ -256,6 +214,14 @@ font-size:60px;
 color:#ffd700;
 }
 
+section{
+padding:40px;
+margin:20px 0;
+color:#fff;
+text-align:center;
+}
+
+/* BOTONES */
 .btn{
 padding:10px 18px;
 background:#2e7d32;
@@ -268,46 +234,39 @@ display:inline-block;
 
 .btn-audio{background:#7f0000;}
 
-section{
-padding:40px;
-text-align:center;
-color:#fff;
+#galeria img{
+width:120px;
+margin:10px;
+border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌄 FONDO -->
+<!-- FONDO -->
 <div class="bg">
 <img src="fondo.jpg" id="bg1" class="active">
 <img src="fondo2.jpg" id="bg2">
 </div>
 
-<!-- 🌿 FLORES -->
-<div class="flor-box top-left">
-<img src="flores_izquierdaU.png" class="flor">
-</div>
-
-<div class="flor-box bottom-left">
-<img src="flores_izquierdaD.png" class="flor">
-</div>
-
-<div class="flor-box right-center">
-<img src="flores_derechaC.png" class="flor">
-</div>
+<!-- FLORES -->
+<div class="flor-box top-left"><img src="flores_izquierdaU.png" class="flor"></div>
+<div class="flor-box bottom-left"><img src="flores_izquierdaD.png" class="flor"></div>
+<div class="flor-box right-center"><img src="flores_derechaC.png" class="flor"></div>
 
 <!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" id="sobre">
-
 <div class="envelope-body"></div>
 <div class="flap-left"></div>
 <div class="flap-right"></div>
 
-<div class="seal" id="sello" onclick="abrirSobre()">IJ</div>
-<div class="hint" id="hint">Presiona el sello</div>
+<div class="seal" id="sello" onclick="abrirSobre()">
+<span>IJ</span>
+</div>
 
+<div class="hint" id="hint">Presiona el sello</div>
 </div>
 </div>
 
@@ -318,6 +277,7 @@ color:#fff;
 
 <!-- MAIN -->
 <div class="main" id="main">
+
 <div class="hero">
 <div>
 <h1 class="titulo">Ivon & Julio</h1>
@@ -332,8 +292,23 @@ color:#fff;
 </section>
 
 <section>
+<h2>Álbum de Fotos</h2>
+<input type="file" id="foto">
+<button class="btn" onclick="subirFoto()">Subir</button>
+<div id="galeria"></div>
+</section>
+
+<section>
+<h2>Mensajes</h2>
+<input id="nombre" placeholder="Tu nombre"><br><br>
+<textarea id="mensajeInput" placeholder="Mensaje"></textarea><br>
+<button class="btn" onclick="enviarMensaje()">Enviar</button>
+</section>
+
+<section>
 <button class="btn btn-audio" onclick="toggleAudio()">🔇 Música</button>
 </section>
+
 </div>
 
 <audio id="musica" src="musica.mp3" loop></audio>
@@ -371,12 +346,10 @@ efectoTexto();
 fadeInAudio();
 },1800);
 
-/* DESAPARECER CARTA */
 setTimeout(()=>{
 carta.classList.add("hide");
 },6500);
 
-/* MOSTRAR WEB */
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
@@ -384,11 +357,9 @@ iniciarFondo();
 },8000);
 }
 
-/* FONDO ANIMADO */
 function iniciarFondo(){
 let b1=document.getElementById("bg1");
 let b2=document.getElementById("bg2");
-
 setInterval(()=>{
 b1.classList.toggle("active");
 b2.classList.toggle("active");
@@ -418,6 +389,18 @@ window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9");
 
 function abrirWaze(){
 window.open("https://waze.com/ul/h6mc5mgy3k");
+}
+
+function subirFoto(){
+let file=document.getElementById("foto").files[0];
+if(!file)return;
+let img=document.createElement("img");
+img.src=URL.createObjectURL(file);
+document.getElementById("galeria").appendChild(img);
+}
+
+function enviarMensaje(){
+alert("Mensaje enviado 💌");
 }
 </script>
 

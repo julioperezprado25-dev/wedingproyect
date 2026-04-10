@@ -22,7 +22,7 @@ linear-gradient(#f5e6c8,#f2ddb5);
 background-size:300px,cover;
 }
 
-/* ===== 🌿 CONTENEDOR ===== */
+/* ===== 🌿 CONTENEDORES ===== */
 .flor-box{
 position:fixed;
 width:220px;
@@ -30,82 +30,72 @@ z-index:2;
 pointer-events:none;
 }
 
-/* POSICIONES */
 .top-left{top:0; left:0;}
 .bottom-left{bottom:0; left:0;}
 .right-center{top:50%; right:0; transform:translateY(-50%);}
 
-/* ESPEJO */
-.mirror{transform:scaleX(-1);}
-
 /* ===== 🌿 CAPAS ===== */
 .flor{
-width:100%;
 position:absolute;
 top:0;
 left:0;
+width:100%;
 }
 
-/* ===== ✂️ RECORTES ===== */
-
-/* BASE (zona central fija) */
-.base{
-clip-path: polygon(
-20% 30%,
-70% 30%,
-70% 70%,
-20% 70%
-);
+/* ===== ✂️ SECCIONES IZQUIERDA ===== */
+.base-izq{
+clip-path: polygon(20% 30%,70% 30%,70% 75%,20% 75%);
 }
 
-/* PARTE SUPERIOR */
-.top{
-clip-path: polygon(
-0% 0%,
-60% 0%,
-60% 30%,
-30% 30%,
-30% 100%,
-0% 100%
-);
+.mov-top{
+clip-path: polygon(0% 0%,60% 0%,60% 35%,0% 35%);
+animation:vientoTop 4s infinite ease-in-out;
+transform-origin:bottom left;
 }
 
-/* PARTE DERECHA */
-.right{
-clip-path: polygon(
-60% 40%,
-100% 40%,
-100% 100%,
-60% 100%
-);
+.mov-side{
+clip-path: polygon(60% 40%,100% 40%,100% 100%,60% 100%);
+animation:vientoSide 5s infinite ease-in-out;
+transform-origin:left center;
+}
+
+/* ===== ✂️ SECCIONES DERECHA ===== */
+.base-der{
+clip-path: polygon(25% 30%,75% 30%,75% 70%,25% 70%);
+}
+
+.mov-up{
+clip-path: polygon(0% 0%,100% 0%,100% 30%,0% 30%);
+animation:vientoTop 4.5s infinite ease-in-out;
+transform-origin:bottom center;
+}
+
+.mov-down{
+clip-path: polygon(0% 70%,100% 70%,100% 100%,0% 100%);
+animation:vientoDown 5.5s infinite ease-in-out;
+transform-origin:top center;
 }
 
 /* ===== 🌬️ ANIMACIONES ===== */
-
 @keyframes vientoTop{
 0%{transform:rotate(0deg);}
 50%{transform:rotate(2deg);}
 100%{transform:rotate(0deg);}
 }
 
-@keyframes vientoRight{
+@keyframes vientoSide{
 0%{transform:rotate(0deg) translateX(0px);}
 50%{transform:rotate(-2deg) translateX(-2px);}
 100%{transform:rotate(0deg) translateX(0px);}
 }
 
-/* APLICACIÓN */
-.anim-top{
-animation:vientoTop 4s infinite ease-in-out;
-transform-origin:bottom left;
+@keyframes vientoDown{
+0%{transform:rotate(0deg);}
+50%{transform:rotate(-2deg);}
+100%{transform:rotate(0deg);}
 }
 
-.anim-right{
-animation:vientoRight 5.5s infinite ease-in-out;
-transform-origin:left center;
-}
-
-/* ===== FONDOS ===== */
+/* ===== FONDO ===== */
 .bg-container{
 position:fixed;
 top:0;left:0;
@@ -147,7 +137,6 @@ z-index:9999;
 color:#fff;
 }
 
-/* SOBRE */
 .envelope{
 position:relative;
 width:300px;
@@ -176,7 +165,6 @@ transition:1s;
 transform:rotateX(180deg);
 }
 
-/* SELLO */
 .seal{
 position:absolute;
 top:60%;
@@ -191,7 +179,6 @@ justify-content:center;
 cursor:pointer;
 }
 
-/* TEXTO */
 .hint{
 position:absolute;
 bottom:-35px;
@@ -207,7 +194,7 @@ animation:brillo 1.5s infinite;
 50%{opacity:1;}
 }
 
-/* CARTA */
+/* ===== CARTA ===== */
 .letter{
 position:fixed;
 top:50%;
@@ -247,7 +234,6 @@ animation:rebuild 1.2s forwards;
 to{opacity:1;filter:blur(0);}
 }
 
-/* MAIN */
 .main{opacity:0;transition:2s;}
 .main.show{opacity:1;}
 
@@ -273,7 +259,6 @@ section{
 padding:40px;
 margin:15px;
 border-radius:20px;
-background:transparent;
 }
 
 .btn{
@@ -302,29 +287,113 @@ border-radius:10px;
 
 <body>
 
-<!-- 🌿 ESQUINA SUPERIOR IZQUIERDA -->
+<!-- 🌿 FLORES -->
 <div class="flor-box top-left">
-  <img src="flores_izquierdaU.png" class="flor base">
-  <img src="flores_izquierdaU.png" class="flor top anim-top">
-  <img src="flores_izquierdaU.png" class="flor right anim-right">
+  <img src="flores_izquierdaU.png" class="flor base-izq">
+  <img src="flores_izquierdaU.png" class="flor mov-top">
+  <img src="flores_izquierdaU.png" class="flor mov-side">
 </div>
 
-<!-- 🌿 ESQUINA INFERIOR IZQUIERDA -->
 <div class="flor-box bottom-left">
-  <img src="flores_izquierdaD.png" class="flor base">
-  <img src="flores_izquierdaD.png" class="flor top anim-top">
-  <img src="flores_izquierdaD.png" class="flor right anim-right">
+  <img src="flores_izquierdaD.png" class="flor base-izq">
+  <img src="flores_izquierdaD.png" class="flor mov-top">
+  <img src="flores_izquierdaD.png" class="flor mov-side">
 </div>
 
-<!-- 🌿 DERECHA CENTRO -->
-<div class="flor-box right-center mirror">
-  <img src="flores_derechaC.png" class="flor base">
-  <img src="flores_derechaC.png" class="flor top anim-top">
-  <img src="flores_derechaC.png" class="flor right anim-right">
+<div class="flor-box right-center">
+  <img src="flores_derechaC.png" class="flor base-der">
+  <img src="flores_derechaC.png" class="flor mov-up">
+  <img src="flores_derechaC.png" class="flor mov-down">
 </div>
 
-<!-- RESTO DEL CÓDIGO (SIN CAMBIOS) -->
-<!-- (todo lo demás queda igual que tu código original) -->
+<!-- ===== RESTO ORIGINAL ===== -->
+<div class="bg-container">
+<img src="fondo.jpg" class="bg-img">
+<img src="fondo2.jpg" class="bg-img bg2">
+</div>
+
+<div class="intro" id="intro">
+<div class="envelope" id="sobre">
+<div class="envelope-body"></div>
+<div class="envelope-flap"></div>
+<div class="seal" onclick="abrirSobre()">IJ</div>
+<div class="hint">Presiona el sello</div>
+</div>
+</div>
+
+<div class="letter" id="carta">
+<div id="texto"></div>
+</div>
+
+<div class="main" id="main">
+<div class="hero">
+<div>
+<h1 style="font-family:'Great Vibes';font-size:50px;">Ivon & Julio</h1>
+<img src="icon.png" class="icon">
+<p>Nos llena de alegría invitarte a nuestro gran día 💍</p>
+</div>
+</div>
+</div>
+
+<audio id="musica" src="musica.mp3" loop></audio>
+
+<script>
+const mensaje=`¡Nos casamos!
+
+Queremos compartir este momento contigo.
+
+Tu presencia hará este día inolvidable 💍`;
+
+function efectoPolvo(){
+let cont=document.getElementById("texto");
+cont.innerHTML="";
+[...mensaje].forEach((l,i)=>{
+let s=document.createElement("span");
+s.textContent=l;
+s.style.animationDelay=(i*0.04)+"s";
+cont.appendChild(s);
+});
+}
+
+function abrirSobre(){
+let sobre=document.getElementById("sobre");
+let carta=document.getElementById("carta");
+
+sobre.classList.add("open");
+
+setTimeout(()=>{
+carta.classList.add("show");
+efectoPolvo();
+fadeInAudio();
+},1800);
+
+setTimeout(()=>{
+sobre.style.transform="translateY(500px)";
+sobre.style.opacity="0";
+},2500);
+
+setTimeout(()=>{
+carta.classList.add("fade");
+},8500);
+
+setTimeout(()=>{
+document.getElementById("intro").style.display="none";
+document.getElementById("main").classList.add("show");
+},9500);
+}
+
+function fadeInAudio(){
+let audio=document.getElementById("musica");
+audio.volume=0;
+audio.play().catch(()=>{});
+let v=0;
+let i=setInterval(()=>{
+v+=0.05;
+audio.volume=v;
+if(v>=1) clearInterval(i);
+},300);
+}
+</script>
 
 </body>
 </html>

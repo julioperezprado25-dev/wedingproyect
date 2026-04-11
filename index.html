@@ -49,6 +49,7 @@ z-index:-1;
 display:flex;
 justify-content:center;
 align-items:center;
+overflow:hidden;
 }
 
 .bg img{
@@ -67,15 +68,19 @@ opacity:0.25;
 /* ===== INTRO ===== */
 .intro{
 position:fixed;
-width:100vw;height:100vh;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
 
+/* FONDO COMPLETO SIN TRANSPARENCIA */
 background:
-radial-gradient(circle at center, rgba(255,215,0,0.1), transparent 60%),
-radial-gradient(circle at top, rgba(20,20,50,0.9), #000 80%);
+radial-gradient(circle at center, rgba(255,215,0,0.08), transparent 60%),
+linear-gradient(#0b0b1a, #000 80%);
 }
 
 /* SOBRE */
@@ -119,7 +124,8 @@ transform:translate(-50%,-50%);
 width:80px;height:80px;
 background:radial-gradient(circle,#b30000,#5a0000);
 border-radius:50%;
-box-shadow:inset 0 3px 6px rgba(255,255,255,0.2),
+box-shadow:
+inset 0 3px 6px rgba(255,255,255,0.2),
 inset 0 -4px 10px rgba(0,0,0,0.6),
 0 6px 12px rgba(0,0,0,0.6);
 
@@ -129,18 +135,17 @@ justify-content:center;
 cursor:pointer;
 }
 
-/* TEXTO DEL SELLO */
 .seal span{
-pointer-events:none; /* SOLUCIÓN */
+pointer-events:none;
 color:#fff;
 font-weight:bold;
 }
 
-/* EFECTO */
+/* DESINTEGRACIÓN */
 .fade-dust{animation:fadeDust 2s forwards;}
 @keyframes fadeDust{to{opacity:0;filter:blur(6px);}}
 
-/* TEXTO BRILLANTE */
+/* TEXTO BRILLANTE + RESPIRACIÓN */
 .hint{
 position:absolute;
 bottom:-40px;
@@ -149,8 +154,33 @@ transform:translateX(-50%);
 font-family:'Great Vibes';
 font-size:26px;
 color:#ffd700;
-text-shadow:0 0 10px #ffd700,0 0 20px #ffcc00;
-animation:respirar 2s infinite;
+
+/* DESTELLO */
+text-shadow:
+0 0 8px #ffd700,
+0 0 15px #ffcc00,
+0 0 25px rgba(255,215,0,0.8);
+
+/* RESPIRACIÓN */
+animation:respirarGlow 2s infinite;
+}
+
+@keyframes respirarGlow{
+0%{
+opacity:0.6;
+transform:translateX(-50%) scale(0.95);
+text-shadow:0 0 5px #ffd700;
+}
+50%{
+opacity:1;
+transform:translateX(-50%) scale(1.05);
+text-shadow:0 0 20px #ffd700,0 0 35px #ffcc00;
+}
+100%{
+opacity:0.6;
+transform:translateX(-50%) scale(0.95);
+text-shadow:0 0 5px #ffd700;
+}
 }
 
 .hint.fade{animation:fadeDust 2s forwards;}
@@ -188,7 +218,6 @@ transform:translate(-50%,-50%) scale(1);
 opacity:0;
 animation:aparecer 1s forwards;
 }
-
 @keyframes aparecer{to{opacity:1;}}
 
 /* ===== MAIN ===== */

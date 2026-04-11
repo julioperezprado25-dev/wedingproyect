@@ -9,12 +9,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+overflow:hidden; /* 🔥 BLOQUEA DESLIZAMIENTO */
+width:100%;
+height:100%;
+}
 
 body{
 font-family:'Cinzel',serif;
 color:#2b2b2b;
-overflow-x:hidden;
 background:#000;
 }
 
@@ -43,8 +52,8 @@ animation:respirarFlor 6s infinite ease-in-out;
 position:fixed;
 top:0;
 left:0;
-width:100%;
-height:100%;
+width:100vw;
+height:100vh;
 z-index:-1;
 display:flex;
 justify-content:center;
@@ -76,8 +85,9 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+overflow:hidden; /* 🔥 CLAVE */
 
-/* FONDO COMPLETO SIN TRANSPARENCIA */
+/* FONDO COMPLETO */
 background:
 radial-gradient(circle at center, rgba(255,215,0,0.08), transparent 60%),
 linear-gradient(#0b0b1a, #000 80%);
@@ -119,11 +129,14 @@ box-shadow:inset 0 0 20px rgba(0,0,0,0.3);
 /* SELLO */
 .seal{
 position:absolute;
-top:50%;left:50%;
+top:50%;
+left:50%;
 transform:translate(-50%,-50%);
-width:80px;height:80px;
-background:radial-gradient(circle,#b30000,#5a0000);
+width:80px;
+height:80px;
 border-radius:50%;
+background:radial-gradient(circle,#b30000,#5a0000);
+
 box-shadow:
 inset 0 3px 6px rgba(255,255,255,0.2),
 inset 0 -4px 10px rgba(0,0,0,0.6),
@@ -132,20 +145,22 @@ inset 0 -4px 10px rgba(0,0,0,0.6),
 display:flex;
 align-items:center;
 justify-content:center;
+
 cursor:pointer;
+z-index:10; /* 🔥 CLAVE */
 }
 
 .seal span{
-pointer-events:none;
 color:#fff;
 font-weight:bold;
+pointer-events:none; /* permite click en todo */
 }
 
-/* DESINTEGRACIÓN */
+/* EFECTO */
 .fade-dust{animation:fadeDust 2s forwards;}
 @keyframes fadeDust{to{opacity:0;filter:blur(6px);}}
 
-/* TEXTO BRILLANTE + RESPIRACIÓN */
+/* TEXTO */
 .hint{
 position:absolute;
 bottom:-40px;
@@ -155,13 +170,11 @@ font-family:'Great Vibes';
 font-size:26px;
 color:#ffd700;
 
-/* DESTELLO */
 text-shadow:
 0 0 8px #ffd700,
 0 0 15px #ffcc00,
 0 0 25px rgba(255,215,0,0.8);
 
-/* RESPIRACIÓN */
 animation:respirarGlow 2s infinite;
 }
 
@@ -169,17 +182,14 @@ animation:respirarGlow 2s infinite;
 0%{
 opacity:0.6;
 transform:translateX(-50%) scale(0.95);
-text-shadow:0 0 5px #ffd700;
 }
 50%{
 opacity:1;
 transform:translateX(-50%) scale(1.05);
-text-shadow:0 0 20px #ffd700,0 0 35px #ffcc00;
 }
 100%{
 opacity:0.6;
 transform:translateX(-50%) scale(0.95);
-text-shadow:0 0 5px #ffd700;
 }
 }
 
@@ -225,6 +235,8 @@ animation:aparecer 1s forwards;
 opacity:0;
 transition:2s;
 padding:0 12%;
+overflow-y:auto;
+height:100vh;
 }
 .main.show{opacity:1;}
 
@@ -382,6 +394,7 @@ carta.classList.add("hide");
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
+document.body.style.overflow="auto"; /* 🔥 habilita scroll después */
 iniciarFondo();
 },8000);
 }
@@ -434,4 +447,4 @@ alert("Mensaje enviado 💌");
 </script>
 
 </body>
-</html>
+  </html>

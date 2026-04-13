@@ -16,26 +16,24 @@ box-sizing:border-box;
 }
 
 html,body{
-overflow:hidden; /* 🔥 BLOQUEA DESLIZAMIENTO */
+overflow:hidden;
 width:100%;
 height:100%;
 }
-
 
 body{
 font-family:'Cinzel',serif;
 color:#3b2f1b;
 
-/* 🌿 FONDO TIPO PAPEL */
+/* 🌿 PAPEL BASE (CLARO - WEB PRINCIPAL) */
 background:
-url('papel.jpg'),
-linear-gradient(#f5e6c8,#e8d3a5);
+linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),
+url('papel.jpg');
 
-background-size:300px, cover;
-background-repeat:repeat, no-repeat;
-background-blend-mode:multiply;
-
+background-size:350px, 350px;
+background-repeat:repeat;
 }
+
 /* ===== 🌿 FLORES ===== */
 .flor-box{
 position:fixed;
@@ -56,7 +54,7 @@ animation:respirarFlor 6s infinite ease-in-out;
 50%{transform:scale(1.05);}
 }
 
-/* ===== 🌄 FONDO ===== */
+/* ===== 🌄 FONDO IMÁGENES ===== */
 .bg{
 position:fixed;
 top:0;
@@ -68,19 +66,21 @@ display:flex;
 justify-content:center;
 align-items:center;
 overflow:hidden;
+pointer-events:none;
 }
 
 .bg img{
 position:absolute;
-width:80%;
-max-width:900px;
+width:70%;
+max-width:750px;
 border-radius:20px;
 opacity:0;
 transition:2s;
+filter:brightness(1.05) contrast(0.95);
 }
 
 .bg img.active{
-opacity:0.25;
+opacity:0.18;
 }
 
 /* ===== INTRO ===== */
@@ -94,12 +94,14 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
-overflow:hidden; /* 🔥 CLAVE */
+overflow:hidden;
 
-/* FONDO COMPLETO */
+/* 🌑 PAPEL OSCURO PARA INTRO */
 background:
-radial-gradient(circle at center, rgba(255,215,0,0.08), transparent 60%),
-linear-gradient(#0b0b1a, #000 80%);
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
+url('papel.jpg');
+
+background-size:350px;
 }
 
 /* SOBRE */
@@ -154,15 +156,14 @@ inset 0 -4px 10px rgba(0,0,0,0.6),
 display:flex;
 align-items:center;
 justify-content:center;
-
 cursor:pointer;
-z-index:10; /* 🔥 CLAVE */
+z-index:10;
 }
 
 .seal span{
 color:#fff;
 font-weight:bold;
-pointer-events:none; /* permite click en todo */
+pointer-events:none;
 }
 
 /* EFECTO */
@@ -188,23 +189,14 @@ animation:respirarGlow 2s infinite;
 }
 
 @keyframes respirarGlow{
-0%{
-opacity:0.6;
-transform:translateX(-50%) scale(0.95);
-}
-50%{
-opacity:1;
-transform:translateX(-50%) scale(1.05);
-}
-100%{
-opacity:0.6;
-transform:translateX(-50%) scale(0.95);
-}
+0%{opacity:0.6; transform:translateX(-50%) scale(0.95);}
+50%{opacity:1; transform:translateX(-50%) scale(1.05);}
+100%{opacity:0.6; transform:translateX(-50%) scale(0.95);}
 }
 
 .hint.fade{animation:fadeDust 2s forwards;}
 
-/* CARTA */
+/* ===== 📜 CARTA (PAPEL MÁS INTENSO) ===== */
 .letter{
 position:fixed;
 top:50%;
@@ -213,16 +205,25 @@ transform:translate(-50%,-50%) scale(0.6);
 width:85%;
 max-width:600px;
 padding:35px;
-background:linear-gradient(#f5e6c8,#e8d3a5);
+
+/* 🔥 PAPEL MÁS OSCURO */
+background:
+linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)),
+url('papel.jpg');
+
+background-size:350px;
+
 border-radius:12px;
 box-shadow:0 10px 30px rgba(0,0,0,0.6),
-inset 0 0 30px rgba(0,0,0,0.2);
+inset 0 0 40px rgba(0,0,0,0.25);
+
 opacity:0;
 transition:2s;
 font-family:'Great Vibes';
 font-size:30px;
 text-align:center;
 z-index:10000;
+color:#fff8e6;
 }
 
 .letter.show{
@@ -255,19 +256,19 @@ display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-color:#fff;
+color:#3b2f1b;
 }
 
 .titulo{
 font-family:'Great Vibes';
 font-size:60px;
-color:#ffd700;
+color:#c59b2a;
 }
 
 section{
 padding:40px;
 margin:20px 0;
-color:#fff;
+color:#3b2f1b;
 text-align:center;
 }
 
@@ -403,7 +404,7 @@ carta.classList.add("hide");
 setTimeout(()=>{
 document.getElementById("intro").style.display="none";
 document.getElementById("main").classList.add("show");
-document.body.style.overflow="auto"; /* 🔥 habilita scroll después */
+document.body.style.overflow="auto";
 iniciarFondo();
 },8000);
 }
@@ -456,4 +457,4 @@ alert("Mensaje enviado 💌");
 </script>
 
 </body>
-  </html>
+</html>

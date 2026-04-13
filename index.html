@@ -15,26 +15,27 @@ padding:0;
 box-sizing:border-box;
 }
 
+/* 🔥 FIX SCROLL TOTAL */
 html,body{
-overflow:hidden;
 width:100%;
 height:100%;
+overflow:hidden;
+overscroll-behavior:none; /* evita refresh */
 }
 
 body{
 font-family:'Cinzel',serif;
 color:#3b2f1b;
 
-/* 🌿 PAPEL BASE (CLARO - WEB PRINCIPAL) */
+/* PAPEL CLARO */
 background:
 linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)),
 url('papel.jpg');
 
-background-size:350px, 350px;
-background-repeat:repeat;
+background-size:350px;
 }
 
-/* ===== 🌿 FLORES ===== */
+/* ===== FLORES ===== */
 .flor-box{
 position:fixed;
 width:140px;
@@ -54,7 +55,7 @@ animation:respirarFlor 6s infinite ease-in-out;
 50%{transform:scale(1.05);}
 }
 
-/* ===== 🌄 FONDO IMÁGENES ===== */
+/* ===== FONDO IMAGENES ===== */
 .bg{
 position:fixed;
 top:0;
@@ -65,7 +66,6 @@ z-index:-1;
 display:flex;
 justify-content:center;
 align-items:center;
-overflow:hidden;
 pointer-events:none;
 }
 
@@ -76,14 +76,13 @@ max-width:750px;
 border-radius:20px;
 opacity:0;
 transition:2s;
-filter:brightness(1.05) contrast(0.95);
 }
 
 .bg img.active{
-opacity:0.18;
+opacity:0.15;
 }
 
-/* ===== INTRO ===== */
+/* ===== INTRO NEGRA ===== */
 .intro{
 position:fixed;
 top:0;
@@ -94,17 +93,11 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+background:#000; /* 🔥 NEGRO TOTAL */
 overflow:hidden;
-
-/* 🌑 PAPEL OSCURO PARA INTRO */
-background:
-linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.7)),
-url('papel.jpg');
-
-background-size:350px;
 }
 
-/* SOBRE */
+/* ===== SOBRE CON TEXTURA ===== */
 .envelope{
 position:relative;
 width:320px;
@@ -116,7 +109,14 @@ perspective:1200px;
 position:absolute;
 width:100%;
 height:100%;
-background:linear-gradient(145deg,#e8d3a5,#c9b07a);
+
+/* textura + color */
+background:
+linear-gradient(145deg, rgba(232,211,165,0.9), rgba(201,176,122,0.9)),
+url('papel.jpg');
+
+background-size:cover;
+
 border-radius:8px;
 box-shadow:inset 0 0 25px rgba(0,0,0,0.3),0 8px 20px rgba(0,0,0,0.5);
 }
@@ -126,7 +126,13 @@ position:absolute;
 top:0;
 width:50%;
 height:100%;
-background:linear-gradient(145deg,#d9c292,#b89a60);
+
+background:
+linear-gradient(145deg, rgba(217,194,146,0.9), rgba(184,154,96,0.9)),
+url('papel.jpg');
+
+background-size:cover;
+
 transition:1.5s;
 box-shadow:inset 0 0 20px rgba(0,0,0,0.3);
 }
@@ -147,7 +153,6 @@ width:80px;
 height:80px;
 border-radius:50%;
 background:radial-gradient(circle,#b30000,#5a0000);
-
 box-shadow:
 inset 0 3px 6px rgba(255,255,255,0.2),
 inset 0 -4px 10px rgba(0,0,0,0.6),
@@ -166,7 +171,7 @@ font-weight:bold;
 pointer-events:none;
 }
 
-/* EFECTO */
+/* EFECTOS */
 .fade-dust{animation:fadeDust 2s forwards;}
 @keyframes fadeDust{to{opacity:0;filter:blur(6px);}}
 
@@ -179,24 +184,19 @@ transform:translateX(-50%);
 font-family:'Great Vibes';
 font-size:26px;
 color:#ffd700;
-
-text-shadow:
-0 0 8px #ffd700,
-0 0 15px #ffcc00,
-0 0 25px rgba(255,215,0,0.8);
-
+text-shadow:0 0 15px #ffd700;
 animation:respirarGlow 2s infinite;
 }
 
 @keyframes respirarGlow{
-0%{opacity:0.6; transform:translateX(-50%) scale(0.95);}
-50%{opacity:1; transform:translateX(-50%) scale(1.05);}
-100%{opacity:0.6; transform:translateX(-50%) scale(0.95);}
+0%{opacity:0.6;}
+50%{opacity:1;}
+100%{opacity:0.6;}
 }
 
 .hint.fade{animation:fadeDust 2s forwards;}
 
-/* ===== 📜 CARTA (PAPEL MÁS INTENSO) ===== */
+/* ===== CARTA CLARA ===== */
 .letter{
 position:fixed;
 top:50%;
@@ -206,16 +206,16 @@ width:85%;
 max-width:600px;
 padding:35px;
 
-/* 🔥 PAPEL MÁS OSCURO */
+/* PAPEL BLANCO */
 background:
-linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)),
+linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.9)),
 url('papel.jpg');
 
 background-size:350px;
 
 border-radius:12px;
 box-shadow:0 10px 30px rgba(0,0,0,0.6),
-inset 0 0 40px rgba(0,0,0,0.25);
+inset 0 0 30px rgba(0,0,0,0.1);
 
 opacity:0;
 transition:2s;
@@ -223,7 +223,7 @@ font-family:'Great Vibes';
 font-size:30px;
 text-align:center;
 z-index:10000;
-color:#fff8e6;
+color:#2b2b2b; /* 🔥 TEXTO NEGRO */
 }
 
 .letter.show{
@@ -247,6 +247,10 @@ transition:2s;
 padding:0 12%;
 overflow-y:auto;
 height:100vh;
+
+/* 🔥 SCROLL SUAVE */
+-webkit-overflow-scrolling:touch;
+overscroll-behavior:contain;
 }
 .main.show{opacity:1;}
 
@@ -272,7 +276,6 @@ color:#3b2f1b;
 text-align:center;
 }
 
-/* BOTONES */
 .btn{
 padding:10px 18px;
 background:#2e7d32;
@@ -295,18 +298,15 @@ border-radius:10px;
 
 <body>
 
-<!-- FONDO -->
 <div class="bg">
 <img src="fondo.jpg" id="bg1" class="active">
 <img src="fondo2.jpg" id="bg2">
 </div>
 
-<!-- FLORES -->
 <div class="flor-box top-left"><img src="flores_izquierdaU.png" class="flor"></div>
 <div class="flor-box bottom-left"><img src="flores_izquierdaD.png" class="flor"></div>
 <div class="flor-box right-center"><img src="flores_derechaC.png" class="flor"></div>
 
-<!-- INTRO -->
 <div class="intro" id="intro">
 <div class="envelope" id="sobre">
 <div class="envelope-body"></div>
@@ -321,12 +321,10 @@ border-radius:10px;
 </div>
 </div>
 
-<!-- CARTA -->
 <div class="letter" id="carta">
 <div id="texto"></div>
 </div>
 
-<!-- MAIN -->
 <div class="main" id="main">
 
 <div class="hero">

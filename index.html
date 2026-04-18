@@ -624,7 +624,7 @@ textarea {
 
 <script>
 // Texto de la carta con efecto mágico
-const mensaje = `Travesura realizada...\n\n💖 ¡Nos casamos! 💖\n\n✨ Los esperamos para celebrar ✨\n\n🌟 Este momento tan especial 🌟`;
+const mensaje = `Travesura realizada...\n\n\n 💖 ¡Nos casamos! 💖\n\n✨ Has sido invitado ✨\n\n🌟 para acompañarnos en este momento tan especial 🌟`;
 
 function efectoTexto() {
     let cont = document.getElementById("texto");
@@ -696,11 +696,11 @@ function abrirSobre() {
         carta.classList.add("show");
         efectoTexto();
         fadeInAudio();
-    }, 1800);
+    }, 2500);
 
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 6500);
+    }, 8000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";
@@ -708,7 +708,7 @@ function abrirSobre() {
         document.body.style.overflow = "auto";
         iniciarFondo();
         crearFloresPorSeccion();
-    }, 8000);
+    }, 9000);
 }
 
 function iniciarFondo() {
@@ -717,7 +717,7 @@ function iniciarFondo() {
     setInterval(() => {
         b1.classList.toggle("active");
         b2.classList.toggle("active");
-    }, 6000);
+    }, 3000);
 }
 
 function fadeInAudio() {

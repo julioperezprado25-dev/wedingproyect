@@ -690,10 +690,10 @@ function abrirSobre() {
 
     sello.classList.add("fade-dust");
     hint.classList.add("fade-dust");
-     /*timoteo para abrir sobre  */
+     /*tiempo para abrir sobre  */
     setTimeout(() => {
         sobre.classList.add("open");
-    }, 3000);
+    }, 5000);
 /* tiempo para aparecer carta*/
     setTimeout(() => {
         carta.classList.add("show");
@@ -702,11 +702,11 @@ function abrirSobre() {
       setTimeout(() => {
         efectoTexto();
         fadeInAudio();
-    }, 4000);
+    }, 1000);
 /* tiempo desaparecer carta*/  
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 8000);
+    }, 2000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";
@@ -714,7 +714,7 @@ function abrirSobre() {
         document.body.style.overflow = "auto";
         iniciarFondo();
         crearFloresPorSeccion();
-    }, 9000);
+    }, 5000);
 }
 
 function iniciarFondo() {

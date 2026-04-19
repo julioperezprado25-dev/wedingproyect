@@ -314,39 +314,73 @@ body {
     pointer-events: none;
 }
 
-/* Estilos para el texto de la carta */
+/* Estilos para el efecto mágico de la carta */
 #texto {
     white-space: pre-line;
     line-height: 1.8;
 }
 
-#texto .linea {
+#texto .magic-line {
     margin: 20px 0;
     text-align: center;
+    position: relative;
 }
 
-#texto span {
-    opacity: 0;
+#texto .magic-letter {
     display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    filter: blur(8px);
+    text-shadow: 0 0 15px rgba(255,215,0,0.8);
+    animation: magicAppear 0.4s forwards;
 }
 
-/* Animación de letras */
-@keyframes aparecerLetra {
-    0% { 
-        opacity: 0; 
-        transform: translateY(15px); 
-        filter: blur(6px);
+/* Animación mágica estilo Harry Potter */
+@keyframes magicAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+        filter: blur(8px);
+        text-shadow: 0 0 20px rgba(255,215,0,0.9);
     }
-    50% {
-        opacity: 0.5;
-        transform: translateY(5px);
-        filter: blur(2px);
+    30% {
+        opacity: 0.3;
+        transform: translateY(10px) scale(0.9);
+        filter: blur(4px);
+        text-shadow: 0 0 30px rgba(255,215,0,0.7);
     }
-    100% { 
-        opacity: 1; 
-        transform: translateY(0); 
+    70% {
+        opacity: 0.7;
+        transform: translateY(3px) scale(0.98);
+        filter: blur(1px);
+        text-shadow: 0 0 10px rgba(255,215,0,0.4);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
         filter: blur(0);
+        text-shadow: none;
     }
+}
+
+/* Partículas mágicas */
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+    }
+}
+
+.magic-particle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 12px;
+    animation: particleFloat 0.8s ease-out forwards;
+    z-index: 10001;
 }
 
 /* ===== MAIN ===== */
@@ -647,83 +681,132 @@ textarea {
 <audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-// ===== CONFIGURACIÓN DE VELOCIDAD DEL TEXTO =====
+// ===== CONFIGURACIÓN DEL EFECTO MÁGICO =====
 // Ajusta estos valores para cambiar la velocidad:
-// - VELOCIDAD_LETRA: más alto = más lento (0.08 = 80ms por letra)
-// - RETRASO_ENTRE_LINEAS: más alto = más lento (0.8 = 800ms entre líneas)
+// - VELOCIDAD_LETRA: más alto = más lento (0.06 = 60ms por letra)
+// - RETRASO_ENTRE_LINEAS: más alto = más lento (0.6 = 600ms entre líneas)
 const CONFIG_TEXTO = {
-    VELOCIDAD_LETRA: 0.08,      // segundos por letra (0.05 = rápido, 0.12 = muy lento)
-    RETRASO_ENTRE_LINEAS: 0.8,   // segundos entre cada línea
-    DURACION_ANIMACION: 0.5      // duración de la animación de cada letra
+    VELOCIDAD_LETRA: 0.06,      // segundos por letra (efecto mágico)
+    RETRASO_ENTRE_LINEAS: 0.6,   // segundos entre cada línea
+    DURACION_ANIMACION: 0.4      // duración de la animación de cada letra
 };
 
-// Texto de la carta con saltos de línea respetados
-const mensaje = `Travesura realizada...
+// Texto de la carta con emojis correctos
+const mensaje = `✨ Travesura realizada... ✨
 
 💖 ¡Nos casamos! 💖
 
 ✨ Has sido invitado ✨
 
-🌟 para acompañarnos en este momento tan especial 🌟`;
+🌟 a celebrar este momento tan especial 🌟`;
 
+// Función para crear partículas mágicas
+function crearParticulaMagica(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'magic-particle';
+    particle.innerHTML = '✨';
+    
+    // Posición aleatoria alrededor del punto
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 20 + Math.random() * 50;
+    const tx = Math.cos(angle) * distance;
+    const ty = Math.sin(angle) * distance;
+    
+    particle.style.setProperty('--tx', tx + 'px');
+    particle.style.setProperty('--ty', ty + 'px');
+    particle.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
+    particle.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
+    
+    document.body.appendChild(particle);
+    
+    setTimeout(() => {
+        particle.remove();
+    }, 800);
+}
+
+// Función principal del efecto mágico
 function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
     
-    // Dividir el mensaje por líneas (respetando los saltos \n)
+    // Dividir el mensaje por líneas
     let lineas = mensaje.split('\n');
     
     lineas.forEach((linea, idxLinea) => {
         // Si la línea está vacía, agregar un espacio
         if (linea.trim() === "") {
             let espacio = document.createElement("div");
-            espacio.style.height = "15px";
+            espacio.style.height = "20px";
             cont.appendChild(espacio);
             return;
         }
         
         // Crear contenedor para la línea
         let divLinea = document.createElement("div");
-        divLinea.className = "linea";
+        divLinea.className = "magic-line";
         
         // Recorrer cada letra de la línea
         for (let i = 0; i < linea.length; i++) {
             let span = document.createElement("span");
+            span.className = "magic-letter";
             span.textContent = linea[i];
             
-            // Calcular el retraso: tiempo por línea + tiempo por letra
-            // Usando la configuración para que sea más lento
+            // Calcular el retraso para efecto mágico
             let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
             span.style.animationDelay = delay + "s";
-            span.style.animation = `aparecerLetra ${CONFIG_TEXTO.DURACION_ANIMACION}s forwards`;
+            span.style.animationDuration = CONFIG_TEXTO.DURACION_ANIMACION + "s";
             
             divLinea.appendChild(span);
         }
         
         cont.appendChild(divLinea);
+        
+        // Crear partículas mágicas al inicio de cada línea
+        setTimeout(() => {
+            const rect = divLinea.getBoundingClientRect();
+            for (let p = 0; p < 8; p++) {
+                setTimeout(() => {
+                    crearParticulaMagica(
+                        window.innerWidth / 2 + (Math.random() - 0.5) * 200,
+                        rect.top + 30
+                    );
+                }, p * 100);
+            }
+        }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
+    
+    // Crear partículas en toda la carta al final
+    const totalLines = lineas.filter(l => l.trim() !== "").length;
+    const tiempoTotal = totalLines * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000;
+    
+    setTimeout(() => {
+        for (let p = 0; p < 30; p++) {
+            setTimeout(() => {
+                crearParticulaMagica(
+                    window.innerWidth / 2 + (Math.random() - 0.5) * 300,
+                    window.innerHeight / 2 + (Math.random() - 0.5) * 200
+                );
+            }, p * 80);
+        }
+    }, tiempoTotal);
 }
 
-// Crear flores para cada sección usando los archivos originales
+// Crear flores para cada sección
 function crearFloresPorSeccion() {
     const secciones = document.querySelectorAll('.seccion');
     const container = document.getElementById('floresContainer');
     
-    // Limpiar container por si acaso
     container.innerHTML = "";
     
     secciones.forEach((seccion, idx) => {
-        // Flores izquierda arriba (flores_izquierdaU.png)
         const florTL = document.createElement('div');
         florTL.className = 'section-flores flor-top-left';
         florTL.innerHTML = `<img src="flores_izquierdaU.png" class="flor-img" alt="flor">`;
         
-        // Flores izquierda abajo (flores_izquierdaD.png)
         const florBL = document.createElement('div');
         florBL.className = 'section-flores flor-bottom-left';
         florBL.innerHTML = `<img src="flores_izquierdaD.png" class="flor-img" alt="flor">`;
         
-        // Flores derecha centro (flores_derechaC.png)
         const florRC = document.createElement('div');
         florRC.className = 'section-flores flor-right-center';
         florRC.innerHTML = `<img src="flores_derechaC.png" class="flor-img" alt="flor">`;
@@ -732,7 +815,6 @@ function crearFloresPorSeccion() {
         container.appendChild(florBL);
         container.appendChild(florRC);
         
-        // Observer para mostrar/ocultar flores según sección visible
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -760,26 +842,22 @@ function abrirSobre() {
     sello.classList.add("fade-dust");
     hint.classList.add("fade-dust");
     
-    // Tiempo para abrir sobre
     setTimeout(() => {
         sobre.classList.add("open");
     }, 1000);
     
-    // Tiempo para aparecer carta
     setTimeout(() => {
         carta.classList.add("show");
         fadeInAudio();
     }, 3000);
     
-    // Tiempo para aparecer texto (con la nueva velocidad más lenta)
     setTimeout(() => {
         efectoTexto();      
-    }, 4000);
+    }, 3800);
     
-    // Tiempo para desaparecer carta
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 13000);  // Aumentado porque el texto tarda más en aparecer
+    }, 13000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";
@@ -846,7 +924,6 @@ function enviarMensaje() {
     document.getElementById("mensajeInput").value = "";
 }
 
-// Evento del sello
 document.getElementById("sello").addEventListener("click", abrirSobre);
 document.body.style.overflow = "hidden";
 </script>

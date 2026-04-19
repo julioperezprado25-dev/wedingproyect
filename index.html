@@ -316,14 +316,16 @@ body {
 
 /* Estilos para el efecto mágico de la carta */
 #texto {
-    white-space: pre-line;
+    white-space: pre-wrap;
     line-height: 1.8;
+    word-break: keep-all;
 }
 
 #texto .magic-line {
     margin: 20px 0;
     text-align: center;
     position: relative;
+    white-space: normal;
 }
 
 #texto .magic-letter {
@@ -333,6 +335,7 @@ body {
     filter: blur(8px);
     text-shadow: 0 0 15px rgba(255,215,0,0.8);
     animation: magicAppear 0.4s forwards;
+    white-space: pre;
 }
 
 /* Animación mágica estilo Harry Potter */
@@ -682,16 +685,13 @@ textarea {
 
 <script>
 // ===== CONFIGURACIÓN DEL EFECTO MÁGICO =====
-// Ajusta estos valores para cambiar la velocidad:
-// - VELOCIDAD_LETRA: más alto = más lento (0.06 = 60ms por letra)
-// - RETRASO_ENTRE_LINEAS: más alto = más lento (0.6 = 600ms entre líneas)
 const CONFIG_TEXTO = {
-    VELOCIDAD_LETRA: 0.06,      // segundos por letra (efecto mágico)
+    VELOCIDAD_LETRA: 0.06,      // segundos por letra
     RETRASO_ENTRE_LINEAS: 0.6,   // segundos entre cada línea
-    DURACION_ANIMACION: 0.4      // duración de la animación de cada letra
+    DURACION_ANIMACION: 0.4
 };
 
-// Texto de la carta con emojis correctos
+// Texto de la carta - Usando HTML entities para emojis y espacios correctos
 const mensaje = `✨ Travesura realizada... ✨
 
 💖 ¡Nos casamos! 💖
@@ -700,13 +700,35 @@ const mensaje = `✨ Travesura realizada... ✨
 
 🌟 a celebrar este momento tan especial 🌟`;
 
+// Función para convertir texto a spans respetando espacios y emojis
+function textoASpans(texto) {
+    const spans = [];
+    // Usar Array.from para manejar correctamente caracteres Unicode (emojis)
+    const caracteres = Array.from(texto);
+    
+    for (let i = 0; i < caracteres.length; i++) {
+        const char = caracteres[i];
+        const span = document.createElement('span');
+        span.className = 'magic-letter';
+        
+        if (char === ' ') {
+            span.innerHTML = '&nbsp;';
+            span.style.whiteSpace = 'pre';
+        } else {
+            span.textContent = char;
+        }
+        
+        spans.push(span);
+    }
+    return spans;
+}
+
 // Función para crear partículas mágicas
 function crearParticulaMagica(x, y) {
     const particle = document.createElement('div');
     particle.className = 'magic-particle';
     particle.innerHTML = '✨';
     
-    // Posición aleatoria alrededor del punto
     const angle = Math.random() * Math.PI * 2;
     const distance = 20 + Math.random() * 50;
     const tx = Math.cos(angle) * distance;
@@ -729,14 +751,14 @@ function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
     
-    // Dividir el mensaje por líneas
+    // Dividir el mensaje por líneas (respetando \n)
     let lineas = mensaje.split('\n');
     
     lineas.forEach((linea, idxLinea) => {
         // Si la línea está vacía, agregar un espacio
         if (linea.trim() === "") {
             let espacio = document.createElement("div");
-            espacio.style.height = "20px";
+            espacio.style.height = "25px";
             cont.appendChild(espacio);
             return;
         }
@@ -745,26 +767,23 @@ function efectoTexto() {
         let divLinea = document.createElement("div");
         divLinea.className = "magic-line";
         
-        // Recorrer cada letra de la línea
-        for (let i = 0; i < linea.length; i++) {
-            let span = document.createElement("span");
-            span.className = "magic-letter";
-            span.textContent = linea[i];
-            
-            // Calcular el retraso para efecto mágico
+        // Convertir la línea a spans (respeta espacios y emojis)
+        const spans = textoASpans(linea);
+        
+        // Agregar cada span con su delay
+        spans.forEach((span, i) => {
             let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
             span.style.animationDelay = delay + "s";
             span.style.animationDuration = CONFIG_TEXTO.DURACION_ANIMACION + "s";
-            
             divLinea.appendChild(span);
-        }
+        });
         
         cont.appendChild(divLinea);
         
         // Crear partículas mágicas al inicio de cada línea
         setTimeout(() => {
             const rect = divLinea.getBoundingClientRect();
-            for (let p = 0; p < 8; p++) {
+            for (let p = 0; p < 6; p++) {
                 setTimeout(() => {
                     crearParticulaMagica(
                         window.innerWidth / 2 + (Math.random() - 0.5) * 200,
@@ -775,12 +794,12 @@ function efectoTexto() {
         }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
     
-    // Crear partículas en toda la carta al final
+    // Crear partículas finales
     const totalLines = lineas.filter(l => l.trim() !== "").length;
-    const tiempoTotal = totalLines * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000;
+    const tiempoTotal = totalLines * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000 + 1000;
     
     setTimeout(() => {
-        for (let p = 0; p < 30; p++) {
+        for (let p = 0; p < 25; p++) {
             setTimeout(() => {
                 crearParticulaMagica(
                     window.innerWidth / 2 + (Math.random() - 0.5) * 300,

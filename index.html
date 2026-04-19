@@ -624,17 +624,50 @@ textarea {
 
 <script>
 // Texto de la carta con efecto mágico
-const mensaje = `Travesura realizada...\n\n\n 💖 ¡Nos casamos! 💖\n\n✨ Has sido invitado ✨\n\n🌟 para acompañarnos en este momento tan especial 🌟`;
+// Texto de la carta con saltos de línea respetados
+const mensaje = `Travesura realizada...
+
+💖 ¡Nos casamos! 💖
+
+✨ Has sido invitado ✨
+
+🌟 para acompañarnos en este momento tan especial 🌟`;
 
 function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
-    let palabras = mensaje.split('');
-    palabras.forEach((letra, i) => {
-        let s = document.createElement("span");
-        s.textContent = letra;
-        s.style.animationDelay = (i * 0.03) + "s";
-        cont.appendChild(s);
+    
+    // Limpiar estilos previos
+    cont.style.whiteSpace = "pre-line";
+    cont.style.lineHeight = "1.8";
+    
+    let lineas = mensaje.split('\n');
+    
+    lineas.forEach((linea, idxLinea) => {
+        if (linea.trim() === "") {
+            // Línea vacía → agregar un <br>
+            let br = document.createElement("br");
+            cont.appendChild(br);
+            return;
+        }
+        
+        let divLinea = document.createElement("div");
+        divLinea.style.margin = "15px 0";
+        divLinea.style.textAlign = "center";
+        
+        // Animar cada letra de la línea (más lento: 0.08 segundos por letra)
+        for (let i = 0; i < linea.length; i++) {
+            let span = document.createElement("span");
+            span.textContent = linea[i];
+            span.style.opacity = "0";
+            span.style.display = "inline-block";
+            // Velocidad más lenta: 0.08 segundos por letra + retraso por línea
+            span.style.animationDelay = (idxLinea * 0.6 + i * 0.08) + "s";
+            span.style.animation = "aparecerLetra 0.4s forwards";
+            divLinea.appendChild(span);
+        }
+        
+        cont.appendChild(divLinea);
     });
 }
 
@@ -706,7 +739,7 @@ function abrirSobre() {
 /* tiempo desaparecer carta*/  
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 9000);
+    }, 11000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";

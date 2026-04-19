@@ -448,13 +448,50 @@ body {
     color: #c59b2a;
     margin-bottom: 30px;
 }
-
+/* Títulos H3 (dentro de tarjetas) */
+.contenido-seccion h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+    
 .contenido-seccion p {
     font-size: 18px;
     line-height: 1.8;
     margin: 15px 0;
 }
 
+    /* Texto dentro de las tarjetas (regalos, padrinos) */
+.contenido-seccion div div {
+    font-size: 16px;
+    font-family: 'Cinzel', serif;
+    color: #4a3728;
+    line-height: 1.6;
+}
+
+/* Texto fuerte (negritas) */
+.contenido-seccion strong {
+    color: #c59b2a;
+    font-weight: 600;
+}
+
+/* Texto del contador */
+.countdown {
+    font-size: 42px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #c59b2a;
+    letter-spacing: 2px;
+}
+
+/* Texto destacado especial */
+.texto-especial {
+    font-size: 20px;
+    font-family: 'Great Vibes', cursive;
+    color: #c59b2a;
+    margin: 20px 0;
+}
+    
 .btn {
     padding: 12px 25px;
     background: linear-gradient(135deg, #2e7d32, #1b5e20);
@@ -594,7 +631,7 @@ textarea {
         <div class="hero">
             <h1 class="titulo">Ivon & Julio</h1>
             <p>Nos llena de alegría invitarte a celebrar el día más importante de nuestras vidas</p>
-            <p style="margin-top: 20px; font-size: 20px;">💍 15 de Mayo, 2026 💍</p>
+            <p style="margin-top: 20px; font-size: 20px;">💍 14 de agosto, 2026 💍</p>
         </div>
     </div>
 
@@ -603,8 +640,8 @@ textarea {
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
             <p><strong>📆 Fecha:</strong> Sábado 15 de Mayo, 2026</p>
-            <p><strong>⏰ Hora:</strong> 4:00 PM</p>
-            <p><strong>📍 Lugar:</strong> Jardines del Paraíso</p>
+            <p><strong>⏰ Hora:</strong> 7:00 PM</p>
+            <p><strong>📍 Lugar:</strong> Parroquia Santa Rosa, Jesus Marìa</p>
             <p><strong>🏠 Dirección:</strong> Carretera México-Cuernavaca Km 38, CDMX</p>
             <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
             <div style="margin-top: 25px;">
@@ -876,7 +913,7 @@ function abrirSobre() {
     
     setTimeout(() => {
         fadeInAudio();
-    }, 5000);
+    }, 7500);
     setTimeout(() => {
         carta.classList.add("hide");
     }, 14000);

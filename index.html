@@ -697,12 +697,13 @@ function abrirSobre() {
 /* tiempo para aparecer carta*/
     setTimeout(() => {
         carta.classList.add("show");
+        fadeInAudio();
     }, 3000);
 /* tiempo aparecer texto*/
       setTimeout(() => {
         efectoTexto();
-        fadeInAudio();
-    }, 4000);
+        
+    }, 7000);
 /* tiempo desaparecer carta*/  
     setTimeout(() => {
         carta.classList.add("hide");

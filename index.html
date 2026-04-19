@@ -24,7 +24,7 @@ html, body {
 }
 
 body {
-    font-family: 'Cinzel', serif;
+    font-family: 'Great Vibes', cursive;
     color: #3b2f1b;
     background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url('papel.jpg');
     background-size: 350px;
@@ -239,6 +239,7 @@ body {
     text-shadow: 0 2px 5px rgba(0,0,0,0.5);
     letter-spacing: 2px;
     pointer-events: none;
+    font-family: 'Cinzel', serif;
 }
 
 /* HINT */
@@ -421,18 +422,21 @@ body {
 
 .titulo {
     font-family: 'Great Vibes', cursive;
-    font-size: 70px;
+    font-size: 75px;
     color: #c59b2a;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
+    letter-spacing: 2px;
 }
 
 .hero p {
-    font-size: 24px;
     font-family: 'Great Vibes', cursive;
+    font-size: 28px;
+    color: #4a3728;
+    margin: 15px 0;
 }
 
-/* Contenido de secciones */
+/* Contenido de secciones - ESTILOS UNIFORMES CURSIVA */
 .contenido-seccion {
     max-width: 800px;
     margin: 0 auto;
@@ -444,28 +448,34 @@ body {
 
 .contenido-seccion h2 {
     font-family: 'Great Vibes', cursive;
-    font-size: 48px;
+    font-size: 52px;
     color: #c59b2a;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
 }
+
 /* Títulos H3 (dentro de tarjetas) */
 .contenido-seccion h3 {
     font-family: 'Great Vibes', cursive;
-    font-size: 22px;
+    font-size: 26px;
     color: #2e7d32;
-    margin-bottom: 10px;
-    
-.contenido-seccion p {
-    font-family:'Great Vibes', cursive;
-    font-size: 18px;
-    line-height: 1.8;
-    margin: 15px 0;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
 }
 
-    /* Texto dentro de las tarjetas (regalos, padrinos) */
-.contenido-seccion div div {
-    font-size: 16px;
+/* Párrafos normales */
+.contenido-seccion p {
     font-family: 'Great Vibes', cursive;
+    font-size: 22px;
+    line-height: 1.8;
+    margin: 15px 0;
+    color: #4a3728;
+}
+
+/* Texto dentro de las tarjetas (regalos, padrinos) */
+.contenido-seccion div div {
+    font-family: 'Great Vibes', cursive;
+    font-size: 20px;
     color: #4a3728;
     line-height: 1.6;
 }
@@ -473,28 +483,44 @@ body {
 /* Texto fuerte (negritas) */
 .contenido-seccion strong {
     font-family: 'Great Vibes', cursive;
-    font-size: 18px;
+    font-size: 22px;
     color: #c59b2a;
     font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-/* Texto del contador */
+/* Texto del contador principal */
 .countdown {
-    font-size: 42px;
-    font-family: monospace;
+    font-family: 'Great Vibes', cursive;
+    font-size: 48px;
+    font-weight: bold;
+    color: #c59b2a;
+    letter-spacing: 3px;
+    margin: 25px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Texto del contador secundario (en sección boda) */
+.countdown-small {
+    font-family: 'Great Vibes', cursive;
+    font-size: 32px;
     font-weight: bold;
     color: #c59b2a;
     letter-spacing: 2px;
+    margin: 15px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 /* Texto destacado especial */
 .texto-especial {
-    font-size: 20px;
     font-family: 'Great Vibes', cursive;
+    font-size: 24px;
     color: #c59b2a;
     margin: 20px 0;
+    letter-spacing: 1px;
 }
-    
+
+/* Botones */
 .btn {
     padding: 12px 25px;
     background: linear-gradient(135deg, #2e7d32, #1b5e20);
@@ -503,11 +529,12 @@ body {
     border-radius: 50px;
     margin: 8px;
     cursor: pointer;
-    font-size: 16px;
-    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-family: 'Great Vibes', cursive;
     transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     display: inline-block;
+    letter-spacing: 1px;
 }
 
 .btn:hover {
@@ -517,6 +544,8 @@ body {
 
 .btn-audio {
     background: linear-gradient(135deg, #7f0000, #5a0000);
+    font-size: 20px;
+    padding: 15px 40px;
 }
 
 /* Galería */
@@ -549,13 +578,20 @@ input, textarea {
     border-radius: 10px;
     width: 80%;
     max-width: 300px;
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
+    font-family: 'Great Vibes', cursive;
+    font-size: 18px;
+    background: rgba(255,255,255,0.9);
 }
 
 textarea {
     height: 100px;
     resize: vertical;
+}
+
+input::placeholder, textarea::placeholder {
+    font-family: 'Great Vibes', cursive;
+    font-size: 16px;
+    color: #999;
 }
 
 /* Sección de música (sin flores) */
@@ -572,7 +608,11 @@ textarea {
     }
     
     .titulo {
-        font-size: 48px;
+        font-size: 52px;
+    }
+    
+    .hero p {
+        font-size: 22px;
     }
     
     .contenido-seccion {
@@ -580,7 +620,23 @@ textarea {
     }
     
     .contenido-seccion h2 {
-        font-size: 36px;
+        font-size: 38px;
+    }
+    
+    .contenido-seccion p {
+        font-size: 18px;
+    }
+    
+    .contenido-seccion strong {
+        font-size: 18px;
+    }
+    
+    .countdown {
+        font-size: 32px;
+    }
+    
+    .countdown-small {
+        font-size: 24px;
     }
     
     .letter {
@@ -595,6 +651,11 @@ textarea {
     
     .flor-right-center {
         width: 80px;
+    }
+    
+    .btn-audio {
+        font-size: 16px;
+        padding: 12px 30px;
     }
 }
 </style>
@@ -633,20 +694,22 @@ textarea {
     <div class="seccion" data-section="0">
         <div class="hero">
             <h1 class="titulo">Ivon & Julio</h1>
-            <p>Nos llena de alegría invitarte a celebrar el día más importante de nuestras vidas</p>
-            <p style="margin-top: 20px; font-size: 20px;">💍 14 de agosto, 2026 💍</p>
+            <p>Nos llena de alegría invitarte a celebrar</p>
+            <p>el día más importante de nuestras vidas</p>
+            <p style="margin-top: 20px; font-size: 26px;">💍 14 de agosto, 2026 💍</p>
             <div class="countdown" id="countdown"></div> 
         </div>
     </div>
 
-    <!-- Sección 2: Detalles del Evento -->
+    <!-- Sección 2: Detalles del Evento con countdown -->
     <div class="seccion" data-section="1">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
+            <div class="countdown-small" id="countdownBoda"></div>
             <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
             <p><strong>⏰ Hora:</strong> 7:00 PM</p>
-            <p><strong>📍 Lugar:</strong> Parroquia San José, Jesus Marìa</p>
-            <p><strong>🏠 Dirección:</strong>  Av. República Dominicana 458, Jesús María </p>
+            <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
+            <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
             <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
             <div style="margin-top: 25px;">
                 <button class="btn" onclick="abrirMaps()">📍 Google Maps</button>
@@ -660,7 +723,8 @@ textarea {
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
-            <p> Los regalos van por</p><p><strong>nuestra cuenta...</strong></p>
+            <p>Los regalos van por</p>
+            <p><strong>nuestra cuenta...</strong></p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 25px;">
                 <div style="background: rgba(197,155,42,0.1); padding: 20px; border-radius: 15px;">
                     <h3>🏠 Mueblería "El Hogar"</h3>
@@ -714,8 +778,8 @@ textarea {
     <!-- Sección 7: Música (SIN FLORES) -->
     <div class="seccion-musica" data-section="6">
         <div style="text-align: center; padding: 30px;">
-            <button class="btn btn-audio" onclick="toggleAudio()" style="font-size: 20px; padding: 15px 40px;">🔇 Silenciar Música</button>
-            <p style="margin-top: 20px; font-size: 14px; color: #666;">✨ Gracias por ser parte de este momento especial ✨</p>
+            <button class="btn btn-audio" onclick="toggleAudio()">🔇 Silenciar Música</button>
+            <p style="margin-top: 20px; font-size: 18px; color: #666; font-family: 'Great Vibes', cursive;">✨ Gracias por ser parte de este momento especial ✨</p>
         </div>
     </div>
 </div>
@@ -728,12 +792,12 @@ textarea {
 <script>
 // ===== CONFIGURACIÓN DEL EFECTO MÁGICO =====
 const CONFIG_TEXTO = {
-    VELOCIDAD_LETRA: 0.06,      // segundos por letra
-    RETRASO_ENTRE_LINEAS: 0.6,   // segundos entre cada línea
+    VELOCIDAD_LETRA: 0.06,
+    RETRASO_ENTRE_LINEAS: 0.6,
     DURACION_ANIMACION: 0.4
 };
 
-// Texto de la carta - Usando HTML entities para emojis y espacios correctos
+// Texto de la carta
 const mensaje = `✨ Travesura realizada... ✨
 
 💖 ¡Nos casamos! 💖
@@ -745,7 +809,6 @@ const mensaje = `✨ Travesura realizada... ✨
 // Función para convertir texto a spans respetando espacios y emojis
 function textoASpans(texto) {
     const spans = [];
-    // Usar Array.from para manejar correctamente caracteres Unicode (emojis)
     const caracteres = Array.from(texto);
     
     for (let i = 0; i < caracteres.length; i++) {
@@ -793,11 +856,9 @@ function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
     
-    // Dividir el mensaje por líneas (respetando \n)
     let lineas = mensaje.split('\n');
     
     lineas.forEach((linea, idxLinea) => {
-        // Si la línea está vacía, agregar un espacio
         if (linea.trim() === "") {
             let espacio = document.createElement("div");
             espacio.style.height = "25px";
@@ -805,14 +866,11 @@ function efectoTexto() {
             return;
         }
         
-        // Crear contenedor para la línea
         let divLinea = document.createElement("div");
         divLinea.className = "magic-line";
         
-        // Convertir la línea a spans (respeta espacios y emojis)
         const spans = textoASpans(linea);
         
-        // Agregar cada span con su delay
         spans.forEach((span, i) => {
             let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
             span.style.animationDelay = delay + "s";
@@ -822,7 +880,6 @@ function efectoTexto() {
         
         cont.appendChild(divLinea);
         
-        // Crear partículas mágicas al inicio de cada línea
         setTimeout(() => {
             const rect = divLinea.getBoundingClientRect();
             for (let p = 0; p < 6; p++) {
@@ -836,7 +893,6 @@ function efectoTexto() {
         }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
     
-    // Crear partículas finales
     const totalLines = lineas.filter(l => l.trim() !== "").length;
     const tiempoTotal = totalLines * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000 + 1000;
     
@@ -850,6 +906,37 @@ function efectoTexto() {
             }, p * 80);
         }
     }, tiempoTotal);
+}
+
+// Función para actualizar countdowns
+function actualizarCountdowns() {
+    const weddingDate = new Date('August 14, 2026 19:00:00').getTime();
+    
+    function update() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+        
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML = '¡Es hoy! 💒';
+            const countdownBoda = document.getElementById('countdownBoda');
+            if (countdownBoda) countdownBoda.innerHTML = '¡Es hoy! 💒';
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        const countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById('countdown').innerHTML = countdownText;
+        
+        const countdownBoda = document.getElementById('countdownBoda');
+        if (countdownBoda) countdownBoda.innerHTML = countdownText;
+    }
+    
+    update();
+    setInterval(update, 1000);
 }
 
 // Crear flores para cada sección
@@ -917,9 +1004,6 @@ function abrirSobre() {
     }, 3800);
     
     setTimeout(() => {
-        fadeInAudio();
-    }, 7500);
-    setTimeout(() => {
         carta.classList.add("hide");
     }, 14000);
 
@@ -929,6 +1013,7 @@ function abrirSobre() {
         document.body.style.overflow = "auto";
         iniciarFondo();
         crearFloresPorSeccion();
+        actualizarCountdowns();
     }, 14000);
 }
 

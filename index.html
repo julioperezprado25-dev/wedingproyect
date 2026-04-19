@@ -30,7 +30,7 @@ body {
     background-size: 350px;
 }
 
-/* ===== FLORES POR SECCIÓN (usando los archivos originales) ===== */
+/* ===== FLORES POR SECCIÓN ===== */
 .section-flores {
     position: fixed;
     width: 140px;
@@ -314,14 +314,39 @@ body {
     pointer-events: none;
 }
 
-#texto span {
-    opacity: 0;
-    animation: aparecerLetra 0.3s forwards;
+/* Estilos para el texto de la carta */
+#texto {
+    white-space: pre-line;
+    line-height: 1.8;
 }
 
+#texto .linea {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#texto span {
+    opacity: 0;
+    display: inline-block;
+}
+
+/* Animación de letras */
 @keyframes aparecerLetra {
-    0% { opacity: 0; transform: translateY(10px); filter: blur(5px); }
-    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    0% { 
+        opacity: 0; 
+        transform: translateY(15px); 
+        filter: blur(6px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(5px);
+        filter: blur(2px);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+        filter: blur(0);
+    }
 }
 
 /* ===== MAIN ===== */
@@ -377,7 +402,6 @@ body {
     padding: 40px;
     background: transparent;
     border-radius: 25px;
-    /*backdrop-filter: blur(5px);*/
     box-shadow: none;
 }
 
@@ -617,13 +641,22 @@ textarea {
     </div>
 </div>
 
-<!-- FLORES DINÁMICAS POR SECCIÓN (usando archivos originales) -->
+<!-- FLORES DINÁMICAS POR SECCIÓN -->
 <div id="floresContainer"></div>
 
 <audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-// Texto de la carta con efecto mágico
+// ===== CONFIGURACIÓN DE VELOCIDAD DEL TEXTO =====
+// Ajusta estos valores para cambiar la velocidad:
+// - VELOCIDAD_LETRA: más alto = más lento (0.08 = 80ms por letra)
+// - RETRASO_ENTRE_LINEAS: más alto = más lento (0.8 = 800ms entre líneas)
+const CONFIG_TEXTO = {
+    VELOCIDAD_LETRA: 0.08,      // segundos por letra (0.05 = rápido, 0.12 = muy lento)
+    RETRASO_ENTRE_LINEAS: 0.8,   // segundos entre cada línea
+    DURACION_ANIMACION: 0.5      // duración de la animación de cada letra
+};
+
 // Texto de la carta con saltos de línea respetados
 const mensaje = `Travesura realizada...
 
@@ -637,33 +670,33 @@ function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
     
-    // Limpiar estilos previos
-    cont.style.whiteSpace = "pre-line";
-    cont.style.lineHeight = "1.8";
-    
+    // Dividir el mensaje por líneas (respetando los saltos \n)
     let lineas = mensaje.split('\n');
     
     lineas.forEach((linea, idxLinea) => {
+        // Si la línea está vacía, agregar un espacio
         if (linea.trim() === "") {
-            // Línea vacía → agregar un <br>
-            let br = document.createElement("br");
-            cont.appendChild(br);
+            let espacio = document.createElement("div");
+            espacio.style.height = "15px";
+            cont.appendChild(espacio);
             return;
         }
         
+        // Crear contenedor para la línea
         let divLinea = document.createElement("div");
-        divLinea.style.margin = "15px 0";
-        divLinea.style.textAlign = "center";
+        divLinea.className = "linea";
         
-        // Animar cada letra de la línea (más lento: 0.08 segundos por letra)
+        // Recorrer cada letra de la línea
         for (let i = 0; i < linea.length; i++) {
             let span = document.createElement("span");
             span.textContent = linea[i];
-            span.style.opacity = "0";
-            span.style.display = "inline-block";
-            // Velocidad más lenta: 0.08 segundos por letra + retraso por línea
-            span.style.animationDelay = (idxLinea * 0.6 + i * 0.08) + "s";
-            span.style.animation = "aparecerLetra 0.4s forwards";
+            
+            // Calcular el retraso: tiempo por línea + tiempo por letra
+            // Usando la configuración para que sea más lento
+            let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
+            span.style.animationDelay = delay + "s";
+            span.style.animation = `aparecerLetra ${CONFIG_TEXTO.DURACION_ANIMACION}s forwards`;
+            
             divLinea.appendChild(span);
         }
         
@@ -675,6 +708,9 @@ function efectoTexto() {
 function crearFloresPorSeccion() {
     const secciones = document.querySelectorAll('.seccion');
     const container = document.getElementById('floresContainer');
+    
+    // Limpiar container por si acaso
+    container.innerHTML = "";
     
     secciones.forEach((seccion, idx) => {
         // Flores izquierda arriba (flores_izquierdaU.png)
@@ -723,23 +759,27 @@ function abrirSobre() {
 
     sello.classList.add("fade-dust");
     hint.classList.add("fade-dust");
-     /*tiempo para abrir sobre  */
+    
+    // Tiempo para abrir sobre
     setTimeout(() => {
         sobre.classList.add("open");
     }, 1000);
-/* tiempo para aparecer carta*/
+    
+    // Tiempo para aparecer carta
     setTimeout(() => {
         carta.classList.add("show");
         fadeInAudio();
     }, 3000);
-/* tiempo aparecer texto*/
+    
+    // Tiempo para aparecer texto (con la nueva velocidad más lenta)
     setTimeout(() => {
         efectoTexto();      
     }, 4000);
-/* tiempo desaparecer carta*/  
+    
+    // Tiempo para desaparecer carta
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 11000);
+    }, 13000);  // Aumentado porque el texto tarda más en aparecer
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";
@@ -747,7 +787,7 @@ function abrirSobre() {
         document.body.style.overflow = "auto";
         iniciarFondo();
         crearFloresPorSeccion();
-    }, 12000);
+    }, 14000);
 }
 
 function iniciarFondo() {

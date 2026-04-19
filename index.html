@@ -700,14 +700,13 @@ function abrirSobre() {
         fadeInAudio();
     }, 3000);
 /* tiempo aparecer texto*/
-      setTimeout(() => {
-        efectoTexto();
-        
-    }, 7000);
+    setTimeout(() => {
+        efectoTexto();      
+    }, 4000);
 /* tiempo desaparecer carta*/  
     setTimeout(() => {
         carta.classList.add("hide");
-    }, 7000);
+    }, 9000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";
@@ -715,7 +714,7 @@ function abrirSobre() {
         document.body.style.overflow = "auto";
         iniciarFondo();
         crearFloresPorSeccion();
-    }, 9000);
+    }, 12000);
 }
 
 function iniciarFondo() {

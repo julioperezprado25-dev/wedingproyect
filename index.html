@@ -875,8 +875,11 @@ function abrirSobre() {
     }, 3800);
     
     setTimeout(() => {
+        fadeInAudio();
+    }, 5000);
+    setTimeout(() => {
         carta.classList.add("hide");
-    }, 13000);
+    }, 14000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";

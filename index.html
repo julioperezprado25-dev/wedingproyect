@@ -213,6 +213,7 @@ body {
 }
 
 /* ===== SELLO CON ÁREA DE CLIC CIRCULAR CENTRAL ===== */
+/* ===== SELLO CON ÁREA DE CLIC CIRCULAR CENTRAL - CORREGIDO ===== */
 .seal {
     position: absolute;
     top: 50%;
@@ -238,24 +239,27 @@ body {
     pointer-events: none;
 }
 
-/* Área de clic circular central - AJUSTA EL RADIO AQUÍ */
+/* Área de clic circular central - completamente estable */
 .click-area {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;  /* ← AJUSTA ESTE VALOR para cambiar el radio del área de clic */
-    height: 200px; /* ← AJUSTA ESTE VALOR para cambiar el radio del área de clic */
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 21;
     background: transparent;
+    /* Eliminamos cualquier transform adicional en hover/active */
+    transition: transform 0.2s ease;
 }
 
 /* Para depuración - descomenta para ver el área de clic */
-.click-area { background: rgba(255,0,0,0.3); }
+.click-area { background: rgba(255,0,0,0.5); } 
 
-.seal:hover .click-area {
+/* Hover y active sin conflictos - solo escalamos, no redefinimos translate */
+.click-area:hover {
     transform: translate(-50%, -50%) scale(1.08);
 }
 

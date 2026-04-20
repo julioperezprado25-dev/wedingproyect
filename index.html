@@ -15,7 +15,7 @@
     box-sizing: border-box;
 }
 
-/* SCROLL TOTAL - CORREGIDO PARA MÓVIL */
+/* SCROLL TOTAL */
 html, body {
     width: 100%;
     height: 100%;
@@ -104,7 +104,7 @@ body {
     opacity: 0.15;
 }
 
-/* ===== INTRO MEJORADA ===== */
+/* ===== INTRO ===== */
 .intro {
     position: fixed;
     top: 0;
@@ -212,8 +212,7 @@ body {
     opacity: 1;
 }
 
-/* ===== SELLO CON ÁREA DE CLIC CIRCULAR CENTRAL ===== */
-/* ===== SELLO CON ÁREA DE CLIC CIRCULAR CENTRAL - CORREGIDO ===== */
+/* ===== SELLO CON CÍRCULO DE CLIC VISIBLE ===== */
 .seal {
     position: absolute;
     top: 50%;
@@ -221,13 +220,10 @@ body {
     transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
-    cursor: default;
     z-index: 20;
-    background: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;  /* ← El contenedor NO recibe clics */
 }
 
 .seal img {
@@ -235,35 +231,51 @@ body {
     height: 100%;
     object-fit: contain;
     display: block;
-    pointer-events: none;  /* ← La imagen NO recibe clics */
 }
 
-/* Área de clic circular central */
-.click-area {
+/* CÍRCULO DE CLIC - VISIBLE Y FUNCIONAL */
+.click-circle {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
+    background: rgba(255, 215, 0, 0.6);
+    border: 3px solid #ffd700;
     cursor: pointer;
-    z-index: 30;  /* ← Más alto que todo */
-    background: rgba(255,0,0,0.5);  /* Para depuración */
-    pointer-events: auto;  /* ← Solo el círculo recibe clics */
-    transition: transform 0.2s ease;
+    z-index: 25;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    transition: all 0.3s ease;
+    animation: pulso 1.5s infinite;
 }
 
-.click-area:hover {
-    transform: translate(-50%, -50%) scale(1.08);
-    background: rgba(255,0,0,0.7);
+@keyframes pulso {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 1);
+        background: rgba(255, 215, 0, 0.8);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    }
 }
 
-.click-area:active {
+.click-circle:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(255, 215, 0, 0.9);
+}
+
+.click-circle:active {
     transform: translate(-50%, -50%) scale(0.95);
 }
 
-    
 /* HINT */
 .hint {
     position: absolute;
@@ -294,7 +306,7 @@ body {
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); filter: blur(10px); visibility: hidden; }
 }
 
-/* ===== CARTA CON FONDO SOBRE_BACK ===== */
+/* ===== CARTA ===== */
 .letter {
     position: fixed;
     top: 0;
@@ -324,7 +336,7 @@ body {
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* Contenedor del texto - fondo transparente */
+/* Contenedor del texto */
 #texto {
     white-space: pre-wrap;
     line-height: 1.8;
@@ -340,7 +352,6 @@ body {
     text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
 }
 
-/* Estilos para el efecto mágico de la carta */
 #texto .magic-line {
     margin: 25px 0;
     text-align: center;
@@ -358,7 +369,6 @@ body {
     white-space: pre;
 }
 
-/* Animación mágica */
 @keyframes magicAppear {
     0% {
         opacity: 0;
@@ -366,35 +376,11 @@ body {
         filter: blur(8px);
         text-shadow: 0 0 20px rgba(255,215,0,0.9);
     }
-    30% {
-        opacity: 0.3;
-        transform: translateY(10px) scale(0.9);
-        filter: blur(4px);
-        text-shadow: 0 0 30px rgba(255,215,0,0.7);
-    }
-    70% {
-        opacity: 0.7;
-        transform: translateY(3px) scale(0.98);
-        filter: blur(1px);
-        text-shadow: 0 0 10px rgba(255,215,0,0.4);
-    }
     100% {
         opacity: 1;
         transform: translateY(0) scale(1);
         filter: blur(0);
         text-shadow: none;
-    }
-}
-
-/* Partículas mágicas */
-@keyframes particleFloat {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0);
     }
 }
 
@@ -406,7 +392,18 @@ body {
     z-index: 10001;
 }
 
-/* ===== MAIN CORREGIDO PARA SCROLL EN MÓVIL ===== */
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0);
+    }
+}
+
+/* ===== MAIN ===== */
 .main {
     opacity: 0;
     transition: 2s;
@@ -426,7 +423,6 @@ body {
     opacity: 1;
 }
 
-/* Secciones con scroll snap */
 .seccion {
     min-height: 100vh;
     scroll-snap-align: start;
@@ -439,7 +435,6 @@ body {
     pointer-events: auto;
 }
 
-/* Hero */
 .hero {
     text-align: center;
     color: #3b2f1b;
@@ -462,7 +457,6 @@ body {
     margin: 15px 0;
 }
 
-/* Contenido de secciones */
 .contenido-seccion {
     max-width: 800px;
     margin: 0 auto;
@@ -497,29 +491,11 @@ body {
     color: #4a3728;
 }
 
-.contenido-seccion div div {
-    font-family: 'Great Vibes', cursive;
-    font-size: 20px;
-    color: #4a3728;
-    line-height: 1.6;
-}
-
 .contenido-seccion strong {
     font-family: 'Great Vibes', cursive;
     font-size: 22px;
     color: #c59b2a;
     font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.countdown {
-    font-family: 'Great Vibes', cursive;
-    font-size: 48px;
-    font-weight: bold;
-    color: #c59b2a;
-    letter-spacing: 3px;
-    margin: 25px 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .countdown-small {
@@ -529,10 +505,8 @@ body {
     color: #c59b2a;
     letter-spacing: 2px;
     margin: 15px 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-/* Botones */
 .btn {
     padding: 12px 25px;
     background: linear-gradient(135deg, #2e7d32, #1b5e20);
@@ -546,7 +520,6 @@ body {
     transition: transform 0.3s, box-shadow 0.3s;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     display: inline-block;
-    letter-spacing: 1px;
 }
 
 .btn:hover {
@@ -560,7 +533,6 @@ body {
     padding: 15px 40px;
 }
 
-/* Galería */
 #galeria {
     display: flex;
     flex-wrap: wrap;
@@ -578,11 +550,6 @@ body {
     transition: transform 0.3s;
 }
 
-#galeria img:hover {
-    transform: scale(1.05);
-}
-
-/* Inputs */
 input, textarea {
     padding: 12px;
     margin: 10px 0;
@@ -600,13 +567,6 @@ textarea {
     resize: vertical;
 }
 
-input::placeholder, textarea::placeholder {
-    font-family: 'Great Vibes', cursive;
-    font-size: 16px;
-    color: #999;
-}
-
-/* Sección de música */
 .seccion-musica {
     min-height: auto;
     padding: 40px 0;
@@ -614,95 +574,32 @@ input::placeholder, textarea::placeholder {
     pointer-events: auto;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-    .main {
-        padding: 0 5%;
-    }
-    
-    .titulo {
-        font-size: 52px;
-    }
-    
-    .hero p {
-        font-size: 22px;
-    }
-    
-    .contenido-seccion {
-        padding: 25px;
-    }
-    
-    .contenido-seccion h2 {
-        font-size: 38px;
-    }
-    
-    .contenido-seccion p {
-        font-size: 18px;
-    }
-    
-    .contenido-seccion strong {
-        font-size: 18px;
-    }
-    
-    .countdown {
-        font-size: 32px;
-    }
-    
-    .countdown-small {
-        font-size: 24px;
-    }
-    
-    #texto {
-        font-size: 24px;
-        padding: 20px;
-        max-width: 90%;
-    }
-    
-    .magic-line {
-        margin: 15px 0;
-    }
-    
-    .flor-top-left, .flor-bottom-left {
-        width: 80px;
-    }
-    
-    .flor-right-center {
-        width: 80px;
-    }
-    
-    .btn-audio {
-        font-size: 16px;
-        padding: 12px 30px;
-    }
-    
-    /* Ajuste del sello para móvil */
-    .seal {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .click-area {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .envelope {
-        width: 240px;
-        height: 343px;
-    }
+    .main { padding: 0 5%; }
+    .titulo { font-size: 52px; }
+    .hero p { font-size: 22px; }
+    .contenido-seccion { padding: 25px; }
+    .contenido-seccion h2 { font-size: 38px; }
+    .contenido-seccion p { font-size: 18px; }
+    .countdown-small { font-size: 24px; }
+    #texto { font-size: 24px; padding: 20px; max-width: 90%; }
+    .flor-top-left, .flor-bottom-left { width: 80px; }
+    .flor-right-center { width: 80px; }
+    .btn-audio { font-size: 16px; padding: 12px 30px; }
+    .seal { width: 150px; height: 150px; }
+    .click-circle { width: 55px; height: 55px; }
+    .envelope { width: 240px; height: 343px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Fondo rotativo -->
 <div class="bg">
     <img src="fondo.jpg" id="bg1" class="active">
     <img src="fondo2.jpg" id="bg2">
 </div>
 
-<!-- INTRO -->
 <div class="intro" id="intro">
     <div class="envelope" id="sobre">
         <div class="envelope-back"></div>
@@ -711,21 +608,17 @@ input::placeholder, textarea::placeholder {
         <div class="flap-right"></div>
         <div class="seal" id="sello">
             <img src="sello.png" alt="Sello">
-            <div class="click-area" id="clickArea"></div>
+            <div class="click-circle" id="clickCircle"></div>
         </div>
-        <div class="hint" id="hint">✨ Presiona el sello ✨</div>
+        <div class="hint" id="hint">✨ Presiona el círculo dorado ✨</div>
     </div>
 </div>
 
-<!-- CARTA -->
 <div class="letter" id="carta">
     <div id="texto"></div>
 </div>
 
-<!-- MAIN -->
 <div class="main" id="main">
-
-    <!-- Sección 1: Hero -->
     <div class="seccion" data-section="0">
         <div class="hero">
             <h1 class="titulo">Ivon & Julio</h1>
@@ -735,7 +628,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 2: Detalles del Evento -->
     <div class="seccion" data-section="1">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
@@ -752,7 +644,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 3: Lista de Regalos -->
     <div class="seccion" data-section="2">
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
@@ -767,7 +658,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 4: Padrinos -->
     <div class="seccion" data-section="3">
         <div class="contenido-seccion">
             <h2>💑 Padrinos</h2>
@@ -780,7 +670,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 5: Álbum de Fotos -->
     <div class="seccion" data-section="4">
         <div class="contenido-seccion">
             <h2>📸 Álbum de Fotos</h2>
@@ -790,7 +679,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 6: Mensajes -->
     <div class="seccion" data-section="5">
         <div class="contenido-seccion">
             <h2>💬 Mensajes para los novios</h2>
@@ -800,7 +688,6 @@ input::placeholder, textarea::placeholder {
         </div>
     </div>
 
-    <!-- Sección 7: Música -->
     <div class="seccion-musica" data-section="6">
         <div style="text-align: center; padding: 30px;">
             <button class="btn btn-audio" onclick="toggleAudio()">🔇 Silenciar Música</button>
@@ -809,20 +696,17 @@ input::placeholder, textarea::placeholder {
     </div>
 </div>
 
-<!-- FLORES DINÁMICAS POR SECCIÓN -->
 <div id="floresContainer"></div>
 
 <audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-// ===== CONFIGURACIÓN DEL EFECTO MÁGICO =====
 const CONFIG_TEXTO = {
     VELOCIDAD_LETRA: 0.05,
     RETRASO_ENTRE_LINEAS: 0.5,
     DURACION_ANIMACION: 0.5
 };
 
-// Texto de la carta
 const mensaje = `✨ Travesura realizada... ✨
 
 💖 ¡Nos casamos! 💖
@@ -831,56 +715,43 @@ const mensaje = `✨ Travesura realizada... ✨
 
 🌟 a celebrar este momento tan especial 🌟`;
 
-// Función para convertir texto a spans respetando espacios y emojis
 function textoASpans(texto) {
     const spans = [];
     const caracteres = Array.from(texto);
-    
     for (let i = 0; i < caracteres.length; i++) {
         const char = caracteres[i];
         const span = document.createElement('span');
         span.className = 'magic-letter';
-        
         if (char === ' ') {
             span.innerHTML = '&nbsp;';
             span.style.whiteSpace = 'pre';
         } else {
             span.textContent = char;
         }
-        
         spans.push(span);
     }
     return spans;
 }
 
-// Función para crear partículas mágicas
 function crearParticulaMagica(x, y) {
     const particle = document.createElement('div');
     particle.className = 'magic-particle';
     particle.innerHTML = '✨';
-    
     const angle = Math.random() * Math.PI * 2;
     const distance = 20 + Math.random() * 50;
     const tx = Math.cos(angle) * distance;
     const ty = Math.sin(angle) * distance;
-    
     particle.style.setProperty('--tx', tx + 'px');
     particle.style.setProperty('--ty', ty + 'px');
     particle.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
     particle.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
-    
     document.body.appendChild(particle);
-    
-    setTimeout(() => {
-        particle.remove();
-    }, 800);
+    setTimeout(() => particle.remove(), 800);
 }
 
-// Función principal del efecto mágico
 function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
-    
     let lineas = mensaje.split('\n');
     let tiempoTotalAnimacion = 0;
     
@@ -891,95 +762,68 @@ function efectoTexto() {
             cont.appendChild(espacio);
             return;
         }
-        
         let divLinea = document.createElement("div");
         divLinea.className = "magic-line";
-        
         const spans = textoASpans(linea);
-        
         spans.forEach((span, i) => {
             let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
             span.style.animationDelay = delay + "s";
             span.style.animationDuration = CONFIG_TEXTO.DURACION_ANIMACION + "s";
             divLinea.appendChild(span);
-            
-            if (delay > tiempoTotalAnimacion) {
-                tiempoTotalAnimacion = delay;
-            }
+            if (delay > tiempoTotalAnimacion) tiempoTotalAnimacion = delay;
         });
-        
         cont.appendChild(divLinea);
-        
         setTimeout(() => {
             const rect = divLinea.getBoundingClientRect();
             for (let p = 0; p < 8; p++) {
                 setTimeout(() => {
-                    crearParticulaMagica(
-                        window.innerWidth / 2 + (Math.random() - 0.5) * 250,
-                        rect.top + 30
-                    );
+                    crearParticulaMagica(window.innerWidth / 2 + (Math.random() - 0.5) * 250, rect.top + 30);
                 }, p * 80);
             }
         }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
-    
-    const duracionTotal = (tiempoTotalAnimacion + 1.5) * 1000;
-    return duracionTotal;
+    return (tiempoTotalAnimacion + 1.5) * 1000;
 }
 
-// Función para actualizar countdowns
 function actualizarCountdowns() {
     const weddingDate = new Date('August 14, 2026 19:00:00').getTime();
-    
     function update() {
         const now = new Date().getTime();
         const distance = weddingDate - now;
-        
         if (distance < 0) {
             const countdownBoda = document.getElementById('countdownBoda');
             if (countdownBoda) countdownBoda.innerHTML = '¡Es hoy! 💒';
             return;
         }
-        
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
         const countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        
         const countdownBoda = document.getElementById('countdownBoda');
         if (countdownBoda) countdownBoda.innerHTML = countdownText;
     }
-    
     update();
     setInterval(update, 1000);
 }
 
-// Crear flores para cada sección
 function crearFloresPorSeccion() {
     const secciones = document.querySelectorAll('.seccion');
     const container = document.getElementById('floresContainer');
-    
     container.innerHTML = "";
-    
-    secciones.forEach((seccion, idx) => {
+    secciones.forEach((seccion) => {
         const florTL = document.createElement('div');
         florTL.className = 'section-flores flor-top-left';
         florTL.innerHTML = `<img src="flores_izquierdaU.png" class="flor-img" alt="flor">`;
-        
         const florBL = document.createElement('div');
         florBL.className = 'section-flores flor-bottom-left';
         florBL.innerHTML = `<img src="flores_izquierdaD.png" class="flor-img" alt="flor">`;
-        
         const florRC = document.createElement('div');
         florRC.className = 'section-flores flor-right-center';
         florRC.innerHTML = `<img src="flores_derechaC.png" class="flor-img" alt="flor">`;
-        
         container.appendChild(florTL);
         container.appendChild(florBL);
         container.appendChild(florRC);
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -993,7 +837,6 @@ function crearFloresPorSeccion() {
                 }
             });
         }, { threshold: 0.5 });
-        
         observer.observe(seccion);
     });
 }
@@ -1003,25 +846,18 @@ function abrirSobre() {
     let hint = document.getElementById("hint");
     let sobre = document.getElementById("sobre");
     let carta = document.getElementById("carta");
-    let clickArea = document.getElementById("clickArea");
+    let clickCircle = document.getElementById("clickCircle");
 
-    // Deshabilitar el área de clic para evitar múltiples aperturas
-    clickArea.style.pointerEvents = "none";
+    clickCircle.style.pointerEvents = "none";
     sello.classList.add("fade-dust");
     hint.classList.add("fade-dust");
     
-    setTimeout(() => {
-        sobre.classList.add("open");
-    }, 1000);
-    
-    setTimeout(() => {
-        carta.classList.add("show");
-    }, 3000);
+    setTimeout(() => sobre.classList.add("open"), 1000);
+    setTimeout(() => carta.classList.add("show"), 3000);
     
     setTimeout(() => {
         const duracionAnimacion = efectoTexto();
         fadeInAudio();
-        
         setTimeout(() => {
             for (let p = 0; p < 40; p++) {
                 setTimeout(() => {
@@ -1031,9 +867,7 @@ function abrirSobre() {
                     );
                 }, p * 50);
             }
-            
             carta.classList.add("fade-out");
-            
             setTimeout(() => {
                 document.getElementById("intro").style.display = "none";
                 document.getElementById("main").classList.add("show");
@@ -1103,36 +937,11 @@ function enviarMensaje() {
     document.getElementById("mensajeInput").value = "";
 }
 
-// Evento de clic SOLO en el área circular central del sello
-document.getElementById("clickArea").addEventListener("click", function(e) {
+// ===== EVENTO DE CLIC EN EL CÍRCULO DORADO =====
+document.getElementById("clickCircle").addEventListener("click", function(e) {
+    e.preventDefault();
     e.stopPropagation();
     abrirSobre();
-});
-// ===== ASEGURAR EL CLIC EN EL SELLO =====
-document.addEventListener("DOMContentLoaded", function() {
-    let clickArea = document.getElementById("clickArea");
-    
-    if (clickArea) {
-        let newClickArea = clickArea.cloneNode(true);
-        clickArea.parentNode.replaceChild(newClickArea, clickArea);
-        
-        newClickArea.addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("✅ Clic en el área del sello");
-            abrirSobre();
-        });
-    }
-});
-
-// Delegación de eventos como respaldo
-document.body.addEventListener("click", function(e) {
-    if (e.target.closest('#clickArea')) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("✅ Clic detectado por delegación");
-        abrirSobre();
-    }
 });
 
 document.body.style.overflow = "hidden";
@@ -1140,4 +949,4 @@ document.body.style.position = "fixed";
 </script>
 
 </body>
-                                                                                         </html>
+</html>

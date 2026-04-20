@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 
 <title>Ivon & Julio - Nuestra Boda</title>
 
@@ -21,7 +21,6 @@ html, body {
     height: 100%;
     overflow: hidden;
     overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -29,6 +28,12 @@ body {
     color: #3b2f1b;
     background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url('papel.jpg');
     background-size: 350px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 /* ===== FLORES POR SECCIÓN ===== */
@@ -207,7 +212,7 @@ body {
     opacity: 1;
 }
 
-/* ===== SELLO CORREGIDO - SOLO IMAGEN ===== */
+/* ===== SELLO CON ÁREA DE CLIC CIRCULAR CENTRAL ===== */
 .seal {
     position: absolute;
     top: 50%;
@@ -215,13 +220,11 @@ body {
     transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
-    cursor: pointer;
+    cursor: default;
     z-index: 20;
-    transition: transform 0.2s, filter 0.2s;
     background: none;
     box-shadow: none;
     border-radius: 0;
-    /* Área de clic limitada a la imagen */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,16 +235,31 @@ body {
     height: 100%;
     object-fit: contain;
     display: block;
-    pointer-events: auto;
+    pointer-events: none;
+}
+
+/* Área de clic circular central - AJUSTA EL RADIO AQUÍ */
+.click-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;  /* ← AJUSTA ESTE VALOR para cambiar el radio del área de clic */
+    height: 80px; /* ← AJUSTA ESTE VALOR para cambiar el radio del área de clic */
+    border-radius: 50%;
     cursor: pointer;
+    z-index: 21;
+    background: transparent;
 }
 
-.seal:hover {
+/* Para depuración - descomenta para ver el área de clic */
+/* .click-area { background: rgba(255,0,0,0.3); } */
+
+.seal:hover .click-area {
     transform: translate(-50%, -50%) scale(1.08);
-    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));
 }
 
-.seal:active {
+.click-area:active {
     transform: translate(-50%, -50%) scale(0.95);
 }
 
@@ -400,6 +418,7 @@ body {
     overscroll-behavior: contain;
     scroll-snap-type: y mandatory;
     position: relative;
+    background: transparent;
 }
 
 .main.show {
@@ -416,12 +435,14 @@ body {
     text-align: center;
     position: relative;
     width: 100%;
+    pointer-events: auto;
 }
 
 /* Hero */
 .hero {
     text-align: center;
     color: #3b2f1b;
+    pointer-events: auto;
 }
 
 .titulo {
@@ -448,6 +469,7 @@ body {
     background: transparent;
     border-radius: 25px;
     box-shadow: none;
+    pointer-events: auto;
 }
 
 .contenido-seccion h2 {
@@ -588,6 +610,7 @@ input::placeholder, textarea::placeholder {
     min-height: auto;
     padding: 40px 0;
     scroll-snap-align: start;
+    pointer-events: auto;
 }
 
 /* Responsive */
@@ -657,6 +680,11 @@ input::placeholder, textarea::placeholder {
         height: 150px;
     }
     
+    .click-area {
+        width: 60px;
+        height: 60px;
+    }
+    
     .envelope {
         width: 240px;
         height: 343px;
@@ -682,6 +710,7 @@ input::placeholder, textarea::placeholder {
         <div class="flap-right"></div>
         <div class="seal" id="sello">
             <img src="sello.png" alt="Sello">
+            <div class="click-area" id="clickArea"></div>
         </div>
         <div class="hint" id="hint">✨ Presiona el sello ✨</div>
     </div>
@@ -973,7 +1002,10 @@ function abrirSobre() {
     let hint = document.getElementById("hint");
     let sobre = document.getElementById("sobre");
     let carta = document.getElementById("carta");
+    let clickArea = document.getElementById("clickArea");
 
+    // Deshabilitar el área de clic para evitar múltiples aperturas
+    clickArea.style.pointerEvents = "none";
     sello.classList.add("fade-dust");
     hint.classList.add("fade-dust");
     
@@ -1005,6 +1037,7 @@ function abrirSobre() {
                 document.getElementById("intro").style.display = "none";
                 document.getElementById("main").classList.add("show");
                 document.body.style.overflow = "auto";
+                document.body.style.position = "relative";
                 iniciarFondo();
                 crearFloresPorSeccion();
                 actualizarCountdowns();
@@ -1069,15 +1102,15 @@ function enviarMensaje() {
     document.getElementById("mensajeInput").value = "";
 }
 
-// Evento de clic SOLO en la imagen del sello
-document.getElementById("sello").addEventListener("click", function(e) {
-    // Evitar que el clic se propague
+// Evento de clic SOLO en el área circular central del sello
+document.getElementById("clickArea").addEventListener("click", function(e) {
     e.stopPropagation();
     abrirSobre();
 });
 
 document.body.style.overflow = "hidden";
+document.body.style.position = "fixed";
 </script>
 
 </body>
-</html>
+                                                                                         </html>

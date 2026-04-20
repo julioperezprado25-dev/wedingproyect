@@ -272,49 +272,69 @@ body {
 }
 
 /* CARTA REALISTA */
+/* CARTA CON FONDO DE SOBRE_BACK */
 .letter {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
-    width: 85%;
-    max-width: 650px;
-    padding: 45px 55px;
-    background: linear-gradient(135deg, #fffef5, #fff8e7);
-    border-radius: 15px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(210,180,140,0.3);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: scale(0.3);
+    background: url('sobre_back.png') no-repeat center center;
+    background-size: cover;
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
     z-index: 10000;
-    font-family: 'Great Vibes', cursive;
-    font-size: 32px;
-    text-align: center;
-    color: #2b2b2b;
-    border: 1px solid rgba(210,180,140,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .letter.show {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
 }
 
 .letter.hide {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
+    transform: scale(0.8);
 }
 
+/* Contenedor del texto dentro de la carta */
+#texto {
+    white-space: pre-wrap;
+    line-height: 1.8;
+    word-break: keep-all;
+    max-width: 85%;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(255, 248, 231, 0.85);
+    border-radius: 20px;
+    backdrop-filter: blur(3px);
+    font-family: 'Great Vibes', cursive;
+    font-size: 32px;
+    text-align: center;
+    color: #2b2b2b;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Elimina el pseudo-elemento que ya no necesitas */
 .letter::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border: 1px solid rgba(210,180,140,0.3);
-    border-radius: 10px;
-    pointer-events: none;
+    display: none;
 }
 
+/* Ajuste responsive para el texto */
+@media (max-width: 768px) {
+    #texto {
+        font-size: 22px;
+        padding: 25px;
+        max-width: 90%;
+    }
+    
+    .magic-line {
+        margin: 15px 0;
+    }
+        }
 /* Estilos para el efecto mágico de la carta */
 #texto {
     white-space: pre-wrap;
@@ -992,10 +1012,6 @@ function abrirSobre() {
         efectoTexto();
         fadeInAudio();
     }, 3800);
-    
-    setTimeout(() => {
-        carta.classList.add("hide");
-    }, 14000);
 
     setTimeout(() => {
         document.getElementById("intro").style.display = "none";

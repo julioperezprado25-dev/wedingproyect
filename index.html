@@ -185,12 +185,17 @@ body {
 }
 
 /* APERTURA - giro desde el centro hacia afuera */
+/* APERTURA - giro desde el centro hacia afuera */
 .envelope.open .flap-left {
     transform: rotateY(100deg);  /* Gira hacia la izquierda */
+    opacity: 0;  /* ← Agrega esto: hace invisible la solapa */
+    pointer-events: none;  /* ← Evita que interfiera con clics */
 }
 
 .envelope.open .flap-right {
     transform: rotateY(-100deg);  /* Gira hacia la derecha */
+    opacity: 0;  /* ← Agrega esto: hace invisible la solapa */
+    pointer-events: none;  /* ← Evita que interfiera con clics */
 }
 
 /* Cuando se abre, se muestra el interior */

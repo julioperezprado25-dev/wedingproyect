@@ -113,133 +113,122 @@ body {
     overflow: hidden;
 }
 
-/* SOBRE REALISTA */
+/* ===== SOBRE CON IMAGEN COMPLETA - CORREGIDO ===== */
 .envelope {
     position: relative;
-    width: 360px;
-    height: 220px;
+    width: 280px;
+    height: 400px;
     perspective: 1500px;
     cursor: pointer;
 }
 
-.envelope-body {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(145deg, #e8d3a5, #c9b07a);
-    border-radius: 10px;
-    box-shadow: inset 0 0 25px rgba(0,0,0,0.2), 0 15px 30px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.3);
-}
-
-.envelope-body::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 10px;
-    width: 95%;
-    height: 20px;
-    background: rgba(0,0,0,0.2);
-    filter: blur(8px);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-.flap-left, .flap-right {
+/* INTERIOR DEL SOBRE - forzamos mismo tamaño exacto */
+.envelope-back {
     position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre_back.png') no-repeat center center;
+    background-size: 100% 100%;  /* ← CORREGIDO: punto y coma agregado */
+    z-index: 0;
+    border-radius: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+/* Cara exterior del sobre */
+.envelope-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre.png') no-repeat center center;
+    background-size: 100% 100%;  /* ← CORREGIDO: punto y coma agregado */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+/* SOLAPA IZQUIERDA - gira desde el borde derecho (línea central) */
+.flap-left {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 50%;
     height: 100%;
-    background: linear-gradient(145deg, #d9c292, #b89a60);
-    transition: 1.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+    background: url('sobre.png') no-repeat;
+    background-size: 200% 100%;
+    background-position: left;
+    background-repeat: no-repeat;
+    transition: 1.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-origin: 22% center;  /* ← CORREGIDO: gira desde el borde derecho (centro del sobre) */
+    z-index: 3;
+    box-shadow: inset -3px 0 10px rgba(0,0,0,0.15);
 }
 
-.flap-left {
-    left: 0;
-    transform-origin: left;
-    border-radius: 8px 0 0 8px;
-}
-
+/* SOLAPA DERECHA - gira desde el borde izquierdo (línea central) */
 .flap-right {
+    position: absolute;
+    top: 0;
     right: 0;
-    transform-origin: right;
-    border-radius: 0 8px 8px 0;
+    width: 50%;
+    height: 100%;
+    background: url('sobre.png') no-repeat;
+    background-size: 200% 100%;
+    background-position: right;
+    background-repeat: no-repeat;
+    transition: 1.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-origin: 78% center;  /* ← CORREGIDO: gira desde el borde izquierdo (centro del sobre) */
+    z-index: 3;
+    box-shadow: inset 3px 0 10px rgba(0,0,0,0.15);
 }
 
+/* APERTURA - giro desde el centro hacia afuera */
 .envelope.open .flap-left {
-    transform: rotateY(-110deg);
+    transform: rotateY(100deg);  /* Gira hacia la izquierda */
 }
 
 .envelope.open .flap-right {
-    transform: rotateY(110deg);
+    transform: rotateY(-100deg);  /* Gira hacia la derecha */
 }
 
-/* SELLO REALISTA */
+/* Cuando se abre, se muestra el interior */
+.envelope.open .envelope-back {
+    opacity: 1;
+}
+
+/* ===== SELLO CORREGIDO (tamaño proporcional al sobre) ===== */
 .seal {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #ff4d4d, #b30000 60%, #5a0000);
-    box-shadow: inset 0 4px 8px rgba(255,255,255,0.3),
-                inset 0 -6px 12px rgba(0,0,0,0.6),
-                0 10px 20px rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 200px;      /* Tamaño proporcional al sobre (280px de ancho) */
+    height: 200px;     /* Tamaño proporcional al sobre */
     cursor: pointer;
     z-index: 20;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, filter 0.2s;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.seal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
 }
 
 .seal:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: inset 0 4px 8px rgba(255,255,255,0.3),
-                inset 0 -6px 12px rgba(0,0,0,0.6),
-                0 15px 25px rgba(0,0,0,0.6);
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));
 }
 
 .seal:active {
     transform: translate(-50%, -50%) scale(0.95);
-}
-
-.seal::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-    pointer-events: none;
-}
-
-.seal::after {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 20%;
-    width: 30%;
-    height: 20%;
-    background: rgba(255,255,255,0.3);
-    border-radius: 50%;
-    filter: blur(4px);
-    pointer-events: none;
-}
-
-.seal span {
-    color: #fff;
-    font-weight: bold;
-    font-size: 22px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    letter-spacing: 2px;
-    pointer-events: none;
-    font-family: 'Cinzel', serif;
 }
 
 /* HINT */
@@ -672,11 +661,13 @@ input::placeholder, textarea::placeholder {
 <!-- INTRO -->
 <div class="intro" id="intro">
     <div class="envelope" id="sobre">
+        <!-- INTERIOR DEL SOBRE (se ve al abrir) -->
+        <div class="envelope-back"></div>
         <div class="envelope-body"></div>
         <div class="flap-left"></div>
         <div class="flap-right"></div>
         <div class="seal" id="sello">
-            <span>IJ</span>
+            <img src="sello.png" alt="Sello">
         </div>
         <div class="hint" id="hint">✨ Presiona el sello ✨</div>
     </div>
@@ -697,7 +688,6 @@ input::placeholder, textarea::placeholder {
             <p>Nos llena de alegría invitarte a celebrar</p>
             <p>el día más importante de nuestras vidas</p>
             <p style="margin-top: 20px; font-size: 26px;">💍 14 de agosto, 2026 💍</p>
-            <div class="countdown" id="countdown"></div> 
         </div>
     </div>
 
@@ -705,7 +695,7 @@ input::placeholder, textarea::placeholder {
     <div class="seccion" data-section="1">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
-            <div class="countdown-small" id="countdownBoda"></div>
+            <div class="countdown-small" id="countdownBoda"></div> 
             <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
             <p><strong>⏰ Hora:</strong> 7:00 PM</p>
             <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
@@ -723,20 +713,11 @@ input::placeholder, textarea::placeholder {
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
-            <p>Los regalos van por</p>
-            <p><strong>nuestra cuenta...</strong></p>
+            <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 25px;">
                 <div style="background: rgba(197,155,42,0.1); padding: 20px; border-radius: 15px;">
-                    <h3>🏠 Mueblería "El Hogar"</h3>
-                    <p>Lista #12345</p>
-                </div>
-                <div style="background: rgba(197,155,42,0.1); padding: 20px; border-radius: 15px;">
-                    <h3>💝 Liverpool</h3>
-                    <p>Mesa #7890</p>
-                </div>
-                <div style="background: rgba(197,155,42,0.1); padding: 20px; border-radius: 15px;">
-                    <h3>💰 Apartado BBVA</h3>
-                    <p>Cuenta: 1234 5678 9012 3456</p>
+                    <h3>💰 Nuestra cuenta</h3>
+                    <p>193 205 253 18 0 43</p>
                 </div>
             </div>
         </div>
@@ -917,7 +898,6 @@ function actualizarCountdowns() {
         const distance = weddingDate - now;
         
         if (distance < 0) {
-            document.getElementById('countdown').innerHTML = '¡Es hoy! 💒';
             const countdownBoda = document.getElementById('countdownBoda');
             if (countdownBoda) countdownBoda.innerHTML = '¡Es hoy! 💒';
             return;
@@ -929,7 +909,6 @@ function actualizarCountdowns() {
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
         const countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        document.getElementById('countdown').innerHTML = countdownText;
         
         const countdownBoda = document.getElementById('countdownBoda');
         if (countdownBoda) countdownBoda.innerHTML = countdownText;

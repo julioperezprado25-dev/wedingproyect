@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <title>Ivon & Julio - Nuestra Boda</title>
 
@@ -15,12 +15,13 @@
     box-sizing: border-box;
 }
 
-/* SCROLL TOTAL */
+/* SCROLL TOTAL - CORREGIDO PARA MÓVIL */
 html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
     overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -119,7 +120,7 @@ body {
     width: 280px;
     height: 400px;
     perspective: 1500px;
-    cursor: pointer;
+    cursor: default;
 }
 
 /* INTERIOR DEL SOBRE */
@@ -206,7 +207,7 @@ body {
     opacity: 1;
 }
 
-/* ===== SELLO ===== */
+/* ===== SELLO CORREGIDO - SOLO IMAGEN ===== */
 .seal {
     position: absolute;
     top: 50%;
@@ -220,6 +221,10 @@ body {
     background: none;
     box-shadow: none;
     border-radius: 0;
+    /* Área de clic limitada a la imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .seal img {
@@ -227,7 +232,8 @@ body {
     height: 100%;
     object-fit: contain;
     display: block;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .seal:hover {
@@ -252,6 +258,7 @@ body {
     white-space: nowrap;
     animation: respirarGlow 2s infinite;
     letter-spacing: 2px;
+    pointer-events: none;
 }
 
 @keyframes respirarGlow {
@@ -268,7 +275,7 @@ body {
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); filter: blur(10px); visibility: hidden; }
 }
 
-/* ===== CARTA CON FONDO SOBRE_BACK - CORREGIDA ===== */
+/* ===== CARTA CON FONDO SOBRE_BACK ===== */
 .letter {
     position: fixed;
     top: 0;
@@ -380,16 +387,19 @@ body {
     z-index: 10001;
 }
 
-/* ===== MAIN ===== */
+/* ===== MAIN CORREGIDO PARA SCROLL EN MÓVIL ===== */
 .main {
     opacity: 0;
     transition: 2s;
     padding: 0 12%;
     overflow-y: auto;
+    overflow-x: hidden;
     height: 100vh;
+    width: 100%;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     scroll-snap-type: y mandatory;
+    position: relative;
 }
 
 .main.show {
@@ -405,6 +415,7 @@ body {
     align-items: center;
     text-align: center;
     position: relative;
+    width: 100%;
 }
 
 /* Hero */
@@ -639,6 +650,17 @@ input::placeholder, textarea::placeholder {
         font-size: 16px;
         padding: 12px 30px;
     }
+    
+    /* Ajuste del sello para móvil */
+    .seal {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .envelope {
+        width: 240px;
+        height: 343px;
+    }
 }
 </style>
 </head>
@@ -851,7 +873,6 @@ function efectoTexto() {
             span.style.animationDuration = CONFIG_TEXTO.DURACION_ANIMACION + "s";
             divLinea.appendChild(span);
             
-            // Calcular el tiempo total de animación
             if (delay > tiempoTotalAnimacion) {
                 tiempoTotalAnimacion = delay;
             }
@@ -859,7 +880,6 @@ function efectoTexto() {
         
         cont.appendChild(divLinea);
         
-        // Crear partículas al aparecer cada línea
         setTimeout(() => {
             const rect = divLinea.getBoundingClientRect();
             for (let p = 0; p < 8; p++) {
@@ -873,9 +893,7 @@ function efectoTexto() {
         }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
     
-    // Tiempo total de la animación (duración de todas las letras + 1 segundo)
     const duracionTotal = (tiempoTotalAnimacion + 1.5) * 1000;
-    
     return duracionTotal;
 }
 
@@ -971,9 +989,7 @@ function abrirSobre() {
         const duracionAnimacion = efectoTexto();
         fadeInAudio();
         
-        // Después de que termine la animación del texto, desaparecer la carta mágicamente
         setTimeout(() => {
-            // Crear muchas partículas para la despedida mágica
             for (let p = 0; p < 40; p++) {
                 setTimeout(() => {
                     crearParticulaMagica(
@@ -983,10 +999,8 @@ function abrirSobre() {
                 }, p * 50);
             }
             
-            // Desvanecer la carta
             carta.classList.add("fade-out");
             
-            // Mostrar el contenido principal después de que la carta desaparezca
             setTimeout(() => {
                 document.getElementById("intro").style.display = "none";
                 document.getElementById("main").classList.add("show");
@@ -1055,9 +1069,15 @@ function enviarMensaje() {
     document.getElementById("mensajeInput").value = "";
 }
 
-document.getElementById("sello").addEventListener("click", abrirSobre);
+// Evento de clic SOLO en la imagen del sello
+document.getElementById("sello").addEventListener("click", function(e) {
+    // Evitar que el clic se propague
+    e.stopPropagation();
+    abrirSobre();
+});
+
 document.body.style.overflow = "hidden";
 </script>
 
 </body>
-    </html>
+</html>

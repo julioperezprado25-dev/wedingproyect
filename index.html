@@ -187,15 +187,21 @@ body {
 /* APERTURA - giro desde el centro hacia afuera */
 /* APERTURA - giro desde el centro hacia afuera */
 .envelope.open .flap-left {
-    transform: rotateY(100deg);  /* Gira hacia la izquierda */
-    opacity: 0;  /* ← Agrega esto: hace invisible la solapa */
-    pointer-events: none;  /* ← Evita que interfiera con clics */
+    transform: rotateY(100deg);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .envelope.open .flap-right {
-    transform: rotateY(-100deg);  /* Gira hacia la derecha */
-    opacity: 0;  /* ← Agrega esto: hace invisible la solapa */
-    pointer-events: none;  /* ← Evita que interfiera con clics */
+    transform: rotateY(-100deg);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Oculta el cuerpo del sobre al abrir */
+.envelope.open .envelope-body {
+    opacity: 0;
+    transition: opacity 0.6s ease;
 }
 
 /* Cuando se abre, se muestra el interior */

@@ -15,12 +15,10 @@
     box-sizing: border-box;
 }
 
-/* SCROLL TOTAL */
 html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    overscroll-behavior: none;
 }
 
 body {
@@ -36,35 +34,20 @@ body {
     bottom: 0;
 }
 
-/* ===== FLORES POR SECCIÓN ===== */
+/* FLORES */
 .section-flores {
     position: fixed;
     width: 140px;
     z-index: 10;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.6s;
 }
 
-.section-flores.visible {
-    opacity: 1;
-}
-
-.flor-top-left {
-    top: 20px;
-    left: 20px;
-}
-
-.flor-bottom-left {
-    bottom: 20px;
-    left: 20px;
-}
-
-.flor-right-center {
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
+.section-flores.visible { opacity: 1; }
+.flor-top-left { top: 20px; left: 20px; }
+.flor-bottom-left { bottom: 20px; left: 20px; }
+.flor-right-center { top: 50%; right: 20px; transform: translateY(-50%); }
 
 .flor-img {
     width: 100%;
@@ -77,7 +60,7 @@ body {
     50% { transform: scale(1.05); }
 }
 
-/* ===== FONDO IMAGENES ===== */
+/* FONDO */
 .bg {
     position: fixed;
     top: 0;
@@ -85,9 +68,6 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     pointer-events: none;
 }
 
@@ -100,11 +80,9 @@ body {
     transition: 2s;
 }
 
-.bg img.active {
-    opacity: 0.15;
-}
+.bg img.active { opacity: 0.15; }
 
-/* ===== INTRO ===== */
+/* INTRO */
 .intro {
     position: fixed;
     top: 0;
@@ -116,19 +94,16 @@ body {
     align-items: center;
     z-index: 9999;
     background: #000;
-    overflow: hidden;
 }
 
-/* ===== SOBRE ===== */
+/* SOBRE */
 .envelope {
     position: relative;
     width: 280px;
     height: 400px;
     perspective: 1500px;
-    cursor: default;
 }
 
-/* INTERIOR DEL SOBRE */
 .envelope-back {
     position: absolute;
     top: 0;
@@ -138,12 +113,10 @@ body {
     background: url('sobre_back.png') no-repeat center center;
     background-size: 100% 100%;
     z-index: 0;
-    border-radius: 0;
     opacity: 0;
     transition: opacity 0.6s ease;
 }
 
-/* Cara exterior del sobre */
 .envelope-body {
     position: absolute;
     top: 0;
@@ -156,7 +129,6 @@ body {
     z-index: 1;
 }
 
-/* SOLAPA IZQUIERDA */
 .flap-left {
     position: absolute;
     top: 0;
@@ -166,14 +138,11 @@ body {
     background: url('sobre.png') no-repeat;
     background-size: 200% 100%;
     background-position: left;
-    background-repeat: no-repeat;
     transition: 1.5s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.8s ease;
     transform-origin: 22% center;
     z-index: 3;
-    box-shadow: inset -3px 0 10px rgba(0,0,0,0.15);
 }
 
-/* SOLAPA DERECHA */
 .flap-right {
     position: absolute;
     top: 0;
@@ -183,36 +152,23 @@ body {
     background: url('sobre.png') no-repeat;
     background-size: 200% 100%;
     background-position: right;
-    background-repeat: no-repeat;
     transition: 1.5s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.8s ease;
     transform-origin: 78% center;
     z-index: 3;
-    box-shadow: inset 3px 0 10px rgba(0,0,0,0.15);
 }
 
-/* APERTURA */
 .envelope.open .flap-left {
     transform: rotateY(100deg);
     opacity: 0;
-    pointer-events: none;
 }
-
 .envelope.open .flap-right {
     transform: rotateY(-100deg);
     opacity: 0;
-    pointer-events: none;
 }
+.envelope.open .envelope-body { opacity: 0; }
+.envelope.open .envelope-back { opacity: 1; }
 
-.envelope.open .envelope-body {
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.envelope.open .envelope-back {
-    opacity: 1;
-}
-
-/* ===== SELLO CON CÍRCULO DE CLIC VISIBLE ===== */
+/* SELLO - El contenedor no recibe clics, la imagen tampoco */
 .seal {
     position: absolute;
     top: 50%;
@@ -221,9 +177,7 @@ body {
     width: 200px;
     height: 200px;
     z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    pointer-events: none;
 }
 
 .seal img {
@@ -231,52 +185,39 @@ body {
     height: 100%;
     object-fit: contain;
     display: block;
+    pointer-events: none;
 }
 
-/* CÍRCULO DE CLIC - VISIBLE Y FUNCIONAL */
+/* CÍRCULO DE CLIC - ESTE SÍ RECIBE CLICS */
 .click-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70px;
-    height: 70px;
+    position: fixed;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background: rgba(255, 215, 0, 0.6);
+    background: rgba(255, 215, 0, 0.8);
     border: 3px solid #ffd700;
     cursor: pointer;
-    z-index: 25;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    transition: all 0.3s ease;
+    z-index: 10000;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 1);
     animation: pulso 1.5s infinite;
+    pointer-events: auto;
 }
 
 @keyframes pulso {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.15);
-        box-shadow: 0 0 30px rgba(255, 215, 0, 1);
-        background: rgba(255, 215, 0, 0.8);
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
-    }
+    0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    50% { transform: scale(1.15); box-shadow: 0 0 40px rgba(255, 215, 0, 1); background: rgba(255, 215, 0, 1); }
+    100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
 }
 
 .click-circle:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    background: rgba(255, 215, 0, 0.9);
+    transform: scale(1.1);
+    background: rgba(255, 215, 0, 1);
 }
 
 .click-circle:active {
-    transform: translate(-50%, -50%) scale(0.95);
+    transform: scale(0.95);
 }
 
-/* HINT */
 .hint {
     position: absolute;
     bottom: -50px;
@@ -285,16 +226,15 @@ body {
     font-family: 'Great Vibes', cursive;
     font-size: 28px;
     color: #ffd700;
-    text-shadow: 0 0 20px #ffd700, 0 0 40px rgba(255,215,0,0.5);
+    text-shadow: 0 0 20px #ffd700;
     white-space: nowrap;
     animation: respirarGlow 2s infinite;
-    letter-spacing: 2px;
     pointer-events: none;
 }
 
 @keyframes respirarGlow {
-    0%, 100% { opacity: 0.6; text-shadow: 0 0 10px #ffd700; }
-    50% { opacity: 1; text-shadow: 0 0 30px #ffd700, 0 0 50px #ffaa00; }
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; text-shadow: 0 0 30px #ffd700; }
 }
 
 .fade-dust {
@@ -302,11 +242,11 @@ body {
 }
 
 @keyframes fadeDust {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); filter: blur(10px); visibility: hidden; }
+    0% { opacity: 1; transform: scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: scale(0.3); filter: blur(10px); visibility: hidden; }
 }
 
-/* ===== CARTA ===== */
+/* CARTA */
 .letter {
     position: fixed;
     top: 0;
@@ -316,31 +256,20 @@ body {
     transform: scale(0.3);
     background: url('sobre_back.png') no-repeat center center;
     background-size: cover;
-    background-position: center;
     opacity: 0;
-    transition: transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.8s ease;
+    transition: transform 0.8s, opacity 0.8s;
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.letter.show {
-    opacity: 1;
-    transform: scale(1);
-}
+.letter.show { opacity: 1; transform: scale(1); }
+.letter.fade-out { opacity: 0; transform: scale(1.2); }
 
-.letter.fade-out {
-    opacity: 0;
-    transform: scale(1.2);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-/* Contenedor del texto */
 #texto {
     white-space: pre-wrap;
     line-height: 1.8;
-    word-break: keep-all;
     max-width: 80%;
     margin: 0 auto;
     padding: 40px;
@@ -352,36 +281,18 @@ body {
     text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
 }
 
-#texto .magic-line {
-    margin: 25px 0;
-    text-align: center;
-    position: relative;
-    white-space: normal;
-}
-
+#texto .magic-line { margin: 25px 0; text-align: center; }
 #texto .magic-letter {
     display: inline-block;
     opacity: 0;
-    transform: translateY(20px) scale(0.8);
+    transform: translateY(20px);
     filter: blur(8px);
-    text-shadow: 0 0 15px rgba(255,215,0,0.8);
     animation: magicAppear 0.5s forwards;
-    white-space: pre;
 }
 
 @keyframes magicAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.8);
-        filter: blur(8px);
-        text-shadow: 0 0 20px rgba(255,215,0,0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-        text-shadow: none;
-    }
+    0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 .magic-particle {
@@ -393,35 +304,23 @@ body {
 }
 
 @keyframes particleFloat {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0);
-    }
+    0% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
 }
 
-/* ===== MAIN ===== */
+/* MAIN */
 .main {
     opacity: 0;
     transition: 2s;
     padding: 0 12%;
     overflow-y: auto;
-    overflow-x: hidden;
     height: 100vh;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
     scroll-snap-type: y mandatory;
-    position: relative;
-    background: transparent;
 }
 
-.main.show {
-    opacity: 1;
-}
+.main.show { opacity: 1; }
 
 .seccion {
     min-height: 100vh;
@@ -430,26 +329,15 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    position: relative;
-    width: 100%;
-    pointer-events: auto;
 }
 
-.hero {
-    text-align: center;
-    color: #3b2f1b;
-    pointer-events: auto;
-}
-
+.hero { text-align: center; }
 .titulo {
     font-family: 'Great Vibes', cursive;
     font-size: 75px;
     color: #c59b2a;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
-    letter-spacing: 2px;
 }
-
 .hero p {
     font-family: 'Great Vibes', cursive;
     font-size: 28px;
@@ -461,49 +349,24 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 40px;
-    background: transparent;
-    border-radius: 25px;
-    box-shadow: none;
-    pointer-events: auto;
 }
-
 .contenido-seccion h2 {
     font-family: 'Great Vibes', cursive;
     font-size: 52px;
     color: #c59b2a;
     margin-bottom: 35px;
-    letter-spacing: 1px;
 }
-
-.contenido-seccion h3 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 26px;
-    color: #2e7d32;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
-}
-
 .contenido-seccion p {
     font-family: 'Great Vibes', cursive;
     font-size: 22px;
     line-height: 1.8;
-    margin: 15px 0;
     color: #4a3728;
 }
-
-.contenido-seccion strong {
-    font-family: 'Great Vibes', cursive;
-    font-size: 22px;
-    color: #c59b2a;
-    font-weight: 600;
-}
-
 .countdown-small {
     font-family: 'Great Vibes', cursive;
     font-size: 32px;
     font-weight: bold;
     color: #c59b2a;
-    letter-spacing: 2px;
     margin: 15px 0;
 }
 
@@ -517,16 +380,7 @@ body {
     cursor: pointer;
     font-size: 18px;
     font-family: 'Great Vibes', cursive;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    display: inline-block;
 }
-
-.btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
-
 .btn-audio {
     background: linear-gradient(135deg, #7f0000, #5a0000);
     font-size: 20px;
@@ -540,14 +394,11 @@ body {
     gap: 15px;
     margin-top: 20px;
 }
-
 #galeria img {
     width: 120px;
     height: 120px;
     object-fit: cover;
     border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: transform 0.3s;
 }
 
 input, textarea {
@@ -559,35 +410,25 @@ input, textarea {
     max-width: 300px;
     font-family: 'Great Vibes', cursive;
     font-size: 18px;
-    background: rgba(255,255,255,0.9);
 }
-
-textarea {
-    height: 100px;
-    resize: vertical;
-}
+textarea { height: 100px; }
 
 .seccion-musica {
     min-height: auto;
     padding: 40px 0;
     scroll-snap-align: start;
-    pointer-events: auto;
 }
 
 @media (max-width: 768px) {
     .main { padding: 0 5%; }
     .titulo { font-size: 52px; }
     .hero p { font-size: 22px; }
-    .contenido-seccion { padding: 25px; }
     .contenido-seccion h2 { font-size: 38px; }
     .contenido-seccion p { font-size: 18px; }
     .countdown-small { font-size: 24px; }
     #texto { font-size: 24px; padding: 20px; max-width: 90%; }
-    .flor-top-left, .flor-bottom-left { width: 80px; }
-    .flor-right-center { width: 80px; }
-    .btn-audio { font-size: 16px; padding: 12px 30px; }
     .seal { width: 150px; height: 150px; }
-    .click-circle { width: 55px; height: 55px; }
+    .click-circle { width: 60px; height: 60px; }
     .envelope { width: 240px; height: 343px; }
 }
 </style>
@@ -608,18 +449,20 @@ textarea {
         <div class="flap-right"></div>
         <div class="seal" id="sello">
             <img src="sello.png" alt="Sello">
-            <div class="click-circle" id="clickCircle"></div>
         </div>
         <div class="hint" id="hint">✨ Presiona el círculo dorado ✨</div>
     </div>
 </div>
+
+<!-- CÍRCULO DE CLIC - FUERA DEL SOBRE, POSICIÓN ABSOLUTA -->
+<div class="click-circle" id="clickCircle"></div>
 
 <div class="letter" id="carta">
     <div id="texto"></div>
 </div>
 
 <div class="main" id="main">
-    <div class="seccion" data-section="0">
+    <div class="seccion">
         <div class="hero">
             <h1 class="titulo">Ivon & Julio</h1>
             <p>Nos llena de alegría invitarte a celebrar</p>
@@ -628,7 +471,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion" data-section="1">
+    <div class="seccion">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
             <div class="countdown-small" id="countdownBoda"></div> 
@@ -644,7 +487,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion" data-section="2">
+    <div class="seccion">
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
@@ -658,7 +501,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion" data-section="3">
+    <div class="seccion">
         <div class="contenido-seccion">
             <h2>💑 Padrinos</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
@@ -670,7 +513,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion" data-section="4">
+    <div class="seccion">
         <div class="contenido-seccion">
             <h2>📸 Álbum de Fotos</h2>
             <input type="file" id="foto" accept="image/*">
@@ -679,7 +522,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion" data-section="5">
+    <div class="seccion">
         <div class="contenido-seccion">
             <h2>💬 Mensajes para los novios</h2>
             <input type="text" id="nombre" placeholder="Tu nombre">
@@ -688,7 +531,7 @@ textarea {
         </div>
     </div>
 
-    <div class="seccion-musica" data-section="6">
+    <div class="seccion-musica">
         <div style="text-align: center; padding: 30px;">
             <button class="btn btn-audio" onclick="toggleAudio()">🔇 Silenciar Música</button>
             <p style="margin-top: 20px; font-size: 18px; color: #666; font-family: 'Great Vibes', cursive;">✨ Gracias por ser parte de este momento especial ✨</p>
@@ -701,30 +544,15 @@ textarea {
 <audio id="musica" src="musica.mp3" loop></audio>
 
 <script>
-const CONFIG_TEXTO = {
-    VELOCIDAD_LETRA: 0.05,
-    RETRASO_ENTRE_LINEAS: 0.5,
-    DURACION_ANIMACION: 0.5
-};
-
-const mensaje = `✨ Travesura realizada... ✨
-
-💖 ¡Nos casamos! 💖
-
-✨ Has sido invitado ✨
-
-🌟 a celebrar este momento tan especial 🌟`;
+const mensaje = `✨ Travesura realizada... ✨\n\n💖 ¡Nos casamos! 💖\n\n✨ Has sido invitado ✨\n\n🌟 a celebrar este momento tan especial 🌟`;
 
 function textoASpans(texto) {
     const spans = [];
-    const caracteres = Array.from(texto);
-    for (let i = 0; i < caracteres.length; i++) {
-        const char = caracteres[i];
+    for (let char of Array.from(texto)) {
         const span = document.createElement('span');
         span.className = 'magic-letter';
         if (char === ' ') {
             span.innerHTML = '&nbsp;';
-            span.style.whiteSpace = 'pre';
         } else {
             span.textContent = char;
         }
@@ -739,10 +567,8 @@ function crearParticulaMagica(x, y) {
     particle.innerHTML = '✨';
     const angle = Math.random() * Math.PI * 2;
     const distance = 20 + Math.random() * 50;
-    const tx = Math.cos(angle) * distance;
-    const ty = Math.sin(angle) * distance;
-    particle.style.setProperty('--tx', tx + 'px');
-    particle.style.setProperty('--ty', ty + 'px');
+    particle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+    particle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
     particle.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
     particle.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
     document.body.appendChild(particle);
@@ -753,9 +579,9 @@ function efectoTexto() {
     let cont = document.getElementById("texto");
     cont.innerHTML = "";
     let lineas = mensaje.split('\n');
-    let tiempoTotalAnimacion = 0;
+    let tiempoTotal = 0;
     
-    lineas.forEach((linea, idxLinea) => {
+    lineas.forEach((linea, idx) => {
         if (linea.trim() === "") {
             let espacio = document.createElement("div");
             espacio.style.height = "25px";
@@ -766,119 +592,31 @@ function efectoTexto() {
         divLinea.className = "magic-line";
         const spans = textoASpans(linea);
         spans.forEach((span, i) => {
-            let delay = (idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS) + (i * CONFIG_TEXTO.VELOCIDAD_LETRA);
+            let delay = idx * 0.5 + i * 0.05;
             span.style.animationDelay = delay + "s";
-            span.style.animationDuration = CONFIG_TEXTO.DURACION_ANIMACION + "s";
             divLinea.appendChild(span);
-            if (delay > tiempoTotalAnimacion) tiempoTotalAnimacion = delay;
+            if (delay > tiempoTotal) tiempoTotal = delay;
         });
         cont.appendChild(divLinea);
-        setTimeout(() => {
-            const rect = divLinea.getBoundingClientRect();
-            for (let p = 0; p < 8; p++) {
-                setTimeout(() => {
-                    crearParticulaMagica(window.innerWidth / 2 + (Math.random() - 0.5) * 250, rect.top + 30);
-                }, p * 80);
-            }
-        }, idxLinea * CONFIG_TEXTO.RETRASO_ENTRE_LINEAS * 1000);
     });
-    return (tiempoTotalAnimacion + 1.5) * 1000;
+    return (tiempoTotal + 1.5) * 1000;
 }
 
 function actualizarCountdowns() {
     const weddingDate = new Date('August 14, 2026 19:00:00').getTime();
-    function update() {
+    setInterval(() => {
         const now = new Date().getTime();
         const distance = weddingDate - now;
         if (distance < 0) {
-            const countdownBoda = document.getElementById('countdownBoda');
-            if (countdownBoda) countdownBoda.innerHTML = '¡Es hoy! 💒';
+            document.getElementById('countdownBoda').innerHTML = '¡Es hoy! 💒';
             return;
         }
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        const countdownText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        const countdownBoda = document.getElementById('countdownBoda');
-        if (countdownBoda) countdownBoda.innerHTML = countdownText;
-    }
-    update();
-    setInterval(update, 1000);
-}
-
-function crearFloresPorSeccion() {
-    const secciones = document.querySelectorAll('.seccion');
-    const container = document.getElementById('floresContainer');
-    container.innerHTML = "";
-    secciones.forEach((seccion) => {
-        const florTL = document.createElement('div');
-        florTL.className = 'section-flores flor-top-left';
-        florTL.innerHTML = `<img src="flores_izquierdaU.png" class="flor-img" alt="flor">`;
-        const florBL = document.createElement('div');
-        florBL.className = 'section-flores flor-bottom-left';
-        florBL.innerHTML = `<img src="flores_izquierdaD.png" class="flor-img" alt="flor">`;
-        const florRC = document.createElement('div');
-        florRC.className = 'section-flores flor-right-center';
-        florRC.innerHTML = `<img src="flores_derechaC.png" class="flor-img" alt="flor">`;
-        container.appendChild(florTL);
-        container.appendChild(florBL);
-        container.appendChild(florRC);
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    florTL.classList.add('visible');
-                    florBL.classList.add('visible');
-                    florRC.classList.add('visible');
-                } else {
-                    florTL.classList.remove('visible');
-                    florBL.classList.remove('visible');
-                    florRC.classList.remove('visible');
-                }
-            });
-        }, { threshold: 0.5 });
-        observer.observe(seccion);
-    });
-}
-
-function abrirSobre() {
-    let sello = document.getElementById("sello");
-    let hint = document.getElementById("hint");
-    let sobre = document.getElementById("sobre");
-    let carta = document.getElementById("carta");
-    let clickCircle = document.getElementById("clickCircle");
-
-    clickCircle.style.pointerEvents = "none";
-    sello.classList.add("fade-dust");
-    hint.classList.add("fade-dust");
-    
-    setTimeout(() => sobre.classList.add("open"), 1000);
-    setTimeout(() => carta.classList.add("show"), 3000);
-    
-    setTimeout(() => {
-        const duracionAnimacion = efectoTexto();
-        fadeInAudio();
-        setTimeout(() => {
-            for (let p = 0; p < 40; p++) {
-                setTimeout(() => {
-                    crearParticulaMagica(
-                        window.innerWidth / 2 + (Math.random() - 0.5) * window.innerWidth * 0.6,
-                        window.innerHeight / 2 + (Math.random() - 0.5) * window.innerHeight * 0.6
-                    );
-                }, p * 50);
-            }
-            carta.classList.add("fade-out");
-            setTimeout(() => {
-                document.getElementById("intro").style.display = "none";
-                document.getElementById("main").classList.add("show");
-                document.body.style.overflow = "auto";
-                document.body.style.position = "relative";
-                iniciarFondo();
-                crearFloresPorSeccion();
-                actualizarCountdowns();
-            }, 600);
-        }, duracionAnimacion);
-    }, 3800);
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+        document.getElementById('countdownBoda').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
 }
 
 function iniciarFondo() {
@@ -909,13 +647,8 @@ function toggleAudio() {
     btn.textContent = audio.muted ? "🔇 Activar Música" : "🔊 Silenciar Música";
 }
 
-function abrirMaps() {
-    window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9");
-}
-
-function abrirWaze() {
-    window.open("https://waze.com/ul/h6mc5mgy3k");
-}
+function abrirMaps() { window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9"); }
+function abrirWaze() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
 
 function subirFoto() {
     let file = document.getElementById("foto").files[0];
@@ -937,7 +670,58 @@ function enviarMensaje() {
     document.getElementById("mensajeInput").value = "";
 }
 
-// ===== EVENTO DE CLIC EN EL CÍRCULO DORADO =====
+function abrirSobre() {
+    let sello = document.getElementById("sello");
+    let hint = document.getElementById("hint");
+    let sobre = document.getElementById("sobre");
+    let carta = document.getElementById("carta");
+    let clickCircle = document.getElementById("clickCircle");
+
+    clickCircle.style.display = "none";
+    sello.classList.add("fade-dust");
+    hint.classList.add("fade-dust");
+    
+    setTimeout(() => sobre.classList.add("open"), 1000);
+    setTimeout(() => carta.classList.add("show"), 3000);
+    
+    setTimeout(() => {
+        const duracion = efectoTexto();
+        fadeInAudio();
+        setTimeout(() => {
+            for (let p = 0; p < 40; p++) {
+                setTimeout(() => crearParticulaMagica(window.innerWidth/2, window.innerHeight/2), p * 50);
+            }
+            carta.classList.add("fade-out");
+            setTimeout(() => {
+                document.getElementById("intro").style.display = "none";
+                document.getElementById("main").classList.add("show");
+                document.body.style.overflow = "auto";
+                document.body.style.position = "relative";
+                iniciarFondo();
+                actualizarCountdowns();
+            }, 600);
+        }, duracion);
+    }, 3800);
+}
+
+// ===== POSICIONAR EL CÍRCULO EN EL CENTRO DEL SELLO =====
+function posicionarCirculo() {
+    const sello = document.getElementById("sello");
+    const circulo = document.getElementById("clickCircle");
+    if (sello && circulo) {
+        const rect = sello.getBoundingClientRect();
+        circulo.style.position = "fixed";
+        circulo.style.left = (rect.left + rect.width / 2) + "px";
+        circulo.style.top = (rect.top + rect.height / 2) + "px";
+        circulo.style.transform = "translate(-50%, -50%)";
+    }
+}
+
+// Posicionar al cargar y al redimensionar
+window.addEventListener("load", posicionarCirculo);
+window.addEventListener("resize", posicionarCirculo);
+
+// EVENTO DE CLIC EN EL CÍRCULO
 document.getElementById("clickCircle").addEventListener("click", function(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -947,6 +731,5 @@ document.getElementById("clickCircle").addEventListener("click", function(e) {
 document.body.style.overflow = "hidden";
 document.body.style.position = "fixed";
 </script>
-
 </body>
 </html>

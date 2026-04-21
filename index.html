@@ -26,7 +26,7 @@ body {
     position: relative;
 }
 
-/* NUEVAS FLORES LATERALES FLOTANTES (RESPIRACIÓN Y BRILLO) */
+/* NUEVAS FLORES LATERALES FLOTANTES (RESPIRACIÓN Y BRILLO) - Estas SÍ van fijas en los laterales */
 .flor-lateral-izq, .flor-lateral-der {
     position: fixed;
     top: 50%;
@@ -36,7 +36,6 @@ body {
     z-index: 15;
     pointer-events: none;
     filter: drop-shadow(0 0 5px rgba(255,192,203,0.6));
-    animation: floatBreathing 3s infinite alternate ease-in-out;
 }
 
 .flor-lateral-izq {
@@ -73,55 +72,6 @@ body {
         filter: drop-shadow(0 0 15px rgba(255,80,120,0.9)) brightness(1.3);
         opacity: 1;
     }
-}
-
-/* FLORES DE FONDO (para las secciones, ya no globales fijas) */
-.flores-marco-global { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    pointer-events: none; 
-    z-index: 5; 
-}
-
-.flor-item { 
-    position: absolute; 
-    opacity: 0; 
-    transition: opacity 0.6s ease; 
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); 
-    z-index: 6;
-}
-
-.flor-item.visible { opacity: 1; }
-
-/* Posicionamiento dentro de CADA SECCIÓN */
-.flor-top-left { 
-    top: -15px; 
-    left: -15px; 
-    width: clamp(70px, 10vw, 110px); 
-}
-.flor-bottom-left { 
-    bottom: -15px; 
-    left: -15px; 
-    width: clamp(70px, 10vw, 110px); 
-}
-.flor-right-center { 
-    top: 50%; 
-    right: -15px; 
-    transform: translateY(-50%); 
-    width: clamp(70px, 10vw, 110px); 
-}
-
-.flor-img { 
-    width: 100%; 
-    animation: flotarFlor 5s infinite alternate ease-in-out; 
-}
-
-@keyframes flotarFlor { 
-    0% { transform: translateY(0px) rotate(0deg);}
-    100% { transform: translateY(8px) rotate(2deg);} 
 }
 
 /* FONDO SLIDESHOW */
@@ -379,48 +329,65 @@ body {
     overflow: visible;
 }
 
-/* ===== IMÁGENES DENTRO DEL MARCO ===== */
+/* ===== FLORES DENTRO DE CADA SECCIÓN (pegadas a los bordes del marco) ===== */
+.flor-seccion {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+    z-index: 6;
+    pointer-events: none;
+}
 
-/* Imagen centrada en la parte superior del marco - CORREGIDA para que no sobresalga */
+.flor-seccion.visible {
+    opacity: 1;
+}
+
+.flor-seccion img {
+    width: 100%;
+    height: auto;
+    animation: flotarFlor 5s infinite alternate ease-in-out;
+}
+
+/* Posiciones específicas dentro de cada .contenido-seccion */
+.flor-top-left {
+    top: -20px;
+    left: -20px;
+    width: clamp(70px, 10vw, 110px);
+}
+
+.flor-bottom-left {
+    bottom: -20px;
+    left: -20px;
+    width: clamp(70px, 10vw, 110px);
+}
+
+.flor-right-center {
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    width: clamp(70px, 10vw, 110px);
+}
+
+@keyframes flotarFlor { 
+    0% { transform: translateY(0px) rotate(0deg);}
+    100% { transform: translateY(8px) rotate(2deg);} 
+}
+
+/* ===== IMÁGENES DENTRO DEL MARCO ===== */
 .imagen-centro-superior {
     position: absolute;
     top: -35px;
     left: 50%;
     transform: translateX(-50%);
     width: auto;
-    max-width: 70%;
+    max-width: 45%;
     height: auto;
     max-height: 120px;
     z-index: 4;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     animation: flotarSuave 3s infinite alternate;
-}
-
-.imagen-centro-superior-grande {
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: 90%;
-    height: auto;
-    max-height: 200px;
-    z-index: 4;
-    pointer-events: none;
-}
-
-.imagen-centro-superior-pequena {
-    position: absolute;
-    top: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: 70%;
-    height: auto;
-    max-height: 100px;
-    z-index: 4;
-    pointer-events: none;
 }
 
 .imagen-inline {
@@ -456,34 +423,9 @@ body {
     transform: scale(1.05);
 }
 
-.imagen-marca-agua {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-width: 200px;
-    height: auto;
-    opacity: 0.15;
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* NOTA: Las imágenes de esquina (flores) ya no se colocan manualmente aquí,
-   ahora se generan dinámicamente dentro de cada sección con el script */
-   
 @keyframes flotarSuave {
     0% { transform: translateY(0px) rotate(0deg); }
     100% { transform: translateY(10px) rotate(2deg); }
-}
-
-/* Contenido con margen para imágenes superiores */
-.contenido-con-imagen-superior {
-    margin-top: 40px;
-}
-
-.contenido-con-imagen-superior-grande {
-    margin-top: 60px;
 }
 
 /* TIPOGRAFÍA RESPONSIVE */
@@ -574,20 +516,10 @@ p {
     .imagen-centro-superior {
         top: -28px;
         max-height: 90px;
-        max-width: 60%;
+        max-width: 40%;
     }
-    .imagen-centro-superior-grande {
-        top: -35px;
-        max-height: 130px;
-    }
-    .imagen-centro-superior-pequena {
-        top: -20px;
-        max-height: 70px;
-    }
-    .contenido-con-imagen-superior { margin-top: 30px; }
-    .contenido-con-imagen-superior-grande { margin-top: 45px; }
-    .grid-imagenes img { max-width: 90px; max-height: 90px; }
-    /* Ajuste flores laterales fijas */
+    .flor-top-left, .flor-bottom-left { width: 60px; top: -12px; left: -12px; }
+    .flor-right-center { width: 60px; right: -12px; }
     .flor-lateral-izq, .flor-lateral-der { width: 50px; }
 }
 
@@ -598,19 +530,10 @@ p {
     .imagen-centro-superior {
         top: -22px;
         max-height: 75px;
-        max-width: 55%;
+        max-width: 35%;
     }
-    .imagen-centro-superior-grande {
-        top: -30px;
-        max-height: 100px;
-    }
-    .imagen-centro-superior-pequena {
-        top: -18px;
-        max-height: 60px;
-    }
-    .contenido-con-imagen-superior { margin-top: 25px; }
-    .grid-imagenes { gap: 10px; }
-    .grid-imagenes img { max-width: 70px; max-height: 70px; }
+    .flor-top-left, .flor-bottom-left { width: 50px; top: -10px; left: -10px; }
+    .flor-right-center { width: 50px; right: -10px; }
     .flor-lateral-izq, .flor-lateral-der { width: 40px; }
 }
 </style>
@@ -623,11 +546,9 @@ p {
     <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
 </div>
 
-<!-- NUEVAS FLORES LATERALES FLOTANTES (EFECTO RESPIRACIÓN) -->
+<!-- FLORES LATERALES FLOTANTES (FIJAS EN LOS BORDES DE LA PANTALLA) -->
 <img src="flor_rosa_izq.png" alt="Flor izquierda" class="flor-lateral-izq" onerror="this.style.display='none'">
 <img src="flor_rosado_der.png" alt="Flor derecha" class="flor-lateral-der" onerror="this.style.display='none'">
-
-<div id="floresContainer" class="flores-marco-global"></div>
 
 <!-- INTRO SOBRE -->
 <div class="intro" id="intro">
@@ -647,10 +568,10 @@ p {
 <!-- CONTENIDO PRINCIPAL -->
 <div class="main" id="main">
     
-    <!-- SECCIÓN 0 - Hero (CORREGIDA: imagen centrada y sin sobresalir) -->
+    <!-- SECCIÓN 0 - Hero -->
     <div class="seccion" data-section="0">
         <div class="contenido-seccion" style="padding-top: 70px;">
-            <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior" style="max-width: 45%; top: -30px;" onerror="this.style.display='none'">
+            <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior" onerror="this.style.display='none'">
             <div>
                 <h1 class="titulo">Ivon & Julio</h1>
                 <p style="font-size: clamp(18px, 5vw, 22px);">Nos llena de alegría invitarte a celebrar</p>
@@ -785,88 +706,63 @@ function desvanecerTextoCompleto(callback) {
     setTimeout(() => { if(callback) callback(); }, 800);
 }
 
-// Función mejorada: crear flores pegadas a cada sección (dentro del marco)
-function crearFloresPorSeccion() {
-    const secciones = document.querySelectorAll('.seccion');
-    const container = document.getElementById('floresContainer');
-    if (!container) return;
-    container.innerHTML = '';
+// Función para agregar las 3 flores decorativas DENTRO de cada sección
+function agregarFloresASecciones() {
+    const secciones = document.querySelectorAll('.seccion .contenido-seccion');
     
-    // Mapeo: cada sección tendrá sus propias flores decorativas pegadas a sus bordes
-    secciones.forEach((seccion, idx) => {
-        // Creamos las 3 flores para esta sección
+    secciones.forEach(contenido => {
+        // Evitar duplicados
+        if (contenido.querySelector('.flor-seccion')) return;
+        
+        // Flor superior izquierda
         const florTL = document.createElement('div');
-        florTL.className = `flor-item flor-top-left`;
+        florTL.className = 'flor-seccion flor-top-left';
         const imgTL = document.createElement('img');
         imgTL.src = 'flores_izquierdaU.png';
-        imgTL.className = 'flor-img';
-        imgTL.alt = "Flor izquierda arriba";
+        imgTL.alt = 'Flor izquierda arriba';
         imgTL.onerror = () => imgTL.style.display = 'none';
         florTL.appendChild(imgTL);
         
+        // Flor inferior izquierda
         const florBL = document.createElement('div');
-        florBL.className = `flor-item flor-bottom-left`;
+        florBL.className = 'flor-seccion flor-bottom-left';
         const imgBL = document.createElement('img');
         imgBL.src = 'flores_izquierdaD.png';
-        imgBL.className = 'flor-img';
-        imgBL.alt = "Flor izquierda abajo";
+        imgBL.alt = 'Flor izquierda abajo';
         imgBL.onerror = () => imgBL.style.display = 'none';
         florBL.appendChild(imgBL);
         
+        // Flor derecha centro
         const florRC = document.createElement('div');
-        florRC.className = `flor-item flor-right-center`;
+        florRC.className = 'flor-seccion flor-right-center';
         const imgRC = document.createElement('img');
         imgRC.src = 'flores_derechaC.png';
-        imgRC.className = 'flor-img';
-        imgRC.alt = "Flor derecha centro";
+        imgRC.alt = 'Flor derecha centro';
         imgRC.onerror = () => imgRC.style.display = 'none';
         florRC.appendChild(imgRC);
         
-        container.appendChild(florTL);
-        container.appendChild(florBL);
-        container.appendChild(florRC);
+        contenido.appendChild(florTL);
+        contenido.appendChild(florBL);
+        contenido.appendChild(florRC);
         
-        // Observador para mostrar/ocultar según visibilidad de la sección
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Mostrar flores cuando la sección es visible
-                    florTL.classList.add('visible');
-                    florBL.classList.add('visible');
-                    florRC.classList.add('visible');
-                } else {
-                    florTL.classList.remove('visible');
-                    florBL.classList.remove('visible');
-                    florRC.classList.remove('visible');
-                }
-            });
-        }, { threshold: 0.3 });
-        
-        observer.observe(seccion);
-        
-        // Posicionamiento relativo: necesitamos que las flores se muevan con la sección
-        // Para que queden "pegadas" al marco, usamos posicionamiento absoluto relativo al contenedor de flores,
-        // pero las coordenadas deben ser relativas a cada sección. Como el contenedor es fixed, 
-        // actualizamos la posición en cada scroll.
-        function actualizarPosiciones() {
-            const rect = seccion.getBoundingClientRect();
-            if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                // Ajustamos left/top de cada flor para que se pegue al marco de la sección actual
-                // flor-top-left: esquina superior izquierda del marco de la sección
-                florTL.style.left = (rect.left - 15) + 'px';
-                florTL.style.top = (rect.top - 15) + 'px';
-                // flor-bottom-left: esquina inferior izquierda
-                florBL.style.left = (rect.left - 15) + 'px';
-                florBL.style.top = (rect.bottom - 15 - florBL.offsetHeight) + 'px';
-                // flor-right-center: centro derecho
-                florRC.style.left = (rect.right - 15 - florRC.offsetWidth) + 'px';
-                florRC.style.top = (rect.top + (rect.height/2) - (florRC.offsetHeight/2)) + 'px';
-            }
+        // Observador para efecto "nube" (aparecen al hacer scroll)
+        const seccionPadre = contenido.closest('.seccion');
+        if (seccionPadre) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        florTL.classList.add('visible');
+                        florBL.classList.add('visible');
+                        florRC.classList.add('visible');
+                    } else {
+                        florTL.classList.remove('visible');
+                        florBL.classList.remove('visible');
+                        florRC.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            observer.observe(seccionPadre);
         }
-        
-        window.addEventListener('scroll', actualizarPosiciones);
-        window.addEventListener('resize', actualizarPosiciones);
-        actualizarPosiciones(); // inicial
     });
 }
 
@@ -907,7 +803,7 @@ function abrirSobre() {
                 if (mainDiv) mainDiv.classList.add("show");
                 document.body.style.overflow = "auto";
                 iniciarFondoRotativo();
-                crearFloresPorSeccion();  // Ahora las flores se pegan a cada marco
+                agregarFloresASecciones();  // Ahora las flores se agregan DENTRO de cada sección
                 iniciarCountdown();
             }, 500);
         });
@@ -1031,4 +927,4 @@ if (introDiv) {
 }
 </script>
 </body>
-</html>
+                </html>

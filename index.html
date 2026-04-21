@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio - Nuestra Boda Mágica (v2)</title>
+<title>Ivon & Julio - Nuestra Boda Mágica (v3)</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 /* ===== RESET Y ESTILOS BASE ===== */
@@ -24,11 +24,11 @@ body {
     font-family: 'Great Vibes', cursive; 
     color: #3b2f1b; 
     position: relative;
-    /* Padding lateral para que las flores sean visibles */
-    padding: 0 600px;
+    /* REDUCIDO: padding lateral mucho menor para que se vea bien sin zoom */
+    padding: 0 20px;
 }
 
-/* ===== FLORES LATERALES CON TUS ARCHIVOS PNG ===== */
+/* ===== FLORES LATERALES FIJAS ===== */
 .flores-laterales {
     position: fixed;
     top: 0;
@@ -36,39 +36,39 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 20; /* Alto para que se vean por encima */
+    z-index: 20;
 }
 
 .flor-lateral {
     position: absolute;
-    width: clamp(80px, 8vw, 130px);
+    width: clamp(60px, 6vw, 100px);
     height: auto;
     filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
 }
 
-/* Grupo izquierdo - FLORES VERDES (tus archivos) */
-.flor-verde-1 { left: -15px; top: 12%; animation: floatBreathingVerde1 3.5s infinite alternate ease-in-out; }
-.flor-verde-2 { left: -25px; top: 42%; width: 80px; animation: floatBreathingVerde2 3s infinite alternate ease-in-out; }
-.flor-verde-3 { left: -10px; top: 72%; animation: floatBreathingVerde3 4s infinite alternate ease-in-out; }
+/* Grupo izquierdo - FLORES VERDES */
+.flor-verde-1 { left: -10px; top: 12%; animation: floatBreathingVerde1 3.5s infinite alternate ease-in-out; }
+.flor-verde-2 { left: -15px; top: 42%; width: 65px; animation: floatBreathingVerde2 3s infinite alternate ease-in-out; }
+.flor-verde-3 { left: -8px; top: 72%; animation: floatBreathingVerde3 4s infinite alternate ease-in-out; }
 
-/* Grupo derecho - FLORES ROSAS (tus archivos) */
-.flor-rosa-1 { right: -15px; top: 18%; animation: floatBreathingRosa1 3.2s infinite alternate ease-in-out; }
-.flor-rosa-3 { right: -25px; top: 58%; width: 85px; animation: floatBreathingRosa3 3.7s infinite alternate ease-in-out; }
+/* Grupo derecho - FLORES ROSAS */
+.flor-rosa-1 { right: -10px; top: 18%; animation: floatBreathingRosa1 3.2s infinite alternate ease-in-out; }
+.flor-rosa-3 { right: -15px; top: 58%; width: 70px; animation: floatBreathingRosa3 3.7s infinite alternate ease-in-out; }
 
-/* Animaciones individuales para efecto más natural */
+/* Animaciones */
 @keyframes floatBreathingVerde1 {
-    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
     100% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(50, 200, 80, 0.8)) brightness(1.2); opacity: 1; }
 }
 
 @keyframes floatBreathingVerde2 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
-    100% { transform:scale(1.08); filter: drop-shadow(0 0 22px rgba(40, 180, 70, 0.9)) brightness(1.25); opacity: 1; }
+    100% { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(40, 180, 70, 0.9)) brightness(1.25); opacity: 1; }
 }
 
 @keyframes floatBreathingVerde3 {
-    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
-    100% { transform:  scale(1.12); filter: drop-shadow(0 0 25px rgba(60, 220, 90, 0.85)) brightness(1.3); opacity: 1; }
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
+    100% { transform: scale(1.12); filter: drop-shadow(0 0 25px rgba(60, 220, 90, 0.85)) brightness(1.3); opacity: 1; }
 }
 
 @keyframes floatBreathingRosa1 {
@@ -77,7 +77,7 @@ body {
 }
 
 @keyframes floatBreathingRosa3 {
-    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
     100% { transform: scale(1.11); filter: drop-shadow(0 0 28px rgba(255, 100, 140, 0.95)) brightness(1.3); opacity: 1; }
 }
 
@@ -296,7 +296,7 @@ body {
 
 .magic-line { margin-bottom: 12px; }
 
-/* ===== MAIN CONTENIDO ===== */
+/* ===== MAIN CONTENIDO - VISTA NORMAL SIN ZOOM ===== */
 .main { 
     opacity: 0; 
     transition: opacity 1.8s ease; 
@@ -308,26 +308,24 @@ body {
 
 .main.show { opacity: 1; }
 
-/* SECCIONES - Con ancho reducido para que las flores laterales sean visibles */
+/* SECCIONES - Ancho optimizado para verse bien sin zoom */
 .seccion {
     min-height: auto;
-    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2.5rem 0;
+    padding: 1.5rem 0;
     position: relative;
-    width: 90%;
+    width: 100%;
 }
 
 .contenido-seccion {
-    background: rgba(255, 252, 240, 0.92);
+    background: rgba(255, 252, 240, 0.94);
     border-radius: clamp(30px, 6vw, 48px);
-    padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 3vw, 2rem);
-    /* ANCHO REDUCIDO - clave para ver las flores laterales */
+    padding: clamp(1.8rem, 5vw, 2.5rem) clamp(1.2rem, 4vw, 2rem);
     width: 100%;
-    max-width: 580px;
+    max-width: 700px;
     box-shadow: 0 20px 35px rgba(0,0,0,0.12);
     border: 1px solid rgba(200, 165, 90, 0.5);
     backdrop-filter: blur(4px);
@@ -337,7 +335,31 @@ body {
     margin: 0 auto;
 }
 
-/* ===== FLORES DENTRO DE CADA SECCIÓN (decorativas al borde del marco) ===== */
+/* ===== IMAGEN DE PERRITOS - TAMAÑO ADECUADO SIN ZOOM ===== */
+.imagen-hero {
+    display: block;
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    margin: 0 auto 1.5rem auto;
+    border-radius: 32px;
+    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15));
+    transition: transform 0.3s ease;
+    object-fit: contain;
+}
+
+/* Otras imágenes inline */
+.imagen-inline {
+    display: block;
+    width: auto;
+    max-width: 160px;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== FLORES DECORATIVAS DENTRO DE CADA SECCIÓN ===== */
 .flor-seccion {
     position: absolute;
     opacity: 0;
@@ -350,93 +372,66 @@ body {
 .flor-seccion.visible { opacity: 1; }
 .flor-seccion img { width: 100%; height: auto; animation: flotarFlor 5s infinite alternate ease-in-out; }
 
+/* Ajuste de posición de flores decorativas */
 :root {
-    --flor-offset-top: -22px;
-    --flor-offset-left: -22px;
-    --flor-offset-bottom: -22px;
-    --flor-offset-right: -22px;
+    --flor-offset-top: 2px;
+    --flor-offset-left: -1px;
+    --flor-offset-bottom: -20px;
+    --flor-offset-right: 3px;
 }
 
-.flor-top-left { top: var(--flor-offset-top); left: var(--flor-offset-left); width: clamp(65px, 9vw, 100px); }
-.flor-bottom-left { bottom: var(--flor-offset-bottom); left: var(--flor-offset-left); width: clamp(65px, 9vw, 100px); }
-.flor-right-center { top: 50%; right: var(--flor-offset-right); transform: translateY(-50%); width: clamp(65px, 9vw, 100px); }
+.flor-top-left { top: var(--flor-offset-top); left: var(--flor-offset-left); width: clamp(80px, 12vw, 120px); }
+.flor-bottom-left { bottom: var(--flor-offset-bottom); left: var(--flor-offset-left); width: clamp(80px, 12vw, 120px); }
+.flor-right-center { top: 50%; right: var(--flor-offset-right); transform: translateY(-50%); width: clamp(80px, 12vw, 120px); }
 
 @keyframes flotarFlor { 
     0% { transform: translateY(0px) rotate(0deg);}
-    100% { transform: translateY(8px) rotate(2deg);} 
-}
-8
-/* IMÁGENES DENTRO DEL MARCO */
-/* ===== IMÁGENES DENTRO DEL MARCO - SIN SOBRESALIR ===== */
-.imagen-centro-superior {
-    position: relative;  /* IMPORTANTE: ya no es absolute */
-    display: block;
-    margin: 0 auto 20px auto;  /* Centrado con margen inferior */
-    width: auto;
-    max-width: 150px;  /* Tamaño controlado */
-    height: auto;
-    max-height: 150px;
-    z-index: 4;
-    pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    animation: flotarSuave 3s infinite alternate;
+    100% { transform: translateY(8px) rotate(3deg);} 
 }
 
-.imagen-inline {
-    display: block;
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    margin: 20px auto;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-@keyframes flotarSuave {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(10px) rotate(2deg); }
-}
-
-/* TIPOGRAFÍA */
-.titulo { font-size: clamp(48px, 12vw, 85px); font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
-h2 { font-size: clamp(32px, 8vw, 45px); font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
-.countdown-small { font-size: clamp(24px, 6vw, 32px); font-weight: bold; background: #e9d6b0; display: inline-block; padding: 8px 24px; border-radius: 60px; margin: 15px 0; font-family: 'Great Vibes', cursive; }
-.btn { background: #c49a3b; border: none; color: white; font-family: 'Great Vibes', cursive; font-size: clamp(16px, 4vw, 18px); padding: 12px 28px; margin: 8px; border-radius: 40px; cursor: pointer; transition: all 0.2s; }
+/* TIPOGRAFÍA - Tamaños base más grandes */
+.titulo { font-size: clamp(52px, 12vw, 90px); font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
+h2 { font-size: clamp(36px, 8vw, 50px); font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
+.countdown-small { font-size: clamp(26px, 6vw, 36px); font-weight: bold; background: #e9d6b0; display: inline-block; padding: 10px 28px; border-radius: 60px; margin: 18px 0; font-family: 'Great Vibes', cursive; }
+.btn { background: #c49a3b; border: none; color: white; font-family: 'Great Vibes', cursive; font-size: clamp(18px, 4vw, 20px); padding: 14px 32px; margin: 10px; border-radius: 40px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 .btn:hover { background: #a57c2a; transform: scale(1.02); }
-input, textarea { width: 90%; padding: 12px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; font-size: clamp(14px, 3.5vw, 16px); }
-textarea { border-radius: 28px; min-height: 90px; }
+input, textarea { width: 90%; padding: 14px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; font-size: clamp(16px, 3.5vw, 18px); }
+textarea { border-radius: 28px; min-height: 100px; }
 #galeria { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px; }
-#galeria img { width: clamp(100px, 25vw, 130px); height: clamp(100px, 25vw, 130px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
-p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
+#galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
+p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
-/* ===== MEDIA QUERIES ===== */
-@media (max-width: 900px) {
-    body { padding: 0 60px; }
-    .contenido-seccion { max-width: 520px; }
-}
-
-@media (max-width: 700px) {
-    body { padding: 0 60px; }
-    .contenido-seccion { max-width: 100%; padding: 1.5rem 1rem; }
-    .imagen-centro-superior { top: -28px; max-height: 85px; max-width: 40%; }
-    :root { --flor-offset-top: -15px; --flor-offset-left: -15px; --flor-offset-bottom: -15px; --flor-offset-right: -15px; }
-    .flor-top-left, .flor-bottom-left { width: 55px; }
-    .flor-right-center { width: 55px; }
-    /* Flores laterales más pequeñas en móvil */
-    .flor-lateral { width: 40px !important; }
-    .flor-verde-2, .flor-rosa-3 { width: 45px !important; }
+/* ===== MEDIA QUERIES - RESPONSIVE ===== */
+@media (max-width: 768px) {
+    body { padding: 0 15px; }
+    .contenido-seccion { max-width: 95%; padding: 1.8rem 1.2rem; }
+    .imagen-hero { max-width: 280px; }
+    :root { --flor-offset-top: -18px; --flor-offset-left: -14px; --flor-offset-bottom: -18px; --flor-offset-right: -14px; }
+    .flor-top-left, .flor-bottom-left { width: 65px; }
+    .flor-right-center { width: 65px; }
+    .flor-lateral { width: 50px !important; }
+    .flor-verde-2, .flor-rosa-3 { width: 55px !important; }
 }
 
 @media (max-width: 480px) {
-    body { padding: 0 12px; }
-    .contenido-seccion { padding: 1.2rem 0.8rem; }
-    .btn { padding: 8px 20px; margin: 6px; }
-    .imagen-centro-superior { top: -22px; max-height: 70px; max-width: 35%; }
-    :root { --flor-offset-top: -10px; --flor-offset-left: -10px; --flor-offset-bottom: -10px; --flor-offset-right: -10px; }
-    .flor-top-left, .flor-bottom-left { width: 45px; }
-    .flor-right-center { width: 45px; }
-    .flor-lateral { width: 30px !important; }
-    .flor-verde-2, .flor-rosa-3 { width: 35px !important; }
+    body { padding: 0 10px; }
+    .contenido-seccion { padding: 1.5rem 1rem; }
+    .imagen-hero { max-width: 220px; margin-bottom: 1rem; }
+    .btn { padding: 10px 24px; margin: 8px; font-size: 16px; }
+    :root { --flor-offset-top: -12px; --flor-offset-left: -10px; --flor-offset-bottom: -12px; --flor-offset-right: -10px; }
+    .flor-top-left, .flor-bottom-left { width: 55px; }
+    .flor-right-center { width: 55px; }
+    .flor-lateral { width: 40px !important; }
+    .flor-verde-2, .flor-rosa-3 { width: 45px !important; }
+    .titulo { font-size: 48px; }
+    h2 { font-size: 36px; }
+    p { font-size: 18px; }
+}
+
+@media (min-width: 1200px) {
+    /* En pantallas muy grandes, centramos mejor el contenido */
+    .contenido-seccion { max-width: 750px; }
+    .imagen-hero { max-width: 400px; }
 }
 </style>
 </head>
@@ -448,14 +443,11 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
     <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
 </div>
 
-<!-- FLORES LATERALES CON TUS ARCHIVOS PNG -->
+<!-- FLORES LATERALES FIJAS -->
 <div class="flores-laterales">
-    <!-- Grupo izquierdo - FLORES VERDES -->
     <img src="flor_verde_1.png" alt="Flor verde" class="flor-lateral flor-verde-1" onerror="this.style.display='none'">
     <img src="flor_verde_2.png" alt="Flor verde" class="flor-lateral flor-verde-2" onerror="this.style.display='none'">
     <img src="flor_verde_3.png" alt="Flor verde" class="flor-lateral flor-verde-3" onerror="this.style.display='none'">
-    
-    <!-- Grupo derecho - FLORES ROSAS -->
     <img src="flor_rosa_1.png" alt="Flor rosa" class="flor-lateral flor-rosa-1" onerror="this.style.display='none'">
     <img src="flor_rosa_3.png" alt="Flor rosa" class="flor-lateral flor-rosa-3" onerror="this.style.display='none'">
 </div>
@@ -477,15 +469,15 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
 
 <!-- CONTENIDO PRINCIPAL -->
 <div class="main" id="main">
-    <!-- SECCIÓN 0 - Hero -->
+    <!-- SECCIÓN 0 - Hero con imagen de perritos bien dimensionada -->
     <div class="seccion" data-section="0">
         <div class="contenido-seccion">
-            <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior" onerror="this.style.display='none'">
+            <img src="perritos1.png" alt="Perritos" class="imagen-hero" onerror="this.style.display='none'">
             <div>
                 <h1 class="titulo">Ivon & Julio</h1>
-                <p style="font-size: clamp(18px, 5vw, 22px);">Nos llena de alegría invitarte a celebrar</p>
-                <p style="font-size: clamp(20px, 5.5vw, 24px);">el día más importante de nuestras vidas</p>
-                <p style="margin-top: 25px; font-size: clamp(24px, 6vw, 28px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
+                <p style="font-size: clamp(20px, 5vw, 26px);">Nos llena de alegría invitarte a celebrar</p>
+                <p style="font-size: clamp(22px, 5.5vw, 28px);">el día más importante de nuestras vidas</p>
+                <p style="margin-top: 25px; font-size: clamp(26px, 6vw, 32px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
             </div>
         </div>
     </div>
@@ -500,7 +492,7 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
             <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
             <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
             <div style="margin-top: 40px; padding: 20px; background: rgba(197,155,42,0.1); border-radius: 20px;">
-                <h3 style="font-size: clamp(20px, 5vw, 28px);">✨ Información importante ✨</h3>
+                <h3 style="font-size: clamp(22px, 5vw, 30px);">✨ Información importante ✨</h3>
                 <p>Por favor confirmar asistencia antes del 1 de agosto.</p>
                 <p>Estacionamiento disponible en las cercanías.</p>
                 <p>Habrá servicio de catering y barra libre.</p>
@@ -520,8 +512,8 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
             <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
             <img src="perritos1.png" alt="Perritos" class="imagen-inline" style="max-width: 150px; margin: 20px auto;" onerror="this.style.display='none'">
             <div style="background: rgba(197,155,42,0.2); padding: 20px; border-radius: 25px; margin-top: 20px;">
-                <h3 style="font-size: clamp(20px, 5vw, 28px);">💰 Nuestra cuenta</h3>
-                <p style="font-size: clamp(18px, 5vw, 22px); font-weight: bold; word-break: break-all;">193 205 253 18 0 43</p>
+                <h3 style="font-size: clamp(22px, 5vw, 30px);">💰 Nuestra cuenta</h3>
+                <p style="font-size: clamp(20px, 5vw, 24px); font-weight: bold; word-break: break-all;">193 205 253 18 0 43</p>
             </div>
         </div>
     </div>
@@ -530,7 +522,7 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
     <div class="seccion" data-section="3">
         <div class="contenido-seccion">
             <h2>💑 Padrinos</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
                 <div><strong>🌸 Velación:</strong><br>María Rodríguez y Carlos Sánchez</div>
                 <div><strong>💍 Anillos:</strong><br>Ana Martínez y Luis Fernández</div>
                 <div><strong>📿 Lazo:</strong><br>Patricia Gómez y Roberto Díaz</div>
@@ -563,7 +555,7 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
     <div class="seccion" data-section="6">
         <div class="contenido-seccion">
             <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
-            <p style="margin-top: 30px; font-size: clamp(18px, 5vw, 22px);">✨ Gracias por ser parte de este momento especial ✨</p>
+            <p style="margin-top: 30px; font-size: clamp(20px, 5vw, 26px);">✨ Gracias por ser parte de este momento especial ✨</p>
         </div>
     </div>
 </div>
@@ -619,6 +611,7 @@ function agregarFloresASecciones() {
         florTL.className = 'flor-seccion flor-top-left';
         const imgTL = document.createElement('img');
         imgTL.src = 'flores_izquierdaU.png';
+        imgTL.alt = 'Adorno floral';
         imgTL.onerror = () => imgTL.style.display = 'none';
         florTL.appendChild(imgTL);
         
@@ -626,6 +619,7 @@ function agregarFloresASecciones() {
         florBL.className = 'flor-seccion flor-bottom-left';
         const imgBL = document.createElement('img');
         imgBL.src = 'flores_izquierdaD.png';
+        imgBL.alt = 'Adorno floral';
         imgBL.onerror = () => imgBL.style.display = 'none';
         florBL.appendChild(imgBL);
         
@@ -633,6 +627,7 @@ function agregarFloresASecciones() {
         florRC.className = 'flor-seccion flor-right-center';
         const imgRC = document.createElement('img');
         imgRC.src = 'flores_derechaC.png';
+        imgRC.alt = 'Adorno floral';
         imgRC.onerror = () => imgRC.style.display = 'none';
         florRC.appendChild(imgRC);
         
@@ -756,4 +751,4 @@ document.body.style.overflow = "hidden";
 if (introDiv) { introDiv.addEventListener('touchmove', function(e) { if (!yaAbierto) e.preventDefault(); }, { passive: false }); }
 </script>
 </body>
-</html> 
+</html>

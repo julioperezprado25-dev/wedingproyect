@@ -6,7 +6,7 @@
 <title>Ivon & Julio - Nuestra Boda Mágica</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET Y ESTILOS BASE CORREGIDOS PARA MÓVIL ===== */
+/* ===== RESET Y ESTILOS BASE ===== */
 * { 
     margin: 0; 
     padding: 0; 
@@ -82,7 +82,7 @@ body {
 
 .bg-slideshow img.active { opacity: 0.18; }
 
-/* INTRO SOBRE - CORREGIDO PARA MÓVIL */
+/* INTRO SOBRE */
 .intro { 
     position: fixed; 
     top: 0; 
@@ -275,7 +275,7 @@ body {
 
 .magic-line { margin-bottom: 12px; }
 
-/* ===== MAIN CONTENIDO - CORREGIDO PARA MÓVIL ===== */
+/* ===== MAIN CONTENIDO ===== */
 .main { 
     opacity: 0; 
     transition: opacity 1.8s ease; 
@@ -287,7 +287,7 @@ body {
 
 .main.show { opacity: 1; }
 
-/* SECCIONES CON ALTURA AUTOMÁTICA */
+/* SECCIONES - Contenedor principal */
 .seccion {
     min-height: auto;
     height: auto;
@@ -300,7 +300,7 @@ body {
     width: 100%;
 }
 
-/* Contenedor principal de cada sección */
+/* Contenedor del marco (tarjeta) */
 .contenido-seccion {
     background: rgba(255, 252, 240, 0.92);
     border-radius: clamp(30px, 6vw, 48px);
@@ -312,84 +312,61 @@ body {
     backdrop-filter: blur(4px);
     position: relative;
     z-index: 2;
+    overflow: visible;
 }
 
-/* ===== ELEMENTOS PERSONALIZADOS ===== */
-.imagen-centro-top {
+/* ===== IMÁGENES DENTRO DEL MARCO ===== */
+
+/* Imagen centrada en la parte superior del marco */
+.imagen-centro-superior {
     position: absolute;
-    top: -30px;
+    top: -40px;
     left: 50%;
     transform: translateX(-50%);
-    width: clamp(200px, 50vw, 400px);
-    z-index: 3;
+    width: auto;
+    max-width: 85%;
+    height: auto;
+    max-height: 150px;
+    z-index: 4;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     animation: flotarSuave 3s infinite alternate;
 }
 
-.imagen-centro-top-grande {
+.imagen-centro-superior-grande {
     position: absolute;
-    top: 15px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%);
-    width: clamp(120px, 25vw, 180px);
-    z-index: 3;
+    width: auto;
+    max-width: 90%;
+    height: auto;
+    max-height: 200px;
+    z-index: 4;
     pointer-events: none;
 }
 
-.imagen-centro-top-pequena {
+.imagen-centro-superior-pequena {
     position: absolute;
-    top: 20px;
+    top: -25px;
     left: 50%;
     transform: translateX(-50%);
-    width: clamp(60px, 15vw, 80px);
-    z-index: 3;
+    width: auto;
+    max-width: 70%;
+    height: auto;
+    max-height: 100px;
+    z-index: 4;
     pointer-events: none;
 }
 
-.imagen-esquina {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: clamp(60px, 12vw, 100px);
-    z-index: 3;
-    pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    animation: flotarSuave 3s infinite alternate;
-}
-
-.imagen-inferior-derecha {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: clamp(60px, 12vw, 120px);
-    z-index: 3;
-    pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-}
-
-.imagen-marca-agua {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: clamp(120px, 30vw, 200px);
-    opacity: 0.15;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.imagen-decorativa {
-    position: absolute;
-    width: clamp(50px, 12vw, 80px);
-    z-index: 3;
-    pointer-events: none;
-    animation: flotarSuave 4s infinite alternate;
-}
-
-@keyframes flotarSuave {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(15px); }
+.imagen-inline {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .grid-imagenes {
@@ -401,7 +378,11 @@ body {
 }
 
 .grid-imagenes img {
-    width: clamp(80px, 20vw, 150px);
+    width: auto;
+    max-width: 120px;
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     transition: transform 0.3s;
@@ -411,8 +392,57 @@ body {
     transform: scale(1.05);
 }
 
-.seccion-con-mucho-contenido {
-    padding: 5rem 1rem;
+.imagen-marca-agua {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 200px;
+    height: auto;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.imagen-esquina-superior-izquierda {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: auto;
+    max-width: 80px;
+    height: auto;
+    z-index: 4;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotarSuave 4s infinite alternate;
+}
+
+.imagen-esquina-inferior-derecha {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: auto;
+    max-width: 80px;
+    height: auto;
+    z-index: 4;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotarSuave 4s infinite alternate-reverse;
+}
+
+@keyframes flotarSuave {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(10px) rotate(2deg); }
+}
+
+/* Contenido con margen para imágenes superiores */
+.contenido-con-imagen-superior {
+    margin-top: 40px;
+}
+
+.contenido-con-imagen-superior-grande {
+    margin-top: 60px;
 }
 
 /* TIPOGRAFÍA RESPONSIVE */
@@ -496,8 +526,9 @@ p {
     margin: 10px 0;
 }
 
-/* Ajustes para móvil */
+/* ===== MEDIA QUERY ÚNICA Y CONSOLIDADA ===== */
 @media (max-width: 700px) {
+    /* Ajustes de espaciado */
     .seccion {
         padding: 2rem 0.8rem;
     }
@@ -506,16 +537,46 @@ p {
         padding: 1.5rem 1rem;
     }
     
-    .imagen-centro-top {
-        top: -20px;
+    /* Ajustes de imágenes superiores */
+    .imagen-centro-superior {
+        top: -30px;
+        max-height: 100px;
     }
     
-    .grid-imagenes {
-        gap: 10px;
+    .imagen-centro-superior-grande {
+        top: -35px;
+        max-height: 130px;
+    }
+    
+    .imagen-centro-superior-pequena {
+        top: -20px;
+        max-height: 70px;
+    }
+    
+    /* Ajustes de imágenes decorativas */
+    .imagen-esquina-superior-izquierda,
+    .imagen-esquina-inferior-derecha {
+        max-width: 50px;
+    }
+    
+    /* Ajustes de márgenes */
+    .contenido-con-imagen-superior {
+        margin-top: 30px;
+    }
+    
+    .contenido-con-imagen-superior-grande {
+        margin-top: 45px;
+    }
+    
+    /* Grid de imágenes */
+    .grid-imagenes img {
+        max-width: 90px;
+        max-height: 90px;
     }
 }
 
 @media (max-width: 480px) {
+    /* Ajustes para móviles muy pequeños */
     .seccion {
         padding: 1.5rem 0.5rem;
     }
@@ -527,6 +588,47 @@ p {
     .btn {
         padding: 8px 20px;
         margin: 6px;
+    }
+    
+    /* Imágenes aún más pequeñas */
+    .imagen-centro-superior {
+        top: -25px;
+        max-height: 80px;
+    }
+    
+    .imagen-centro-superior-grande {
+        top: -30px;
+        max-height: 100px;
+    }
+    
+    .imagen-centro-superior-pequena {
+        top: -18px;
+        max-height: 60px;
+    }
+    
+    .imagen-esquina-superior-izquierda,
+    .imagen-esquina-inferior-derecha {
+        max-width: 40px;
+        top: -15px;
+        left: -15px;
+    }
+    
+    .imagen-esquina-inferior-derecha {
+        bottom: -15px;
+        right: -15px;
+    }
+    
+    .contenido-con-imagen-superior {
+        margin-top: 25px;
+    }
+    
+    .grid-imagenes {
+        gap: 10px;
+    }
+    
+    .grid-imagenes img {
+        max-width: 70px;
+        max-height: 70px;
     }
 }
 </style>
@@ -560,43 +662,51 @@ p {
 <div class="main" id="main">
     
     <!-- SECCIÓN 0 - Hero -->
-    <div class="seccion" data-section="0" style="position: relative; padding-top: 4rem;">
+    <div class="seccion" data-section="0">
         <div class="contenido-seccion">
-            <img src="perritos1.png" alt="Perritos" class="imagen-centro-top">
-            <h1 class="titulo">Ivon & Julio</h1>
-            <p style="font-size: clamp(18px, 5vw, 22px);">Nos llena de alegría invitarte a celebrar</p>
-            <p style="font-size: clamp(20px, 5.5vw, 24px);">el día más importante de nuestras vidas</p>
-            <p style="margin-top: 25px; font-size: clamp(24px, 6vw, 28px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
+            <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior">
+            <div class="contenido-con-imagen-superior">
+                <h1 class="titulo">Ivon & Julio</h1>
+                <p style="font-size: clamp(18px, 5vw, 22px);">Nos llena de alegría invitarte a celebrar</p>
+                <p style="font-size: clamp(20px, 5.5vw, 24px);">el día más importante de nuestras vidas</p>
+                <p style="margin-top: 25px; font-size: clamp(24px, 6vw, 28px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
+            </div>
         </div>
     </div>
 
     <!-- SECCIÓN 1 - Detalles -->
-    <div class="seccion" data-section="1" style="position: relative;">
+    <div class="seccion" data-section="1">
         <div class="contenido-seccion">
-            <h2>📅 La Boda</h2>
-            <div class="countdown-small" id="countdownBoda"></div>
-            <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026 - 7:00 PM</p>
-            <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
-            <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
-            <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
-            
-            <div style="margin-top: 40px; padding: 20px; background: rgba(197,155,42,0.1); border-radius: 20px;">
-                <h3 style="font-size: clamp(20px, 5vw, 28px);">✨ Información importante ✨</h3>
-                <p>Por favor confirmar asistencia antes del 1 de agosto.</p>
-                <p>Estacionamiento disponible en las cercanías.</p>
-                <p>Habrá servicio de catering y barra libre.</p>
+            <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior-pequena">
+            <div class="contenido-con-imagen-superior">
+                <h2>📅 La Boda</h2>
+                <div class="countdown-small" id="countdownBoda"></div>
+                <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026 - 7:00 PM</p>
+                <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
+                <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
+                <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
+                
+                <div style="margin-top: 40px; padding: 20px; background: rgba(197,155,42,0.1); border-radius: 20px;">
+                    <h3 style="font-size: clamp(20px, 5vw, 28px);">✨ Información importante ✨</h3>
+                    <p>Por favor confirmar asistencia antes del 1 de agosto.</p>
+                    <p>Estacionamiento disponible en las cercanías.</p>
+                    <p>Habrá servicio de catering y barra libre.</p>
+                </div>
+                
+                <div class="grid-imagenes" style="margin-top: 30px;">
+                    <img src="flores_izquierdaU.png" alt="Flores izquierda">
+                    <img src="flores_derechaC.png" alt="Flores derecha">
+                    <img src="perritos1.png" alt="Perritos" onerror="this.style.display='none'">
+                </div>
+                
+                <div style="margin-top: 25px;">
+                    <button class="btn" onclick="abrirMaps()">📍 Google Maps</button>
+                    <button class="btn" onclick="abrirWaze()">🚗 Waze</button>
+                </div>
             </div>
             
-            <div class="grid-imagenes" style="margin-top: 30px;">
-                <img src="flores_izquierdaU.png" alt="Flores izquierda" style="width: clamp(80px, 20vw, 100px);">
-                <img src="flores_derechaC.png" alt="Flores derecha" style="width: clamp(80px, 20vw, 100px);">
-                <img src="perritos1.png" alt="Perritos" style="width: clamp(80px, 20vw, 100px;" onerror="this.style.display='none'">
-            </div>
-            
-            <div style="margin-top: 25px;">
-                <button class="btn" onclick="abrirMaps()">📍 Google Maps</button>
-                <button class="btn" onclick="abrirWaze()">🚗 Waze</button>
-            </div>
+            <img src="flores_izquierdaU.png" alt="Decoración" class="imagen-esquina-superior-izquierda">
+            <img src="flores_derechaC.png" alt="Decoración" class="imagen-esquina-inferior-derecha">
         </div>
     </div>
 
@@ -606,6 +716,9 @@ p {
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
             <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
+            
+            <img src="perritos1.png" alt="Perritos" class="imagen-inline" style="max-width: 150px; margin: 20px auto;" onerror="this.style.display='none'">
+            
             <div style="background: rgba(197,155,42,0.2); padding: 20px; border-radius: 25px; margin-top: 20px;">
                 <h3 style="font-size: clamp(20px, 5vw, 28px);">💰 Nuestra cuenta</h3>
                 <p style="font-size: clamp(18px, 5vw, 22px); font-weight: bold; word-break: break-all;">193 205 253 18 0 43</p>
@@ -780,7 +893,6 @@ if (sello) {
         abrirSobre();
     });
     
-    // También soportar touch para móviles
     sello.addEventListener("touchstart", function(e) {
         if (yaAbierto) return;
         e.preventDefault();
@@ -884,7 +996,6 @@ function enviarMensaje() {
 // Inicialización
 document.body.style.overflow = "hidden";
 
-// Prevenir scroll en móvil durante la intro
 if (introDiv) {
     introDiv.addEventListener('touchmove', function(e) {
         if (!yaAbierto) e.preventDefault();
@@ -892,4 +1003,4 @@ if (introDiv) {
 }
 </script>
 </body>
-</html> 
+        </html>

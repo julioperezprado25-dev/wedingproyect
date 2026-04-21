@@ -1057,8 +1057,30 @@ function enviarMensaje() {
 
 // ===== EVENTO DE CLIC EN EL SELLO =====
 // El clic funciona SOLO donde la imagen del sello tiene color (áreas transparentes no reciben clic)
-document.getElementById("sello").addEventListener("click", abrirSobre);
+document.getElementById("sello").addEventListener("click", function(e) {
+    const sello = document.getElementById("sello");
+    const rect = sello.getBoundingClientRect();
 
+    // Centro del sello
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
+
+    // Posición del clic
+    const clickX = e.clientX;
+    const clickY = e.clientY;
+
+    // Distancia desde el centro
+    const dx = clickX - centroX;
+    const dy = clickY - centroY;
+    const distancia = Math.sqrt(dx * dx + dy * dy);
+
+    const RADIO = 200; // px
+
+    if (distancia <= RADIO) {
+        abrirSobre();
+    }
+});
+    
 document.body.style.overflow = "hidden";
 </script>
 

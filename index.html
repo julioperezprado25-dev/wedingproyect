@@ -2,85 +2,309 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Ivon & Julio - Nuestra Boda Mágica</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-/* ===== ESTILOS BASE (MANTENGO LOS ANTERIORES) ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: #fef5e6; }
-body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
+/* ===== RESET Y ESTILOS BASE CORREGIDOS PARA MÓVIL ===== */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+html, body { 
+    width: 100%; 
+    min-height: 100%;
+    background: #fef5e6; 
+    overflow-x: hidden;
+}
+
+body { 
+    font-family: 'Great Vibes', cursive; 
+    color: #3b2f1b; 
+    position: relative;
+}
 
 /* FLORES DE FONDO */
-.flores-marco-global { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-.flor-item { position: absolute; opacity: 0; transition: opacity 0.5s; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); }
+.flores-marco-global { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    pointer-events: none; 
+    z-index: 5; 
+}
+
+.flor-item { 
+    position: absolute; 
+    opacity: 0; 
+    transition: opacity 0.5s; 
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); 
+}
+
 .flor-item.visible { opacity: 1; }
-.flor-top-left { top: 20px; left: 20px; width: 140px; }
-.flor-bottom-left { bottom: 20px; left: 20px; width: 140px; }
-.flor-right-center { top: 50%; right: 20px; transform: translateY(-50%); width: 140px; }
-.flor-img { width: 100%; animation: flotarFlor 5s infinite alternate ease-in-out; }
-@keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(10px) rotate(2deg);} }
+
+.flor-top-left { top: 20px; left: 20px; width: clamp(80px, 12vw, 140px); }
+.flor-bottom-left { bottom: 20px; left: 20px; width: clamp(80px, 12vw, 140px); }
+.flor-right-center { top: 50%; right: 20px; transform: translateY(-50%); width: clamp(80px, 12vw, 140px); }
+
+.flor-img { 
+    width: 100%; 
+    animation: flotarFlor 5s infinite alternate ease-in-out; 
+}
+
+@keyframes flotarFlor { 
+    0% { transform: translateY(0px) rotate(0deg);}
+    100% { transform: translateY(10px) rotate(2deg);} 
+}
 
 /* FONDO SLIDESHOW */
-.bg-slideshow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
-.bg-slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 2.5s ease; }
+.bg-slideshow { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: -2; 
+    pointer-events: none; 
+}
+
+.bg-slideshow img { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    opacity: 0; 
+    transition: opacity 2.5s ease; 
+}
+
 .bg-slideshow img.active { opacity: 0.18; }
 
-/* INTRO SOBRE (mantengo igual) */
-.intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1509; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
-.envelope { position: relative; width: 300px; height: 420px; perspective: 1600px; cursor: default; }
-.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
-.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
-.envelope-back-expanded.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 20px 30px rgba(0,0,0,0.4); z-index: 1; transition: opacity 0.3s; }
-.flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; z-index: 3; }
+/* INTRO SOBRE - CORREGIDO PARA MÓVIL */
+.intro { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: #1a1509; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 9999; 
+    transition: opacity 1s ease; 
+}
+
+.envelope { 
+    position: relative; 
+    width: min(300px, 80vw); 
+    height: min(420px, 70vh); 
+    perspective: 1600px; 
+    cursor: default; 
+}
+
+.envelope-back { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: url('sobre_back.png') no-repeat center center; 
+    background-size: 100% 100%; 
+    opacity: 0; 
+    transition: opacity 0.5s ease; 
+    z-index: 0; 
+    border-radius: 12px; 
+}
+
+.envelope-back-expanded { 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    width: 100%; 
+    height: 100%; 
+    background: url('sobre_back.png') no-repeat center center; 
+    background-size: cover; 
+    transform: translate(-50%, -50%) scale(0); 
+    opacity: 0; 
+    z-index: 10000; 
+    transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; 
+    pointer-events: none; 
+}
+
+.envelope-back-expanded.show { 
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 1; 
+}
+
+.envelope-body { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: url('sobre.png') no-repeat center center; 
+    background-size: 100% 100%; 
+    box-shadow: 0 20px 30px rgba(0,0,0,0.4); 
+    z-index: 1; 
+    transition: opacity 0.3s; 
+}
+
+.flap-left, .flap-right { 
+    position: absolute; 
+    top: 0; 
+    width: 50%; 
+    height: 100%; 
+    background: url('sobre.png') no-repeat; 
+    background-size: 200% 100%; 
+    transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; 
+    z-index: 3; 
+}
+
 .flap-left { left: 0; background-position: left; transform-origin: 22% center; }
 .flap-right { right: 0; background-position: right; transform-origin: 78% center; }
+
 .envelope.open .flap-left { transform: rotateY(-105deg); opacity: 0; }
 .envelope.open .flap-right { transform: rotateY(105deg); opacity: 0; }
 .envelope.open .envelope-body { opacity: 0; }
 .envelope.open .envelope-back { opacity: 1; }
-.seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; cursor: pointer; z-index: 20; transition: transform 0.15s ease; }
-.seal img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
+
+.seal { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: min(200px, 40vw); 
+    height: min(200px, 40vw); 
+    cursor: pointer; 
+    z-index: 20; 
+    transition: transform 0.15s ease; 
+}
+
+.seal img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+    pointer-events: none; 
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); 
+}
+
 .seal:active { transform: translate(-50%, -50%) scale(0.96); }
-.hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Great Vibes', cursive; font-size: 28px; color: #ffdd99; text-shadow: 0 0 15px #ffaa33; animation: glowHint 1.5s infinite; white-space: nowrap; background: rgba(0,0,0,0.35); padding: 5px 24px; border-radius: 50px; pointer-events: none; }
+
+.hint { 
+    position: absolute; 
+    bottom: -50px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    font-family: 'Great Vibes', cursive; 
+    font-size: clamp(20px, 6vw, 28px); 
+    color: #ffdd99; 
+    text-shadow: 0 0 15px #ffaa33; 
+    animation: glowHint 1.5s infinite; 
+    white-space: nowrap; 
+    background: rgba(0,0,0,0.35); 
+    padding: 5px 24px; 
+    border-radius: 50px; 
+    pointer-events: none; 
+}
+
 @keyframes glowHint { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+
 .fade-dust { animation: dustFadeOut 1.2s forwards !important; }
-@keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } }
+
+@keyframes dustFadeOut { 
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } 
+}
 
 /* CARTA MÁGICA */
-.letter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10001; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; }
+.letter-overlay { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 10001; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    pointer-events: none; 
+    opacity: 0; 
+    transition: opacity 0.5s ease; 
+}
+
 .letter-overlay.show { opacity: 1; }
-.letter-content { background: transparent; padding: 40px 35px; max-width: 85%; width: 650px; text-align: center; transform: scale(0.9); animation: letterPop 0.6s ease forwards; }
+
+.letter-content { 
+    background: transparent; 
+    padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 35px); 
+    max-width: 90%; 
+    width: 650px; 
+    text-align: center; 
+    transform: scale(0.9); 
+    animation: letterPop 0.6s ease forwards; 
+}
+
 @keyframes letterPop { 100% { transform: scale(1); opacity: 1; } }
-#texto { font-family: 'Great Vibes', cursive; font-size: 34px; line-height: 1.4; color: #2c2412; text-shadow: 2px 2px 5px rgba(255,255,200,0.8); }
-.magic-letter { display: inline-block; opacity: 0; transform: scale(0.6) translateY(20px); animation: inkReveal 0.4s forwards; }
-@keyframes inkReveal { 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+
+#texto { 
+    font-family: 'Great Vibes', cursive; 
+    font-size: clamp(24px, 6vw, 34px); 
+    line-height: 1.4; 
+    color: #2c2412; 
+    text-shadow: 2px 2px 5px rgba(255,255,200,0.8); 
+}
+
+.magic-letter { 
+    display: inline-block; 
+    opacity: 0; 
+    transform: scale(0.6) translateY(20px); 
+    animation: inkReveal 0.4s forwards; 
+}
+
+@keyframes inkReveal { 
+    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } 
+}
+
 .magic-text-container.fade-out { animation: smokeFadeOut 0.8s ease forwards; }
-@keyframes smokeFadeOut { 100% { opacity: 0; filter: blur(12px); transform: scale(0.95); visibility: hidden; } }
+
+@keyframes smokeFadeOut { 
+    100% { opacity: 0; filter: blur(12px); transform: scale(0.95); visibility: hidden; } 
+}
+
 .magic-line { margin-bottom: 12px; }
 
-/* ===== MAIN CONTENIDO - SECCIONES CON ALTURA FLEXIBLE ===== */
-.main { opacity: 0; transition: opacity 1.8s ease; overflow-y: auto; height: 100vh; padding: 2rem 6%; position: relative; z-index: 10; }
+/* ===== MAIN CONTENIDO - CORREGIDO PARA MÓVIL ===== */
+.main { 
+    opacity: 0; 
+    transition: opacity 1.8s ease; 
+    position: relative; 
+    z-index: 10; 
+    min-height: 100vh;
+    width: 100%;
+}
+
 .main.show { opacity: 1; }
 
-/* 🔥 IMPORTANTE: SECCIONES CON ALTURA AUTOMÁTICA (para agregar contenido) */
+/* SECCIONES CON ALTURA AUTOMÁTICA */
 .seccion {
-    min-height: auto;  /* ← CAMBIADO: ya no fuerza 100vh */
+    min-height: auto;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 3rem 1rem;  /* padding vertical aumentado */
-    position: relative;   /* necesario para posicionar elementos dentro */
+    padding: 3rem 1rem;
+    position: relative;
+    width: 100%;
 }
 
 /* Contenedor principal de cada sección */
 .contenido-seccion {
-    background: rgba(255, 252, 240, 0.88);
-    border-radius: 48px;
-    padding: 2rem 2rem;
+    background: rgba(255, 252, 240, 0.92);
+    border-radius: clamp(30px, 6vw, 48px);
+    padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 3vw, 2rem);
     width: 100%;
     max-width: 750px;
     box-shadow: 0 20px 35px rgba(0,0,0,0.12);
@@ -90,39 +314,25 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
     z-index: 2;
 }
 
-/* ===== ELEMENTOS PERSONALIZADOS DENTRO DE CADA SECCIÓN ===== */
-/* Ejemplo: Imagen flotante en esquina superior izquierda */
-.imagen-esquina {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100px;
-    z-index: 3;
-    pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    animation: flotarSuave 3s infinite alternate;
-}
-.imagen-centro-top{
-/* Imagen centrada en la parte superior de la sección */
+/* ===== ELEMENTOS PERSONALIZADOS ===== */
 .imagen-centro-top {
     position: absolute;
-    top: 20px;           /* Distancia desde el borde superior */
+    top: -30px;
     left: 50%;
-    transform: translateX(-50%);  /* Centrado horizontal perfecto */
-    width: 120px;        /* Tamaño por defecto */
+    transform: translateX(-50%);
+    width: clamp(200px, 50vw, 400px);
     z-index: 3;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     animation: flotarSuave 3s infinite alternate;
 }
 
-/* También puedes crear variantes */
 .imagen-centro-top-grande {
     position: absolute;
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    width: 180px;
+    width: clamp(120px, 25vw, 180px);
     z-index: 3;
     pointer-events: none;
 }
@@ -132,38 +342,46 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: clamp(60px, 15vw, 80px);
     z-index: 3;
     pointer-events: none;
 }
 
-/* Imagen en esquina inferior derecha */
+.imagen-esquina {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: clamp(60px, 12vw, 100px);
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotarSuave 3s infinite alternate;
+}
+
 .imagen-inferior-derecha {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    width: 120px;
+    width: clamp(60px, 12vw, 120px);
     z-index: 3;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
 
-/* Imagen centrada detrás del contenido (como marca de agua) */
 .imagen-marca-agua {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: clamp(120px, 30vw, 200px);
     opacity: 0.15;
     z-index: 1;
     pointer-events: none;
 }
 
-/* Imagen decorativa flotante */
 .imagen-decorativa {
     position: absolute;
-    width: 80px;
+    width: clamp(50px, 12vw, 80px);
     z-index: 3;
     pointer-events: none;
     animation: flotarSuave 4s infinite alternate;
@@ -174,17 +392,16 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
     100% { transform: translateY(15px); }
 }
 
-/* Grid para imágenes adicionales dentro del contenido */
 .grid-imagenes {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     justify-content: center;
     margin: 30px 0;
 }
 
 .grid-imagenes img {
-    width: 150px;
+    width: clamp(80px, 20vw, 150px);
     border-radius: 20px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     transition: transform 0.3s;
@@ -194,25 +411,123 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
     transform: scale(1.05);
 }
 
-/* Más padding para secciones con contenido extra */
 .seccion-con-mucho-contenido {
     padding: 5rem 1rem;
 }
 
-.titulo { font-size: 85px; font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
-h2 { font-size: 45px; font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
-.countdown-small { font-size: 32px; font-weight: bold; background: #e9d6b0; display: inline-block; padding: 8px 24px; border-radius: 60px; margin: 15px 0; font-family: 'Great Vibes', cursive;}
-.btn { background: #c49a3b; border: none; color: white; font-family: 'Great Vibes', cursive; font-size: 18px; padding: 12px 28px; margin: 8px; border-radius: 40px; cursor: pointer; transition: all 0.2s; }
-.btn:hover { background: #a57c2a; transform: scale(1.02); }
-input, textarea { width: 90%; padding: 12px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; }
-textarea { border-radius: 28px; min-height: 90px; }
-#galeria { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin-top: 25px; }
-#galeria img { width: 130px; height: 130px; object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
+/* TIPOGRAFÍA RESPONSIVE */
+.titulo { 
+    font-size: clamp(48px, 12vw, 85px); 
+    font-family: 'Great Vibes', cursive; 
+    color: #b47c2e; 
+    margin-bottom: 1rem; 
+}
 
+h2 { 
+    font-size: clamp(32px, 8vw, 45px); 
+    font-family: 'Great Vibes', cursive; 
+    color: #b8860b; 
+    margin-bottom: 20px; 
+}
+
+.countdown-small { 
+    font-size: clamp(24px, 6vw, 32px); 
+    font-weight: bold; 
+    background: #e9d6b0; 
+    display: inline-block; 
+    padding: 8px 24px; 
+    border-radius: 60px; 
+    margin: 15px 0; 
+    font-family: 'Great Vibes', cursive;
+}
+
+.btn { 
+    background: #c49a3b; 
+    border: none; 
+    color: white; 
+    font-family: 'Great Vibes', cursive; 
+    font-size: clamp(16px, 4vw, 18px); 
+    padding: 12px 28px; 
+    margin: 8px; 
+    border-radius: 40px; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+}
+
+.btn:hover { 
+    background: #a57c2a; 
+    transform: scale(1.02); 
+}
+
+input, textarea { 
+    width: 90%; 
+    padding: 12px; 
+    margin: 12px 0; 
+    border-radius: 60px; 
+    border: 1px solid #dbb879; 
+    font-family: 'Great Vibes', cursive; 
+    background: #fffdf5; 
+    font-size: clamp(14px, 3.5vw, 16px);
+}
+
+textarea { 
+    border-radius: 28px; 
+    min-height: 90px; 
+}
+
+#galeria { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+    justify-content: center; 
+    margin-top: 25px; 
+}
+
+#galeria img { 
+    width: clamp(100px, 25vw, 130px); 
+    height: clamp(100px, 25vw, 130px); 
+    object-fit: cover; 
+    border-radius: 20px; 
+    border: 3px solid #dbb162; 
+}
+
+p {
+    font-size: clamp(16px, 4vw, 22px);
+    margin: 10px 0;
+}
+
+/* Ajustes para móvil */
 @media (max-width: 700px) {
-    .titulo { font-size: 56px; }
-    h2 { font-size: 36px; }
-    .imagen-esquina, .imagen-inferior-derecha { width: 60px; }
+    .seccion {
+        padding: 2rem 0.8rem;
+    }
+    
+    .contenido-seccion {
+        padding: 1.5rem 1rem;
+    }
+    
+    .imagen-centro-top {
+        top: -20px;
+    }
+    
+    .grid-imagenes {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .seccion {
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .contenido-seccion {
+        padding: 1.2rem 0.8rem;
+    }
+    
+    .btn {
+        padding: 8px 20px;
+        margin: 6px;
+    }
 }
 </style>
 </head>
@@ -220,8 +535,8 @@ textarea { border-radius: 28px; min-height: 90px; }
 
 <!-- Fondo rotativo -->
 <div class="bg-slideshow">
-    <img src="fondo.jpg" id="bg1" class="active">
-    <img src="fondo2.jpg" id="bg2">
+    <img src="fondo.jpg" id="bg1" class="active" alt="Fondo boda">
+    <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
 </div>
 
 <div id="floresContainer" class="flores-marco-global"></div>
@@ -245,24 +560,18 @@ textarea { border-radius: 28px; min-height: 90px; }
 <div class="main" id="main">
     
     <!-- SECCIÓN 0 - Hero -->
-    <div class="seccion" data-section="0" style="position: relative;">
-        
+    <div class="seccion" data-section="0" style="position: relative; padding-top: 4rem;">
         <div class="contenido-seccion">
-            <!-- 🐶 EJEMPLO: Imagen "perritos1.png" en esquina superior izquierda -->
-            <img src="perritos1.png" alt="Perritos" class="imagen-centro-top" style="width: 400px;">
-	    <h1 class="titulo">Ivon & Julio</h1>
-            <p style="font-size: 22px;">Nos llena de alegría invitarte a celebrar</p>
-            <p style="font-size: 24px;">el día más importante de nuestras vidas</p>
-            <p style="margin-top: 25px; font-size: 28px; font-weight: bold;">💍 14 de agosto, 2026 💍</p>
-            
-            <!-- Grid de imágenes dentro del contenido -->
-            
+            <img src="perritos1.png" alt="Perritos" class="imagen-centro-top">
+            <h1 class="titulo">Ivon & Julio</h1>
+            <p style="font-size: clamp(18px, 5vw, 22px);">Nos llena de alegría invitarte a celebrar</p>
+            <p style="font-size: clamp(20px, 5.5vw, 24px);">el día más importante de nuestras vidas</p>
+            <p style="margin-top: 25px; font-size: clamp(24px, 6vw, 28px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
         </div>
     </div>
 
-    <!-- SECCIÓN 1 - Detalles con más altura y contenido extra -->
-    <div class="seccion" data-section="1" style="position: relative; padding: 5rem 1rem;">
-        
+    <!-- SECCIÓN 1 - Detalles -->
+    <div class="seccion" data-section="1" style="position: relative;">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
             <div class="countdown-small" id="countdownBoda"></div>
@@ -271,19 +580,17 @@ textarea { border-radius: 28px; min-height: 90px; }
             <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
             <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
             
-            <!-- Texto adicional para demostrar altura -->
             <div style="margin-top: 40px; padding: 20px; background: rgba(197,155,42,0.1); border-radius: 20px;">
-                <h3>✨ Información importante ✨</h3>
+                <h3 style="font-size: clamp(20px, 5vw, 28px);">✨ Información importante ✨</h3>
                 <p>Por favor confirmar asistencia antes del 1 de agosto.</p>
                 <p>Estacionamiento disponible en las cercanías.</p>
                 <p>Habrá servicio de catering y barra libre.</p>
             </div>
             
-            <!-- Más imágenes dentro del contenido -->
             <div class="grid-imagenes" style="margin-top: 30px;">
-                <img src="flores_izquierdaU.png" style="width: 100px;">
-                <img src="flores_derechaC.png" style="width: 100px;">
-                <img src="perritos1.png" style="width: 100px;" onerror="this.style.display='none'">
+                <img src="flores_izquierdaU.png" alt="Flores izquierda" style="width: clamp(80px, 20vw, 100px);">
+                <img src="flores_derechaC.png" alt="Flores derecha" style="width: clamp(80px, 20vw, 100px);">
+                <img src="perritos1.png" alt="Perritos" style="width: clamp(80px, 20vw, 100px;" onerror="this.style.display='none'">
             </div>
             
             <div style="margin-top: 25px;">
@@ -300,8 +607,8 @@ textarea { border-radius: 28px; min-height: 90px; }
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
             <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
             <div style="background: rgba(197,155,42,0.2); padding: 20px; border-radius: 25px; margin-top: 20px;">
-                <h3>💰 Nuestra cuenta</h3>
-                <p style="font-size: 22px; font-weight: bold;">193 205 253 18 0 43</p>
+                <h3 style="font-size: clamp(20px, 5vw, 28px);">💰 Nuestra cuenta</h3>
+                <p style="font-size: clamp(18px, 5vw, 22px); font-weight: bold; word-break: break-all;">193 205 253 18 0 43</p>
             </div>
         </div>
     </div>
@@ -310,7 +617,7 @@ textarea { border-radius: 28px; min-height: 90px; }
     <div class="seccion" data-section="3">
         <div class="contenido-seccion">
             <h2>💑 Padrinos</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px;">
                 <div><strong>🌸 Velación:</strong><br>María Rodríguez y Carlos Sánchez</div>
                 <div><strong>💍 Anillos:</strong><br>Ana Martínez y Luis Fernández</div>
                 <div><strong>📿 Lazo:</strong><br>Patricia Gómez y Roberto Díaz</div>
@@ -343,7 +650,7 @@ textarea { border-radius: 28px; min-height: 90px; }
     <div class="seccion" data-section="6">
         <div class="contenido-seccion">
             <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
-            <p style="margin-top: 30px; font-size: 22px; font-family: 'Great Vibes', cursive;">✨ Gracias por ser parte de este momento especial ✨</p>
+            <p style="margin-top: 30px; font-size: clamp(18px, 5vw, 22px); font-family: 'Great Vibes', cursive;">✨ Gracias por ser parte de este momento especial ✨</p>
         </div>
     </div>
 </div>
@@ -359,6 +666,7 @@ let textoContainer = null;
 
 function mostrarTextoMagico() {
     const contenedor = document.getElementById("texto");
+    if (!contenedor) return;
     contenedor.innerHTML = "";
     const lineas = cartaMensaje.split('\n');
     lineas.forEach((linea, idxLinea) => {
@@ -393,6 +701,7 @@ function desvanecerTextoCompleto(callback) {
 function crearFloresPorSeccion() {
     const secciones = document.querySelectorAll('.seccion');
     const container = document.getElementById('floresContainer');
+    if (!container) return;
     container.innerHTML = '';
     const floresAssets = [
         { clase: 'flor-top-left', img: 'flores_izquierdaU.png' },
@@ -406,6 +715,7 @@ function crearFloresPorSeccion() {
             const img = document.createElement('img');
             img.src = flor.img;
             img.className = 'flor-img';
+            img.alt = "Flor decorativa";
             florDiv.appendChild(img);
             container.appendChild(florDiv);
             const observer = new IntersectionObserver((entries) => {
@@ -430,27 +740,30 @@ const mainDiv = document.getElementById("main");
 function abrirSobre() {
     if (yaAbierto) return;
     yaAbierto = true;
-    sello.classList.add("fade-dust");
-    document.getElementById("hint")?.classList.add("fade-dust");
-    setTimeout(() => { sobre.classList.add("open"); }, 400);
+    if (sello) sello.classList.add("fade-dust");
+    const hint = document.getElementById("hint");
+    if (hint) hint.classList.add("fade-dust");
+    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 400);
     setTimeout(() => {
-        sobreBackExpandido.classList.add("show");
-        sobre.style.opacity = "0";
-        setTimeout(() => { sobre.style.display = "none"; }, 500);
+        if (sobreBackExpandido) sobreBackExpandido.classList.add("show");
+        if (sobre) sobre.style.opacity = "0";
+        setTimeout(() => { if (sobre) sobre.style.display = "none"; }, 500);
     }, 1800);
     setTimeout(() => {
-        cartaOverlay.classList.add("show");
+        if (cartaOverlay) cartaOverlay.classList.add("show");
         mostrarTextoMagico();
         iniciarMusica();
     }, 2600);
     setTimeout(() => {
         desvanecerTextoCompleto(() => {
-            cartaOverlay.classList.remove("show");
-            setTimeout(() => { sobreBackExpandido.classList.remove("show"); }, 300);
-            introDiv.style.opacity = "0";
+            if (cartaOverlay) cartaOverlay.classList.remove("show");
+            setTimeout(() => { 
+                if (sobreBackExpandido) sobreBackExpandido.classList.remove("show"); 
+            }, 300);
+            if (introDiv) introDiv.style.opacity = "0";
             setTimeout(() => {
-                introDiv.style.display = "none";
-                mainDiv.classList.add("show");
+                if (introDiv) introDiv.style.display = "none";
+                if (mainDiv) mainDiv.classList.add("show");
                 document.body.style.overflow = "auto";
                 iniciarFondoRotativo();
                 crearFloresPorSeccion();
@@ -460,34 +773,59 @@ function abrirSobre() {
     }, 7500);
 }
 
-sello.addEventListener("pointerup", function(e) {
-    if (yaAbierto) return;
-    const rect = sello.getBoundingClientRect();
-    const centerX = rect.left + rect.width/2, centerY = rect.top + rect.height/2;
-    const radio = rect.width * 0.28;
-    if (Math.hypot(e.clientX - centerX, e.clientY - centerY) <= radio) abrirSobre();
-});
+if (sello) {
+    sello.addEventListener("click", function(e) {
+        if (yaAbierto) return;
+        e.stopPropagation();
+        abrirSobre();
+    });
+    
+    // También soportar touch para móviles
+    sello.addEventListener("touchstart", function(e) {
+        if (yaAbierto) return;
+        e.preventDefault();
+        abrirSobre();
+    });
+}
 
 function iniciarMusica() {
     const audio = document.getElementById("musica");
+    if (!audio) return;
     audio.volume = 0;
     audio.play().catch(()=>{});
     let vol = 0;
-    const fade = setInterval(() => { vol = Math.min(1, vol+0.05); audio.volume = vol; if(vol>=0.9) clearInterval(fade); }, 280);
+    const fade = setInterval(() => { 
+        vol = Math.min(1, vol+0.05); 
+        audio.volume = vol; 
+        if(vol >= 0.9) clearInterval(fade); 
+    }, 280);
     window.musicaMuted = false;
 }
 
 function toggleAudio() {
     const audio = document.getElementById("musica");
     const btn = document.getElementById("audioBtn");
-    if(!window.musicaMuted) { audio.muted = true; window.musicaMuted = true; btn.textContent = "🔇 Activar Música"; }
-    else { audio.muted = false; window.musicaMuted = false; btn.textContent = "🔊 Silenciar Música"; }
+    if(!window.musicaMuted) { 
+        if(audio) audio.muted = true; 
+        window.musicaMuted = true; 
+        if(btn) btn.textContent = "🔇 Activar Música"; 
+    } else { 
+        if(audio) audio.muted = false; 
+        window.musicaMuted = false; 
+        if(btn) btn.textContent = "🔊 Silenciar Música"; 
+    }
 }
 
 let intervaloFondo;
 function iniciarFondoRotativo() {
     const bg1 = document.getElementById("bg1"), bg2 = document.getElementById("bg2");
-    if(bg1 && bg2) intervaloFondo = setInterval(() => { bg1.classList.toggle("active"); bg2.classList.toggle("active"); }, 4000);
+    if(bg1 && bg2) {
+        if(intervaloFondo) clearInterval(intervaloFondo);
+        intervaloFondo = setInterval(() => { 
+            bg1.classList.toggle("active"); 
+            bg2.classList.toggle("active"); 
+        }, 4000);
+    }
 }
 
 function iniciarCountdown() {
@@ -496,7 +834,10 @@ function iniciarCountdown() {
     if(!countdownEl) return;
     function actualizar() {
         const distancia = bodaFecha - new Date().getTime();
-        if(distancia < 0) { countdownEl.innerHTML = '🎉 ¡Es hoy! 🎉'; return; }
+        if(distancia < 0) { 
+            countdownEl.innerHTML = '🎉 ¡Es hoy! 🎉'; 
+            return; 
+        }
         const dias = Math.floor(distancia/(1000*60*60*24));
         const horas = Math.floor((distancia%(1000*60*60*24))/(1000*60*60));
         const minutos = Math.floor((distancia%(1000*60*60))/(1000*60));
@@ -507,12 +848,48 @@ function iniciarCountdown() {
     setInterval(actualizar, 1000);
 }
 
-function abrirMaps() { window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9"); }
-function abrirWaze() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
-function subirFoto() { const file = document.getElementById("foto").files[0]; if(file) { const img = document.createElement("img"); img.src = URL.createObjectURL(file); document.getElementById("galeria").prepend(img); } }
-function enviarMensaje() { const nombre = document.getElementById("nombre").value.trim(), msg = document.getElementById("mensajeInput").value.trim(); if(!nombre || !msg) { alert("💕 Por favor completa tu nombre y mensaje"); return; } alert(`✨ ¡Gracias ${nombre}! Tu mensaje ha sido enviado a los novios ✨\n\n"${msg}"`); document.getElementById("nombre").value = ""; document.getElementById("mensajeInput").value = ""; }
+function abrirMaps() { 
+    window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9"); 
+}
 
+function abrirWaze() { 
+    window.open("https://waze.com/ul/h6mc5mgy3k"); 
+}
+
+function subirFoto() { 
+    const fileInput = document.getElementById("foto");
+    const file = fileInput ? fileInput.files[0] : null; 
+    if(file) { 
+        const img = document.createElement("img"); 
+        img.src = URL.createObjectURL(file); 
+        const galeria = document.getElementById("galeria");
+        if(galeria) galeria.prepend(img); 
+    } 
+}
+
+function enviarMensaje() { 
+    const nombreInput = document.getElementById("nombre");
+    const mensajeInput = document.getElementById("mensajeInput");
+    const nombre = nombreInput ? nombreInput.value.trim() : "";
+    const msg = mensajeInput ? mensajeInput.value.trim() : "";
+    if(!nombre || !msg) { 
+        alert("💕 Por favor completa tu nombre y mensaje"); 
+        return; 
+    }
+    alert(`✨ ¡Gracias ${nombre}! Tu mensaje ha sido enviado a los novios ✨\n\n"${msg}"`); 
+    if(nombreInput) nombreInput.value = ""; 
+    if(mensajeInput) mensajeInput.value = ""; 
+}
+
+// Inicialización
 document.body.style.overflow = "hidden";
+
+// Prevenir scroll en móvil durante la intro
+if (introDiv) {
+    introDiv.addEventListener('touchmove', function(e) {
+        if (!yaAbierto) e.preventDefault();
+    }, { passive: false });
+}
 </script>
 </body>
-</html>
+</html> 

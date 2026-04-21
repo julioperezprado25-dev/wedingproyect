@@ -25,7 +25,7 @@ body {
     color: #3b2f1b; 
     position: relative;
     /* Padding lateral para que las flores sean visibles */
-    padding: 0 500px;
+    padding: 0 600px;
 }
 
 /* ===== FLORES LATERALES CON TUS ARCHIVOS PNG ===== */
@@ -57,28 +57,28 @@ body {
 
 /* Animaciones individuales para efecto más natural */
 @keyframes floatBreathingVerde1 {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
-    100% { transform: translateY(-15px) scale(1.1); filter: drop-shadow(0 0 20px rgba(50, 200, 80, 0.8)) brightness(1.2); opacity: 1; }
+    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
+    100% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(50, 200, 80, 0.8)) brightness(1.2); opacity: 1; }
 }
 
 @keyframes floatBreathingVerde2 {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
-    100% { transform: translateY(-12px) scale(1.08); filter: drop-shadow(0 0 22px rgba(40, 180, 70, 0.9)) brightness(1.25); opacity: 1; }
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
+    100% { transform:scale(1.08); filter: drop-shadow(0 0 22px rgba(40, 180, 70, 0.9)) brightness(1.25); opacity: 1; }
 }
 
 @keyframes floatBreathingVerde3 {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
-    100% { transform: translateY(-18px) scale(1.12); filter: drop-shadow(0 0 25px rgba(60, 220, 90, 0.85)) brightness(1.3); opacity: 1; }
+    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
+    100% { transform:  scale(1.12); filter: drop-shadow(0 0 25px rgba(60, 220, 90, 0.85)) brightness(1.3); opacity: 1; }
 }
 
 @keyframes floatBreathingRosa1 {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
+    0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
     100% { transform: translateY(-14px) scale(1.09); filter: drop-shadow(0 0 22px rgba(255, 80, 120, 0.9)) brightness(1.25); opacity: 1; }
 }
 
 @keyframes floatBreathingRosa3 {
-    0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
-    100% { transform: translateY(-16px) scale(1.11); filter: drop-shadow(0 0 28px rgba(255, 100, 140, 0.95)) brightness(1.3); opacity: 1; }
+    0% { transform:  scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
+    100% { transform: scale(1.11); filter: drop-shadow(0 0 28px rgba(255, 100, 140, 0.95)) brightness(1.3); opacity: 1; }
 }
 
 /* FONDO SLIDESHOW */
@@ -411,12 +411,12 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
 
 /* ===== MEDIA QUERIES ===== */
 @media (max-width: 900px) {
-    body { padding: 0 50px; }
+    body { padding: 0 60px; }
     .contenido-seccion { max-width: 520px; }
 }
 
 @media (max-width: 700px) {
-    body { padding: 0 25px; }
+    body { padding: 0 60px; }
     .contenido-seccion { max-width: 100%; padding: 1.5rem 1rem; }
     .imagen-centro-superior { top: -28px; max-height: 85px; max-width: 40%; }
     :root { --flor-offset-top: -15px; --flor-offset-left: -15px; --flor-offset-bottom: -15px; --flor-offset-right: -15px; }

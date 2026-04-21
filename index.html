@@ -1057,26 +1057,40 @@ function enviarMensaje() {
 
 // ===== EVENTO DE CLIC EN EL SELLO =====
 // El clic funciona SOLO donde la imagen del sello tiene color (áreas transparentes no reciben clic)
-document.getElementById("sello").addEventListener("click", function(e) {
-    const sello = document.getElementById("sello");
-    const rect = sello.getBoundingClientRect();
+const sello = document.getElementById("sello");
+const img = sello.querySelector("img");
 
-    // Centro del sello
-    const centroX = rect.left + rect.width / 2;
-    const centroY = rect.top + rect.height / 2;
+// Crear canvas oculto para leer píxeles
+const canvas = document.createElement("canvas");
+const ctx = canvas.getContext("2d");
 
-    // Posición del clic
-    const clickX = e.clientX;
-    const clickY = e.clientY;
+// Cuando cargue la imagen, la dibujamos en canvas
+img.onload = function () {
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+};
 
-    // Distancia desde el centro
-    const dx = clickX - centroX;
-    const dy = clickY - centroY;
-    const distancia = Math.sqrt(dx * dx + dy * dy);
+// Asegurar carga si ya está en caché
+if (img.complete) {
+    img.onload();
+}
 
-    const RADIO = rect.width/2; // px
+// Evento REAL sobre la imagen
+img.addEventListener("click", function (e) {
 
-    if (distancia <= RADIO) {
+    const rect = img.getBoundingClientRect();
+
+    // Coordenadas del clic dentro de la imagen visible
+    const x = (e.clientX - rect.left) * (img.naturalWidth / rect.width);
+    const y = (e.clientY - rect.top) * (img.naturalHeight / rect.height);
+
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+
+    const alpha = pixel[3]; // transparencia (0 = invisible, 255 = sólido)
+
+    // Solo activar si el píxel NO es transparente
+    if (alpha > 50) {
         abrirSobre();
     }
 });

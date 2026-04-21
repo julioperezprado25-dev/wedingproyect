@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Ivon & Julio - Nuestra Boda Mágica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+/* ===== ESTILOS BASE (MANTENGO LOS ANTERIORES) ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #fef5e6; }
+body { font-family: 'Great Vibes', cursive; color: #3b2f1b; }
+
+/* FLORES DE FONDO */
+.flores-marco-global { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+.flor-item { position: absolute; opacity: 0; transition: opacity 0.5s; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15)); }
+.flor-item.visible { opacity: 1; }
+.flor-top-left { top: 20px; left: 20px; width: 140px; }
+.flor-bottom-left { bottom: 20px; left: 20px; width: 140px; }
+.flor-right-center { top: 50%; right: 20px; transform: translateY(-50%); width: 140px; }
+.flor-img { width: 100%; animation: flotarFlor 5s infinite alternate ease-in-out; }
+@keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(10px) rotate(2deg);} }
+
+/* FONDO SLIDESHOW */
+.bg-slideshow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; pointer-events: none; }
+.bg-slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 2.5s ease; }
+.bg-slideshow img.active { opacity: 0.18; }
+
+/* INTRO SOBRE (mantengo igual) */
+.intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1509; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
+.envelope { position: relative; width: 300px; height: 420px; perspective: 1600px; cursor: default; }
+.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
+.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
+.envelope-back-expanded.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 20px 30px rgba(0,0,0,0.4); z-index: 1; transition: opacity 0.3s; }
+.flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; z-index: 3; }
+.flap-left { left: 0; background-position: left; transform-origin: 22% center; }
+.flap-right { right: 0; background-position: right; transform-origin: 78% center; }
+.envelope.open .flap-left { transform: rotateY(-105deg); opacity: 0; }
+.envelope.open .flap-right { transform: rotateY(105deg); opacity: 0; }
+.envelope.open .envelope-body { opacity: 0; }
+.envelope.open .envelope-back { opacity: 1; }
+.seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; height: 200px; cursor: pointer; z-index: 20; transition: transform 0.15s ease; }
+.seal img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
+.seal:active { transform: translate(-50%, -50%) scale(0.96); }
+.hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Great Vibes', cursive; font-size: 28px; color: #ffdd99; text-shadow: 0 0 15px #ffaa33; animation: glowHint 1.5s infinite; white-space: nowrap; background: rgba(0,0,0,0.35); padding: 5px 24px; border-radius: 50px; pointer-events: none; }
+@keyframes glowHint { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
+@keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } }
+
+/* CARTA MÁGICA */
+.letter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10001; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; }
+.letter-overlay.show { opacity: 1; }
+.letter-content { background: transparent; padding: 40px 35px; max-width: 85%; width: 650px; text-align: center; transform: scale(0.9); animation: letterPop 0.6s ease forwards; }
+@keyframes letterPop { 100% { transform: scale(1); opacity: 1; } }
+#texto { font-family: 'Great Vibes', cursive; font-size: 34px; line-height: 1.4; color: #2c2412; text-shadow: 2px 2px 5px rgba(255,255,200,0.8); }
+.magic-letter { display: inline-block; opacity: 0; transform: scale(0.6) translateY(20px); animation: inkReveal 0.4s forwards; }
+@keyframes inkReveal { 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+.magic-text-container.fade-out { animation: smokeFadeOut 0.8s ease forwards; }
+@keyframes smokeFadeOut { 100% { opacity: 0; filter: blur(12px); transform: scale(0.95); visibility: hidden; } }
+.magic-line { margin-bottom: 12px; }
+
+/* ===== MAIN CONTENIDO - SECCIONES CON ALTURA FLEXIBLE ===== */
+.main { opacity: 0; transition: opacity 1.8s ease; overflow-y: auto; height: 100vh; padding: 2rem 6%; position: relative; z-index: 10; }
+.main.show { opacity: 1; }
+
+/* 🔥 IMPORTANTE: SECCIONES CON ALTURA AUTOMÁTICA (para agregar contenido) */
+.seccion {
+    min-height: auto;  /* ← CAMBIADO: ya no fuerza 100vh */
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;  /* padding vertical aumentado */
+    position: relative;   /* necesario para posicionar elementos dentro */
+}
+
+/* Contenedor principal de cada sección */
+.contenido-seccion {
+    background: rgba(255, 252, 240, 0.88);
+    border-radius: 48px;
+    padding: 2rem 2rem;
+    width: 100%;
+    max-width: 750px;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.12);
+    border: 1px solid rgba(200, 165, 90, 0.5);
+    backdrop-filter: blur(4px);
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== ELEMENTOS PERSONALIZADOS DENTRO DE CADA SECCIÓN ===== */
+/* Ejemplo: Imagen flotante en esquina superior izquierda */
+.imagen-esquina {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px;
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotarSuave 3s infinite alternate;
+}
+.imagen-centro-top{
+/* Imagen centrada en la parte superior de la sección */
+.imagen-centro-top {
+    position: absolute;
+    top: 20px;           /* Distancia desde el borde superior */
+    left: 50%;
+    transform: translateX(-50%);  /* Centrado horizontal perfecto */
+    width: 120px;        /* Tamaño por defecto */
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: flotarSuave 3s infinite alternate;
+}
+
+/* También puedes crear variantes */
+.imagen-centro-top-grande {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.imagen-centro-top-pequena {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Imagen en esquina inferior derecha */
+.imagen-inferior-derecha {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 120px;
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* Imagen centrada detrás del contenido (como marca de agua) */
+.imagen-marca-agua {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Imagen decorativa flotante */
+.imagen-decorativa {
+    position: absolute;
+    width: 80px;
+    z-index: 3;
+    pointer-events: none;
+    animation: flotarSuave 4s infinite alternate;
+}
+
+@keyframes flotarSuave {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(15px); }
+}
+
+/* Grid para imágenes adicionales dentro del contenido */
+.grid-imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.grid-imagenes img {
+    width: 150px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+}
+
+.grid-imagenes img:hover {
+    transform: scale(1.05);
+}
+
+/* Más padding para secciones con contenido extra */
+.seccion-con-mucho-contenido {
+    padding: 5rem 1rem;
+}
+
+.titulo { font-size: 85px; font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
+h2 { font-size: 45px; font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
+.countdown-small { font-size: 32px; font-weight: bold; background: #e9d6b0; display: inline-block; padding: 8px 24px; border-radius: 60px; margin: 15px 0; font-family: 'Great Vibes', cursive;}
+.btn { background: #c49a3b; border: none; color: white; font-family: 'Great Vibes', cursive; font-size: 18px; padding: 12px 28px; margin: 8px; border-radius: 40px; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: #a57c2a; transform: scale(1.02); }
+input, textarea { width: 90%; padding: 12px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; }
+textarea { border-radius: 28px; min-height: 90px; }
+#galeria { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin-top: 25px; }
+#galeria img { width: 130px; height: 130px; object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
+
+@media (max-width: 700px) {
+    .titulo { font-size: 56px; }
+    h2 { font-size: 36px; }
+    .imagen-esquina, .imagen-inferior-derecha { width: 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Fondo rotativo -->
+<div class="bg-slideshow">
+    <img src="fondo.jpg" id="bg1" class="active">
+    <img src="fondo2.jpg" id="bg2">
+</div>
+
+<div id="floresContainer" class="flores-marco-global"></div>
+
+<!-- INTRO SOBRE -->
+<div class="intro" id="intro">
+    <div class="envelope" id="sobre">
+        <div class="envelope-back"></div>
+        <div class="envelope-body"></div>
+        <div class="flap-left"></div>
+        <div class="flap-right"></div>
+        <div class="seal" id="sello"><img src="sello.png" alt="Sello"></div>
+        <div class="hint" id="hint">✨ Presiona el sello ✨</div>
+    </div>
+</div>
+
+<div id="sobreBackExpandido" class="envelope-back-expanded"></div>
+<div id="cartaOverlay" class="letter-overlay"><div class="letter-content"><div id="texto"></div></div></div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="main" id="main">
+    
+    <!-- SECCIÓN 0 - Hero -->
+    <div class="seccion" data-section="0" style="position: relative;">
+        
+        <div class="contenido-seccion">
+            <!-- 🐶 EJEMPLO: Imagen "perritos1.png" en esquina superior izquierda -->
+            <img src="perritos1.png" alt="Perritos" class="imagen-centro-top" style="width: 400px;">
+	    <h1 class="titulo">Ivon & Julio</h1>
+            <p style="font-size: 22px;">Nos llena de alegría invitarte a celebrar</p>
+            <p style="font-size: 24px;">el día más importante de nuestras vidas</p>
+            <p style="margin-top: 25px; font-size: 28px; font-weight: bold;">💍 14 de agosto, 2026 💍</p>
+            
+            <!-- Grid de imágenes dentro del contenido -->
+            
+        </div>
+    </div>
+
+    <!-- SECCIÓN 1 - Detalles con más altura y contenido extra -->
+    <div class="seccion" data-section="1" style="position: relative; padding: 5rem 1rem;">
+        
+        <div class="contenido-seccion">
+            <h2>📅 La Boda</h2>
+            <div class="countdown-small" id="countdownBoda"></div>
+            <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026 - 7:00 PM</p>
+            <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
+            <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
+            <p><strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
+            
+            <!-- Texto adicional para demostrar altura -->
+            <div style="margin-top: 40px; padding: 20px; background: rgba(197,155,42,0.1); border-radius: 20px;">
+                <h3>✨ Información importante ✨</h3>
+                <p>Por favor confirmar asistencia antes del 1 de agosto.</p>
+                <p>Estacionamiento disponible en las cercanías.</p>
+                <p>Habrá servicio de catering y barra libre.</p>
+            </div>
+            
+            <!-- Más imágenes dentro del contenido -->
+            <div class="grid-imagenes" style="margin-top: 30px;">
+                <img src="flores_izquierdaU.png" style="width: 100px;">
+                <img src="flores_derechaC.png" style="width: 100px;">
+                <img src="perritos1.png" style="width: 100px;" onerror="this.style.display='none'">
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <button class="btn" onclick="abrirMaps()">📍 Google Maps</button>
+                <button class="btn" onclick="abrirWaze()">🚗 Waze</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2 - Lista de Regalos -->
+    <div class="seccion" data-section="2">
+        <div class="contenido-seccion">
+            <h2>🎁 Lista de Regalos</h2>
+            <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
+            <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
+            <div style="background: rgba(197,155,42,0.2); padding: 20px; border-radius: 25px; margin-top: 20px;">
+                <h3>💰 Nuestra cuenta</h3>
+                <p style="font-size: 22px; font-weight: bold;">193 205 253 18 0 43</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3 - Padrinos -->
+    <div class="seccion" data-section="3">
+        <div class="contenido-seccion">
+            <h2>💑 Padrinos</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 20px;">
+                <div><strong>🌸 Velación:</strong><br>María Rodríguez y Carlos Sánchez</div>
+                <div><strong>💍 Anillos:</strong><br>Ana Martínez y Luis Fernández</div>
+                <div><strong>📿 Lazo:</strong><br>Patricia Gómez y Roberto Díaz</div>
+                <div><strong>🎁 Arras:</strong><br>Laura Torres y Miguel Ángel Paz</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 4 - Álbum -->
+    <div class="seccion" data-section="4">
+        <div class="contenido-seccion">
+            <h2>📸 Álbum de Fotos</h2>
+            <input type="file" id="foto" accept="image/*">
+            <button class="btn" onclick="subirFoto()">Subir foto</button>
+            <div id="galeria"></div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 5 - Mensajes -->
+    <div class="seccion" data-section="5">
+        <div class="contenido-seccion">
+            <h2>💬 Mensajes para los novios</h2>
+            <input type="text" id="nombre" placeholder="Tu nombre">
+            <textarea id="mensajeInput" placeholder="Escribe tu mensaje de felicitación..."></textarea>
+            <button class="btn" onclick="enviarMensaje()">Enviar mensaje 💌</button>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 6 - Música -->
+    <div class="seccion" data-section="6">
+        <div class="contenido-seccion">
+            <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
+            <p style="margin-top: 30px; font-size: 22px; font-family: 'Great Vibes', cursive;">✨ Gracias por ser parte de este momento especial ✨</p>
+        </div>
+    </div>
+</div>
+
+<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
+
+<script>
+// ===== TEXTO DE LA CARTA =====
+const cartaMensaje = `✨ Travesura realizada... ✨\n\n💖 ¡Nos casamos! 💖\n\n✨ Has sido invitado ✨\n\n🌟 a celebrar este momento tan especial 🌟\n\nCon amor,\nIvon & Julio`;
+
+let yaAbierto = false;
+let textoContainer = null;
+
+function mostrarTextoMagico() {
+    const contenedor = document.getElementById("texto");
+    contenedor.innerHTML = "";
+    const lineas = cartaMensaje.split('\n');
+    lineas.forEach((linea, idxLinea) => {
+        if (linea.trim() === "") {
+            const espacio = document.createElement("div");
+            espacio.style.height = "20px";
+            contenedor.appendChild(espacio);
+            return;
+        }
+        const divLinea = document.createElement("div");
+        divLinea.className = "magic-line";
+        const chars = Array.from(linea);
+        chars.forEach((ch, i) => {
+            const span = document.createElement('span');
+            span.className = 'magic-letter';
+            if (ch === ' ') span.innerHTML = '&nbsp;';
+            else span.textContent = ch;
+            span.style.animationDelay = `${(idxLinea * 0.45) + (i * 0.055)}s`;
+            divLinea.appendChild(span);
+        });
+        contenedor.appendChild(divLinea);
+    });
+    textoContainer = contenedor;
+}
+
+function desvanecerTextoCompleto(callback) {
+    if (!textoContainer) { if(callback) callback(); return; }
+    textoContainer.classList.add('fade-out');
+    setTimeout(() => { if(callback) callback(); }, 800);
+}
+
+function crearFloresPorSeccion() {
+    const secciones = document.querySelectorAll('.seccion');
+    const container = document.getElementById('floresContainer');
+    container.innerHTML = '';
+    const floresAssets = [
+        { clase: 'flor-top-left', img: 'flores_izquierdaU.png' },
+        { clase: 'flor-bottom-left', img: 'flores_izquierdaD.png' },
+        { clase: 'flor-right-center', img: 'flores_derechaC.png' }
+    ];
+    secciones.forEach((seccion) => {
+        floresAssets.forEach(flor => {
+            const florDiv = document.createElement('div');
+            florDiv.className = `flor-item ${flor.clase}`;
+            const img = document.createElement('img');
+            img.src = flor.img;
+            img.className = 'flor-img';
+            florDiv.appendChild(img);
+            container.appendChild(florDiv);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) florDiv.classList.add('visible');
+                    else florDiv.classList.remove('visible');
+                });
+            }, { threshold: 0.4 });
+            observer.observe(seccion);
+        });
+    });
+}
+
+// APERTURA DEL SOBRE
+const sello = document.getElementById("sello");
+const sobre = document.getElementById("sobre");
+const introDiv = document.getElementById("intro");
+const sobreBackExpandido = document.getElementById("sobreBackExpandido");
+const cartaOverlay = document.getElementById("cartaOverlay");
+const mainDiv = document.getElementById("main");
+
+function abrirSobre() {
+    if (yaAbierto) return;
+    yaAbierto = true;
+    sello.classList.add("fade-dust");
+    document.getElementById("hint")?.classList.add("fade-dust");
+    setTimeout(() => { sobre.classList.add("open"); }, 400);
+    setTimeout(() => {
+        sobreBackExpandido.classList.add("show");
+        sobre.style.opacity = "0";
+        setTimeout(() => { sobre.style.display = "none"; }, 500);
+    }, 1800);
+    setTimeout(() => {
+        cartaOverlay.classList.add("show");
+        mostrarTextoMagico();
+        iniciarMusica();
+    }, 2600);
+    setTimeout(() => {
+        desvanecerTextoCompleto(() => {
+            cartaOverlay.classList.remove("show");
+            setTimeout(() => { sobreBackExpandido.classList.remove("show"); }, 300);
+            introDiv.style.opacity = "0";
+            setTimeout(() => {
+                introDiv.style.display = "none";
+                mainDiv.classList.add("show");
+                document.body.style.overflow = "auto";
+                iniciarFondoRotativo();
+                crearFloresPorSeccion();
+                iniciarCountdown();
+            }, 500);
+        });
+    }, 7500);
+}
+
+sello.addEventListener("pointerup", function(e) {
+    if (yaAbierto) return;
+    const rect = sello.getBoundingClientRect();
+    const centerX = rect.left + rect.width/2, centerY = rect.top + rect.height/2;
+    const radio = rect.width * 0.28;
+    if (Math.hypot(e.clientX - centerX, e.clientY - centerY) <= radio) abrirSobre();
+});
+
+function iniciarMusica() {
+    const audio = document.getElementById("musica");
+    audio.volume = 0;
+    audio.play().catch(()=>{});
+    let vol = 0;
+    const fade = setInterval(() => { vol = Math.min(1, vol+0.05); audio.volume = vol; if(vol>=0.9) clearInterval(fade); }, 280);
+    window.musicaMuted = false;
+}
+
+function toggleAudio() {
+    const audio = document.getElementById("musica");
+    const btn = document.getElementById("audioBtn");
+    if(!window.musicaMuted) { audio.muted = true; window.musicaMuted = true; btn.textContent = "🔇 Activar Música"; }
+    else { audio.muted = false; window.musicaMuted = false; btn.textContent = "🔊 Silenciar Música"; }
+}
+
+let intervaloFondo;
+function iniciarFondoRotativo() {
+    const bg1 = document.getElementById("bg1"), bg2 = document.getElementById("bg2");
+    if(bg1 && bg2) intervaloFondo = setInterval(() => { bg1.classList.toggle("active"); bg2.classList.toggle("active"); }, 4000);
+}
+
+function iniciarCountdown() {
+    const bodaFecha = new Date('August 14, 2026 19:00:00').getTime();
+    const countdownEl = document.getElementById('countdownBoda');
+    if(!countdownEl) return;
+    function actualizar() {
+        const distancia = bodaFecha - new Date().getTime();
+        if(distancia < 0) { countdownEl.innerHTML = '🎉 ¡Es hoy! 🎉'; return; }
+        const dias = Math.floor(distancia/(1000*60*60*24));
+        const horas = Math.floor((distancia%(1000*60*60*24))/(1000*60*60));
+        const minutos = Math.floor((distancia%(1000*60*60))/(1000*60));
+        const segundos = Math.floor((distancia%(1000*60))/1000);
+        countdownEl.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+    }
+    actualizar();
+    setInterval(actualizar, 1000);
+}
+
+function abrirMaps() { window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9"); }
+function abrirWaze() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
+function subirFoto() { const file = document.getElementById("foto").files[0]; if(file) { const img = document.createElement("img"); img.src = URL.createObjectURL(file); document.getElementById("galeria").prepend(img); } }
+function enviarMensaje() { const nombre = document.getElementById("nombre").value.trim(), msg = document.getElementById("mensajeInput").value.trim(); if(!nombre || !msg) { alert("💕 Por favor completa tu nombre y mensaje"); return; } alert(`✨ ¡Gracias ${nombre}! Tu mensaje ha sido enviado a los novios ✨\n\n"${msg}"`); document.getElementById("nombre").value = ""; document.getElementById("mensajeInput").value = ""; }
+
+document.body.style.overflow = "hidden";
+</script>
+</body>
+</html>

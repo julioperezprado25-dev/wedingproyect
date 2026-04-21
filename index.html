@@ -1057,44 +1057,79 @@ function enviarMensaje() {
 
 // ===== EVENTO DE CLIC EN EL SELLO =====
 // El clic funciona SOLO donde la imagen del sello tiene color (áreas transparentes no reciben clic)
-const sello = document.getElementById("sello");
+
+  const sello = document.getElementById("sello");
 const img = sello.querySelector("img");
 
-// Crear canvas oculto para leer píxeles
+// Canvas oculto
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 
-// Cuando cargue la imagen, la dibujamos en canvas
+// IMPORTANTE: evita problemas CORS
+img.crossOrigin = "anonymous";
+
+let imagenLista = false;
+
 img.onload = function () {
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    ctx.drawImage(img, 0, 0);
+    try {
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        ctx.drawImage(img, 0, 0);
+        imagenLista = true;
+    } catch (e) {
+        console.warn("Canvas bloqueado, usando fallback circular");
+        imagenLista = false;
+    }
 };
 
-// Asegurar carga si ya está en caché
+// Si ya está cargada
 if (img.complete) {
     img.onload();
 }
 
-// Evento REAL sobre la imagen
 img.addEventListener("click", function (e) {
 
     const rect = img.getBoundingClientRect();
 
-    // Coordenadas del clic dentro de la imagen visible
-    const x = (e.clientX - rect.left) * (img.naturalWidth / rect.width);
-    const y = (e.clientY - rect.top) * (img.naturalHeight / rect.height);
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
 
-    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    // ===== CENTRO DEL SELLO =====
+    const centroX = rect.width / 2;
+    const centroY = rect.height / 2;
 
-    const alpha = pixel[3]; // transparencia (0 = invisible, 255 = sólido)
+    const dx = clickX - centroX;
+    const dy = clickY - centroY;
+    const distancia = Math.sqrt(dx * dx + dy * dy);
 
-    // Solo activar si el píxel NO es transparente
-    if (alpha > 50) {
-        abrirSobre();
+    const RADIO = rect.width * 0.4; // zona central realista
+
+    // ===== PRIORIDAD 1: FORMA REAL (si canvas funciona) =====
+    if (imagenLista) {
+        try {
+            const x = clickX * (img.naturalWidth / rect.width);
+            const y = clickY * (img.naturalHeight / rect.height);
+
+            const pixel = ctx.getImageData(x, y, 1, 1).data;
+            const alpha = pixel[3];
+
+            if (alpha > 80 && distancia <= RADIO) {
+                abrirSobre();
+            }
+        } catch (err) {
+            // fallback si falla canvas en tiempo real
+            if (distancia <= RADIO) {
+                abrirSobre();
+            }
+        }
+    } 
+    // ===== PRIORIDAD 2: FALLBACK SEGURO =====
+    else {
+        if (distancia <= RADIO) {
+            abrirSobre();
+        }
     }
-});
-    
+});  
 document.body.style.overflow = "hidden";
 </script>
 

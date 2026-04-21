@@ -318,7 +318,7 @@ body {
     text-align: center;
     padding: 2.5rem 0;
     position: relative;
-    width: 100%;
+    width: 90%;
 }
 
 .contenido-seccion {
@@ -365,17 +365,17 @@ body {
     0% { transform: translateY(0px) rotate(0deg);}
     100% { transform: translateY(8px) rotate(2deg);} 
 }
-
+8
 /* IMÁGENES DENTRO DEL MARCO */
+/* ===== IMÁGENES DENTRO DEL MARCO - SIN SOBRESALIR ===== */
 .imagen-centro-superior {
-    position: absolute;
-    top: -35px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;  /* IMPORTANTE: ya no es absolute */
+    display: block;
+    margin: 0 auto 20px auto;  /* Centrado con margen inferior */
     width: auto;
-    max-width: 45%;
+    max-width: 150px;  /* Tamaño controlado */
     height: auto;
-    max-height: 110px;
+    max-height: 150px;
     z-index: 4;
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
@@ -479,7 +479,7 @@ p { font-size: clamp(16px, 4vw, 22px); margin: 10px 0; }
 <div class="main" id="main">
     <!-- SECCIÓN 0 - Hero -->
     <div class="seccion" data-section="0">
-        <div class="contenido-seccion" style="padding-top: 70px;">
+        <div class="contenido-seccion">
             <img src="perritos1.png" alt="Perritos" class="imagen-centro-superior" onerror="this.style.display='none'">
             <div>
                 <h1 class="titulo">Ivon & Julio</h1>

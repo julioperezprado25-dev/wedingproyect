@@ -645,7 +645,23 @@ input::placeholder, textarea::placeholder {
         max-width: 300px;
     }
 }
+.debug-circle {
+    position: fixed;
+    border: 2px dashed red;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+}
 
+.debug-point {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: blue;
+    border-radius: 50%;
+    z-index: 99999;
+    pointer-events: none;
+    }
 </style>
 </head>
 
@@ -1060,28 +1076,59 @@ function enviarMensaje() {
 // El clic funciona SOLO donde la imagen del sello tiene color (áreas transparentes no reciben clic)
 const sello = document.getElementById("sello");
 
+let debugCircle = null;
+
 sello.addEventListener("click", function (e) {
 
     const rect = sello.getBoundingClientRect();
 
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
+    const centroX = rect.left + rect.width / 2;
+    const centroY = rect.top + rect.height / 2;
 
-    const centroX = rect.width / 2;
-    const centroY = rect.height / 2;
+    const clickX = e.clientX;
+    const clickY = e.clientY;
 
     const dx = clickX - centroX;
     const dy = clickY - centroY;
 
     const distancia = Math.sqrt(dx * dx + dy * dy);
 
-    // 🔥 RADIO CENTRAL REAL (ajustable)
-    const RADIO = rect.width * 0.08;
+    const RADIO = rect.width * 0.25;
 
+    // ===== DIBUJAR CÍRCULO =====
+    if (!debugCircle) {
+        debugCircle = document.createElement("div");
+        debugCircle.className = "debug-circle";
+        document.body.appendChild(debugCircle);
+    }
+
+    debugCircle.style.width = (RADIO * 2) + "px";
+    debugCircle.style.height = (RADIO * 2) + "px";
+    debugCircle.style.left = (centroX - RADIO) + "px";
+    debugCircle.style.top = (centroY - RADIO) + "px";
+
+    // ===== MARCAR CLICK =====
+    const punto = document.createElement("div");
+    punto.className = "debug-point";
+    punto.style.left = (clickX - 4) + "px";
+    punto.style.top = (clickY - 4) + "px";
+    document.body.appendChild(punto);
+
+    setTimeout(() => punto.remove(), 1000);
+
+    console.log("Centro:", centroX, centroY);
+    console.log("Click:", clickX, clickY);
+    console.log("Distancia:", distancia);
+
+    // ===== CONDICIÓN REAL =====
     if (distancia <= RADIO) {
+        console.log("✔ CLICK VÁLIDO");
         abrirSobre();
+    } else {
+        console.log("❌ FUERA DEL ÁREA");
     }
 });
+    
 document.body.style.overflow = "hidden";
 </script>
 

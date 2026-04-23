@@ -325,7 +325,7 @@ body {
     border-radius: clamp(30px, 6vw, 48px);
     padding: clamp(1.8rem, 5vw, 2.5rem) clamp(1.2rem, 4vw, 2rem);
     width: 100%;
-    max-width: 700px;
+    max-width: 900px;
     box-shadow: 0 20px 35px rgba(0,0,0,0.12);
     border: 1px solid rgba(200, 165, 90, 0.5);
     backdrop-filter: blur(4px);
@@ -339,7 +339,7 @@ body {
 .imagen-hero {
     display: block;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     height: auto;
     margin: 0 auto 1.5rem auto;
     border-radius: 32px;
@@ -742,7 +742,7 @@ function abrirSobre() {
         if (cartaOverlay) cartaOverlay.classList.add("show");
         mostrarTextoMagico();
         iniciarMusica();
-    }, 2600);
+    }, 4000);
     setTimeout(() => {
         desvanecerTextoCompleto(() => {
             if (cartaOverlay) cartaOverlay.classList.remove("show");
@@ -757,7 +757,7 @@ function abrirSobre() {
                 iniciarCountdown();
             }, 500);
         });
-    }, 7500);
+    }, 8000);
 }
 
 if (sello) {

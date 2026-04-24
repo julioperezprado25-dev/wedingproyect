@@ -3,32 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio - Nuestra Boda Mágica (v3)</title>
+<title>Ivon & Julio - Nuestra Boda Mágica</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET Y ESTILOS BASE ===== */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; background: #fef5e6; overflow-x: hidden; }
+body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
-html, body { 
-    width: 100%; 
-    min-height: 100%;
-    background: #fef5e6; 
-    overflow-x: hidden;
-}
-
-body { 
-    font-family: 'Great Vibes', cursive; 
-    color: #3b2f1b; 
-    position: relative;
-    /* REDUCIDO: padding lateral mucho menor para que se vea bien sin zoom */
-    padding: 0 20px;
-}
-
-/* ===== FLORES LATERALES FIJAS ===== */
 .flores-laterales {
     position: fixed;
     top: 0;
@@ -38,208 +19,66 @@ body {
     pointer-events: none;
     z-index: 20;
 }
-
 .flor-lateral {
     position: absolute;
     width: clamp(60px, 6vw, 100px);
     height: auto;
     filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
 }
+.flor-verde-1 { left: -10px; top: 12%; animation: floatVerde1 3.5s infinite alternate; }
+.flor-verde-2 { left: -15px; top: 42%; width: 65px; animation: floatVerde2 3s infinite alternate; }
+.flor-verde-3 { left: -8px; top: 72%; animation: floatVerde3 4s infinite alternate; }
+.flor-rosa-1 { right: -10px; top: 18%; animation: floatRosa1 3.2s infinite alternate; }
+.flor-rosa-3 { right: -15px; top: 58%; width: 70px; animation: floatRosa3 3.7s infinite alternate; }
 
-/* Grupo izquierdo - FLORES VERDES */
-.flor-verde-1 { left: -10px; top: 12%; animation: floatBreathingVerde1 3.5s infinite alternate ease-in-out; }
-.flor-verde-2 { left: -15px; top: 42%; width: 65px; animation: floatBreathingVerde2 3s infinite alternate ease-in-out; }
-.flor-verde-3 { left: -8px; top: 72%; animation: floatBreathingVerde3 4s infinite alternate ease-in-out; }
-
-/* Grupo derecho - FLORES ROSAS */
-.flor-rosa-1 { right: -10px; top: 18%; animation: floatBreathingRosa1 3.2s infinite alternate ease-in-out; }
-.flor-rosa-3 { right: -15px; top: 58%; width: 70px; animation: floatBreathingRosa3 3.7s infinite alternate ease-in-out; }
-
-/* Animaciones */
-@keyframes floatBreathingVerde1 {
+@keyframes floatVerde1 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
     100% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(50, 200, 80, 0.8)) brightness(1.2); opacity: 1; }
 }
-
-@keyframes floatBreathingVerde2 {
+@keyframes floatVerde2 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
     100% { transform: scale(1.08); filter: drop-shadow(0 0 22px rgba(40, 180, 70, 0.9)) brightness(1.25); opacity: 1; }
 }
-
-@keyframes floatBreathingVerde3 {
+@keyframes floatVerde3 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
     100% { transform: scale(1.12); filter: drop-shadow(0 0 25px rgba(60, 220, 90, 0.85)) brightness(1.3); opacity: 1; }
 }
-
-@keyframes floatBreathingRosa1 {
+@keyframes floatRosa1 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.9); opacity: 0.7; }
     100% { transform: translateY(-14px) scale(1.09); filter: drop-shadow(0 0 22px rgba(255, 80, 120, 0.9)) brightness(1.25); opacity: 1; }
 }
-
-@keyframes floatBreathingRosa3 {
+@keyframes floatRosa3 {
     0% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(0,0,0,0.2)) brightness(0.85); opacity: 0.65; }
     100% { transform: scale(1.11); filter: drop-shadow(0 0 28px rgba(255, 100, 140, 0.95)) brightness(1.3); opacity: 1; }
 }
 
-/* FONDO SLIDESHOW */
-.bg-slideshow { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    z-index: -2; 
-    pointer-events: none; 
-}
-
-.bg-slideshow img { 
-    position: absolute; 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    opacity: 0; 
-    transition: opacity 2.5s ease; 
-}
-
+.bg-slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
+.bg-slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 2.5s ease; }
 .bg-slideshow img.active { opacity: 0.18; }
 
-/* INTRO SOBRE */
-.intro { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: #1a1509; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    z-index: 9999; 
-    transition: opacity 1s ease; 
-}
-
-.envelope { 
-    position: relative; 
-    width: min(300px, 80vw); 
-    height: min(420px, 70vh); 
-    perspective: 1600px; 
-    cursor: default; 
-}
-
-.envelope-back { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: url('sobre_back.png') no-repeat center center; 
-    background-size: 100% 100%; 
-    opacity: 0; 
-    transition: opacity 0.5s ease; 
-    z-index: 0; 
-    border-radius: 12px; 
-}
-
-.envelope-back-expanded { 
-    position: fixed; 
-    top: 50%; 
-    left: 50%; 
-    width: 100%; 
-    height: 100%; 
-    background: url('sobre_back.png') no-repeat center center; 
-    background-size: cover; 
-    transform: translate(-50%, -50%) scale(0); 
-    opacity: 0; 
-    z-index: 10000; 
-    transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; 
-    pointer-events: none; 
-}
-
-.envelope-back-expanded.show { 
-    transform: translate(-50%, -50%) scale(1); 
-    opacity: 1; 
-}
-
-.envelope-body { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: url('sobre.png') no-repeat center center; 
-    background-size: 100% 100%; 
-    box-shadow: 0 20px 30px rgba(0,0,0,0.4); 
-    z-index: 1; 
-    transition: opacity 0.3s; 
-}
-
-.flap-left, .flap-right { 
-    position: absolute; 
-    top: 0; 
-    width: 50%; 
-    height: 100%; 
-    background: url('sobre.png') no-repeat; 
-    background-size: 200% 100%; 
-    transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; 
-    z-index: 3; 
-}
-
+.intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1509; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
+.envelope { position: relative; width: min(300px, 80vw); height: min(420px, 70vh); perspective: 1600px; cursor: default; }
+.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
+.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
+.envelope-back-expanded.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 20px 30px rgba(0,0,0,0.4); z-index: 1; transition: opacity 0.3s; }
+.flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; z-index: 3; }
 .flap-left { left: 0; background-position: left; transform-origin: 22% center; }
 .flap-right { right: 0; background-position: right; transform-origin: 78% center; }
-
 .envelope.open .flap-left { transform: rotateY(-105deg); opacity: 0; }
 .envelope.open .flap-right { transform: rotateY(105deg); opacity: 0; }
 .envelope.open .envelope-body { opacity: 0; }
 .envelope.open .envelope-back { opacity: 1; }
 
-.seal { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    width: min(200px, 40vw); 
-    height: min(200px, 40vw); 
-    cursor: pointer; 
-    z-index: 20; 
-    transition: transform 0.15s ease; 
-}
-
-.seal img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; 
-    pointer-events: none; 
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); 
-}
-
+.seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(200px, 40vw); height: min(200px, 40vw); cursor: pointer; z-index: 20; transition: transform 0.15s ease; }
+.seal img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
 .seal:active { transform: translate(-50%, -50%) scale(0.96); }
-
-.hint { 
-    position: absolute; 
-    bottom: -50px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    font-family: 'Great Vibes', cursive; 
-    font-size: clamp(20px, 6vw, 28px); 
-    color: #ffdd99; 
-    text-shadow: 0 0 15px #ffaa33; 
-    animation: glowHint 1.5s infinite; 
-    white-space: nowrap; 
-    background: rgba(0,0,0,0.35); 
-    padding: 5px 24px; 
-    border-radius: 50px; 
-    pointer-events: none; 
-}
-
+.hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Great Vibes', cursive; font-size: clamp(20px, 6vw, 28px); color: #ffdd99; text-shadow: 0 0 15px #ffaa33; animation: glowHint 1.5s infinite; white-space: nowrap; background: rgba(0,0,0,0.35); padding: 5px 24px; border-radius: 50px; pointer-events: none; }
 @keyframes glowHint { 0% { opacity: 0.6; } 100% { opacity: 1; } }
-
 .fade-dust { animation: dustFadeOut 1.2s forwards !important; }
+@keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } }
 
-@keyframes dustFadeOut { 
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } 
-}
-
-/* CARTA MÁGICA */
+/* CARTA - Versión SIMPLE y FUNCIONAL */
 .letter-overlay { 
     position: fixed; 
     top: 0; 
@@ -254,200 +93,131 @@ body {
     opacity: 0; 
     transition: opacity 0.5s ease; 
 }
-
-.letter-overlay.show { opacity: 1; }
+.letter-overlay.show { opacity: 1; pointer-events: auto; }
 
 .letter-content { 
-    background: transparent; 
-    padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 35px); 
+    background: rgba(255, 248, 235, 0.98);
+    border-radius: 50px;
+    padding: 50px 45px; 
     max-width: 90%; 
-    width: 650px; 
+    width: 700px; 
     text-align: center; 
-    transform: scale(0.9); 
-    animation: letterPop 0.6s ease forwards; 
+    position: relative;
+    box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+    border: 2px solid #dbb162;
 }
 
-@keyframes letterPop { 100% { transform: scale(1); opacity: 1; } }
+/* Contenedor del texto */
+.magic-text-wrapper {
+    position: relative;
+    min-height: 400px;
+}
 
-#texto { 
+#texto {
     font-family: 'Great Vibes', cursive; 
-    font-size: clamp(24px, 6vw, 34px); 
-    line-height: 1.4; 
-    color: #2c2412; 
-    text-shadow: 2px 2px 5px rgba(255,255,200,0.8); 
+    font-size: 32px; 
+    line-height: 1.5; 
+    color: #4a3720; 
+    text-shadow: 2px 2px 5px rgba(255,255,200,0.8);
 }
 
-.magic-letter { 
-    display: inline-block; 
-    opacity: 0; 
-    transform: scale(0.6) translateY(20px); 
-    animation: inkReveal 0.4s forwards; 
-}
-
-@keyframes inkReveal { 
-    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } 
-}
-
-.magic-text-container.fade-out { animation: smokeFadeOut 0.8s ease forwards; }
-
-@keyframes smokeFadeOut { 
-    100% { opacity: 0; filter: blur(12px); transform: scale(0.95); visibility: hidden; } 
-}
-
-.magic-line { margin-bottom: 12px; }
-
-/* ===== MAIN CONTENIDO - VISTA NORMAL SIN ZOOM ===== */
-.main { 
-    opacity: 0; 
-    transition: opacity 1.8s ease; 
-    position: relative; 
-    z-index: 10; 
-    min-height: 100vh;
-    width: 100%;
-}
-
-.main.show { opacity: 1; }
-
-/* SECCIONES - Ancho optimizado para verse bien sin zoom */
-.seccion {
-    min-height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 1.5rem 0;
-    position: relative;
-    width: 100%;
-}
-
-.contenido-seccion {
-    background: rgba(255, 252, 240, 0.94);
-    border-radius: clamp(30px, 6vw, 48px);
-    padding: clamp(1.8rem, 5vw, 2.5rem) clamp(1.2rem, 4vw, 2rem);
-    width: 100%;
-    max-width: 900px;
-    box-shadow: 0 20px 35px rgba(0,0,0,0.12);
-    border: 1px solid rgba(200, 165, 90, 0.5);
-    backdrop-filter: blur(4px);
-    position: relative;
-    z-index: 2;
-    overflow: visible;
-    margin: 0 auto;
-}
-
-/* ===== IMAGEN DE PERRITOS - TAMAÑO ADECUADO SIN ZOOM ===== */
-.imagen-hero {
-    display: block;
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    margin: 0 auto 1.5rem auto;
-    border-radius: 32px;
-    filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15));
-    transition: transform 0.3s ease;
-    object-fit: contain;
-}
-
-/* Otras imágenes inline */
-.imagen-inline {
-    display: block;
-    width: auto;
-    max-width: 160px;
-    height: auto;
-    margin: 20px auto;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-/* ===== FLORES DECORATIVAS DENTRO */
-/* ===== FLORES DECORATIVAS DENTRO DE CADA SECCIÓN ===== */
-.flor-seccion {
-    position: absolute;
+.magic-line {
+    margin-bottom: 15px;
     opacity: 0;
-    transition: opacity 0.6s ease;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
-    z-index: 6;
+    transition: opacity 0.3s ease;
+}
+.magic-line.revealed { opacity: 1; }
+
+.magic-letter {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.6);
+}
+
+@keyframes smokeMaterialize {
+    0% { opacity: 0; filter: blur(12px); transform: scale(0.5) translateY(15px); }
+    50% { opacity: 0.7; filter: blur(3px); transform: scale(0.9) translateY(-2px); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); }
+}
+
+/* BARITA MÁGICA - VERSIÓN SIMPLE Y VISIBLE */
+.wand-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 10002;
 }
 
-.flor-seccion.visible { opacity: 1; }
-
-/* FORZAR el tamaño de las imágenes - ESTO ES CLAVE */
-.flor-seccion img { 
-    width: 100% !important; 
-    max-width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    display: block !important;
-    animation: flotarFlor 5s infinite alternate ease-in-out;
+.wand {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
+    border-radius: 20% 20% 35% 35%;
+    transform: rotate(45deg);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 200, 0, 0.4);
+    transition: left 0.5s ease-out, top 0.5s ease-out;
 }
 
-/* FLOR SUPERIOR IZQUIERDA - Tamaño muy pequeño */
-.flor-top-left { 
-    top: -10px;
-    left: -10px;
-    width: 100px !important;
-    max-width: 130px !important;
-}
-
-/* FLOR INFERIOR IZQUIERDA */
-.flor-bottom-left { 
-    bottom: -10px;
-    left: -10px;
-    width: 35px !important;
-    max-width: 35px !important;
-}
-
-/* FLOR DERECHA CENTRAL */
-.flor-right-center { 
+.wand::before {
+    content: "✨";
+    position: absolute;
+    font-size: 35px;
     top: 50%;
-    right: -10px;
-    transform: translateY(-50%);
-    width: 38px !important;
-    max-width: 38px !important;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    filter: drop-shadow(0 0 5px gold);
 }
 
-@keyframes flotarFlor { 
-    0% { transform: translateY(0px) rotate(0deg);}
-    100% { transform: translateY(5px) rotate(3deg);} 
+.wand::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 25px;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, gold, orange);
+    border-radius: 50%;
+    box-shadow: 0 0 15px gold;
 }
 
-/* MEDIA QUERIES - Tamaños aún más pequeños */
-@media (max-width: 768px) {
-    .flor-top-left, .flor-bottom-left { 
-        width: 80px !important;
-        max-width: 100px !important;
-        left: -6px;
-    }
-    .flor-top-left { top: -6px; }
-    .flor-bottom-left { bottom: -6px; }
-    .flor-right-center { 
-        width: 30px !important;
-        max-width: 30px !important;
-        right: -6px;
-    }
+@keyframes wandWiggle {
+    0% { transform: rotate(45deg) translate(0, 0); }
+    25% { transform: rotate(50deg) translate(5px, -8px); }
+    50% { transform: rotate(38deg) translate(-5px, 5px); }
+    75% { transform: rotate(52deg) translate(3px, -3px); }
+    100% { transform: rotate(45deg) translate(0, 0); }
 }
 
-@media (max-width: 480px) {
-    .flor-top-left, .flor-bottom-left { 
-        width: 80px !important;
-        max-width: 100px !important;
-        left: -4px;
-    }
-    .flor-top-left { top: -4px; }
-    .flor-bottom-left { bottom: -4px; }
-    .flor-right-center { 
-        width: 24px !important;
-        max-width: 24px !important;
-        right: -4px;
-    }
-}
-@keyframes flotarFlor { 
-    0% { transform: translateY(0px) rotate(0deg);}
-    100% { transform: translateY(8px) rotate(3deg);} 
+.wand-wiggle {
+    animation: wandWiggle 0.4s ease-in-out;
 }
 
-/* TIPOGRAFÍA - Tamaños base más grandes */
+@keyframes sparklePop {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.sparkle {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, gold, orange, transparent);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: sparklePop 0.5s ease-out forwards;
+}
+
+/* MAIN */
+.main { opacity: 0; transition: opacity 1.8s ease; position: relative; z-index: 10; min-height: 100vh; width: 100%; }
+.main.show { opacity: 1; }
+.seccion { min-height: auto; display: flex; align-items: center; justify-content: center; text-align: center; padding: 1.5rem 0; position: relative; width: 100%; }
+.contenido-seccion { background: rgba(255, 252, 240, 0.94); border-radius: clamp(30px, 6vw, 48px); padding: clamp(1.8rem, 5vw, 2.5rem) clamp(1.2rem, 4vw, 2rem); width: 100%; max-width: 900px; box-shadow: 0 20px 35px rgba(0,0,0,0.12); border: 1px solid rgba(200, 165, 90, 0.5); backdrop-filter: blur(4px); position: relative; z-index: 2; margin: 0 auto; }
+.imagen-hero { display: block; width: 100%; max-width: 800px; height: auto; margin: 0 auto 1.5rem auto; border-radius: 32px; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15)); object-fit: contain; }
 .titulo { font-size: clamp(52px, 12vw, 90px); font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
 h2 { font-size: clamp(36px, 8vw, 50px); font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
 .countdown-small { font-size: clamp(26px, 6vw, 36px); font-weight: bold; background: #e9d6b0; display: inline-block; padding: 10px 28px; border-radius: 60px; margin: 18px 0; font-family: 'Great Vibes', cursive; }
@@ -458,50 +228,33 @@ textarea { border-radius: 28px; min-height: 100px; }
 #galeria { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px; }
 #galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
 p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
+.flor-seccion { position: absolute; opacity: 0; transition: opacity 0.6s ease; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15)); z-index: 6; pointer-events: none; }
+.flor-seccion.visible { opacity: 1; }
+.flor-seccion img { width: 100% !important; max-width: 100% !important; height: auto !important; display: block !important; animation: flotarFlor 5s infinite alternate ease-in-out; }
+.flor-top-left { top: -10px; left: -10px; width: 100px !important; }
+.flor-bottom-left { bottom: -10px; left: -10px; width: 35px !important; }
+.flor-right-center { top: 50%; right: -10px; transform: translateY(-50%); width: 38px !important; }
+@keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(5px) rotate(3deg);} }
 
-/* ===== MEDIA QUERIES - RESPONSIVE ===== */
 @media (max-width: 768px) {
-    body { padding: 0 15px; }
-    .contenido-seccion { max-width: 95%; padding: 1.8rem 1.2rem; }
-    .imagen-hero { max-width: 400px; }
-    :root { --flor-offset-top: 50px; --flor-offset-left: -14px; --flor-offset-bottom: -18px; --flor-offset-right: -14px; }
-    .flor-top-left, .flor-bottom-left {left:-1px; width: 65px; }
-    .flor-right-center { right:3px;width: 65px; }
-    .flor-lateral { width: 50px !important; }
-    .flor-verde-2, .flor-rosa-3 { width: 55px !important; }
+    .wand { width: 55px; height: 55px; }
+    .wand::before { font-size: 28px; }
+    #texto { font-size: 26px; }
 }
-
 @media (max-width: 480px) {
-    body { padding: 0 10px; }
-    .contenido-seccion { padding: 1.5rem 1rem; }
-    .imagen-hero { max-width: 400px; margin-bottom: 1rem; }
-    .btn { padding: 10px 24px; margin: 8px; font-size: 16px; }
-    :root { --flor-offset-top: 50px; --flor-offset-left: -10px; --flor-offset-bottom: -12px; --flor-offset-right: -10px; }
-    .flor-top-left, .flor-bottom-left { width: 55px; }
-    .flor-right-center { width: 55px; }
-    .flor-lateral { width: 40px !important; }
-    .flor-verde-2, .flor-rosa-3 { width: 45px !important; }
-    .titulo { font-size: 48px; }
-    h2 { font-size: 36px; }
-    p { font-size: 18px; }
-}
-
-@media (min-width: 1200px) {
-    /* En pantallas muy grandes, centramos mejor el contenido */
-    .contenido-seccion { max-width: 750px; }
-    .imagen-hero { max-width: 400px; }
+    .wand { width: 45px; height: 45px; }
+    .wand::before { font-size: 22px; }
+    #texto { font-size: 22px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Fondo rotativo -->
 <div class="bg-slideshow">
     <img src="fondo.jpg" id="bg1" class="active" alt="Fondo boda">
     <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
 </div>
 
-<!-- FLORES LATERALES FIJAS -->
 <div class="flores-laterales">
     <img src="flor_verde_1.png" alt="Flor verde" class="flor-lateral flor-verde-1" onerror="this.style.display='none'">
     <img src="flor_verde_2.png" alt="Flor verde" class="flor-lateral flor-verde-2" onerror="this.style.display='none'">
@@ -510,7 +263,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     <img src="flor_rosa_3.png" alt="Flor rosa" class="flor-lateral flor-rosa-3" onerror="this.style.display='none'">
 </div>
 
-<!-- INTRO SOBRE -->
 <div class="intro" id="intro">
     <div class="envelope" id="sobre">
         <div class="envelope-back"></div>
@@ -523,19 +275,26 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 </div>
 
 <div id="sobreBackExpandido" class="envelope-back-expanded"></div>
-<div id="cartaOverlay" class="letter-overlay"><div class="letter-content"><div id="texto"></div></div></div>
 
-<!-- CONTENIDO PRINCIPAL -->
+<div id="cartaOverlay" class="letter-overlay">
+    <div class="letter-content">
+        <div class="magic-text-wrapper" id="magicWrapper">
+            <div id="texto"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenedor separado para la barita (FUERA de la carta, para que sea visible) -->
+<div class="wand-container" id="wandContainer">
+    <div class="wand" id="wand"></div>
+</div>
+
 <div class="main" id="main">
-    <!-- SECCIÓN 0 - Hero con imagen de perritos bien dimensionada -->
     <div class="seccion" data-section="0">
-        
-            <img src="perritos1.png" alt="Perritos" class="imagen-hero" onerror="this.style.display='none'">
-        
+        <img src="perritos1.png" alt="Perritos" class="imagen-hero" onerror="this.style.display='none'">
     </div>
     <div class="seccion" data-section="1">
         <div class="contenido-seccion">
-          
             <div>
                 <h1 class="titulo">Ivon & Julio</h1>
                 <p style="font-size: clamp(20px, 5vw, 26px);">Nos llena de alegría invitarte a celebrar</p>
@@ -544,8 +303,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
             </div>
         </div>
     </div>
-    
-    <!-- SECCIÓN 1 - Detalles -->
     <div class="seccion" data-section="2">
         <div class="contenido-seccion">
             <h2>📅 La Boda</h2>
@@ -566,22 +323,17 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
             </div>
         </div>
     </div>
-
-    <!-- SECCIÓN 2 - Lista de Regalos -->
     <div class="seccion" data-section="3">
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
             <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
-            <img src="perritos1.png" alt="Perritos" class="imagen-inline" style="max-width: 150px; margin: 20px auto;" onerror="this.style.display='none'">
             <div style="background: rgba(197,155,42,0.2); padding: 20px; border-radius: 25px; margin-top: 20px;">
                 <h3 style="font-size: clamp(22px, 5vw, 30px);">💰 Nuestra cuenta</h3>
                 <p style="font-size: clamp(20px, 5vw, 24px); font-weight: bold; word-break: break-all;">193 205 253 18 0 43</p>
             </div>
         </div>
     </div>
-
-    <!-- SECCIÓN 3 - Padrinos -->
     <div class="seccion" data-section="4">
         <div class="contenido-seccion">
             <h2>💑 Padrinos</h2>
@@ -593,8 +345,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
             </div>
         </div>
     </div>
-
-    <!-- SECCIÓN 4 - Álbum -->
     <div class="seccion" data-section="5">
         <div class="contenido-seccion">
             <h2>📸 Álbum de Fotos</h2>
@@ -603,8 +353,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
             <div id="galeria"></div>
         </div>
     </div>
-
-    <!-- SECCIÓN 5 - Mensajes -->
     <div class="seccion" data-section="6">
         <div class="contenido-seccion">
             <h2>💬 Mensajes para los novios</h2>
@@ -613,8 +361,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
             <button class="btn" onclick="enviarMensaje()">Enviar mensaje 💌</button>
         </div>
     </div>
-
-    <!-- SECCIÓN 6 - Música -->
     <div class="seccion" data-section="7">
         <div class="contenido-seccion">
             <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
@@ -626,127 +372,204 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 <audio id="musica" src="musica.mp3" loop preload="auto"></audio>
 
 <script>
-const cartaMensaje = `✨ Travesura realizada... ✨\n\n💖 ¡Nos casamos! 💖\n\n✨ Has sido invitado ✨\n\n🌟 a celebrar este momento tan especial 🌟\n\nCon amor,\nIvon & Julio`;
+// TEXTO DE LA CARTA
+const lineasCarta = [
+    "✨ Travesura realizada... ✨",
+    "",
+    "💖 ¡Nos casamos! 💖",
+    "",
+    "✨ Has sido invitado ✨",
+    "",
+    "🌟 a celebrar este momento tan especial 🌟",
+    "",
+    "Con amor,",
+    "Ivon & Julio"
+];
 
-let yaAbierto = false;
-let textoContainer = null;
+let wand = document.getElementById("wand");
+let wandContainer = document.getElementById("wandContainer");
+let lineElements = [];
+let currentLineIndex = 0;
+let isAnimating = false;
+let cartaCerrada = false;
 
-function mostrarTextoMagico() {
-    const contenedor = document.getElementById("texto");
-    if (!contenedor) return;
-    contenedor.innerHTML = "";
-    const lineas = cartaMensaje.split('\n');
-    lineas.forEach((linea, idxLinea) => {
-        if (linea.trim() === "") {
-            const espacio = document.createElement("div");
-            espacio.style.height = "20px";
-            contenedor.appendChild(espacio);
-            return;
-        }
+function crearEstructuraTexto() {
+    const container = document.getElementById("texto");
+    if (!container) return;
+    container.innerHTML = "";
+    lineElements = [];
+    
+    lineasCarta.forEach((linea) => {
         const divLinea = document.createElement("div");
         divLinea.className = "magic-line";
-        const chars = Array.from(linea);
-        chars.forEach((ch, i) => {
-            const span = document.createElement('span');
-            span.className = 'magic-letter';
-            if (ch === ' ') span.innerHTML = '&nbsp;';
-            else span.textContent = ch;
-            span.style.animationDelay = `${(idxLinea * 0.45) + (i * 0.055)}s`;
-            divLinea.appendChild(span);
-        });
-        contenedor.appendChild(divLinea);
-    });
-    textoContainer = contenedor;
-}
-
-function desvanecerTextoCompleto(callback) {
-    if (!textoContainer) { if(callback) callback(); return; }
-    textoContainer.classList.add('fade-out');
-    setTimeout(() => { if(callback) callback(); }, 800);
-}
-
-function agregarFloresASecciones() {
-    const secciones = document.querySelectorAll('.seccion .contenido-seccion');
-    secciones.forEach(contenido => {
-        if (contenido.querySelector('.flor-seccion')) return;
-        
-        const florTL = document.createElement('div');
-        florTL.className = 'flor-seccion flor-top-left';
-        const imgTL = document.createElement('img');
-        imgTL.src = 'flores_izquierdaU.png';
-        imgTL.alt = 'Adorno floral';
-        imgTL.onerror = () => imgTL.style.display = 'none';
-        florTL.appendChild(imgTL);
-        
-        const florBL = document.createElement('div');
-        florBL.className = 'flor-seccion flor-bottom-left';
-        const imgBL = document.createElement('img');
-        imgBL.src = 'flores_izquierdaD.png';
-        imgBL.alt = 'Adorno floral';
-        imgBL.onerror = () => imgBL.style.display = 'none';
-        florBL.appendChild(imgBL);
-        
-        const florRC = document.createElement('div');
-        florRC.className = 'flor-seccion flor-right-center';
-        const imgRC = document.createElement('img');
-        imgRC.src = 'flores_derechaC.png';
-        imgRC.alt = 'Adorno floral';
-        imgRC.onerror = () => imgRC.style.display = 'none';
-        florRC.appendChild(imgRC);
-        
-        contenido.appendChild(florTL);
-        contenido.appendChild(florBL);
-        contenido.appendChild(florRC);
-        
-        const seccionPadre = contenido.closest('.seccion');
-        if (seccionPadre) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        florTL.classList.add('visible');
-                        florBL.classList.add('visible');
-                        florRC.classList.add('visible');
-                    } else {
-                        florTL.classList.remove('visible');
-                        florBL.classList.remove('visible');
-                        florRC.classList.remove('visible');
-                    }
-                });
-            }, { threshold: 0.3 });
-            observer.observe(seccionPadre);
+        if (linea.trim() === "") {
+            divLinea.style.height = "25px";
+            divLinea.innerHTML = "&nbsp;";
+        } else {
+            const chars = Array.from(linea);
+            chars.forEach(ch => {
+                const span = document.createElement('span');
+                span.className = 'magic-letter';
+                span.style.opacity = "0";
+                if (ch === ' ') span.innerHTML = '&nbsp;';
+                else span.textContent = ch;
+                divLinea.appendChild(span);
+            });
         }
+        container.appendChild(divLinea);
+        lineElements.push(divLinea);
     });
 }
 
-// APERTURA DEL SOBRE
-const sello = document.getElementById("sello");
-const sobre = document.getElementById("sobre");
-const introDiv = document.getElementById("intro");
-const sobreBackExpandido = document.getElementById("sobreBackExpandido");
-const cartaOverlay = document.getElementById("cartaOverlay");
-const mainDiv = document.getElementById("main");
+function revealLine(lineIndex) {
+    return new Promise((resolve) => {
+        if (lineIndex >= lineElements.length) {
+            resolve();
+            return;
+        }
+        
+        const lineDiv = lineElements[lineIndex];
+        if (lineasCarta[lineIndex].trim() === "") {
+            lineDiv.classList.add("revealed");
+            resolve();
+            return;
+        }
+        
+        const letterSpans = lineDiv.querySelectorAll('.magic-letter');
+        if (letterSpans.length === 0) {
+            lineDiv.classList.add("revealed");
+            resolve();
+            return;
+        }
+        
+        letterSpans.forEach((span, i) => {
+            span.style.animation = 'none';
+            span.offsetHeight;
+            const delay = i * 0.025;
+            span.style.animation = `smokeMaterialize 0.5s forwards ease-out ${delay}s`;
+        });
+        
+        setTimeout(() => {
+            lineDiv.classList.add("revealed");
+            resolve();
+        }, 700);
+    });
+}
 
-function abrirSobre() {
-    if (yaAbierto) return;
-    yaAbierto = true;
-    if (sello) sello.classList.add("fade-dust");
-    const hint = document.getElementById("hint");
-    if (hint) hint.classList.add("fade-dust");
-    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 400);
+function moveWandToLine(lineIndex) {
+    return new Promise((resolve) => {
+        const lineDiv = lineElements[lineIndex];
+        if (!lineDiv || lineasCarta[lineIndex].trim() === "") {
+            resolve();
+            return;
+        }
+        
+        const lineRect = lineDiv.getBoundingClientRect();
+        const wrapperRect = document.getElementById("magicWrapper").getBoundingClientRect();
+        const wandRect = wand.getBoundingClientRect();
+        
+        // Posicionar la barita al lado derecho de la línea
+        let targetLeft = lineRect.right - wandRect.width + 10;
+        let targetTop = lineRect.top + (lineRect.height / 2) - (wandRect.height / 2);
+        
+        wand.style.left = targetLeft + "px";
+        wand.style.top = targetTop + "px";
+        wand.style.display = "block";
+        
+        setTimeout(resolve, 250);
+    });
+}
+
+function wiggleWand() {
+    return new Promise((resolve) => {
+        wand.classList.add("wand-wiggle");
+        
+        // Crear chispa
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        const wandRect = wand.getBoundingClientRect();
+        sparkle.style.left = (wandRect.left + wandRect.width - 15) + "px";
+        sparkle.style.top = (wandRect.top + wandRect.height / 2 - 15) + "px";
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => sparkle.remove(), 500);
+        
+        setTimeout(() => {
+            wand.classList.remove("wand-wiggle");
+            resolve();
+        }, 450);
+    });
+}
+
+async function animateCartaWithWand() {
+    if (isAnimating) return;
+    isAnimating = true;
+    
+    // Mostrar la barita al lado derecho del todo
+    wand.style.display = "block";
+    wand.style.left = "85%";
+    wand.style.top = "30%";
+    
+    await new Promise(r => setTimeout(r, 600));
+    
+    for (let i = 0; i < lineElements.length; i++) {
+        if (lineasCarta[i].trim() === "") {
+            await revealLine(i);
+            continue;
+        }
+        
+        // Mover barita hacia la línea
+        await moveWandToLine(i);
+        await new Promise(r => setTimeout(r, 180));
+        
+        // Agitar la barita
+        await wiggleWand();
+        
+        // Revelar la línea
+        await revealLine(i);
+        
+        // Pequeña pausa
+        await new Promise(r => setTimeout(r, 550));
+    }
+    
+    // Esconder la barita
+    wand.style.transition = "opacity 0.6s";
+    wand.style.opacity = "0";
     setTimeout(() => {
-        if (sobreBackExpandido) sobreBackExpandido.classList.add("show");
-        if (sobre) sobre.style.opacity = "0";
-        setTimeout(() => { if (sobre) sobre.style.display = "none"; }, 500);
-    }, 1800);
+        wand.style.display = "none";
+        wand.style.opacity = "1";
+    }, 600);
+    
+    isAnimating = false;
+    
+    // Cerrar la carta después de mostrar todo
     setTimeout(() => {
-        if (cartaOverlay) cartaOverlay.classList.add("show");
-        mostrarTextoMagico();
-        iniciarMusica();
-    }, 4000);
+        if (!cartaCerrada) {
+            cerrarCarta();
+        }
+    }, 3500);
+}
+
+function cerrarCarta() {
+    if (cartaCerrada) return;
+    cartaCerrada = true;
+    
+    const cartaOverlay = document.getElementById("cartaOverlay");
+    const sobreBack = document.getElementById("sobreBackExpandido");
+    const introDiv = document.getElementById("intro");
+    const mainDiv = document.getElementById("main");
+    
+    const textoDiv = document.getElementById("texto");
+    if (textoDiv) {
+        textoDiv.style.transition = "opacity 0.8s, filter 0.8s";
+        textoDiv.style.opacity = "0";
+        textoDiv.style.filter = "blur(12px)";
+    }
+    
     setTimeout(() => {
-        desvanecerTextoCompleto(() => {
-            if (cartaOverlay) cartaOverlay.classList.remove("show");
-            setTimeout(() => { if (sobreBackExpandido) sobreBackExpandido.classList.remove("show"); }, 300);
+        if (cartaOverlay) cartaOverlay.classList.remove("show");
+        setTimeout(() => {
+            if (sobreBack) sobreBack.classList.remove("show");
             if (introDiv) introDiv.style.opacity = "0";
             setTimeout(() => {
                 if (introDiv) introDiv.style.display = "none";
@@ -756,13 +579,49 @@ function abrirSobre() {
                 agregarFloresASecciones();
                 iniciarCountdown();
             }, 500);
-        });
-    }, 8000);
+        }, 300);
+    }, 400);
 }
 
-if (sello) {
-    sello.addEventListener("click", function(e) { if (yaAbierto) return; e.stopPropagation(); abrirSobre(); });
-    sello.addEventListener("touchstart", function(e) { if (yaAbierto) return; e.preventDefault(); abrirSobre(); });
+function iniciarCartaConBarita() {
+    crearEstructuraTexto();
+    wand.style.display = "none";
+    setTimeout(() => {
+        animateCartaWithWand();
+    }, 800);
+}
+
+// ===== FUNCIONES ADICIONALES =====
+let yaAbierto = false;
+
+function abrirSobre() {
+    if (yaAbierto) return;
+    yaAbierto = true;
+    const sello = document.getElementById("sello");
+    const sobre = document.getElementById("sobre");
+    const sobreBackExpandido = document.getElementById("sobreBackExpandido");
+    const cartaOverlay = document.getElementById("cartaOverlay");
+    const hint = document.getElementById("hint");
+    
+    if (sello) sello.classList.add("fade-dust");
+    if (hint) hint.classList.add("fade-dust");
+    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 400);
+    setTimeout(() => {
+        if (sobreBackExpandido) sobreBackExpandido.classList.add("show");
+        if (sobre) sobre.style.opacity = "0";
+        setTimeout(() => { if (sobre) sobre.style.display = "none"; }, 500);
+    }, 1800);
+    setTimeout(() => {
+        if (cartaOverlay) cartaOverlay.classList.add("show");
+        iniciarMusica();
+        iniciarCartaConBarita();
+    }, 4000);
+}
+
+const selloElem = document.getElementById("sello");
+if (selloElem) {
+    selloElem.addEventListener("click", (e) => { if (!yaAbierto) abrirSobre(); });
+    selloElem.addEventListener("touchstart", (e) => { if (!yaAbierto) { e.preventDefault(); abrirSobre(); } });
 }
 
 function iniciarMusica() {
@@ -807,11 +666,43 @@ function iniciarCountdown() {
 
 function abrirMaps() { window.open("https://maps.app.goo.gl/Q1ZZW4iSjFKcPpRN9"); }
 function abrirWaze() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
-function subirFoto() { const fileInput = document.getElementById("foto"); const file = fileInput ? fileInput.files[0] : null; if(file) { const img = document.createElement("img"); img.src = URL.createObjectURL(file); const galeria = document.getElementById("galeria"); if(galeria) galeria.prepend(img); } }
-function enviarMensaje() { const nombreInput = document.getElementById("nombre"); const mensajeInput = document.getElementById("mensajeInput"); const nombre = nombreInput ? nombreInput.value.trim() : ""; const msg = mensajeInput ? mensajeInput.value.trim() : ""; if(!nombre || !msg) { alert("💕 Por favor completa tu nombre y mensaje"); return; } alert(`✨ ¡Gracias ${nombre}! Tu mensaje ha sido enviado a los novios ✨\n\n"${msg}"`); if(nombreInput) nombreInput.value = ""; if(mensajeInput) mensajeInput.value = ""; }
+function subirFoto() { const fileInput = document.getElementById("foto"); const file = fileInput?.files[0]; if(file) { const img = document.createElement("img"); img.src = URL.createObjectURL(file); document.getElementById("galeria")?.prepend(img); } }
+function enviarMensaje() { const nombre = document.getElementById("nombre")?.value.trim(); const msg = document.getElementById("mensajeInput")?.value.trim(); if(!nombre || !msg) { alert("💕 Por favor completa tu nombre y mensaje"); return; } alert(`✨ ¡Gracias ${nombre}! Tu mensaje ha sido enviado a los novios ✨\n\n"${msg}"`); if(document.getElementById("nombre")) document.getElementById("nombre").value = ""; if(document.getElementById("mensajeInput")) document.getElementById("mensajeInput").value = ""; }
+
+function agregarFloresASecciones() {
+    const secciones = document.querySelectorAll('.seccion .contenido-seccion');
+    secciones.forEach(contenido => {
+        if (contenido.querySelector('.flor-seccion')) return;
+        const florTL = document.createElement('div'); florTL.className = 'flor-seccion flor-top-left';
+        const imgTL = document.createElement('img'); imgTL.src = 'flores_izquierdaU.png'; imgTL.alt = 'Adorno floral'; imgTL.onerror = () => imgTL.style.display = 'none';
+        florTL.appendChild(imgTL);
+        const florBL = document.createElement('div'); florBL.className = 'flor-seccion flor-bottom-left';
+        const imgBL = document.createElement('img'); imgBL.src = 'flores_izquierdaD.png'; imgBL.alt = 'Adorno floral'; imgBL.onerror = () => imgBL.style.display = 'none';
+        florBL.appendChild(imgBL);
+        const florRC = document.createElement('div'); florRC.className = 'flor-seccion flor-right-center';
+        const imgRC = document.createElement('img'); imgRC.src = 'flores_derechaC.png'; imgRC.alt = 'Adorno floral'; imgRC.onerror = () => imgRC.style.display = 'none';
+        florRC.appendChild(imgRC);
+        contenido.appendChild(florTL); contenido.appendChild(florBL); contenido.appendChild(florRC);
+        const seccionPadre = contenido.closest('.seccion');
+        if (seccionPadre) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        florTL.classList.add('visible'); florBL.classList.add('visible'); florRC.classList.add('visible');
+                    } else {
+                        florTL.classList.remove('visible'); florBL.classList.remove('visible'); florRC.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.3 });
+            observer.observe(seccionPadre);
+        }
+    });
+}
 
 document.body.style.overflow = "hidden";
-if (introDiv) { introDiv.addEventListener('touchmove', function(e) { if (!yaAbierto) e.preventDefault(); }, { passive: false }); }
+
+// Inicializar wand
+wand.style.display = "none";
 </script>
 </body>
-    </html>
+</html> 

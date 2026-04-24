@@ -78,7 +78,7 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 .fade-dust { animation: dustFadeOut 1.2s forwards !important; }
 @keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } }
 
-/* CARTA - Versión SIMPLE y FUNCIONAL */
+/* CARTA */
 .letter-overlay { 
     position: fixed; 
     top: 0; 
@@ -107,7 +107,6 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
     border: 2px solid #dbb162;
 }
 
-/* Contenedor del texto */
 .magic-text-wrapper {
     position: relative;
     min-height: 400px;
@@ -141,7 +140,7 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
     100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); }
 }
 
-/* BARITA MÁGICA - VERSIÓN SIMPLE Y VISIBLE */
+/* BARITA MÁGICA - Usando TU imagen barita.png */
 .wand-container {
     position: fixed;
     top: 0;
@@ -154,43 +153,19 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
 .wand {
     position: absolute;
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #FFD700, #FFA500, #FF8C00);
-    border-radius: 20% 20% 35% 35%;
-    transform: rotate(45deg);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 200, 0, 0.4);
-    transition: left 0.5s ease-out, top 0.5s ease-out;
-}
-
-.wand::before {
-    content: "✨";
-    position: absolute;
-    font-size: 35px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    filter: drop-shadow(0 0 5px gold);
-}
-
-.wand::after {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 25px;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, gold, orange);
-    border-radius: 50%;
-    box-shadow: 0 0 15px gold;
+    width: 80px;
+    height: auto;
+    transition: left 0.5s cubic-bezier(0.34, 1.2, 0.64, 1), top 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+    transform-origin: center;
 }
 
 @keyframes wandWiggle {
-    0% { transform: rotate(45deg) translate(0, 0); }
-    25% { transform: rotate(50deg) translate(5px, -8px); }
-    50% { transform: rotate(38deg) translate(-5px, 5px); }
-    75% { transform: rotate(52deg) translate(3px, -3px); }
-    100% { transform: rotate(45deg) translate(0, 0); }
+    0% { transform: rotate(0deg) translate(0, 0); }
+    25% { transform: rotate(8deg) translate(3px, -5px); }
+    50% { transform: rotate(-6deg) translate(-3px, 3px); }
+    75% { transform: rotate(5deg) translate(2px, -2px); }
+    100% { transform: rotate(0deg) translate(0, 0); }
 }
 
 .wand-wiggle {
@@ -204,8 +179,8 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
 .sparkle {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background: radial-gradient(circle, gold, orange, transparent);
     border-radius: 50%;
     pointer-events: none;
@@ -237,13 +212,11 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 @keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(5px) rotate(3deg);} }
 
 @media (max-width: 768px) {
-    .wand { width: 55px; height: 55px; }
-    .wand::before { font-size: 28px; }
+    .wand { width: 60px; }
     #texto { font-size: 26px; }
 }
 @media (max-width: 480px) {
-    .wand { width: 45px; height: 45px; }
-    .wand::before { font-size: 22px; }
+    .wand { width: 50px; }
     #texto { font-size: 22px; }
 }
 </style>
@@ -284,9 +257,9 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     </div>
 </div>
 
-<!-- Contenedor separado para la barita (FUERA de la carta, para que sea visible) -->
+<!-- Contenedor para TU barita.png -->
 <div class="wand-container" id="wandContainer">
-    <div class="wand" id="wand"></div>
+    <img id="wand" class="wand" src="barita.png" alt="Barita mágica" style="display: none;">
 </div>
 
 <div class="main" id="main">
@@ -387,9 +360,7 @@ const lineasCarta = [
 ];
 
 let wand = document.getElementById("wand");
-let wandContainer = document.getElementById("wandContainer");
 let lineElements = [];
-let currentLineIndex = 0;
 let isAnimating = false;
 let cartaCerrada = false;
 
@@ -465,11 +436,10 @@ function moveWandToLine(lineIndex) {
         }
         
         const lineRect = lineDiv.getBoundingClientRect();
-        const wrapperRect = document.getElementById("magicWrapper").getBoundingClientRect();
         const wandRect = wand.getBoundingClientRect();
         
         // Posicionar la barita al lado derecho de la línea
-        let targetLeft = lineRect.right - wandRect.width + 10;
+        let targetLeft = lineRect.right - wandRect.width + 5;
         let targetTop = lineRect.top + (lineRect.height / 2) - (wandRect.height / 2);
         
         wand.style.left = targetLeft + "px";
@@ -484,12 +454,12 @@ function wiggleWand() {
     return new Promise((resolve) => {
         wand.classList.add("wand-wiggle");
         
-        // Crear chispa
+        // Crear chispa mágica
         const sparkle = document.createElement("div");
         sparkle.className = "sparkle";
         const wandRect = wand.getBoundingClientRect();
         sparkle.style.left = (wandRect.left + wandRect.width - 15) + "px";
-        sparkle.style.top = (wandRect.top + wandRect.height / 2 - 15) + "px";
+        sparkle.style.top = (wandRect.top + wandRect.height / 2 - 12) + "px";
         document.body.appendChild(sparkle);
         
         setTimeout(() => sparkle.remove(), 500);
@@ -505,7 +475,7 @@ async function animateCartaWithWand() {
     if (isAnimating) return;
     isAnimating = true;
     
-    // Mostrar la barita al lado derecho del todo
+    // Mostrar la barita
     wand.style.display = "block";
     wand.style.left = "85%";
     wand.style.top = "30%";
@@ -528,7 +498,6 @@ async function animateCartaWithWand() {
         // Revelar la línea
         await revealLine(i);
         
-        // Pequeña pausa
         await new Promise(r => setTimeout(r, 550));
     }
     
@@ -538,11 +507,11 @@ async function animateCartaWithWand() {
     setTimeout(() => {
         wand.style.display = "none";
         wand.style.opacity = "1";
+        wand.style.transition = "";
     }, 600);
     
     isAnimating = false;
     
-    // Cerrar la carta después de mostrar todo
     setTimeout(() => {
         if (!cartaCerrada) {
             cerrarCarta();
@@ -701,8 +670,15 @@ function agregarFloresASecciones() {
 
 document.body.style.overflow = "hidden";
 
-// Inicializar wand
-wand.style.display = "none";
+// Verificar si la imagen de barita cargó correctamente
+if (wand) {
+    wand.onerror = function() {
+        console.log("No se encontró barita.png, usando versión CSS de respaldo");
+        this.style.background = "linear-gradient(135deg, #FFD700, #FFA500)";
+        this.style.borderRadius = "20% 20% 35% 35%";
+        this.style.content = "'✨'";
+    };
+}
 </script>
 </body>
-    </html>
+                </html>

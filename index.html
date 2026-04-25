@@ -531,22 +531,42 @@ function fadeWandToDust() { return new Promise(r => { const rect = wand.getBound
 async function animateMagicWand() {
     if (movimientosIniciados) return;
     movimientosIniciados = true;
-    detenerCancion('intro', true, 300);
+    
+    // ============================================
+    // DETENER POTTERW.MP3 (audio global)
+    // ============================================
+    console.log("🎵 Deteniendo Potterw.mp3");
+    if (window.potterwAudioGlobal) {
+        window.potterwAudioGlobal.pause();
+        window.potterwAudioGlobal = null;
+    }
+    
+    // También detener del sistema de canciones
+    if (canciones.intro && canciones.intro.elemento) {
+        canciones.intro.elemento.pause();
+        canciones.intro.elemento = null;
+    }
+    
+    console.log("🎵 Iniciando magic.mp3");
     reproducirCancion('magia', true, 200);
+    
     if (wandHint) wandHint.style.display = "none";
+    
     await wiggleWand1();
     await new Promise(r => setTimeout(r, 150));
     await wiggleWand2();
     await new Promise(r => setTimeout(r, 150));
     await wiggleWand3WithCurve();
     await new Promise(r => setTimeout(r, 200));
+    
     fadeWandToDust();
     const textPromise = revealAllLines();
     reproducirCancion('boda', true, 300);
     await textPromise;
     await new Promise(r => setTimeout(r, 7000));
+    
     setTimeout(() => { if (!cartaCerrada) cerrarCarta(); }, 500);
-}
+    }
 
 function mostrarBaritaYEsperar() {
     crearEstructuraTexto();
@@ -589,39 +609,47 @@ function iniciarAnimacionMagica() { mostrarBaritaYEsperar(); }
 let yaAbierto = false;
 
 function abrirSobre() {
+    console.log("abrirSobre() llamada - yaAbierto:", yaAbierto);
     if (yaAbierto) return;
     yaAbierto = true;
     
     // ============================================
-    // FORZAR NUEVO AUDIO PARA POTTERW.MP3
+    // REPRODUCIR POTTERW.MP3 - FORMA DIRECTA (SIN fade-in)
     // ============================================
     try {
+        console.log("🎵 Intentando reproducir Potterw.mp3");
+        
         // Detener audio anterior si existe
-        if (canciones.intro.elemento) {
-            canciones.intro.elemento.pause();
-            canciones.intro.elemento.src = "";
+        if (window.potterwAudioGlobal) {
+            window.potterwAudioGlobal.pause();
+            window.potterwAudioGlobal = null;
         }
         
         // Crear audio NUEVO
-        const nuevoAudio = new Audio();
-        nuevoAudio.src = "Potterw.mp3";
-        nuevoAudio.loop = true;
-        nuevoAudio.volume = 0;
-        nuevoAudio.play().then(() => {
-            let vol = 0;
-            const fade = setInterval(() => {
-                vol = Math.min(0.4, vol + 0.05);
-                nuevoAudio.volume = vol;
-                if (vol >= 0.35) clearInterval(fade);
-            }, 200);
-        }).catch(e => console.log("Error:", e));
+        const audioPotter = new Audio();
+        audioPotter.src = "Potterw.mp3";
+        audioPotter.loop = true;
+        audioPotter.volume = 0.4;  // Volumen fijo, sin fade
+        audioPotter.currentTime = 0;
         
-        canciones.intro.elemento = nuevoAudio;
-        console.log("🎵 Potterw.mp3 iniciado");
+        // Reproducir DIRECTAMENTE (el clic del usuario lo permite)
+        const playPromise = audioPotter.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log("✅ Potterw.mp3 está sonando correctamente");
+                window.potterwAudioGlobal = audioPotter;
+            }).catch(error => {
+                console.log("❌ Error reproduciendo Potterw.mp3:", error);
+                // Fallback: intentar con el sistema normal
+                reproducirCancionDirecta('intro');
+            });
+        }
     } catch(e) {
-        console.log("Error con Potterw.mp3:", e);
+        console.log("❌ Excepción con Potterw.mp3:", e);
     }
     
+    // Resto de la animación del sobre
     const sello = document.getElementById("sello");
     const sobre = document.getElementById("sobre");
     const sobreBackExpandido = document.getElementById("sobreBackExpandido");
@@ -645,6 +673,21 @@ function abrirSobre() {
     }, 5000);
 }
 
+// Función de respaldo para reproducción directa
+function reproducirCancionDirecta(nombreCancion) {
+    const cancion = canciones[nombreCancion];
+    if (!cancion || !cancion.src) return;
+    
+    const audio = new Audio();
+    audio.src = cancion.src;
+    audio.loop = cancion.loop;
+    audio.volume = 0.4;
+    audio.play().then(() => {
+        console.log(`✅ ${cancion.src} reproducida por fallback`);
+        if (nombreCancion === 'intro') window.potterwAudioGlobal = audio;
+        else cancion.elemento = audio;
+    }).catch(e => console.log("Error en fallback:", e));
+}
 
 // ============================================
 // EVENTOS DEL SELLO

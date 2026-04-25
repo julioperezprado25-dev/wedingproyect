@@ -385,27 +385,23 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     </div>
 </div>
 
-<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
-
 <script>
-
-    // Configuración completa (copia y pega al inicio de tu script)
+// ============================================
+// SISTEMA DE MÚSICA
+// ============================================
 const canciones = {
-    // Canción principal de la boda
     boda: {
         elemento: null,
         src: "musica.mp3",
         volume: 0.7,
         loop: true
     },
-    // Canción para cuando aparece la carta
     magia: {
         elemento: null,
         src: "magic.mp3",
         volume: 0.6,
         loop: false
     },
-    // Canción de fondo para los mensajes
     intro: {
         elemento: null,
         src: "Potterw.mp3",
@@ -434,15 +430,6 @@ function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
     
     const audio = cancion.elemento;
     
-    // Detener otras canciones si son del mismo tipo (loop)
-    for (const [key, other] of Object.entries(canciones)) {
-        if (key !== nombreCancion && other.elemento && !other.elemento.paused) {
-            console.log(`Deteniendo canción: ${key}`);
-            other.elemento.pause();
-            other.elemento.currentTime = 0;
-        }
-    }
-    
     if (fadeIn) {
         audio.volume = 0;
         audio.currentTime = 0;
@@ -455,7 +442,7 @@ function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
             audio.volume = vol;
             if (vol >= targetVol - 0.01) {
                 clearInterval(fadeInterval);
-                console.log(`✅ Canción "${nombreCancion}" reproduciéndose a volumen ${audio.volume}`);
+                console.log(`✅ Canción "${nombreCancion}" reproduciéndose`);
             }
         }, duracionFade);
     } else {
@@ -487,25 +474,7 @@ function detenerCancion(nombreCancion, fadeOut = true, duracionFade = 200) {
         audio.currentTime = 0;
     }
 }
-function iniciarMusicaBienvenida() {
-    console.log("🎵 Reproduciendo música de bienvenida");
-    
-    // Usar el sistema de múltiples canciones
-    reproducirCancion('intro', true, 300);
-    
-    // Programar cambio a otra canción después
-    setTimeout(() => {
-        reproducirCancion('principal', true, 400);
-    }, 8000);  // 8 segundos después
-}
 
-// Función principal que mantiene compatibilidad con tu código existente
-function iniciarMusica() {
-    reproducirCancion('boda', true, 200);
-    window.musicaMuted = false;
-}
-
-// Función para silenciar/activar (mantiene compatibilidad)
 function toggleAudio() {
     const cancionActual = canciones.boda;
     if (!cancionActual || !cancionActual.elemento) return;
@@ -522,11 +491,8 @@ function toggleAudio() {
 }
 
 // ============================================
-// INICIALIZAR AL CARGAR
-// ============================================
-inicializarSistemaMusica();
-    
 // TEXTO DE LA CARTA
+// ============================================
 const lineasCarta = [
     "✨ Travesura realizada... ✨",
     "",
@@ -545,13 +511,11 @@ let lineElements = [];
 let isAnimating = false;
 let cartaCerrada = false;
 
-// ===== CONFIGURACIÓN DE UBICACIÓN DE LA BARITA =====
-// ¡AJUSTA ESTOS VALORES PARA CAMBIAR DÓNDE APARECE LA BARITA!
+// Posición de la barita
 const WAND_POSITION = {
-    x: "50%",   // Posición horizontal (ej: "50%", "75%", "85%", "90%")
-    y: "27%"    // Posición vertical (ej: "20%", "30%", "40%", "50%")
+    x: "50%",
+    y: "27%"
 };
-// ===================================================
 
 function crearEstructuraTexto() {
     const container = document.getElementById("texto");
@@ -581,7 +545,6 @@ function crearEstructuraTexto() {
     });
 }
 
-// Mostrar TODAS las líneas de texto de una vez (en paralelo)
 function revealAllLines() {
     return new Promise((resolve) => {
         const allPromises = [];
@@ -619,16 +582,14 @@ function revealAllLines() {
     });
 }
 
-// ===== FUNCIONES DE CHISPAS CORREGIDAS =====
-
-// Crear chispa visible (con z-index alto)
+// ===== FUNCIONES DE CHISPAS =====
 function createSparkle(x, y) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = x + "px";
     sparkle.style.top = y + "px";
-    sparkle.style.position = "fixed";  // ← fijo para que no se mueva con scroll
-    sparkle.style.zIndex = "10005";    // ← muy alto para que esté encima de todo
+    sparkle.style.position = "fixed";
+    sparkle.style.zIndex = "10005";
     sparkle.style.width = "25px";
     sparkle.style.height = "25px";
     sparkle.style.background = "radial-gradient(circle, #ffdd00, #ffaa00, #ff6600)";
@@ -637,7 +598,6 @@ function createSparkle(x, y) {
     sparkle.style.boxShadow = "0 0 15px gold, 0 0 30px orange";
     document.body.appendChild(sparkle);
     
-    // Animación manual para asegurar visibilidad
     let scale = 0;
     let opacity = 1;
     const startTime = performance.now();
@@ -661,10 +621,9 @@ function createSparkle(x, y) {
     requestAnimationFrame(animateSparkle);
 }
 
-// Lluvia de chispas (versión mejorada)
 function createSparkleShower(x, y, count = 8) {
     for (let i = 0; i < count; i++) {
-        const offsetX = (Math.random() - 0.5) * 80;  // Más dispersión
+        const offsetX = (Math.random() - 0.5) * 80;
         const offsetY = (Math.random() - 0.5) * 80;
         setTimeout(() => {
             createSparkle(x + offsetX, y + offsetY);
@@ -672,7 +631,6 @@ function createSparkleShower(x, y, count = 8) {
     }
 }
 
-// ===== PARTÍCULAS DE POLVO CORREGIDAS =====
 function createDustParticles(x, y, count = 15) {
     for (let i = 0; i < count; i++) {
         const particle = document.createElement("div");
@@ -695,7 +653,6 @@ function createDustParticles(x, y, count = 15) {
         
         document.body.appendChild(particle);
         
-        // Animación manual
         let opacity = 0.9;
         let scale = 1;
         const startTime = performance.now();
@@ -724,7 +681,7 @@ function createDustParticles(x, y, count = 15) {
     }
 }
 
-// Agitación 1: rotación leve
+// ===== AGITACIONES DE LA BARITA =====
 function wiggleWand1() {
     return new Promise((resolve) => {
         wand.classList.add("wand-wiggle-1");
@@ -735,7 +692,6 @@ function wiggleWand1() {
     });
 }
 
-// Agitación 2: rotación leve inversa
 function wiggleWand2() {
     return new Promise((resolve) => {
         wand.classList.add("wand-wiggle-2");
@@ -746,46 +702,37 @@ function wiggleWand2() {
     });
 }
 
-// Agitación 3: recorrido curvo + chispas VISIBLES
 function wiggleWand3WithCurve() {
     return new Promise((resolve) => {
         wand.classList.add("wand-curve");
         
-        // Chispas en la PUNTA (lado izquierdo de la barita)
         const wandRect = wand.getBoundingClientRect();
-        const puntaX = wandRect.left;      // Extremo izquierdo
-        const puntaY = wandRect.top ;    // Centro vertical
+        const puntaX = wandRect.left;
+        const puntaY = wandRect.top;
         
         createSparkleShower(puntaX, puntaY, 12);
         
         setTimeout(() => {
             const rect = wand.getBoundingClientRect();
-            const puntaX2 = rect.left;
-            const puntaY2 = rect.top;
-            createSparkleShower(puntaX2, puntaY2, 8);
+            createSparkleShower(rect.left, rect.top, 8);
         }, 300);
         
         setTimeout(() => {
             wand.classList.remove("wand-curve");
             const finalRect = wand.getBoundingClientRect();
-            const puntaX3 = finalRect.left ;
-            const puntaY3 = finalRect.top ;
-            createSparkleShower(puntaX3, puntaY3, 15);
+            createSparkleShower(finalRect.left, finalRect.top, 15);
             resolve();
         }, 600);
     });
 }
-// Desvanecer barita como polvo
+
 function fadeWandToDust() {
     return new Promise((resolve) => {
         const rect = wand.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
-        // Crear partículas de polvo alrededor de la barita
         createDustParticles(centerX, centerY, 20);
-        
-        // Aplicar animación de desvanecimiento
         wand.classList.add("wand-dust");
         
         setTimeout(() => {
@@ -796,8 +743,9 @@ function fadeWandToDust() {
     });
 }
 
-// ANIMACIÓN PRINCIPAL
-
+// ============================================
+// ANIMACIÓN PRINCIPAL CON LA SECUENCIA DE SONIDOS
+// ============================================
 async function animateMagicWand() {
     if (isAnimating) return;
     isAnimating = true;
@@ -812,40 +760,34 @@ async function animateMagicWand() {
     await new Promise(r => setTimeout(r, 300));
     
     // ============================================
-    // ¡LA INTRO (Potterw.mp3) SE DESVANECE AHORA!
+    // 1. LA INTRO (Potterw.mp3) SE DESVANECE
     // ============================================
-    detenerCancion('intro', true, 400);  // Fade-out de la intro
+    detenerCancion('intro', true, 400);
+    
+    // ============================================
+    // 2. MAGIC.MP3 SUENA AL EMPEZAR LOS MOVIMIENTOS (antes de las chispas)
+    // ============================================
+    reproducirCancion('magia', true, 200);
     
     // ===== SECUENCIA DE 3 AGITACIONES =====
-    
-    // Agitación 1
     await wiggleWand1();
     await new Promise(r => setTimeout(r, 150));
-    
-    // Agitación 2
     await wiggleWand2();
     await new Promise(r => setTimeout(r, 150));
-    
-    // Agitación 3 (con chispas)
     await wiggleWand3WithCurve();
-    
-    // ============================================
-    // ¡REPRODUCIR MAGIC.MP3 UNA VEZ!
-    // ============================================
-    reproducirCancion('magia', true, 200);  // magic.mp3 suena una vez
     
     await new Promise(r => setTimeout(r, 200));
     
     // Iniciar desvanecimiento de la barita (en paralelo)
     const fadePromise = fadeWandToDust();
     
-    // Iniciar aparición del texto (en paralelo)
+    // ============================================
+    // 3. MÚSICA DE BODA (musica.mp3) EMPIEZA CON EL TEXTO
+    // ============================================
     const textPromise = revealAllLines();
+    reproducirCancion('boda', true, 300);
     
-    // Esperar a que termine el texto
     await textPromise;
-    
-    // Esperar 7 segundos adicionales para que el texto se lea
     await new Promise(r => setTimeout(r, 7000));
     
     isAnimating = false;
@@ -856,7 +798,7 @@ async function animateMagicWand() {
         }
     }, 500);
 }
-    
+
 function cerrarCarta() {
     if (cartaCerrada) return;
     cartaCerrada = true;
@@ -899,7 +841,9 @@ function iniciarAnimacionMagica() {
     }, 500);
 }
 
-// ===== FUNCIONES ADICIONALES =====
+// ============================================
+// APERTURA DEL SOBRE
+// ============================================
 let yaAbierto = false;
 
 function abrirSobre() {
@@ -921,7 +865,6 @@ function abrirSobre() {
     }, 1800);
     setTimeout(() => {
         if (cartaOverlay) cartaOverlay.classList.add("show");
-        
         iniciarAnimacionMagica();
     }, 5000);
 }
@@ -932,9 +875,9 @@ if (selloElem) {
     selloElem.addEventListener("touchstart", (e) => { if (!yaAbierto) { e.preventDefault(); abrirSobre(); } });
 }
 
-
-
-
+// ============================================
+// FUNCIONES ADICIONALES
+// ============================================
 let intervaloFondo;
 function iniciarFondoRotativo() {
     const bg1 = document.getElementById("bg1"), bg2 = document.getElementById("bg2");
@@ -993,7 +936,20 @@ function agregarFloresASecciones() {
     });
 }
 
+// ============================================
+// INICIALIZACIÓN
+// ============================================
 document.body.style.overflow = "hidden";
+window.musicaMuted = false;
+
+// Inicializar sistema de música
+inicializarSistemaMusica();
+
+// Reproducir intro (Potterw.mp3) 2 segundos después de cargar la página
+setTimeout(() => {
+    console.log("🎵 Reproduciendo Potterw.mp3 (música de bienvenida)");
+    reproducirCancion('intro', true, 300);
+}, 2000);
 
 if (wand) {
     wand.onerror = function() {
@@ -1001,15 +957,6 @@ if (wand) {
         this.style.background = "linear-gradient(135deg, #FFD700, #FFA500)";
         this.style.borderRadius = "20% 20% 35% 35%";
     };
-
-// ============================================
-// REPRODUCIR INTRO (Potterw.mp3) AL CARGAR
-// ============================================
-setTimeout(() => {
-    console.log("🎵 Reproduciendo Potterw.mp3 (música de bienvenida)");
-    reproducirCancion('intro', true, 300);
-}, 2000);  // 2 segundos después de cargar
-    
 }
 </script>
 </body>

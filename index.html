@@ -797,6 +797,7 @@ function fadeWandToDust() {
 }
 
 // ANIMACIÓN PRINCIPAL
+
 async function animateMagicWand() {
     if (isAnimating) return;
     isAnimating = true;
@@ -810,6 +811,11 @@ async function animateMagicWand() {
     
     await new Promise(r => setTimeout(r, 300));
     
+    // ============================================
+    // ¡LA INTRO (Potterw.mp3) SE DESVANECE AHORA!
+    // ============================================
+    detenerCancion('intro', true, 400);  // Fade-out de la intro
+    
     // ===== SECUENCIA DE 3 AGITACIONES =====
     
     // Agitación 1
@@ -822,17 +828,13 @@ async function animateMagicWand() {
     
     // Agitación 3 (con chispas)
     await wiggleWand3WithCurve();
-    /// inicia Música pribcipal
-    iniciarMusica();
-    // Pequeña pausa antes de que empiece todo
-    await new Promise(r => setTimeout(r, 200));
     
     // ============================================
-    // INICIO DE ACCIONES EN PARALELO:
-    // 1. El texto empieza a aparecer
-    // 2. La barita empieza a desaparecer
-    // 3. La música ya está sonando desde antes
+    // ¡REPRODUCIR MAGIC.MP3 UNA VEZ!
     // ============================================
+    reproducirCancion('magia', true, 200);  // magic.mp3 suena una vez
+    
+    await new Promise(r => setTimeout(r, 200));
     
     // Iniciar desvanecimiento de la barita (en paralelo)
     const fadePromise = fadeWandToDust();
@@ -840,25 +842,21 @@ async function animateMagicWand() {
     // Iniciar aparición del texto (en paralelo)
     const textPromise = revealAllLines();
     
-    // Esperar a que termine el texto (7 segundos de visualización)
+    // Esperar a que termine el texto
     await textPromise;
     
-    // El texto ya está completamente visible
-    // La barita ya debería haber desaparecido (fadeWandToDust dura menos)
-    
     // Esperar 7 segundos adicionales para que el texto se lea
-    await new Promise(r => setTimeout(r, 7000));  // ← 7 SEGUNDOS mostrando el texto
+    await new Promise(r => setTimeout(r, 7000));
     
     isAnimating = false;
     
-    // Cerrar la carta después de los 7 segundos
     setTimeout(() => {
         if (!cartaCerrada) {
             cerrarCarta();
         }
     }, 500);
 }
-
+    
 function cerrarCarta() {
     if (cartaCerrada) return;
     cartaCerrada = true;
@@ -1004,10 +1002,14 @@ if (wand) {
         this.style.borderRadius = "20% 20% 35% 35%";
     };
 
+// ============================================
+// REPRODUCIR INTRO (Potterw.mp3) AL CARGAR
+// ============================================
 setTimeout(() => {
-    reproducirCancion('intro', true, 200);
-}, 2000);  // 2 segundos después
-
+    console.log("🎵 Reproduciendo Potterw.mp3 (música de bienvenida)");
+    reproducirCancion('intro', true, 300);
+}, 2000);  // 2 segundos después de cargar
+    
 }
 </script>
 </body>

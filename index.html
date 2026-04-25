@@ -889,9 +889,35 @@ function abrirSobre() {
     const cartaOverlay = document.getElementById("cartaOverlay");
     const hint = document.getElementById("hint");
     
-    // Iniciar Potterw.mp3 al presionar el sello
+    // ============================================
+    // IMPORTANTE: La música debe iniciar INMEDIATAMENTE
+    // sin ningún setTimeout para que el navegador lo permita
+    // ============================================
     console.log("🎵 Iniciando Potterw.mp3");
-    reproducirCancion('intro', true, 300);
+    
+    // Asegurar que el audio se reproduce con la interacción del usuario
+    const introCancion = canciones.intro;
+    if (introCancion && introCancion.elemento) {
+        introCancion.elemento.volume = 0;
+        introCancion.elemento.currentTime = 0;
+        introCancion.elemento.play().then(() => {
+            console.log("✅ Potterw.mp3 reproduciéndose correctamente");
+            // Subir volumen gradualmente
+            let vol = 0;
+            const targetVol = canciones.intro.volume;
+            const fadeInterval = setInterval(() => {
+                vol = Math.min(targetVol, vol + 0.05);
+                introCancion.elemento.volume = vol;
+                if (vol >= targetVol - 0.01) clearInterval(fadeInterval);
+            }, 200);
+        }).catch(e => {
+            console.log("Error reproduciendo Potterw.mp3:", e);
+            // Fallback: intentar de nuevo con reproducirCancion
+            reproducirCancion('intro', true, 300);
+        });
+    } else {
+        reproducirCancion('intro', true, 300);
+    }
     
     if (sello) sello.classList.add("fade-dust");
     if (hint) hint.classList.add("fade-dust");
@@ -905,13 +931,7 @@ function abrirSobre() {
         if (cartaOverlay) cartaOverlay.classList.add("show");
         iniciarAnimacionMagica();
     }, 5000);
-}
-
-const selloElem = document.getElementById("sello");
-if (selloElem) {
-    selloElem.addEventListener("click", (e) => { if (!yaAbierto) abrirSobre(); });
-    selloElem.addEventListener("touchstart", (e) => { if (!yaAbierto) { e.preventDefault(); abrirSobre(); } });
-}
+    }
 
 // ============================================
 // FUNCIONES ADICIONALES

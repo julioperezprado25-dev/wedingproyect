@@ -388,6 +388,133 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 <audio id="musica" src="musica.mp3" loop preload="auto"></audio>
 
 <script>
+
+    // Configuración completa (copia y pega al inicio de tu script)
+const canciones = {
+    // Canción principal de la boda
+    boda: {
+        elemento: null,
+        src: "musica.mp3",
+        volume: 0.7,
+        loop: true
+    },
+    // Canción para cuando aparece la carta
+    magia: {
+        elemento: null,
+        src: "magic.mp3",
+        volume: 0.6,
+        loop: false
+    },
+    // Canción de fondo para los mensajes
+    intro: {
+        elemento: null,
+        src: "Potterw.mp3",
+        volume: 0.4,
+        loop: true
+    }
+};
+
+function inicializarSistemaMusica() {
+    for (const [key, cancion] of Object.entries(canciones)) {
+        const audio = new Audio();
+        audio.src = cancion.src;
+        audio.loop = cancion.loop;
+        audio.volume = 0;
+        cancion.elemento = audio;
+        console.log(`Canción "${key}" inicializada: ${cancion.src}`);
+    }
+}
+
+function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
+    const cancion = canciones[nombreCancion];
+    if (!cancion || !cancion.elemento) {
+        console.error(`❌ Canción "${nombreCancion}" no encontrada`);
+        return;
+    }
+    
+    const audio = cancion.elemento;
+    
+    // Detener otras canciones si son del mismo tipo (loop)
+    for (const [key, other] of Object.entries(canciones)) {
+        if (key !== nombreCancion && other.elemento && !other.elemento.paused) {
+            console.log(`Deteniendo canción: ${key}`);
+            other.elemento.pause();
+            other.elemento.currentTime = 0;
+        }
+    }
+    
+    if (fadeIn) {
+        audio.volume = 0;
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Autoplay bloqueado:", e));
+        
+        let vol = 0;
+        const targetVol = cancion.volume;
+        const fadeInterval = setInterval(() => {
+            vol = Math.min(targetVol, vol + 0.05);
+            audio.volume = vol;
+            if (vol >= targetVol - 0.01) {
+                clearInterval(fadeInterval);
+                console.log(`✅ Canción "${nombreCancion}" reproduciéndose a volumen ${audio.volume}`);
+            }
+        }, duracionFade);
+    } else {
+        audio.volume = cancion.volume;
+        audio.play().catch(e => console.log("Autoplay bloqueado:", e));
+    }
+}
+
+function detenerCancion(nombreCancion, fadeOut = true, duracionFade = 200) {
+    const cancion = canciones[nombreCancion];
+    if (!cancion || !cancion.elemento) return;
+    
+    const audio = cancion.elemento;
+    
+    if (fadeOut && !audio.paused) {
+        let vol = audio.volume;
+        const fadeInterval = setInterval(() => {
+            vol = Math.max(0, vol - 0.05);
+            audio.volume = vol;
+            if (vol <= 0.01) {
+                clearInterval(fadeInterval);
+                audio.pause();
+                audio.currentTime = 0;
+                console.log(`🔇 Canción "${nombreCancion}" detenida`);
+            }
+        }, duracionFade);
+    } else {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+}
+
+// Función principal que mantiene compatibilidad con tu código existente
+function iniciarMusica() {
+    reproducirCancion('boda', true, 200);
+    window.musicaMuted = false;
+}
+
+// Función para silenciar/activar (mantiene compatibilidad)
+function toggleAudio() {
+    const cancionActual = canciones.boda;
+    if (!cancionActual || !cancionActual.elemento) return;
+    
+    if (!window.musicaMuted) {
+        cancionActual.elemento.muted = true;
+        window.musicaMuted = true;
+        document.getElementById("audioBtn").textContent = "🔇 Activar Música";
+    } else {
+        cancionActual.elemento.muted = false;
+        window.musicaMuted = false;
+        document.getElementById("audioBtn").textContent = "🔊 Silenciar Música";
+    }
+}
+
+// ============================================
+// INICIALIZAR AL CARGAR
+// ============================================
+inicializarSistemaMusica();
+    
 // TEXTO DE LA CARTA
 const lineasCarta = [
     "✨ Travesura realizada... ✨",
@@ -767,6 +894,7 @@ function iniciarAnimacionMagica() {
 let yaAbierto = false;
 
 function abrirSobre() {
+    reproducirCancion(intro, TRUE, 100)
     if (yaAbierto) return;
     yaAbierto = true;
     const sello = document.getElementById("sello");
@@ -796,22 +924,8 @@ if (selloElem) {
     selloElem.addEventListener("touchstart", (e) => { if (!yaAbierto) { e.preventDefault(); abrirSobre(); } });
 }
 
-function iniciarMusica() {
-    const audio = document.getElementById("musica");
-    if (!audio) return;
-    audio.volume = 0;
-    audio.play().catch(()=>{});
-    let vol = 0;
-    const fade = setInterval(() => { vol = Math.min(1, vol+0.05); audio.volume = vol; if(vol >= 0.9) clearInterval(fade); }, 280);
-    window.musicaMuted = false;
-}
 
-function toggleAudio() {
-    const audio = document.getElementById("musica");
-    const btn = document.getElementById("audioBtn");
-    if(!window.musicaMuted) { if(audio) audio.muted = true; window.musicaMuted = true; if(btn) btn.textContent = "🔇 Activar Música"; } 
-    else { if(audio) audio.muted = false; window.musicaMuted = false; if(btn) btn.textContent = "🔊 Silenciar Música"; }
-}
+
 
 let intervaloFondo;
 function iniciarFondoRotativo() {

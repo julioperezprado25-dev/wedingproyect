@@ -323,15 +323,36 @@ function inicializarSistemaMusica() {
 
 function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
     const cancion = canciones[nombreCancion];
-    if (!cancion || !cancion.elemento) {
+    if (!cancion) {
         console.error(`❌ Canción "${nombreCancion}" no encontrada`);
         return;
     }
+    
+    // Para la canción intro, siempre crear un audio nuevo si no existe o está pausado
+    if (nombreCancion === 'intro') {
+        if (cancion.elemento && !cancion.elemento.paused) {
+            // Ya está sonando, no hacer nada
+            return;
+        }
+        // Crear nuevo audio para intro
+        const nuevoAudio = new Audio();
+        nuevoAudio.src = cancion.src;
+        nuevoAudio.loop = cancion.loop;
+        nuevoAudio.volume = 0;
+        cancion.elemento = nuevoAudio;
+    }
+    
     const audio = cancion.elemento;
+    if (!audio) {
+        console.error(`❌ Audio no disponible para "${nombreCancion}"`);
+        return;
+    }
+    
     if (fadeIn) {
         audio.volume = 0;
         audio.currentTime = 0;
-        audio.play().catch(e => console.log("Error:", e));
+        audio.play().catch(e => console.log("Error reproduciendo:", e));
+        
         let vol = 0;
         const targetVol = cancion.volume;
         const fadeInterval = setInterval(() => {
@@ -341,7 +362,7 @@ function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
         }, duracionFade);
     } else {
         audio.volume = cancion.volume;
-        audio.play().catch(e => console.log("Error:", e));
+        audio.play().catch(e => console.log("Error reproduciendo:", e));
     }
 }
 
@@ -568,12 +589,38 @@ function iniciarAnimacionMagica() { mostrarBaritaYEsperar(); }
 let yaAbierto = false;
 
 function abrirSobre() {
-    console.log("abrirSobre() llamada - yaAbierto:", yaAbierto);
     if (yaAbierto) return;
     yaAbierto = true;
     
-    console.log("🎵 Iniciando Potterw.mp3");
-    reproducirCancion('intro', true, 300);
+    // ============================================
+    // FORZAR NUEVO AUDIO PARA POTTERW.MP3
+    // ============================================
+    try {
+        // Detener audio anterior si existe
+        if (canciones.intro.elemento) {
+            canciones.intro.elemento.pause();
+            canciones.intro.elemento.src = "";
+        }
+        
+        // Crear audio NUEVO
+        const nuevoAudio = new Audio();
+        nuevoAudio.src = "Potterw.mp3";
+        nuevoAudio.loop = true;
+        nuevoAudio.volume = 0;
+        nuevoAudio.play().then(() => {
+            let vol = 0;
+            const fade = setInterval(() => {
+                vol = Math.min(0.4, vol + 0.05);
+                nuevoAudio.volume = vol;
+                if (vol >= 0.35) clearInterval(fade);
+            }, 200);
+        }).catch(e => console.log("Error:", e));
+        
+        canciones.intro.elemento = nuevoAudio;
+        console.log("🎵 Potterw.mp3 iniciado");
+    } catch(e) {
+        console.log("Error con Potterw.mp3:", e);
+    }
     
     const sello = document.getElementById("sello");
     const sobre = document.getElementById("sobre");
@@ -597,6 +644,7 @@ function abrirSobre() {
         iniciarAnimacionMagica();
     }, 5000);
 }
+
 
 // ============================================
 // EVENTOS DEL SELLO

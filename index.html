@@ -254,12 +254,12 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 @keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(5px) rotate(3deg);} }
 
 @media (max-width: 768px) {
-    .wand { width: 60px; }
+    .wand { width: 130px; }
     #texto { font-size: 26px; }
     .letter-content { padding: 30px 25px; }
 }
 @media (max-width: 480px) {
-    .wand { width: 50px; }
+    .wand { width: 100px; }
     #texto { font-size: 22px; }
     .letter-content { padding: 25px 20px; }
 }
@@ -684,7 +684,8 @@ async function animateMagicWand() {
     
     // Agitación 3 (con chispas)
     await wiggleWand3WithCurve();
-    
+    /// inicia Música pribcipal
+    iniciarMusica();
     // Pequeña pausa antes de que empiece todo
     await new Promise(r => setTimeout(r, 200));
     
@@ -784,7 +785,7 @@ function abrirSobre() {
     }, 1800);
     setTimeout(() => {
         if (cartaOverlay) cartaOverlay.classList.add("show");
-        iniciarMusica();
+        
         iniciarAnimacionMagica();
     }, 5000);
 }

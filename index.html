@@ -487,6 +487,17 @@ function detenerCancion(nombreCancion, fadeOut = true, duracionFade = 200) {
         audio.currentTime = 0;
     }
 }
+function iniciarMusicaBienvenida() {
+    console.log("🎵 Reproduciendo música de bienvenida");
+    
+    // Usar el sistema de múltiples canciones
+    reproducirCancion('intro', true, 300);
+    
+    // Programar cambio a otra canción después
+    setTimeout(() => {
+        reproducirCancion('principal', true, 400);
+    }, 8000);  // 8 segundos después
+}
 
 // Función principal que mantiene compatibilidad con tu código existente
 function iniciarMusica() {
@@ -894,7 +905,6 @@ function iniciarAnimacionMagica() {
 let yaAbierto = false;
 
 function abrirSobre() {
-    reproducirCancion(intro, TRUE, 100)
     if (yaAbierto) return;
     yaAbierto = true;
     const sello = document.getElementById("sello");
@@ -993,6 +1003,11 @@ if (wand) {
         this.style.background = "linear-gradient(135deg, #FFD700, #FFA500)";
         this.style.borderRadius = "20% 20% 35% 35%";
     };
+
+setTimeout(() => {
+    reproducirCancion('intro', true, 200);
+}, 2000);  // 2 segundos después
+
 }
 </script>
 </body>

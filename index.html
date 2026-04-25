@@ -147,17 +147,34 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 10002;
 }
 
 .wand {
     position: absolute;
-    width: 200px;
+    width: 150px;
     height: auto;
     filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
     transform-origin: center;
     transition: none;
+    cursor: pointer;
+}
+
+/* Texto "Presiona la barita" */
+.wand-hint {
+    position: absolute;
+    font-family: 'Great Vibes', cursive;
+    font-size: 20px;
+    color: #ffdd99;
+    text-shadow: 0 0 15px #ffaa33;
+    background: rgba(0,0,0,0.6);
+    padding: 5px 15px;
+    border-radius: 30px;
+    white-space: nowrap;
+    pointer-events: none;
+    animation: glowHint 1.5s infinite;
+    z-index: 10003;
 }
 
 /* Agitación 1 y 2: rotación leve */
@@ -226,7 +243,7 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
 @keyframes dustFloat {
     0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-    100% { transform: scale(0) translate(random(-30, 30), random(-30, 30)); opacity: 0; }
+    100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
 }
 
 /* MAIN */
@@ -254,12 +271,14 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 @keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(5px) rotate(3deg);} }
 
 @media (max-width: 768px) {
-    .wand { width: 130px; }
+    .wand { width: 100px; }
+    .wand-hint { font-size: 16px; }
     #texto { font-size: 26px; }
     .letter-content { padding: 30px 25px; }
 }
 @media (max-width: 480px) {
-    .wand { width: 100px; }
+    .wand { width: 80px; }
+    .wand-hint { font-size: 14px; white-space: normal; width: 120px; text-align: center; }
     #texto { font-size: 22px; }
     .letter-content { padding: 25px 20px; }
 }
@@ -303,6 +322,7 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
 <div class="wand-container" id="wandContainer">
     <img id="wand" class="wand" src="barita.png" alt="Barita mágica" style="display: none;">
+    <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la Barita ✨</div>
 </div>
 
 <div class="main" id="main">
@@ -417,7 +437,7 @@ function inicializarSistemaMusica() {
         audio.loop = cancion.loop;
         audio.volume = 0;
         cancion.elemento = audio;
-        console.log(`Canción "${key}" inicializada: ${cancion.src}`);
+        console.log(`Canción "${key}" inicializada`);
     }
 }
 
@@ -507,14 +527,16 @@ const lineasCarta = [
 ];
 
 let wand = document.getElementById("wand");
+let wandHint = document.getElementById("wandHint");
 let lineElements = [];
 let isAnimating = false;
 let cartaCerrada = false;
+let movimientosIniciados = false;
 
 // Posición de la barita
 const WAND_POSITION = {
     x: "50%",
-    y: "27%"
+    y: "30%"
 };
 
 function crearEstructuraTexto() {
@@ -707,10 +729,7 @@ function wiggleWand3WithCurve() {
         wand.classList.add("wand-curve");
         
         const wandRect = wand.getBoundingClientRect();
-        const puntaX = wandRect.left;
-        const puntaY = wandRect.top;
-        
-        createSparkleShower(puntaX, puntaY, 12);
+        createSparkleShower(wandRect.left, wandRect.top, 12);
         
         setTimeout(() => {
             const rect = wand.getBoundingClientRect();
@@ -737,6 +756,7 @@ function fadeWandToDust() {
         
         setTimeout(() => {
             wand.style.display = "none";
+            if (wandHint) wandHint.style.display = "none";
             wand.classList.remove("wand-dust");
             resolve();
         }, 800);
@@ -744,30 +764,20 @@ function fadeWandToDust() {
 }
 
 // ============================================
-// ANIMACIÓN PRINCIPAL CON LA SECUENCIA DE SONIDOS
+// ANIMACIÓN PRINCIPAL (se ejecuta al presionar la barita)
 // ============================================
 async function animateMagicWand() {
-    if (isAnimating) return;
-    isAnimating = true;
+    if (movimientosIniciados) return;
+    movimientosIniciados = true;
     
-    // Mostrar la barita
-    wand.style.display = "block";
-    wand.style.left = WAND_POSITION.x;
-    wand.style.top = WAND_POSITION.y;
-    wand.style.opacity = "1";
-    wand.style.transform = "rotate(0deg) scale(1)";
+    console.log("🎵 Deteniendo Potterw.mp3");
+    detenerCancion('intro', true, 300);
     
-    await new Promise(r => setTimeout(r, 300));
-    
-    // ============================================
-    // 1. LA INTRO (Potterw.mp3) SE DESVANECE
-    // ============================================
-    detenerCancion('intro', true, 400);
-    
-    // ============================================
-    // 2. MAGIC.MP3 SUENA AL EMPEZAR LOS MOVIMIENTOS (antes de las chispas)
-    // ============================================
+    console.log("🎵 Iniciando magic.mp3");
     reproducirCancion('magia', true, 200);
+    
+    // Ocultar el hint de la barita
+    if (wandHint) wandHint.style.display = "none";
     
     // ===== SECUENCIA DE 3 AGITACIONES =====
     await wiggleWand1();
@@ -781,22 +791,50 @@ async function animateMagicWand() {
     // Iniciar desvanecimiento de la barita (en paralelo)
     const fadePromise = fadeWandToDust();
     
-    // ============================================
-    // 3. MÚSICA DE BODA (musica.mp3) EMPIEZA CON EL TEXTO
-    // ============================================
+    // Iniciar aparición del texto y música de boda
     const textPromise = revealAllLines();
+    console.log("🎵 Iniciando musica.mp3 (boda)");
     reproducirCancion('boda', true, 300);
     
     await textPromise;
     await new Promise(r => setTimeout(r, 7000));
-    
-    isAnimating = false;
     
     setTimeout(() => {
         if (!cartaCerrada) {
             cerrarCarta();
         }
     }, 500);
+}
+
+// Mostrar la barita y esperar a que el usuario la presione
+function mostrarBaritaYEsperar() {
+    crearEstructuraTexto();
+    wand.style.display = "block";
+    wand.style.left = WAND_POSITION.x;
+    wand.style.top = WAND_POSITION.y;
+    wand.style.opacity = "1";
+    wand.style.transform = "rotate(0deg) scale(1)";
+    wand.style.cursor = "pointer";
+    
+    // Mostrar el hint
+    if (wandHint) {
+        wandHint.style.display = "block";
+        // Posicionar el hint cerca de la barita
+        setTimeout(() => {
+            const wandRect = wand.getBoundingClientRect();
+            wandHint.style.left = (wandRect.left + wandRect.width/2 - 60) + "px";
+            wandHint.style.top = (wandRect.top - 40) + "px";
+        }, 100);
+    }
+    
+    // Agregar evento de clic a la barita
+    const clickHandler = function() {
+        wand.removeEventListener("click", clickHandler);
+        wand.removeEventListener("touchstart", clickHandler);
+        animateMagicWand();
+    };
+    wand.addEventListener("click", clickHandler);
+    wand.addEventListener("touchstart", clickHandler);
 }
 
 function cerrarCarta() {
@@ -833,12 +871,7 @@ function cerrarCarta() {
 }
 
 function iniciarAnimacionMagica() {
-    crearEstructuraTexto();
-    wand.style.display = "none";
-    wand.style.opacity = "1";
-    setTimeout(() => {
-        animateMagicWand();
-    }, 500);
+    mostrarBaritaYEsperar();
 }
 
 // ============================================
@@ -854,6 +887,10 @@ function abrirSobre() {
     const sobreBackExpandido = document.getElementById("sobreBackExpandido");
     const cartaOverlay = document.getElementById("cartaOverlay");
     const hint = document.getElementById("hint");
+    
+    // Iniciar Potterw.mp3 al presionar el sello
+    console.log("🎵 Iniciando Potterw.mp3");
+    reproducirCancion('intro', true, 300);
     
     if (sello) sello.classList.add("fade-dust");
     if (hint) hint.classList.add("fade-dust");
@@ -942,14 +979,7 @@ function agregarFloresASecciones() {
 document.body.style.overflow = "hidden";
 window.musicaMuted = false;
 
-// Inicializar sistema de música
 inicializarSistemaMusica();
-
-// Reproducir intro (Potterw.mp3) 2 segundos después de cargar la página
-setTimeout(() => {
-    console.log("🎵 Reproduciendo Potterw.mp3 (música de bienvenida)");
-    reproducirCancion('intro', true, 300);
-}, 2000);
 
 if (wand) {
     wand.onerror = function() {

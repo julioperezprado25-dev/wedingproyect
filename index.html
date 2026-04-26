@@ -582,15 +582,21 @@ async function animateMagicWand() {
     if (movimientosIniciados) return;
     movimientosIniciados = true;
     
-    // DETENER INTRO
-    console.log("🎵 Deteniendo intro");
-    if (introAudioGlobal) {
-        introAudioGlobal.pause();
-        introAudioGlobal = null;
+    // ============================================
+    // DETENER Y DESTRUIR INTRO COMPLETAMENTE
+    // ============================================
+    console.log("🎵 Destruyendo intro");
+    
+    if (window.potterwAudioGlobal) {
+        window.potterwAudioGlobal.pause();
+        window.potterwAudioGlobal.src = "";
+        window.potterwAudioGlobal = null;
     }
+    
     if (canciones.intro && canciones.intro.elemento) {
         canciones.intro.elemento.pause();
-        canciones.intro.elemento.currentTime = 0;
+        canciones.intro.elemento.src = "";
+        canciones.intro.elemento = null;
     }
     
     console.log("🎵 Iniciando magic.mp3");
@@ -649,8 +655,10 @@ function cerrarCarta() {
 
 function iniciarAnimacionMagica() { mostrarBaritaYEsperar(); }
 
+
+
 // ============================================
-// APERTURA DEL SOBRE - VERSIÓN CORREGIDA
+// APERTURA DEL SOBRE - CON LIMPIEZA TOTAL
 // ============================================
 let yaAbierto = false;
 
@@ -659,16 +667,28 @@ function abrirSobre() {
     if (yaAbierto) return;
     yaAbierto = true;
     
-    // Reproducir intro con audio NUEVO
-    reproducirIntro().catch(() => {
-        console.log("Fallback: intentando con magia.mp3");
-        const fallbackAudio = new Audio();
-        fallbackAudio.src = "magic.mp3?" + Date.now();
-        fallbackAudio.loop = true;
-        fallbackAudio.volume = 0.3;
-        fallbackAudio.play().catch(e => console.log("Error en fallback:", e));
-        introAudioGlobal = fallbackAudio;
-    });
+    // ============================================
+    // LIMPIAR CUALQUIER AUDIO ANTERIOR
+    // ============================================
+    // Destruir audio global
+    if (window.potterwAudioGlobal) {
+        window.potterwAudioGlobal.pause();
+        window.potterwAudioGlobal.src = "";
+        window.potterwAudioGlobal = null;
+    }
+    
+    // Destruir audio del sistema
+    if (canciones.intro && canciones.intro.elemento) {
+        canciones.intro.elemento.pause();
+        canciones.intro.elemento.src = "";
+        canciones.intro.elemento = null;
+    }
+    
+    // Pequeña pausa para asegurar limpieza
+    setTimeout(() => {
+        // Reproducir intro NUEVA
+        reproducirIntro().catch(() => console.log("Error en intro"));
+    }, 50);
     
     // Animación del sobre
     const sello = document.getElementById("sello");

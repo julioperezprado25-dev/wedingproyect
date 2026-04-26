@@ -16,15 +16,15 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
 .intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1509; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
 .envelope { position: relative; width: min(300px, 80vw); height: min(420px, 70vh); perspective: 1600px; cursor: default; }
-.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
-.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
+.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back3.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
+.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back3.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
 .envelope-back-expanded.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 .envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 20px 30px rgba(0,0,0,0.4); z-index: 1; transition: opacity 0.3s; }
 .flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; z-index: 3; }
-.flap-left { left: 0; background-position: left; transform-origin: 22% center; }
-.flap-right { right: 0; background-position: right; transform-origin: 78% center; }
-.envelope.open .flap-left { transform: rotateY(-105deg); opacity: 0; }
-.envelope.open .flap-right { transform: rotateY(105deg); opacity: 0; }
+.flap-left { left: 0; background-position: left; transform-origin: 37px center; }
+.flap-right { right: 0; background-position: right; transform-origin: calc(100% - 32px) center; }
+.envelope.open .flap-left { transform: rotateY(-105deg); filter: drop-shadow(-10px 8px 15px rgba(0,0,0,0.35)); }
+.envelope.open .flap-right { transform: rotateY(105deg); filter: drop-shadow(10px 8px 15px rgba(0,0,0,0.35)); }
 .envelope.open .envelope-body { opacity: 0; }
 .envelope.open .envelope-back { opacity: 1; }
 
@@ -201,6 +201,7 @@ textarea { border-radius: 28px; min-height: 100px; }
 p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
 /* Estilos para las flores dentro de las secciones */
+/* Estilos para las flores dentro de las secciones */
 .flor-seccion {
     position: absolute;
     z-index: 6;
@@ -208,17 +209,23 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
     transition: all 0.3s ease;
 }
+
+/* La imagen SOLO se mueve (animación) */
 .flor-seccion img {
     width: 100% !important;
     height: auto !important;
     display: block !important;
     animation: flotarFlor 5s infinite alternate ease-in-out;
-    transition: transform 0.3s ease;
 }
-/* Animación de flotación suave */
+
+/* El contenedor recibe rotación/escala desde JS */
+.flor-seccion {
+    transform: rotate(0deg) scale(1);
+}
+
 @keyframes flotarFlor {
-    0% { transform: translateY(0px) rotate(0deg);}
-    100% { transform: translateY(8px) rotate(2deg);}
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(8px); }
 }
 
 @media (max-width: 768px) {
@@ -267,7 +274,7 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
 <div class="wand-container" id="wandContainer">
     <img id="wand" class="wand" src="barita.png" alt="Barita mágica" style="display: none;">
-    <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la Barita ✨</div>
+    <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
 </div>
 
 <div class="main" id="main">
@@ -385,23 +392,16 @@ const floresPorSeccion = {
     // Sección título - Flores rotadas y escaladas
     'seccion-titulo': [
         { 
-            src: 'flor_verde_1.png', 
-            position: { top: '-25px', left: '-20px' }, 
-            size: '85px',
-            rotation: -15,        // Rotación de -15 grados
-            scale: 1.1           // 10% más grande
-        },
-        { 
             src: 'flores_derechaC.png', 
-            position: { bottom: '-20px', right: '-25px' }, 
-            size: '80px',
-            rotation: 25,         // Rotación de 25 grados
+            position: { bottom: '10px', right: '-15px' }, 
+            size: '120px',
+            rotation: 0,         // Rotación de 25 grados
             scale: 0.9            // 10% más pequeño
         },
         { 
             src: 'flores_izquierdaD.png', 
-            position: { bottom: '-20px', left: '-25px' }, 
-            size: '200px',
+            position: { bottom: '-45px', left: '-22px' }, 
+            size: '160px',
             rotation: 0,         // Rotación de 25 grados
             scale: 1           // 10% más pequeño
         }
@@ -412,102 +412,95 @@ const floresPorSeccion = {
         { 
             src: 'flor_rosa_1.png', 
             position: { top: '-20px', right: '-15px' }, 
-            size: '90px',
-            rotation: 45,         // Rotada 45 grados
+            size: '150px',
+            rotation: -135,         // Rotada 45 grados
             scale: 1.2,
             flipX: true           // Reflejada horizontalmente
         },
+
         { 
-            src: 'flores_izquierdaU.png', 
-            position: { top: '30px', left: '-15px' }, 
-            size: '65px',
-            rotation: -30,
-            scale: 1.0
+            src: 'flor_rosa_1.png', 
+            position: { top: '-20px', left: '-15px' }, 
+            size: '150px',
+            rotation: 135,         // Rotada 45 grados
+            scale: 1.2,
+            flipX: true           // Reflejada horizontalmente
+        },
+        
+        { 
+            src: 'flores_izquierdaD.png', 
+            position: { bottom: '-40px', left: '-10px' }, 
+            size: '180px',
+            rotation: 0,
+            scale: 1
         },
         { 
             src: 'flores_izquierdaD.png', 
-            position: { bottom: '-10px', left: '-10px' }, 
-            size: '60px',
-            rotation: 90,
-            scale: 0.8
-        }
+            position: { bottom: '-40px', right: '-10px' }, 
+            size: '180px',
+            rotation: 0,         // Rotación de 25 grados
+            scale: 1,     // 10% más pequeño
+            flipX: true
+        },
+
     ],
     
     // Sección información importante
     'seccion-info': [
         { 
             src: 'flor_verde_2.png', 
-            position: { top: '-30px', left: '-15px' }, 
-            size: '85px',
-            rotation: -45,
-            scale: 1.3,
-            flipY: true
+            position: { top: '40%' , left: '-20px' }, 
+            size: '150px',
+            rotation: 0,
+            scale: 1,
+            flipY: false
         },
         { 
-            src: 'flor_rosa_3.png', 
-            position: { bottom: '-25px', right: '-20px' }, 
-            size: '90px',
-            rotation: 180,        // Rotada 180 grados (al revés)
-            scale: 1.1
-        },
-        { 
-            src: 'flores_derechaC.png', 
-            position: { top: '45%', right: '-20px' }, 
-            size: '70px',
-            rotation: 15,
-            scale: 1.0
+            src: 'flor_verde_2.png', 
+            position: { top: '40%' , right: '-20px' }, 
+            size: '150px',
+            rotation: 0,
+            scale: 1,
+            flipX: true
         }
     ],
     
     // Sección lista de regalos
     'seccion-regalos': [
         { 
-            src: 'flor_verde_3.png', 
-            position: { top: '-35px', left: '15%' }, 
-            size: '95px',
-            rotation: 60,
-            scale: 1.4
+            src: 'flor_verde_1.png', 
+            position: { top: '-20px', left: '-15px' }, 
+            size: '110px',
+            rotation: 45,
+            scale: 0.9
         },
         { 
-            src: 'flor_rosa_1.png', 
-            position: { bottom: '-15px', left: '25px' }, 
-            size: '75px',
-            rotation: -75,
+            src: 'flor_verde_1.png', 
+            position: { top: '-20px', right: '-15px' }, 
+            size: '110px',
+            rotation: -45,
             scale: 0.9,
             flipX: true
         },
-        { 
-            src: 'flores_izquierdaU.png', 
-            position: { top: '35px', right: '-25px' }, 
-            size: '65px',
-            rotation: 120,
-            scale: 1.2
-        }
+
     ],
     
     // Sección álbum de fotos
     'seccion-album': [
         { 
-            src: 'flor_verde_1.png', 
-            position: { top: '-20px', right: '8%' }, 
-            size: '75px',
-            rotation: 20,
+            src: 'flor_rosa_3.png', 
+            position: { top: '-40px', right: '-40px' }, 
+            size: '100px',
+            rotation: -30,
             scale: 1.0
         },
         { 
-            src: 'flores_izquierdaD.png', 
-            position: { bottom: '20px', left: '-15px' }, 
-            size: '70px',
-            rotation: -90,
-            scale: 1.1,
-            flipY: true
-        },
-        { 
             src: 'flor_rosa_3.png', 
-            position: { bottom: '-20px', right: '12%' }, 
-            size: '80px',
-            rotation: 330,
-            scale: 0.85
+            position: { top: '-40px', left: '-40px' }, 
+            size: '100px',
+            rotation: 30,
+            scale: 1,
+            flipX: true
         }
     ],
     
@@ -515,86 +508,77 @@ const floresPorSeccion = {
     'seccion-mensajes': [
         { 
             src: 'flor_rosa_1.png', 
-            position: { top: '-15px', left: '-10px' }, 
-            size: '85px',
-            rotation: -20,
+            position: { top: '-15px', left: '-15px' }, 
+            size: '100px',
+            rotation: -45,
             scale: 1.2
         },
         { 
             src: 'flores_derechaC.png', 
-            position: { bottom: '40px', right: '-20px' }, 
-            size: '75px',
-            rotation: 40,
+            position: { bottom: '-5px', right: '-20px' }, 
+            size: '80px',
+            rotation: 0,
             scale: 0.95,
-            flipX: true,
             flipY: true
         },
-        { 
-            src: 'flor_verde_2.png', 
-            position: { bottom: '-25px', left: '20%' }, 
-            size: '70px',
-            rotation: 270,
-            scale: 1.15
-        }
+
     ],
     
     // Sección audio y cierre
     'seccion-audio': [
         { 
-            src: 'flor_verde_3.png', 
-            position: { top: '15px', right: '-20px' }, 
-            size: '80px',
-            rotation: 10,
-            scale: 1.0
-        },
-        { 
             src: 'flores_izquierdaU.png', 
-            position: { bottom: '-15px', left: '-15px' }, 
-            size: '65px',
-            rotation: -15,
-            scale: 1.3
+            position: { top: '15px', right: '-10px' }, 
+            size: '150px',
+            rotation: 0,
+            scale: 1.0,
+             flipX:true
         },
-        { 
-            src: 'flor_rosa_1.png', 
-            position: { top: '55%', left: '-15px' }, 
-            size: '75px',
-            rotation: 55,
-            scale: 0.9,
-            flipX: true
+       { 
+            src: 'flores_izquierdaU.png', 
+            position: { top: '15px', left: '-10px' }, 
+            size: '150px',
+            rotation: 0,
+            scale: 1.0,
+           
         }
     ]
 };
 
 // Función para aplicar transformaciones a una imagen
-function aplicarTransformaciones(imgElement, config) {
-    let transformaciones = [];
+// Función CORREGIDA - Aplica transformaciones al CONTENEDOR, no a la imagen
+function aplicarTransformaciones(florDiv, config) {
+    let transformValue = '';
     
-    // Aplicar rotación si existe
-    if (config.rotation !== undefined) {
-        transformaciones.push(`rotate(${config.rotation}deg)`);
+    // 1. Aplicar rotación
+    if (config.rotation !== undefined && config.rotation !== 0) {
+        transformValue += `rotate(${config.rotation}deg) `;
     }
     
-    // Aplicar escala si existe
-    if (config.scale !== undefined && config.scale !== 1) {
-        transformaciones.push(`scale(${config.scale})`);
-    }
-    
-    // Aplicar reflejos horizontales/verticales
+    // 2. Aplicar escala base
     let scaleX = 1;
     let scaleY = 1;
-    if (config.flipX) scaleX = -1;
-    if (config.flipY) scaleY = -1;
     
-    if (scaleX !== 1 || scaleY !== 1) {
-        transformaciones.push(`scale(${scaleX}, ${scaleY})`);
+    if (config.scale !== undefined && config.scale !== 1) {
+        scaleX = config.scale;
+        scaleY = config.scale;
     }
     
-    // Aplicar todas las transformaciones
-    if (transformaciones.length > 0) {
-        imgElement.style.transform = transformaciones.join(' ');
+    // 3. Aplicar reflejos (flip)
+    if (config.flipX) scaleX = scaleX * -1;
+    if (config.flipY) scaleY = scaleY * -1;
+    
+    // 4. Agregar escala
+    if (scaleX !== 1 || scaleY !== 1) {
+        transformValue += `scale(${scaleX}, ${scaleY}) `;
+    }
+    
+    // 5. Aplicar transformación al CONTENEDOR
+    if (transformValue.trim() !== '') {
+        florDiv.style.transform = transformValue.trim();
+        console.log(`✅ Flor transformada (contenedor): ${transformValue}`);
     }
 }
-
 // Función para agregar las flores a las secciones según la configuración
 function agregarFloresASecciones() {
     for (const [seccionId, flores] of Object.entries(floresPorSeccion)) {
@@ -614,10 +598,6 @@ function agregarFloresASecciones() {
         flores.forEach(flor => {
             const florDiv = document.createElement('div');
             florDiv.className = 'flor-seccion';
-            
-            florDiv.style.position = 'absolute';
-            florDiv.style.zIndex = '6';
-            florDiv.style.pointerEvents = 'none';
             
             // Asignar posición
             if (flor.position.top !== undefined) florDiv.style.top = flor.position.top;
@@ -639,13 +619,6 @@ function agregarFloresASecciones() {
             img.style.display = 'block';
             img.style.animation = `flotarFlor 5s infinite alternate ease-in-out`;
             
-            // Aplicar transformaciones personalizadas (rotación, escala, reflejos)
-            aplicarTransformaciones(img, flor);
-            
-            if (flor.animationDelay) {
-                img.style.animationDelay = flor.animationDelay;
-            }
-            
             img.onerror = () => {
                 console.warn(`No se pudo cargar la imagen: ${flor.src}`);
                 florDiv.style.display = 'none';
@@ -653,6 +626,9 @@ function agregarFloresASecciones() {
             
             florDiv.appendChild(img);
             contenidoSeccion.appendChild(florDiv);
+            
+            // ✅ APLICAR TRANSFORMACIÓN AL CONTENEDOR (florDiv)
+            aplicarTransformaciones(florDiv, flor);
         });
     }
 }

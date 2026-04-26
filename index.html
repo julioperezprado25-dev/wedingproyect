@@ -310,43 +310,32 @@ const canciones = {
     intro: { elemento: null, src: "Potterw.mp3", volume: 0.4, loop: true }
 };
 
+// Variable global para el audio de intro
+let introAudioGlobal = null;
+let musicaIniciada = false;
+
 function inicializarSistemaMusica() {
+    // Solo preparamos las canciones sin reproducir
     for (const [key, cancion] of Object.entries(canciones)) {
-        const audio = new Audio();
-        audio.src = cancion.src;
-        audio.loop = cancion.loop;
-        audio.volume = 0;
-        cancion.elemento = audio;
+        if (!cancion.elemento) {
+            const audio = new Audio();
+            audio.src = cancion.src;
+            audio.loop = cancion.loop;
+            audio.volume = 0;
+            cancion.elemento = audio;
+        }
         console.log(`Canción "${key}" inicializada`);
     }
 }
 
 function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
     const cancion = canciones[nombreCancion];
-    if (!cancion) {
+    if (!cancion || !cancion.elemento) {
         console.error(`❌ Canción "${nombreCancion}" no encontrada`);
         return;
     }
     
-    // Para la canción intro, siempre crear un audio nuevo si no existe o está pausado
-    if (nombreCancion === 'intro') {
-        if (cancion.elemento && !cancion.elemento.paused) {
-            // Ya está sonando, no hacer nada
-            return;
-        }
-        // Crear nuevo audio para intro
-        const nuevoAudio = new Audio();
-        nuevoAudio.src = cancion.src;
-        nuevoAudio.loop = cancion.loop;
-        nuevoAudio.volume = 0;
-        cancion.elemento = nuevoAudio;
-    }
-    
     const audio = cancion.elemento;
-    if (!audio) {
-        console.error(`❌ Audio no disponible para "${nombreCancion}"`);
-        return;
-    }
     
     if (fadeIn) {
         audio.volume = 0;
@@ -402,13 +391,47 @@ function toggleAudio() {
 }
 
 // ============================================
+// FUNCIÓN PARA REPRODUCIR INTRO (SIEMPRE NUEVA)
+// ============================================
+function reproducirIntro() {
+    return new Promise((resolve, reject) => {
+        try {
+            // Detener audio anterior si existe
+            if (introAudioGlobal) {
+                introAudioGlobal.pause();
+                introAudioGlobal = null;
+            }
+            
+            console.log("🎵 Creando nuevo audio para Potterw.mp3");
+            
+            // Crear NUEVO audio con timestamp para evitar caché
+            const nuevoAudio = new Audio();
+            nuevoAudio.src = "Potterw.mp3?" + Date.now();
+            nuevoAudio.loop = true;
+            nuevoAudio.volume = 0.4;
+            
+            nuevoAudio.play().then(() => {
+                console.log("✅ Potterw.mp3 está sonando");
+                introAudioGlobal = nuevoAudio;
+                resolve();
+            }).catch(error => {
+                console.log("❌ Error al reproducir Potterw.mp3:", error);
+                reject(error);
+            });
+        } catch(e) {
+            console.log("❌ Excepción:", e);
+            reject(e);
+        }
+    });
+}
+
+// ============================================
 // TEXTO DE LA CARTA
 // ============================================
 const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
 let wand = document.getElementById("wand");
 let wandHint = document.getElementById("wandHint");
 let lineElements = [];
-let isAnimating = false;
 let cartaCerrada = false;
 let movimientosIniciados = false;
 
@@ -532,19 +555,15 @@ async function animateMagicWand() {
     if (movimientosIniciados) return;
     movimientosIniciados = true;
     
-    // ============================================
-    // DETENER POTTERW.MP3 (audio global)
-    // ============================================
-    console.log("🎵 Deteniendo Potterw.mp3");
-    if (window.potterwAudioGlobal) {
-        window.potterwAudioGlobal.pause();
-        window.potterwAudioGlobal = null;
+    // DETENER INTRO
+    console.log("🎵 Deteniendo intro");
+    if (introAudioGlobal) {
+        introAudioGlobal.pause();
+        introAudioGlobal = null;
     }
-    
-    // También detener del sistema de canciones
     if (canciones.intro && canciones.intro.elemento) {
         canciones.intro.elemento.pause();
-        canciones.intro.elemento = null;
+        canciones.intro.elemento.currentTime = 0;
     }
     
     console.log("🎵 Iniciando magic.mp3");
@@ -566,7 +585,7 @@ async function animateMagicWand() {
     await new Promise(r => setTimeout(r, 7000));
     
     setTimeout(() => { if (!cartaCerrada) cerrarCarta(); }, 500);
-    }
+}
 
 function mostrarBaritaYEsperar() {
     crearEstructuraTexto();
@@ -604,7 +623,7 @@ function cerrarCarta() {
 function iniciarAnimacionMagica() { mostrarBaritaYEsperar(); }
 
 // ============================================
-// APERTURA DEL SOBRE - CORREGIDA
+// APERTURA DEL SOBRE - VERSIÓN CORREGIDA
 // ============================================
 let yaAbierto = false;
 
@@ -613,43 +632,18 @@ function abrirSobre() {
     if (yaAbierto) return;
     yaAbierto = true;
     
-    // ============================================
-    // REPRODUCIR POTTERW.MP3 - FORMA DIRECTA (SIN fade-in)
-    // ============================================
-    try {
-        console.log("🎵 Intentando reproducir Potterw.mp3");
-        
-        // Detener audio anterior si existe
-        if (window.potterwAudioGlobal) {
-            window.potterwAudioGlobal.pause();
-            window.potterwAudioGlobal = null;
-        }
-        
-        // Crear audio NUEVO
-        const audioPotter = new Audio();
-        audioPotter.src = "Potterw.mp3";
-        audioPotter.loop = true;
-        audioPotter.volume = 0.4;  // Volumen fijo, sin fade
-        audioPotter.currentTime = 0;
-        
-        // Reproducir DIRECTAMENTE (el clic del usuario lo permite)
-        const playPromise = audioPotter.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                console.log("✅ Potterw.mp3 está sonando correctamente");
-                window.potterwAudioGlobal = audioPotter;
-            }).catch(error => {
-                console.log("❌ Error reproduciendo Potterw.mp3:", error);
-                // Fallback: intentar con el sistema normal
-                reproducirCancionDirecta('intro');
-            });
-        }
-    } catch(e) {
-        console.log("❌ Excepción con Potterw.mp3:", e);
-    }
+    // Reproducir intro con audio NUEVO
+    reproducirIntro().catch(() => {
+        console.log("Fallback: intentando con magia.mp3");
+        const fallbackAudio = new Audio();
+        fallbackAudio.src = "magic.mp3?" + Date.now();
+        fallbackAudio.loop = true;
+        fallbackAudio.volume = 0.3;
+        fallbackAudio.play().catch(e => console.log("Error en fallback:", e));
+        introAudioGlobal = fallbackAudio;
+    });
     
-    // Resto de la animación del sobre
+    // Animación del sobre
     const sello = document.getElementById("sello");
     const sobre = document.getElementById("sobre");
     const sobreBackExpandido = document.getElementById("sobreBackExpandido");
@@ -671,22 +665,6 @@ function abrirSobre() {
         if (cartaOverlay) cartaOverlay.classList.add("show");
         iniciarAnimacionMagica();
     }, 5000);
-}
-
-// Función de respaldo para reproducción directa
-function reproducirCancionDirecta(nombreCancion) {
-    const cancion = canciones[nombreCancion];
-    if (!cancion || !cancion.src) return;
-    
-    const audio = new Audio();
-    audio.src = cancion.src;
-    audio.loop = cancion.loop;
-    audio.volume = 0.4;
-    audio.play().then(() => {
-        console.log(`✅ ${cancion.src} reproducida por fallback`);
-        if (nombreCancion === 'intro') window.potterwAudioGlobal = audio;
-        else cancion.elemento = audio;
-    }).catch(e => console.log("Error en fallback:", e));
 }
 
 // ============================================
@@ -758,5 +736,5 @@ if (wand) {
     };
 }
 </script>
-</body>
-    </html>
+</body>                                                                                                                                                                                                                                                                                                                        
+</html>

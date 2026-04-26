@@ -129,7 +129,7 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
 
 .wand {
     position: absolute;
-    width: 150px;
+    width: 200px;
     height: auto;
     filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
     transform-origin: center;
@@ -235,13 +235,13 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 @keyframes flotarFlor { 0% { transform: translateY(0px) rotate(0deg);} 100% { transform: translateY(5px) rotate(3deg);} }
 
 @media (max-width: 768px) {
-    .wand { width: 100px; }
+    .wand { width: 180px; }
     .wand-hint { font-size: 16px; }
     #texto { font-size: 26px; }
     .letter-content { padding: 30px 25px; }
 }
 @media (max-width: 480px) {
-    .wand { width: 80px; }
+    .wand { width: 130px; }
     .wand-hint { font-size: 14px; white-space: normal; width: 120px; text-align: center; }
     #texto { font-size: 22px; }
     .letter-content { padding: 25px 20px; }
@@ -575,7 +575,7 @@ function createDustParticles(x, y, count = 15) {
 
 function wiggleWand1() { return new Promise(r => { wand.classList.add("wand-wiggle-1"); setTimeout(() => { wand.classList.remove("wand-wiggle-1"); r(); }, 350); }); }
 function wiggleWand2() { return new Promise(r => { wand.classList.add("wand-wiggle-2"); setTimeout(() => { wand.classList.remove("wand-wiggle-2"); r(); }, 350); }); }
-function wiggleWand3WithCurve() { return new Promise(r => { wand.classList.add("wand-curve"); const rect = wand.getBoundingClientRect(); createSparkleShower(rect.left, rect.top, 12); setTimeout(() => { const r2 = wand.getBoundingClientRect(); createSparkleShower(r2.left, r2.top, 8); }, 300); setTimeout(() => { wand.classList.remove("wand-curve"); const r3 = wand.getBoundingClientRect(); createSparkleShower(r3.left, r3.top, 15); r(); }, 600); }); }
+function wiggleWand3WithCurve() { return new Promise(r => { wand.classList.add("wand-curve"); const rect = wand.getBoundingClientRect(); createSparkleShower(rect.left-50, rect.top-50, 12); setTimeout(() => { const r2 = wand.getBoundingClientRect(); createSparkleShower(r2.left, r2.top, 8); }, 300); setTimeout(() => { wand.classList.remove("wand-curve"); const r3 = wand.getBoundingClientRect(); createSparkleShower(r3.left, r3.top, 15); r(); }, 600); }); }
 function fadeWandToDust() { return new Promise(r => { const rect = wand.getBoundingClientRect(); createDustParticles(rect.left + rect.width/2, rect.top + rect.height/2, 20); wand.classList.add("wand-dust"); setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; wand.classList.remove("wand-dust"); r(); }, 800); }); }
 
 async function animateMagicWand() {

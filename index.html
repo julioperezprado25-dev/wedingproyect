@@ -393,37 +393,64 @@ function toggleAudio() {
 // ============================================
 // FUNCIÓN PARA REPRODUCIR INTRO (SIEMPRE NUEVA)
 // ============================================
+// ============================================
+// REPRODUCIR INTRO - FORZANDO AUDIO NUEVO SIEMPRE
+// ============================================
 function reproducirIntro() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         try {
-            // Detener audio anterior si existe
-            if (introAudioGlobal) {
-                introAudioGlobal.pause();
-                introAudioGlobal = null;
+            // DESTRUIR audio anterior completamente
+            if (window.potterwAudioGlobal) {
+                window.potterwAudioGlobal.pause();
+                window.potterwAudioGlobal.src = "";
+                window.potterwAudioGlobal.load();
+                window.potterwAudioGlobal = null;
             }
             
-            console.log("🎵 Creando nuevo audio para Potterw.mp3");
+            // DESTRUIR también del sistema de canciones
+            if (canciones.intro && canciones.intro.elemento) {
+                canciones.intro.elemento.pause();
+                canciones.intro.elemento.src = "";
+                canciones.intro.elemento.load();
+                canciones.intro.elemento = null;
+            }
             
-            // Crear NUEVO audio con timestamp para evitar caché
+            console.log("🎵 Creando AUDIO NUEVO para Potterw.mp3");
+            
+            // Crear AUDIO NUEVO (no reutilizar)
             const nuevoAudio = new Audio();
-            nuevoAudio.src = "Potterw.mp3?" + Date.now();
+            
+            // Añadir timestamp para evitar cualquier caché
+            const timestamp = Date.now();
+            nuevoAudio.src = "Potterw.mp3?" + timestamp;
             nuevoAudio.loop = true;
             nuevoAudio.volume = 0.4;
+            nuevoAudio.load();  // Forzar carga
             
-            nuevoAudio.play().then(() => {
-                console.log("✅ Potterw.mp3 está sonando");
-                introAudioGlobal = nuevoAudio;
+            // Reproducir
+            const playPromise = nuevoAudio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("✅ Potterw.mp3 está sonando (audio NUEVO)");
+                    window.potterwAudioGlobal = nuevoAudio;
+                    // Guardar también en el sistema
+                    canciones.intro.elemento = nuevoAudio;
+                    resolve();
+                }).catch(error => {
+                    console.log("❌ Error reproduciendo:", error);
+                    resolve();
+                });
+            } else {
                 resolve();
-            }).catch(error => {
-                console.log("❌ Error al reproducir Potterw.mp3:", error);
-                reject(error);
-            });
+            }
         } catch(e) {
             console.log("❌ Excepción:", e);
-            reject(e);
+            resolve();
         }
     });
 }
+    
 
 // ============================================
 // TEXTO DE LA CARTA

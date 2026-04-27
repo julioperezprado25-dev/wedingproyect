@@ -197,10 +197,10 @@ h3 { font-size: clamp(30px, 8vw, 40px); font-family: 'Great Vibes', cursive; col
 input, textarea { width: 90%; padding: 14px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; font-size: clamp(16px, 3.5vw, 18px); }
 textarea { border-radius: 28px; min-height: 100px; }
 #galeria { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px; }
-#galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; }
+#galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; cursor: pointer; transition: transform 0.2s; }
+#galeria img:hover { transform: scale(1.05); }
 p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
-/* Estilos para las flores dentro de las secciones */
 /* Estilos para las flores dentro de las secciones */
 .flor-seccion {
     position: absolute;
@@ -210,7 +210,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     transition: all 0.3s ease;
 }
 
-/* La imagen SOLO se mueve (animación) */
 .flor-seccion img {
     width: 100% !important;
     height: auto !important;
@@ -218,7 +217,6 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     animation: flotarFlor 5s infinite alternate ease-in-out;
 }
 
-/* El contenedor recibe rotación/escala desde JS */
 .flor-seccion {
     transform: rotate(0deg) scale(1);
 }
@@ -226,6 +224,35 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 @keyframes flotarFlor {
     0% { transform: translateY(0px); }
     100% { transform: translateY(8px); }
+}
+
+/* Estilo para el QR */
+.qr-container {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(197, 155, 42, 0.1);
+    border-radius: 25px;
+}
+.qr-container p {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+.qr-code {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+.qr-code img {
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.drive-link {
+    font-size: 14px;
+    color: #c49a3b;
+    word-break: break-all;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
@@ -288,7 +315,7 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
         <div class="contenido-seccion">
             <h1 class="titulo">Ivon & Julio</h1>
             <p>Nos llena de alegría invitarte a celebrar</p>
-            <p>uno de los día más importante de nuestras vidas juntos</p>
+            <p>uno de los días más importantes de nuestras vidas juntos</p>
             <p style="margin-top:25px;font-size:28px;font-weight:bold;">💍 14 de agosto, 2026 💍</p>
         </div>
     </div>
@@ -323,12 +350,12 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
     <!-- Sección 4: Información importante -->
     <div class="seccion" id="seccion-info">
         <div class="contenido-seccion">
-            <h2>🎁Información importante</h2>
-            <p> -<strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
-            <p> -Por favor, confirmar asistencia antes del 15 de julio.</p>
-            <p> -Estacionamiento disponible en el local de recepción.</p>
-            <p> -Habrá servicio de catering y barra libre.</p>
-            <p> -Llevar abrigo.</p>
+            <h2>🎁 Información importante</h2>
+            <p> - <strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
+            <p> - Por favor, confirmar asistencia antes del 15 de julio.</p>
+            <p> - Estacionamiento disponible en el local de recepción.</p>
+            <p> - Habrá servicio de catering y barra libre.</p>
+            <p> - Llevar abrigo.</p>
         </div>
     </div>  
 
@@ -345,23 +372,32 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
         </div>
     </div>
 
-    <!-- Sección 6: Álbum de fotos -->
-    <div class="seccion" id="seccion-album">
-       <div class="contenido-seccion">
-            <h2>📸 Álbum de Fotos</h2>
-            <input type="file" id="foto" accept="image/*">
-            <button class="btn" onclick="subirFoto()">Subir foto</button>
-            <div id="galeria"></div>
+<!-- Sección 6: Álbum de fotos -->
+<div class="seccion" id="seccion-album">
+    <div class="contenido-seccion">
+        <h2>📸 Álbum de Fotos</h2>
+        
+        <div class="qr-container">
+            <p>📱 Escanea el QR para subir tus fotos al álbum de la boda</p>
+            <div class="qr-code" id="qrCode"></div>
+            <button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos al álbum</button>
+            <p style="font-size: 14px; margin-top: 15px;">* Todas las fotos se guardarán en el recuerdo de nuestra boda</p>
         </div>
-   </div>
+    </div>
+</div>
 
-    <!-- Sección 7: Mensajes para los novios -->
+    <!-- Sección 7: Mensajes para los novios CON WHATSAPP -->
     <div class="seccion" id="seccion-mensajes">
         <div class="contenido-seccion">
             <h2>💬 Mensajes para los novios</h2>
-            <input type="text" id="nombre" placeholder="Tu nombre">
-            <textarea id="mensajeInput" placeholder="Escribe tu mensaje de felicitación..."></textarea>
-            <button class="btn" onclick="enviarMensaje()">Enviar mensaje 💌</button>
+            <p style="font-size: 18px;">Déjanos tu mensaje de felicitación por WhatsApp</p>
+            
+            <input type="text" id="nombre" placeholder="✏️ Tu nombre completo">
+            <input type="tel" id="telefono" placeholder="📱 Tu número de teléfono (ej: 51987654321)">
+            <textarea id="mensajeInput" placeholder="💝 Escribe tu mensaje de felicitación..."></textarea>
+            
+            <button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar mensaje por WhatsApp 💌</button>
+            <p style="font-size: 14px; margin-top: 15px; color: #888;">* Tu mensaje se abrirá en WhatsApp para ser enviado a los novios</p>
         </div>
     </div>
     
@@ -375,58 +411,114 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 </div>
 
 <script>
+
+// ============================================
+// WHATSAPP - MENSAJES
+// ============================================
+
+// NÚMEROS DE WHATSAPP DE LOS NOVIOS (CAMBIAR POR LOS REALES)
+const NUMERO_NOVIA = "51987654321";   // ← CAMBIA por el número de Ivon
+const NUMERO_NOVIO = "51912345678";   // ← CAMBIA por el número de Julio
+
+function enviarMensajeWhatsApp() {
+    const nombre = document.getElementById("nombre")?.value.trim();
+    const telefono = document.getElementById("telefono")?.value.trim();
+    const mensaje = document.getElementById("mensajeInput")?.value.trim();
+    
+    // Validaciones
+    if (!nombre) {
+        alert("💕 Por favor ingresa tu nombre");
+        return;
+    }
+    if (!telefono) {
+        alert("💕 Por favor ingresa tu número de teléfono");
+        return;
+    }
+    if (!mensaje) {
+        alert("💕 Por favor escribe tu mensaje");
+        return;
+    }
+    
+    // Validar formato de teléfono (básico)
+    if (!/^[0-9]{10,15}$/.test(telefono.replace(/[^0-9]/g, ''))) {
+        alert("📱 Por favor ingresa un número de teléfono válido (solo números)");
+        return;
+    }
+    
+    // Formatear mensaje para WhatsApp
+    const textoWhatsApp = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤 Invitado:* ${nombre}\n*📱 Teléfono:* ${telefono}\n\n*💝 Mensaje:*\n"${mensaje}"\n\n---\n📅 Fecha: 14 de agosto, 2026\n✨ ¡Los esperamos! ✨`;
+    
+    // Codificar mensaje
+    const mensajeCodificado = encodeURIComponent(textoWhatsApp);
+    
+    // Preguntar a quién enviar
+    const opcion = confirm(`✨ ¿A quién quieres enviar tu mensaje?\n\n✓ Aceptar = Enviar a Ivon (Novia)\n✓ Cancelar = Enviar a Julio (Novio)`);
+    
+    let numeroDestino;
+    let destinatario;
+    
+    if (opcion) {
+        numeroDestino = NUMERO_NOVIA;
+        destinatario = "Ivon";
+    } else {
+        numeroDestino = NUMERO_NOVIO;
+        destinatario = "Julio";
+    }
+    
+    // Crear link de WhatsApp
+    const linkWhatsApp = `https://wa.me/${numeroDestino}?text=${mensajeCodificado}`;
+    
+    // Abrir WhatsApp
+    window.open(linkWhatsApp, '_blank');
+    
+    // Limpiar campos
+    document.getElementById("nombre").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("mensajeInput").value = "";
+    
+    alert(`✨ ¡Gracias ${nombre}! Tu mensaje se abrirá en WhatsApp para enviarlo a ${destinatario} ✨`);
+}
+
 // ============================================
 // CONFIGURACIÓN DE FLORES POR SECCIÓN
 // ============================================
-// NUEVAS PROPIEDADES DISPONIBLES:
-// - rotation: ángulo en grados (ej: 45, -90, 180)
-// - scale: factor de escala adicional (ej: 1.5, 0.8)
-// - flipX: true/false para reflejar horizontalmente
-// - flipY: true/false para reflejar verticalmente
-// - size: ancho base en px (ej: '80px', '100px')
-// - position: { top, bottom, left, right } con valores positivos o negativos
-
 const floresPorSeccion = {
     'seccion-perritos': [],
     
-    // Sección título - Flores rotadas y escaladas
     'seccion-titulo': [
         { 
             src: 'flores_derechaC.png', 
             position: { bottom: '10px', right: '-15px' }, 
             size: '120px',
-            rotation: 0,         // Rotación de 25 grados
-            scale: 0.9            // 10% más pequeño
+            rotation: 0,
+            scale: 0.9
         },
         { 
             src: 'flores_izquierdaD.png', 
             position: { bottom: '-45px', left: '-22px' }, 
             size: '160px',
-            rotation: 0,         // Rotación de 25 grados
-            scale: 1           // 10% más pequeño
+            rotation: 0,
+            scale: 1
         }
     ],
     
-    // Sección boda - Con múltiples transformaciones
     'seccion-boda': [
         { 
             src: 'flor_rosa_1.png', 
             position: { top: '-20px', right: '-15px' }, 
             size: '150px',
-            rotation: -135,         // Rotada 45 grados
+            rotation: -135,
             scale: 1.2,
-            flipX: true           // Reflejada horizontalmente
+            flipX: true
         },
-
         { 
             src: 'flor_rosa_1.png', 
             position: { top: '-20px', left: '-15px' }, 
             size: '150px',
-            rotation: 135,         // Rotada 45 grados
+            rotation: 135,
             scale: 1.2,
-            flipX: true           // Reflejada horizontalmente
+            flipX: true
         },
-        
         { 
             src: 'flores_izquierdaD.png', 
             position: { bottom: '-40px', left: '-10px' }, 
@@ -438,26 +530,23 @@ const floresPorSeccion = {
             src: 'flores_izquierdaD.png', 
             position: { bottom: '-40px', right: '-10px' }, 
             size: '180px',
-            rotation: 0,         // Rotación de 25 grados
-            scale: 1,     // 10% más pequeño
+            rotation: 0,
+            scale: 1,
             flipX: true
-        },
-
+        }
     ],
     
-    // Sección información importante
     'seccion-info': [
         { 
             src: 'flor_verde_2.png', 
-            position: { top: '40%' , left: '-20px' }, 
+            position: { top: '40%', left: '-20px' }, 
             size: '150px',
             rotation: 0,
-            scale: 1,
-            flipY: false
+            scale: 1
         },
         { 
             src: 'flor_verde_2.png', 
-            position: { top: '40%' , right: '-20px' }, 
+            position: { top: '40%', right: '-20px' }, 
             size: '150px',
             rotation: 0,
             scale: 1,
@@ -465,7 +554,6 @@ const floresPorSeccion = {
         }
     ],
     
-    // Sección lista de regalos
     'seccion-regalos': [
         { 
             src: 'flor_verde_1.png', 
@@ -481,11 +569,9 @@ const floresPorSeccion = {
             rotation: -45,
             scale: 0.9,
             flipX: true
-        },
-
+        }
     ],
     
-    // Sección álbum de fotos
     'seccion-album': [
         { 
             src: 'flor_rosa_3.png', 
@@ -504,7 +590,6 @@ const floresPorSeccion = {
         }
     ],
     
-    // Sección mensajes
     'seccion-mensajes': [
         { 
             src: 'flor_rosa_1.png', 
@@ -520,11 +605,9 @@ const floresPorSeccion = {
             rotation: 0,
             scale: 0.95,
             flipY: true
-        },
-
+        }
     ],
     
-    // Sección audio y cierre
     'seccion-audio': [
         { 
             src: 'flores_izquierdaU.png', 
@@ -532,66 +615,51 @@ const floresPorSeccion = {
             size: '150px',
             rotation: 0,
             scale: 1.0,
-             flipX:true
+            flipX: true
         },
-       { 
+        { 
             src: 'flores_izquierdaU.png', 
             position: { top: '15px', left: '-10px' }, 
             size: '150px',
             rotation: 0,
-            scale: 1.0,
-           
+            scale: 1.0
         }
     ]
 };
 
-// Función para aplicar transformaciones a una imagen
-// Función CORREGIDA - Aplica transformaciones al CONTENEDOR, no a la imagen
 function aplicarTransformaciones(florDiv, config) {
     let transformValue = '';
     
-    // 1. Aplicar rotación
     if (config.rotation !== undefined && config.rotation !== 0) {
         transformValue += `rotate(${config.rotation}deg) `;
     }
     
-    // 2. Aplicar escala base
-    let scaleX = 1;
-    let scaleY = 1;
-    
+    let scaleX = 1, scaleY = 1;
     if (config.scale !== undefined && config.scale !== 1) {
         scaleX = config.scale;
         scaleY = config.scale;
     }
     
-    // 3. Aplicar reflejos (flip)
     if (config.flipX) scaleX = scaleX * -1;
     if (config.flipY) scaleY = scaleY * -1;
     
-    // 4. Agregar escala
     if (scaleX !== 1 || scaleY !== 1) {
         transformValue += `scale(${scaleX}, ${scaleY}) `;
     }
     
-    // 5. Aplicar transformación al CONTENEDOR
     if (transformValue.trim() !== '') {
         florDiv.style.transform = transformValue.trim();
-        console.log(`✅ Flor transformada (contenedor): ${transformValue}`);
     }
 }
-// Función para agregar las flores a las secciones según la configuración
+
 function agregarFloresASecciones() {
     for (const [seccionId, flores] of Object.entries(floresPorSeccion)) {
         const seccion = document.getElementById(seccionId);
-        if (!seccion) {
-            console.warn(`No se encontró la sección con ID: ${seccionId}`);
-            continue;
-        }
+        if (!seccion) continue;
         
         const contenidoSeccion = seccion.querySelector('.contenido-seccion');
         if (!contenidoSeccion) {
             if (seccionId === 'seccion-perritos') continue;
-            console.warn(`No se encontró .contenido-seccion en ${seccionId}`);
             continue;
         }
         
@@ -599,13 +667,11 @@ function agregarFloresASecciones() {
             const florDiv = document.createElement('div');
             florDiv.className = 'flor-seccion';
             
-            // Asignar posición
             if (flor.position.top !== undefined) florDiv.style.top = flor.position.top;
             if (flor.position.bottom !== undefined) florDiv.style.bottom = flor.position.bottom;
             if (flor.position.left !== undefined) florDiv.style.left = flor.position.left;
             if (flor.position.right !== undefined) florDiv.style.right = flor.position.right;
             
-            // Asignar tamaño base
             if (flor.size) {
                 florDiv.style.width = flor.size;
                 florDiv.style.height = 'auto';
@@ -620,14 +686,11 @@ function agregarFloresASecciones() {
             img.style.animation = `flotarFlor 5s infinite alternate ease-in-out`;
             
             img.onerror = () => {
-                console.warn(`No se pudo cargar la imagen: ${flor.src}`);
                 florDiv.style.display = 'none';
             };
             
             florDiv.appendChild(img);
             contenidoSeccion.appendChild(florDiv);
-            
-            // ✅ APLICAR TRANSFORMACIÓN AL CONTENEDOR (florDiv)
             aplicarTransformaciones(florDiv, flor);
         });
     }
@@ -967,6 +1030,7 @@ function cerrarCarta() {
             iniciarFondoRotativo();
             agregarFloresASecciones();
             iniciarCountdown();
+            iniciarAlbumObserver();
         }, 500);
     }, 300);
 }
@@ -1059,8 +1123,10 @@ function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6")
 function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
 function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); }
 function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
-function subirFoto() { const f = document.getElementById("foto").files[0]; if(f) { const img = document.createElement("img"); img.src = URL.createObjectURL(f); document.getElementById("galeria")?.prepend(img); } }
-function enviarMensaje() { const n = document.getElementById("nombre")?.value.trim(); const m = document.getElementById("mensajeInput")?.value.trim(); if(!n || !m) { alert("💕 Completa nombre y mensaje"); return; } alert(`✨ ¡Gracias ${n}! Mensaje enviado ✨\n\n"${m}"`); document.getElementById("nombre").value = ""; document.getElementById("mensajeInput").value = ""; }
+
+function enviarMensaje() {
+    enviarMensajeWhatsApp();
+}
 
 // ============================================
 // INICIALIZACIÓN
@@ -1075,6 +1141,39 @@ if (wand) {
         this.style.borderRadius = "20% 20% 35% 35%";
     };
 }
+
+// Función para generar el QR (coloca esto en tu <script>)
+const URL_FORMULARIO_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8"; // ← CAMBIA ESTO
+
+function abrirFormularioFotos() {
+    window.open(URL_FORMULARIO_FOTOS, '_blank');
+}
+
+function generarQR() {
+    const qrDiv = document.getElementById("qrCode");
+    if (!qrDiv) return;
+    
+    qrDiv.innerHTML = "";
+    const qrImg = document.createElement("img");
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(URL_FORMULARIO_FOTOS)}`;
+    qrImg.style.width = "150px";
+    qrImg.style.height = "150px";
+    qrDiv.appendChild(qrImg);
+}
+
+// Llamar a la función cuando se muestra la sección
+function iniciarAlbumObserver() {
+    const seccionAlbum = document.getElementById("seccion-album");
+    if (!seccionAlbum) return;
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) generarQRAlbum();
+    }, { threshold: 0.3 });
+    observer.observe(seccionAlbum);
+}
+
+// Llama a iniciarAlbumObserver() cuando se abre la página principal
+
+
 </script>
 </body>                                                                                                                                                                                                                                                                                                                        
 </html>

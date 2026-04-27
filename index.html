@@ -490,15 +490,15 @@ const floresPorSeccion = {
     'seccion-titulo': [
         { 
             src: 'flores_derechaC.png', 
-            position: { bottom: '10px', right: '-15px' }, 
-            size: '120px',
+            position: { bottom: 'clamp(5px, 1.5vw, 10px)', right: 'clamp(-25px, -3vw, -15px)' }, 
+            size: 'clamp(60px, 12vw, 120px)',
             rotation: 0,
             scale: 0.9
         },
         { 
             src: 'flores_izquierdaD.png', 
-            position: { bottom: '-45px', left: '-22px' }, 
-            size: '160px',
+            position: { bottom: 'clamp(-20px, -5vw, -45px)', left: 'clamp(-35px, -4vw, -22px)' }, 
+            size: 'clamp(80px, 15vw, 160px)',
             rotation: 0,
             scale: 1
         }
@@ -507,31 +507,31 @@ const floresPorSeccion = {
     'seccion-boda': [
         { 
             src: 'flor_rosa_1.png', 
-            position: { top: '-20px', right: '-15px' }, 
-            size: '150px',
+            position: { top: 'clamp(-30px, -3vw, -20px)', right: 'clamp(-25px, -3vw, -15px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: -135,
             scale: 1.2,
             flipX: true
         },
         { 
             src: 'flor_rosa_1.png', 
-            position: { top: '-20px', left: '-15px' }, 
-            size: '150px',
+            position: { top: 'clamp(-30px, -3vw, -20px)', left: 'clamp(-25px, -3vw, -15px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: 135,
             scale: 1.2,
             flipX: true
         },
         { 
             src: 'flores_izquierdaD.png', 
-            position: { bottom: '-40px', left: '-10px' }, 
-            size: '180px',
+            position: { bottom: 'clamp(-20px, -4vw, -40px)', left: 'clamp(-15px, -2vw, -10px)' }, 
+            size: 'clamp(90px, 17vw, 180px)',
             rotation: 0,
             scale: 1
         },
         { 
             src: 'flores_izquierdaD.png', 
-            position: { bottom: '-40px', right: '-10px' }, 
-            size: '180px',
+            position: { bottom: 'clamp(-20px, -4vw, -40px)', right: 'clamp(-15px, -2vw, -10px)' }, 
+            size: 'clamp(90px, 17vw, 180px)',
             rotation: 0,
             scale: 1,
             flipX: true
@@ -541,15 +541,15 @@ const floresPorSeccion = {
     'seccion-info': [
         { 
             src: 'flor_verde_2.png', 
-            position: { top: '40%', left: '-20px' }, 
-            size: '150px',
+            position: { top: 'clamp(35%, 40%, 45%)', left: 'clamp(-35px, -4vw, -20px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: 0,
             scale: 1
         },
         { 
             src: 'flor_verde_2.png', 
-            position: { top: '40%', right: '-20px' }, 
-            size: '150px',
+            position: { top: 'clamp(35%, 40%, 45%)', right: 'clamp(-35px, -4vw, -20px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: 0,
             scale: 1,
             flipX: true
@@ -559,15 +559,15 @@ const floresPorSeccion = {
     'seccion-regalos': [
         { 
             src: 'flor_verde_1.png', 
-            position: { top: '-20px', left: '-15px' }, 
-            size: '110px',
+            position: { top: 'clamp(-30px, -3vw, -20px)', left: 'clamp(-25px, -3vw, -15px)' }, 
+            size: 'clamp(60px, 11vw, 110px)',
             rotation: 45,
             scale: 0.9
         },
         { 
             src: 'flor_verde_1.png', 
-            position: { top: '-20px', right: '-15px' }, 
-            size: '110px',
+            position: { top: 'clamp(-30px, -3vw, -20px)', right: 'clamp(-25px, -3vw, -15px)' }, 
+            size: 'clamp(60px, 11vw, 110px)',
             rotation: -45,
             scale: 0.9,
             flipX: true
@@ -577,15 +577,15 @@ const floresPorSeccion = {
     'seccion-album': [
         { 
             src: 'flor_rosa_3.png', 
-            position: { top: '-40px', right: '-40px' }, 
-            size: '100px',
+            position: { top: 'clamp(-20px, -4vw, -40px)', right: 'clamp(-20px, -4vw, -40px)' }, 
+            size: 'clamp(55px, 9vw, 100px)',
             rotation: -30,
             scale: 1.0
         },
         { 
             src: 'flor_rosa_3.png', 
-            position: { top: '-40px', left: '-40px' }, 
-            size: '100px',
+            position: { top: 'clamp(-20px, -4vw, -40px)', left: 'clamp(-20px, -4vw, -40px)' }, 
+            size: 'clamp(55px, 9vw, 100px)',
             rotation: 30,
             scale: 1,
             flipX: true
@@ -595,15 +595,15 @@ const floresPorSeccion = {
     'seccion-mensajes': [
         { 
             src: 'flor_rosa_1.png', 
-            position: { top: '-15px', left: '-15px' }, 
-            size: '100px',
+            position: { top: 'clamp(-20px, -2vw, -15px)', left: 'clamp(-20px, -2vw, -15px)' }, 
+            size: 'clamp(55px, 9vw, 100px)',
             rotation: -45,
             scale: 1.2
         },
         { 
             src: 'flores_derechaC.png', 
-            position: { bottom: '-5px', right: '-20px' }, 
-            size: '80px',
+            position: { bottom: 'clamp(-10px, -1vw, -5px)', right: 'clamp(-30px, -3.5vw, -20px)' }, 
+            size: 'clamp(45px, 7vw, 80px)',
             rotation: 0,
             scale: 0.95,
             flipY: true
@@ -613,16 +613,16 @@ const floresPorSeccion = {
     'seccion-audio': [
         { 
             src: 'flores_izquierdaU.png', 
-            position: { top: '15px', right: '-10px' }, 
-            size: '150px',
+            position: { top: 'clamp(5px, 2vw, 15px)', right: 'clamp(-15px, -2vw, -10px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: 0,
             scale: 1.0,
             flipX: true
         },
         { 
             src: 'flores_izquierdaU.png', 
-            position: { top: '15px', left: '-10px' }, 
-            size: '150px',
+            position: { top: 'clamp(5px, 2vw, 15px)', left: 'clamp(-15px, -2vw, -10px)' }, 
+            size: 'clamp(80px, 14vw, 150px)',
             rotation: 0,
             scale: 1.0
         }
@@ -1189,7 +1189,6 @@ function iniciarAlbumObserver() {
     
     observer.observe(seccionAlbum);
 }
-// Llama a iniciarAlbumObserver() cuando se abre la página principal
 
 
 </script>

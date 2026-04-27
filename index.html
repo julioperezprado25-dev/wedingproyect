@@ -1143,34 +1143,50 @@ if (wand) {
 }
 
 // Función para generar el QR (coloca esto en tu <script>)
-const URL_FORMULARIO_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8"; // ← CAMBIA ESTO
+// ============================================
+// ÁLBUM DE FOTOS - GOOGLE FORMS
+// ============================================
 
+const URL_FORMULARIO_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8";
+
+// Función para abrir el formulario
 function abrirFormularioFotos() {
     window.open(URL_FORMULARIO_FOTOS, '_blank');
 }
 
-function generarQR() {
+// Función para generar el QR (CORREGIDA - nombre correcto)
+function generarQRAlbum() {
     const qrDiv = document.getElementById("qrCode");
-    if (!qrDiv) return;
+    if (!qrDiv) {
+        console.log("No se encontró el elemento qrCode");
+        return;
+    }
     
     qrDiv.innerHTML = "";
     const qrImg = document.createElement("img");
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(URL_FORMULARIO_FOTOS)}`;
     qrImg.style.width = "150px";
     qrImg.style.height = "150px";
+    qrImg.style.borderRadius = "15px";
+    qrImg.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+    qrImg.alt = "QR para subir fotos";
     qrDiv.appendChild(qrImg);
 }
 
-// Llamar a la función cuando se muestra la sección
+// Observar cuándo la sección del álbum es visible
 function iniciarAlbumObserver() {
     const seccionAlbum = document.getElementById("seccion-album");
     if (!seccionAlbum) return;
+    
     const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) generarQRAlbum();
+        if (entries[0].isIntersecting) {
+            generarQRAlbum();  // ← AHORA LLAMA AL NOMBRE CORRECTO
+            observer.disconnect();
+        }
     }, { threshold: 0.3 });
+    
     observer.observe(seccionAlbum);
 }
-
 // Llama a iniciarAlbumObserver() cuando se abre la página principal
 
 

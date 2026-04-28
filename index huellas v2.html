@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Pisadas mágicas</title>
+
+<style>
+body {
+  margin: 0;
+  background: #e5e5e5;
+  overflow: hidden;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Imagen de pisada */
+.step {
+  position: absolute;
+  width: 40px;
+  height: auto;
+  transform-origin: center;
+  pointer-events: none;
+
+  animation: fadeSmoke 2.5s ease-out forwards;
+}
+
+/* Inclinación natural */
+.step.left {
+  transform: rotate(85deg);
+}
+.step.right {
+  transform: rotate(95deg);
+}
+
+/* ✨ Animación humo */
+@keyframes fadeSmoke {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+   
+  }
+  40% {
+    opacity: 0.8;
+    
+  }
+  70% {
+    opacity: 0.4;
+    filter: blur(4px);
+    
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div id="scene"></div>
+
+<script>
+const scene = document.getElementById("scene");
+
+let x = 50;
+let y = window.innerHeight - 140;
+let stepCount = 0;
+
+function createStep() {
+  const img = document.createElement("img");
+
+  img.classList.add("step");
+
+  // Alternar izquierda / derecha
+  if (stepCount % 2 === 0) {
+    img.src = "huellaI.png";
+    img.classList.add("left");
+    img.style.top = y + "px";
+  } else {
+    img.src = "HuellaD.png";
+    img.classList.add("right");
+    img.style.top = (y - 20) + "px";
+  }
+
+  img.style.left = x + "px";
+
+  scene.appendChild(img);
+
+  // Avance horizontal
+  x += 60;
+
+  // Eliminar después de animación
+  setTimeout(() => {
+    img.remove();
+  }, 2500);
+
+  stepCount++;
+}
+
+// Intervalo de pisadas
+setInterval(createStep, 500);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Ivon & Julio · Boda Mágica · Pergamino Infinito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: #1a1509;
+    padding: 0;
+    margin: 0;
+    /* Fondo pergamino infinito - estilo sobre_back4 */
+    background-image: url("sobre_back4.png");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 100% auto;
+    background-color: #dac49b;
+}
+
+/* ===== INTRO DEL SOBRE ===== */
+.intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1a1509;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+    overflow: hidden;
+}
+
+.envelope {
+    position: relative;
+    width: min(340px, 85vw);
+    height: min(460px, 72vh);
+    perspective: 1800px;
+    cursor: default;
+    transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* Zoom más pronunciado para enfocar el interior sin solapas */
+.envelope.zoom-in {
+    transform: scale(2.4);
+}
+
+.envelope-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre_back4.png') no-repeat center center;
+    background-size: 100% 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 0;
+    border-radius: 12px;
+}
+
+.envelope-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre.png') no-repeat center center;
+    background-size: 100% 100%;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+.flap-left, .flap-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url('sobre.png') no-repeat;
+    background-size: 200% 100%;
+    transition: transform 1.2s cubic-bezier(0.4, 0.8, 0.3, 1.2);
+    z-index: 3;
+}
+
+.flap-left { left: 0; background-position: left; transform-origin: 0px center; }
+.flap-right { right: 0; background-position: right; transform-origin: calc(100% - 0px) center; }
+
+.envelope.open .flap-left { transform: rotateY(-110deg); }
+.envelope.open .flap-right { transform: rotateY(110deg); }
+.envelope.open .envelope-body { opacity: 0; }
+.envelope.open .envelope-back { opacity: 1; }
+
+.seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(200px, 40vw);
+    height: min(200px, 40vw);
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.15s ease;
+}
+
+.seal img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
+.seal:active { transform: translate(-50%, -50%) scale(0.96); }
+
+.hint {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(20px, 6vw, 28px);
+    color: #ffdd99;
+    text-shadow: 0 0 15px #ffaa33;
+    animation: glowHint 1.5s infinite;
+    white-space: nowrap;
+    background: rgba(0,0,0,0.35);
+    padding: 5px 24px;
+    border-radius: 50px;
+    pointer-events: none;
+}
+
+@keyframes glowHint { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
+@keyframes dustFadeOut {
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; }
+}
+
+/* ===== CARTA INTERIOR (sin fondo, transparente para ver el sobre abierto) ===== */
+.carta-interior {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 80%;
+    max-width: 650px;
+    z-index: 10001;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+
+.carta-interior.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+#texto-carta {
+    font-family: 'Great Vibes', cursive;
+    font-size: 40px;
+    line-height: 1.5;
+    color: #1a1509;
+    text-shadow: 0 1px 2px rgba(255,245,200,0.8);
+    background: transparent;
+    padding: 20px;
+}
+
+.magic-line { margin-bottom: 12px; opacity: 0; transition: opacity 0.3s ease; }
+.magic-line.revealed { opacity: 1; }
+.magic-letter {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.6);
+}
+@keyframes smokeMaterialize {
+    0% { opacity: 0; filter: blur(12px); transform: scale(0.5) translateY(15px); }
+    100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); }
+}
+
+/* ===== VARITA MÁGICA ===== */
+.wand-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10002;
+}
+
+.wand {
+    position: absolute;
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
+    transform-origin: center;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.wand-hint {
+    position: fixed;
+    font-family: 'Great Vibes', cursive;
+    font-size: 20px;
+    color: #ffdd99;
+    background: rgba(0,0,0,0.6);
+    padding: 5px 15px;
+    border-radius: 30px;
+    white-space: nowrap;
+    animation: glowHint 1.5s infinite;
+    z-index: 10003;
+    pointer-events: none;
+}
+
+@keyframes wandWiggleLight1 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(6deg) scale(1.03); } }
+@keyframes wandWiggleLight2 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-7deg) scale(1.03); } }
+@keyframes wandCurveMove { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(20px,-25px) rotate(15deg); } }
+@keyframes wandDustFade { 100% { opacity: 0; filter: blur(15px); transform: scale(0.5); visibility: hidden; } }
+
+.wand-wiggle-1 { animation: wandWiggleLight1 0.35s ease-in-out; }
+.wand-wiggle-2 { animation: wandWiggleLight2 0.35s ease-in-out; }
+.wand-curve { animation: wandCurveMove 0.6s cubic-bezier(0.68,-0.55,0.265,1.55); }
+.wand-dust { animation: wandDustFade 0.8s forwards; }
+
+.sparkle {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: radial-gradient(circle, gold, #ffaa00, transparent);
+    border-radius: 50%;
+    animation: sparklePop 0.5s ease-out forwards;
+}
+@keyframes sparklePop { 100% { transform: scale(1.6); opacity: 0; } }
+
+.dust-particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, #ffd700, #ff8c00);
+    border-radius: 50%;
+    animation: dustFloat 0.6s ease-out forwards;
+}
+@keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
+
+/* ===== WEB PRINCIPAL - SIN MARCOS, FONDO TRANSPARENTE ===== */
+.main {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px 20px 60px 20px;
+}
+
+.main.show { opacity: 1; }
+
+.seccion {
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.8rem 0;
+    position: relative;
+    width: 100%;
+}
+
+.contenido-seccion {
+    background: transparent !important;
+    backdrop-filter: none;
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    /* SIN BORDE, SIN MARCO */
+    border: none;
+    box-shadow: none;
+}
+
+/* Títulos con cursiva elegante (Great Vibes) */
+.titulo-principal {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(64px, 14vw, 110px);
+    color: #1a1509;
+    text-shadow: 0 2px 6px rgba(200, 170, 100, 0.3);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+/* Encabezados de sección - cursiva elegante */
+.titulo-seccion {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 8vw, 52px);
+    font-weight: 600;
+    font-style: italic;
+    color: #1a1509;
+    margin-bottom: 1rem;
+}
+
+/* Subtítulos - cursiva simple */
+.subtitulo {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(26px, 6vw, 36px);
+    font-weight: 500;
+    font-style: italic;
+    color: #2a1a0a;
+    margin: 18px 0 8px;
+}
+
+/* Texto contenido - cursiva suave */
+.texto-contenido {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(17px, 4vw, 22px);
+    font-weight: 500;
+    font-style: italic;
+    color: #1a1509;
+    line-height: 1.5;
+    margin: 12px 0;
+}
+
+/* ===== SEPARADORES ESTILO TINTA NEGRA (bolígrafo/pluma) ===== */
+.separador-pluma {
+    width: 100%;
+    margin: 30px 0;
+    text-align: center;
+    position: relative;
+}
+
+.linea-onda {
+    width: 70%;
+    height: 20px;
+    margin: 0 auto;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAiPjxwYXRoIGQ9Ik0wLDEwIEMyMCw1IDQwLDE1IDYwLDEwIEM4MCw1IDEwMCwxNSAxMjAsMTAgQzE0MCw1IDE2MCwxNSAxODAsMTAgQzE5MCw3IDIwMCwxMCAyMDAsMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMjQxOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4=');
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto 100%;
+    opacity: 0.6;
+}
+
+.linea-doble-onda {
+    width: 85%;
+    height: 30px;
+    margin: 0 auto;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAiPjxwYXRoIGQ9Ik0wLDUgQzE1LDggMzAsMiA0NSw1IEM2MCw4IDc1LDIgOTAsNSBDMTA1LDggMTIwLDIgMTM1LDUgQzE1MCw4IDE2NSwyIDE4MCw1IEMxOTAsNyAyMDAsNSAyMDAsNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmEyNDE4IiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNMzAsMTUgQzQ1LDE4IDYwLDEyIDc1LDE1IEM5MCwxOCAxMDUsMTIgMTIwLDE1IEMxMzUsMTggMTUwLDEyIDE2NSwxNSBDMTgwLDE4IDE5MCwxNSAyMDAsMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMjQxOCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+');
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: auto 100%;
+    opacity: 0.5;
+}
+
+.linea-punteada {
+    width: 60%;
+    height: 2px;
+    margin: 15px auto;
+    background: repeating-linear-gradient(90deg, #2a2418 0px, #2a2418 6px, transparent 6px, transparent 15px);
+}
+
+.ramita {
+    width: 100px;
+    height: 30px;
+    margin: 10px auto;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMzAiPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSAzMCwyMCAxMCwxNSIvPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSA3MCwyMCA5MCwxNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiMyYTI0MTgiLz48Y2lyY2xlIGN4PSI5MCIgY3k9IjE1IiByPSIyIiBmaWxsPSIjMmEyNDE4Ii8+PC9zdmc+');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.5;
+}
+
+.simbolo-tinta {
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 8px;
+    color: #2a2418;
+    margin: 10px 0;
+    opacity: 0.5;
+    font-family: 'Cinzel', serif;
+}
+
+/* ===== ESTILOS ADICIONALES ===== */
+.imagen-hero {
+    display: block;
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 40px;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+    background: transparent;
+}
+
+.imagen-icon {
+    width: 65px;
+    height: auto;
+    margin: 0 auto 0.8rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+.countdown {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 42px);
+    font-weight: bold;
+    font-style: italic;
+    background: rgba(200, 180, 140, 0.4);
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 60px;
+    margin: 18px 0;
+    color: #1a1509;
+}
+
+.btn {
+    background: #8b6b3a;
+    border: none;
+    color: #f5f0e0;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(17px, 4vw, 19px);
+    padding: 12px 28px;
+    margin: 8px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #5a4020;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background: #a8844a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #5a4020;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 60px;
+    border: 2px solid #8b6b3a;
+    font-family: 'Quicksand', sans-serif;
+    background: rgba(255, 253, 245, 0.85);
+    font-size: 16px;
+    color: #1a1509;
+}
+
+textarea { border-radius: 28px; min-height: 100px; }
+
+.qr-container {
+    text-align: center;
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(200, 180, 140, 0.3);
+    border-radius: 30px;
+}
+
+.qr-code { display: flex; justify-content: center; margin: 15px 0; }
+.qr-code img { border-radius: 18px; }
+
+.flor-seccion {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
+
+.flor-seccion img {
+    width: 100% !important;
+    height: auto !important;
+    animation: flotarFlor 5s infinite alternate;
+}
+
+@keyframes flotarFlor { 100% { transform: translateY(8px); } }
+
+/* ============================================
+   MEDIA QUERIES PARA MÓVILES (2412x1080 y similares)
+   ============================================ */
+
+/* Para pantallas de hasta 768px de ancho (tablets y móviles grandes) */
+@media (max-width: 768px) {
+    
+    /* Ajustes generales del body */
+    body {
+        padding: 0 12px;
+    }
+    
+    /* ===== SOBRE Y CARTA ===== */
+    .envelope {
+        width: min(320px, 85vw);
+        height: calc(min(320px, 85vw) * 1.5);
+        max-height: 70vh;
+    }
+    
+    .envelope.zoom-in {
+        transform: scale(1.6); /* Zoom más suave en móvil */
+    }
+    
+    .seal {
+        width: min(100px, 22vw);
+        height: min(100px, 22vw);
+    }
+    
+    .hint {
+        font-size: 18px;
+        white-space: nowrap;
+        bottom: -40px;
+        padding: 4px 18px;
+    }
+    
+    /* ===== CARTA INTERIOR ===== */
+    .carta-interior {
+        width: 85%;
+        max-width: 400px;
+    }
+    
+    #texto-carta {
+        font-size: 22px;
+        padding: 10px;
+        line-height: 1.4;
+    }
+    
+    .magic-line {
+        margin-bottom: 8px;
+    }
+    
+    /* ===== VARITA ===== */
+    .wand {
+        width: 120px;
+    }
+    
+    .wand-hint {
+        font-size: 14px;
+        padding: 4px 12px;
+        white-space: nowrap;
+    }
+    
+    /* ===== WEB PRINCIPAL ===== */
+    .main {
+        padding: 15px 10px 40px 10px;
+    }
+    
+    .seccion {
+        padding: 1rem 0;
+    }
+    
+    .contenido-seccion {
+        padding: 0.8rem 0.8rem;
+    }
+    
+    /* ===== TIPOGRAFÍA MÓVIL ===== */
+    .titulo-principal {
+        font-size: 52px;
+        margin-bottom: 0.3rem;
+    }
+    
+    .titulo-seccion {
+        font-size: 32px;
+    }
+    
+    .subtitulo {
+        font-size: 24px;
+        margin: 12px 0 5px;
+    }
+    
+    .texto-contenido {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+    
+    /* ===== SEPARADORES ===== */
+    .separador-pluma {
+        margin: 18px 0;
+    }
+    
+    .linea-onda {
+        width: 85%;
+        height: 15px;
+    }
+    
+    .linea-doble-onda {
+        width: 90%;
+        height: 22px;
+    }
+    
+    .linea-punteada {
+        width: 75%;
+        margin: 10px auto;
+    }
+    
+    .ramita {
+        width: 65px;
+        height: 20px;
+    }
+    
+    .simbolo-tinta {
+        font-size: 16px;
+        letter-spacing: 5px;
+        margin: 6px 0;
+    }
+    
+    /* ===== IMÁGENES ===== */
+    .imagen-hero {
+        max-width: 95%;
+        border-radius: 25px;
+    }
+    
+    .imagen-icon {
+        width: 50px;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* ===== BOTONES E INPUTS ===== */
+    .countdown {
+        font-size: 22px;
+        padding: 8px 18px;
+        margin: 12px 0;
+    }
+    
+    .btn {
+        font-size: 15px;
+        padding: 8px 20px;
+        margin: 5px;
+    }
+    
+    input, textarea {
+        width: 95%;
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    textarea {
+        min-height: 80px;
+    }
+    
+    .qr-container {
+        margin: 15px 0;
+        padding: 12px;
+    }
+    
+    .qr-code img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    /* ===== FLORES ===== */
+    .flor-seccion {
+        max-width: 55px;
+    }
+}
+
+/* ============================================
+   PANTALLAS MUY PEQUEÑAS (hasta 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    
+    body {
+        padding: 0 8px;
+    }
+    
+    .envelope {
+        width: min(280px, 90vw);
+        height: calc(min(280px, 90vw) * 1.5);
+    }
+    
+    .envelope.zoom-in {
+        transform: scale(1.4);
+    }
+    
+    .seal {
+        width: min(80px, 20vw);
+        height: min(80px, 20vw);
+    }
+    
+    .hint {
+        font-size: 14px;
+        bottom: -35px;
+        padding: 3px 14px;
+        white-space: nowrap;
+    }
+    
+    #texto-carta {
+        font-size: 18px;
+    }
+    
+    .wand {
+        width: 100px;
+    }
+    
+    .wand-hint {
+        font-size: 12px;
+        padding: 3px 10px;
+    }
+    
+    .titulo-principal {
+        font-size: 42px;
+    }
+    
+    .titulo-seccion {
+        font-size: 28px;
+    }
+    
+    .subtitulo {
+        font-size: 22px;
+    }
+    
+    .texto-contenido {
+        font-size: 14px;
+    }
+    
+    .countdown {
+        font-size: 18px;
+        padding: 6px 14px;
+    }
+    
+    .btn {
+        font-size: 13px;
+        padding: 7px 16px;
+    }
+    
+    .simbolo-tinta {
+        font-size: 14px;
+        letter-spacing: 3px;
+    }
+    
+    .linea-onda, .linea-doble-onda {
+        background-size: auto 80%;
+    }
+    
+    .flor-seccion {
+        max-width: 45px;
+    }
+    
+    .imagen-icon {
+        width: 45px;
+    }
+}
+
+/* ============================================
+   PANTALLAS ALTA RESOLUCIÓN (2412x1080 en adelante)
+   Ajustes para proporciones específicas
+   ============================================ */
+@media (min-width: 2000px) and (max-height: 1200px) {
+    /* Para pantallas alargadas como 2412x1080 */
+    
+    .envelope {
+        width: min(450px, 60vw);
+        height: calc(min(450px, 60vw) * 1.5);
+    }
+    
+    .envelope.zoom-in {
+        transform: scale(2.0);
+    }
+    
+    .seal {
+        width: min(140px, 18vw);
+        height: min(140px, 18vw);
+    }
+    
+    .wand {
+        width: 160px;
+    }
+    
+    .carta-interior {
+        width: 60%;
+        max-width: 500px;
+    }
+    
+    #texto-carta {
+        font-size: 28px;
+    }
+}
+
+/* ============================================
+   ORIENTACIÓN HORIZONTAL (landscape) en móviles
+   ============================================ */
+@media (max-width: 900px) and (orientation: landscape) {
+    
+    .envelope {
+        width: min(300px, 50vw);
+        height: calc(min(300px, 50vw) * 1.5);
+        max-height: 85vh;
+    }
+    
+    .envelope.zoom-in {
+        transform: scale(1.5);
+    }
+    
+    .carta-interior {
+        width: 50%;
+    }
+    
+    #texto-carta {
+        font-size: 20px;
+    }
+    
+    .wand {
+        width: 110px;
+    }
+    
+    .main {
+        padding: 10px 15px;
+    }
+    
+    .seccion {
+        padding: 0.8rem 0;
+    }
+    
+    .titulo-principal {
+        font-size: 38px;
+    }
+    
+    .titulo-seccion {
+        font-size: 26px;
+    }
+    
+    .texto-contenido {
+        font-size: 14px;
+    }
+}
+
+/* ============================================
+   MEJORAS PARA PANTALLAS CON NOTCH / ISLA DINÁMICA
+   ============================================ */
+@supports (padding-top: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+    }
+    
+    .intro {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO DEL SOBRE -->
+<div class="intro" id="intro">
+    <div class="envelope" id="sobre">
+        <div class="envelope-back"></div>
+        <div class="envelope-body"></div>
+        <div class="flap-left"></div>
+        <div class="flap-right"></div>
+        <div class="seal" id="sello"><img src="sello.png" alt="Sello"></div>
+        <div class="hint" id="hint">✨ Presiona el sello ✨</div>
+    </div>
+</div>
+
+<!-- CARTA INTERIOR (transparente, sobre el sobre abierto) -->
+<div id="cartaInterior" class="carta-interior">
+    <div id="texto-carta"></div>
+</div>
+
+<!-- VARITA MÁGICA -->
+<div class="wand-container" id="wandContainer">
+    <img id="wand" class="wand" src="barita.png" alt="Varita" style="display: none;">
+    <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
+</div>
+
+<!-- WEB PRINCIPAL -->
+<div class="main" id="main">
+    
+    <!-- Separador inicial -->
+    <div class="separador-pluma">
+        <div class="linea-onda"></div>
+        <div class="simbolo-tinta">✧ ⚡ ✧</div>
+    </div>
+    
+    <!-- Sección: Perritos -->
+    <div class="seccion" id="seccion-perritos">
+        <img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'">
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-punteada"></div>
+        <div class="ramita"></div>
+        <div class="simbolo-tinta">🐾</div>
+    </div>
+    
+    <!-- Sección: Título -->
+    <div class="seccion" id="seccion-titulo">
+        <div class="contenido-seccion">
+            <h1 class="titulo-principal">Ivon & Julio</h1>
+            <p class="texto-contenido">✦ Nos llena de alegría invitarte a celebrar ✦</p>
+            <p class="texto-contenido">uno de los días más importantes de nuestras vidas juntos</p>
+            <p class="texto-contenido" style="font-size:28px; font-weight:bold; margin-top:20px;">💍 14 de agosto, 2026 💍</p>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-doble-onda"></div>
+        <div class="simbolo-tinta">✿ ❀ ✿</div>
+    </div>
+    
+    <!-- Sección: Boda -->
+    <div class="seccion" id="seccion-boda">
+        <div class="contenido-seccion">
+            <h2 class="titulo-seccion">📜 La Gran Celebración</h2>
+            <div class="countdown" id="countdownBoda"></div>
+            <p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
+            <h3 class="subtitulo">Ceremonia Religiosa</h3>
+            <img src="iglesiaV.png" class="imagen-icon" onerror="this.style.display='none'">
+            <p class="texto-contenido"><strong>📍 Hora:</strong> 7:00 P.M.</p>
+            <p class="texto-contenido"><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
+            <div><button class="btn" onclick="abrirMapsI()">📍 Google Maps</button><button class="btn" onclick="abrirWazeI()">🚗 Waze</button></div>
+            <h3 class="subtitulo">Recepción Mágica</h3>
+            <img src="fiestaV.png" class="imagen-icon" onerror="this.style.display='none'">
+            <p class="texto-contenido"><strong>📍 Hora:</strong> 8:30 P.M.</p>
+            <p class="texto-contenido"><strong>🏠 Dirección:</strong> Av. José de la Riva Agüero, 2009, San Miguel</p>
+            <div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-onda"></div>
+        <div class="simbolo-tinta">⚜️ ✧ ⚜️</div>
+        <div class="linea-punteada"></div>
+    </div>
+    
+    <!-- Sección: Información -->
+    <div class="seccion" id="seccion-info">
+        <div class="contenido-seccion">
+            <h2 class="titulo-seccion">📜 Avisos Importantes</h2>
+            <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
+            <p class="texto-contenido">📅 Confirmar asistencia antes del 15 de julio</p>
+            <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p>
+            <p class="texto-contenido">🍷 Servicio de catering y barra libre</p>
+            <p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-doble-onda"></div>
+        <div class="ramita"></div>
+    </div>
+    
+    <!-- Sección: Regalos -->
+    <div class="seccion" id="seccion-regalos">
+        <div class="contenido-seccion">
+            <h2 class="titulo-seccion">🎁 Lista de Regalos</h2>
+            <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
+            <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
+            <div style="background:rgba(180, 150, 100, 0.2); border-radius:35px; padding:20px; margin-top:20px;">
+                <h3 class="subtitulo">💰 Nuestra cuenta</h3>
+                <p class="texto-contenido" style="font-size:26px; font-weight:bold;">193 205 253 18 0 43</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-punteada"></div>
+        <div class="simbolo-tinta">✧ ⚡ ✧</div>
+    </div>
+    
+    <!-- Sección: Álbum -->
+    <div class="seccion" id="seccion-album">
+        <div class="contenido-seccion">
+            <h2 class="titulo-seccion">📸 Álbum Mágico</h2>
+            <div class="qr-container">
+                <p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p>
+                <div class="qr-code" id="qrCode"></div>
+                <button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button>
+                <p class="texto-contenido" style="font-size:14px;">* Las fotos quedarán en el Pensadero</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-onda"></div>
+        <div class="simbolo-tinta">✿ ✦ ✿</div>
+    </div>
+    
+    <!-- Sección: Mensajes -->
+    <div class="seccion" id="seccion-mensajes">
+        <div class="contenido-seccion">
+            <h2 class="titulo-seccion">💬 Búho Mensajero</h2>
+            <p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
+            <input type="text" id="nombre" placeholder="✏️ Tu nombre">
+            <input type="tel" id="telefono" placeholder="📱 Tu teléfono">
+            <textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea>
+            <button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button>
+        </div>
+    </div>
+    
+    <div class="separador-pluma">
+        <div class="linea-doble-onda"></div>
+        <div class="ramita"></div>
+    </div>
+    
+    <!-- Sección: Audio -->
+    <div class="seccion" id="seccion-audio">
+        <div class="contenido-seccion">
+            <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
+            <p class="texto-contenido" style="margin-top:30px; font-family:'Great Vibes'; font-size:28px;">✨ Expecto Amor ✨</p>
+        </div>
+    </div>
+    
+    <!-- Separador final -->
+    <div class="separador-pluma">
+        <div class="linea-punteada"></div>
+        <div class="simbolo-tinta">✧ ✦ ✧</div>
+        <div class="linea-onda"></div>
+    </div>
+    
+</div>
+
+<script>
+// ============================================
+// WHATSAPP
+// ============================================
+const NUMERO_NOVIA = "51987654321";
+const NUMERO_NOVIO = "51912345678";
+
+function enviarMensajeWhatsApp() {
+    const nombre = document.getElementById("nombre")?.value.trim();
+    const telefono = document.getElementById("telefono")?.value.trim();
+    const mensaje = document.getElementById("mensajeInput")?.value.trim();
+    if (!nombre || !telefono || !mensaje) return alert("Completa los campos");
+    const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`;
+    const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? NUMERO_NOVIA : NUMERO_NOVIO;
+    window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank');
+    document.getElementById("nombre").value = "";
+    document.getElementById("telefono").value = "";
+    document.getElementById("mensajeInput").value = "";
+    alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨");
+}
+
+// ============================================
+// MÚSICA
+// ============================================
+const canciones = {
+    boda: { elemento: null, src: "musica.mp3", volume: 0.65, loop: true },
+    magia: { elemento: null, src: "magic.mp3", volume: 0.55, loop: false },
+    intro: { elemento: null, src: "Potterw.mp3", volume: 0.4, loop: true }
+};
+
+function inicializarMusica() {
+    for (const [key, c] of Object.entries(canciones)) {
+        if (!c.elemento) {
+            const audio = new Audio();
+            audio.src = c.src;
+            audio.loop = c.loop;
+            audio.volume = 0;
+            c.elemento = audio;
+        }
+    }
+}
+
+function reproducirCancion(nombre, fadeIn = true, duracion = 200) {
+    const c = canciones[nombre];
+    if (!c || !c.elemento) return;
+    const audio = c.elemento;
+    if (fadeIn) {
+        audio.volume = 0;
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log);
+        let vol = 0;
+        const interval = setInterval(() => {
+            vol = Math.min(c.volume, vol + 0.05);
+            audio.volume = vol;
+            if (vol >= c.volume - 0.01) clearInterval(interval);
+        }, duracion);
+    } else { audio.volume = c.volume; audio.play().catch(e => console.log); }
+}
+
+window.musicaMuted = false;
+function toggleAudio() {
+    const boda = canciones.boda;
+    if (!boda || !boda.elemento) return;
+    if (!window.musicaMuted) {
+        boda.elemento.muted = true;
+        window.musicaMuted = true;
+        document.getElementById("audioBtn").textContent = "🔇 Activar Música";
+    } else {
+        boda.elemento.muted = false;
+        window.musicaMuted = false;
+        document.getElementById("audioBtn").textContent = "🔊 Silenciar Música";
+    }
+}
+
+async function reproducirIntroMusica() {
+    try {
+        if (window.potterwAudio) window.potterwAudio.pause();
+        if (canciones.intro.elemento) { canciones.intro.elemento.pause(); canciones.intro.elemento.src = ""; }
+        const nuevo = new Audio();
+        nuevo.src = "Potterw.mp3?" + Date.now();
+        nuevo.loop = true;
+        nuevo.volume = 0.4;
+        await nuevo.play();
+        window.potterwAudio = nuevo;
+        canciones.intro.elemento = nuevo;
+    } catch(e) { console.log(e); }
+}
+
+// ============================================
+// TEXTO MÁGICO Y VARITA
+// ============================================
+const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
+let wand = document.getElementById("wand");
+let wandHint = document.getElementById("wandHint");
+let lineElements = [];
+let varitaActivada = false;
+
+function crearTextoMagico() {
+    const container = document.getElementById("texto-carta");
+    if (!container) return;
+    container.innerHTML = "";
+    lineElements = [];
+    lineasCarta.forEach(linea => {
+        const div = document.createElement("div");
+        div.className = "magic-line";
+        if (linea.trim() === "") {
+            div.style.height = "30px";
+            div.innerHTML = "&nbsp;";
+        } else {
+            [...linea].forEach(ch => {
+                const span = document.createElement('span');
+                span.className = 'magic-letter';
+                span.style.opacity = "0";
+                span.innerHTML = ch === ' ' ? '&nbsp;' : ch;
+                div.appendChild(span);
+            });
+        }
+        container.appendChild(div);
+        lineElements.push(div);
+    });
+}
+
+function revelarTexto() {
+    return new Promise((resolve) => {
+        const promises = [];
+        lineElements.forEach((lineDiv, idx) => {
+            if (lineasCarta[idx].trim() === "") { lineDiv.classList.add("revealed"); return; }
+            const letters = lineDiv.querySelectorAll('.magic-letter');
+            if (letters.length === 0) { lineDiv.classList.add("revealed"); return; }
+            const promise = new Promise(res => {
+                letters.forEach((span, i) => { span.style.animation = `smokeMaterialize 0.45s forwards ease-out ${i * 0.02}s`; });
+                setTimeout(() => { lineDiv.classList.add("revealed"); res(); }, 700);
+            });
+            promises.push(promise);
+        });
+        Promise.all(promises).then(resolve);
+    });
+}
+
+function crearChispa(x, y) {
+    const sp = document.createElement("div");
+    sp.className = "sparkle";
+    sp.style.left = x + "px";
+    sp.style.top = y + "px";
+    sp.style.position = "fixed";
+    sp.style.zIndex = "10005";
+    document.body.appendChild(sp);
+    setTimeout(() => sp.remove(), 500);
+}
+
+function crearPolvo(x, y, count = 12) {
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement("div");
+        p.className = "dust-particle";
+        p.style.position = "fixed";
+        p.style.left = x + "px";
+        p.style.top = y + "px";
+        document.body.appendChild(p);
+        const angle = Math.random() * Math.PI * 2;
+        const tx = Math.cos(angle) * (25 + Math.random() * 50);
+        const ty = Math.sin(angle) * (25 + Math.random() * 50);
+        let start = performance.now();
+        function anim(t) {
+            let prog = Math.min(1, (t - start) / 600);
+            p.style.left = x + tx * prog + "px";
+            p.style.top = y + ty * prog + "px";
+            p.style.opacity = 0.9 * (1 - prog);
+            p.style.transform = `scale(${1 - prog})`;
+            if (prog < 1) requestAnimationFrame(anim);
+            else p.remove();
+        }
+        requestAnimationFrame(anim);
+    }
+}
+
+async function animarVarita() {
+    if (varitaActivada) return;
+    varitaActivada = true;
+    if (window.potterwAudio) window.potterwAudio.pause();
+    if (canciones.intro.elemento) canciones.intro.elemento.pause();
+    reproducirCancion('magia', true, 200);
+    if (wandHint) wandHint.style.display = "none";
+    wand.classList.add("wand-wiggle-1");
+    await new Promise(r => setTimeout(r, 350));
+    wand.classList.remove("wand-wiggle-1");
+    wand.classList.add("wand-wiggle-2");
+    await new Promise(r => setTimeout(r, 350));
+    wand.classList.remove("wand-wiggle-2");
+    wand.classList.add("wand-curve");
+    const rect = wand.getBoundingClientRect();
+    for (let i = 0; i < 12; i++) setTimeout(() => crearChispa(rect.left + (Math.random() - 0.5) * 80, rect.top + (Math.random() - 0.5) * 80), i * 40);
+    await new Promise(r => setTimeout(r, 600));
+    wand.classList.remove("wand-curve");
+    crearPolvo(rect.left + rect.width/2, rect.top + rect.height/2, 18);
+    wand.classList.add("wand-dust");
+    setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; }, 800);
+    await revelarTexto();
+    reproducirCancion('boda', true, 300);
+}
+
+function mostrarVarita() {
+    crearTextoMagico();
+    wand.style.display = "block";
+    wand.style.left = "50%";
+    wand.style.top = "45%";
+    wand.style.cursor = "pointer";
+    if (wandHint) {
+        wandHint.style.display = "block";
+        setTimeout(() => {
+            const cartaRect = document.getElementById("cartaInterior").getBoundingClientRect();
+            wandHint.style.left = (cartaRect.left + cartaRect.width/2 - wandHint.offsetWidth/2) + "px";
+            wandHint.style.top = cartaRect.top - 40 + "px";
+        }, 100);
+    }
+    const handler = () => {
+        wand.removeEventListener("click", handler);
+        wand.removeEventListener("touchstart", handler);
+        animarVarita();
+    };
+    wand.addEventListener("click", handler);
+    wand.addEventListener("touchstart", handler);
+}
+
+// ============================================
+// APERTURA DEL SOBRE CON ZOOM
+// ============================================
+let sobreAbierto = false;
+let transicionIniciada = false;
+
+function abrirSobre() {
+    if (sobreAbierto) return;
+    sobreAbierto = true;
+    if (window.potterwAudio) window.potterwAudio.pause();
+    if (canciones.intro.elemento) canciones.intro.elemento.pause();
+    setTimeout(() => reproducirIntroMusica().catch(e => console.log), 50);
+    const sello = document.getElementById("sello");
+    const sobre = document.getElementById("sobre");
+    const hint = document.getElementById("hint");
+    if (sello) sello.classList.add("fade-dust");
+    if (hint) hint.classList.add("fade-dust");
+    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 300);
+    setTimeout(() => { if (sobre) sobre.classList.add("zoom-in"); }, 1500);
+    setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200);
+}
+
+function cerrarCartaATransicion() {
+    if (transicionIniciada) return;
+    transicionIniciada = true;
+    const cartaDiv = document.getElementById("cartaInterior");
+    const introDiv = document.getElementById("intro");
+    const mainDiv = document.getElementById("main");
+    cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+    cartaDiv.style.opacity = "0";
+    cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)";
+    setTimeout(() => {
+        cartaDiv.classList.remove("show");
+        introDiv.style.transition = "opacity 1s ease";
+        introDiv.style.opacity = "0";
+        setTimeout(() => {
+            introDiv.style.display = "none";
+            mainDiv.classList.add("show");
+            document.body.style.overflow = "auto";
+            iniciarCountdown();
+            iniciarAlbumObserver();
+            agregarFlores();
+        }, 1000);
+    }, 800);
+}
+
+function esperarFinMagiaYTransicionar() {
+    const checkInterval = setInterval(() => {
+        const magia = canciones.magia.elemento;
+        if (magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) {
+            clearInterval(checkInterval);
+            setTimeout(() => cerrarCartaATransicion(), 1500);
+        }
+    }, 500);
+    setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 8000);
+}
+
+const animarVaritaOriginal = animarVarita;
+window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); };
+animarVarita = window.animarVarita;
+
+// ============================================
+// FLORES DECORATIVAS
+// ============================================
+const floresData = {
+    'seccion-titulo': [{ src: 'flores_derechaC.png', pos: { bottom: '5px', right: '-18px' }, size: '70px' }],
+    'seccion-boda': [{ src: 'flor_rosa_1.png', pos: { top: '-20px', right: '-15px' }, size: '80px' }, { src: 'flor_rosa_1.png', pos: { top: '-20px', left: '-15px' }, size: '80px' }],
+    'seccion-regalos': [{ src: 'flor_verde_1.png', pos: { top: '-20px', left: '-18px' }, size: '65px' }]
+};
+
+function agregarFlores() {
+    for (const [secId, flores] of Object.entries(floresData)) {
+        const sec = document.getElementById(secId);
+        if (!sec) continue;
+        const cont = sec.querySelector('.contenido-seccion');
+        if (!cont) continue;
+        flores.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'flor-seccion';
+            div.style.position = 'absolute';
+            if (f.pos.top) div.style.top = f.pos.top;
+            if (f.pos.bottom) div.style.bottom = f.pos.bottom;
+            if (f.pos.left) div.style.left = f.pos.left;
+            if (f.pos.right) div.style.right = f.pos.right;
+            if (f.size) { div.style.width = f.size; div.style.height = 'auto'; }
+            const img = document.createElement('img');
+            img.src = f.src;
+            img.style.width = '100%';
+            img.onerror = () => div.remove();
+            div.appendChild(img);
+            cont.appendChild(div);
+        });
+    }
+}
+
+// ============================================
+// FUNCIONES ADICIONALES
+// ============================================
+function iniciarCountdown() {
+    const fecha = new Date('August 14, 2026 19:00:00').getTime();
+    const el = document.getElementById('countdownBoda');
+    if (!el) return;
+    setInterval(() => {
+        const d = fecha - new Date().getTime();
+        if (d < 0) { el.innerHTML = '🎉 ¡Es hoy! 🎉'; return; }
+        el.innerHTML = `${Math.floor(d/(1000*3600*24))}d ${Math.floor((d%(1000*3600*24))/(1000*3600))}h ${Math.floor((d%(1000*3600))/(1000*60))}m`;
+    }, 1000);
+}
+
+function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); }
+function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
+function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); }
+function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
+
+const URL_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8";
+function abrirFormularioFotos() { window.open(URL_FOTOS, '_blank'); }
+function generarQR() {
+    const qrDiv = document.getElementById("qrCode");
+    if (!qrDiv) return;
+    qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(URL_FOTOS)}" style="width:140px;height:140px;border-radius:15px;">`;
+}
+function iniciarAlbumObserver() {
+    const sec = document.getElementById("seccion-album");
+    if (!sec) return;
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) { generarQR(); this.disconnect(); } }, { threshold: 0.3 }).observe(sec);
+}
+
+document.getElementById("sello")?.addEventListener("click", (e) => { e.stopPropagation(); abrirSobre(); });
+document.getElementById("sello")?.addEventListener("touchstart", (e) => { e.preventDefault(); e.stopPropagation(); abrirSobre(); });
+
+document.body.style.overflow = "hidden";
+inicializarMusica();
+</script>
+</body>
+</html>

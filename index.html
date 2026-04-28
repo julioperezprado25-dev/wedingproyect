@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio · Boda Mágica · Pergamino Infinito</title>
+<title>Ivon & Julio · Boda Mágica · Mapa del Merodeador</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 * {
@@ -23,7 +23,6 @@ body {
     color: #1a1509;
     padding: 0;
     margin: 0;
-    /* Fondo pergamino infinito - estilo sobre_back4 */
     background-image: url("sobre_back4.png");
     background-repeat: repeat-y;
     background-position: center top;
@@ -31,7 +30,7 @@ body {
     background-color: #dac49b;
 }
 
-/* ===== INTRO DEL SOBRE ===== */
+/* ===== INTRO DEL SOBRE (MANTENIDO) ===== */
 .intro {
     position: fixed;
     top: 0;
@@ -56,10 +55,7 @@ body {
     transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
 }
 
-/* Zoom más pronunciado para enfocar el interior sin solapas */
-.envelope.zoom-in {
-    transform: scale(2.4);
-}
+.envelope.zoom-in { transform: scale(2.4); }
 
 .envelope-back {
     position: absolute;
@@ -145,7 +141,7 @@ body {
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; }
 }
 
-/* ===== CARTA INTERIOR (sin fondo, transparente para ver el sobre abierto) ===== */
+/* ===== CARTA INTERIOR ===== */
 .carta-interior {
     position: fixed;
     top: 50%;
@@ -256,7 +252,7 @@ body {
 }
 @keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
 
-/* ===== WEB PRINCIPAL - SIN MARCOS, FONDO TRANSPARENTE ===== */
+/* ===== WEB PRINCIPAL ===== */
 .main {
     opacity: 0;
     transition: opacity 1.5s ease;
@@ -289,12 +285,10 @@ body {
     width: 100%;
     max-width: 850px;
     margin: 0 auto;
-    /* SIN BORDE, SIN MARCO */
     border: none;
     box-shadow: none;
 }
 
-/* Títulos con cursiva elegante (Great Vibes) */
 .titulo-principal {
     font-family: 'Great Vibes', cursive;
     font-size: clamp(64px, 14vw, 110px);
@@ -304,7 +298,6 @@ body {
     letter-spacing: 2px;
 }
 
-/* Encabezados de sección - cursiva elegante */
 .titulo-seccion {
     font-family: 'Cinzel', serif;
     font-size: clamp(36px, 8vw, 52px);
@@ -314,7 +307,6 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Subtítulos - cursiva simple */
 .subtitulo {
     font-family: 'Cinzel', serif;
     font-size: clamp(26px, 6vw, 36px);
@@ -324,7 +316,6 @@ body {
     margin: 18px 0 8px;
 }
 
-/* Texto contenido - cursiva suave */
 .texto-contenido {
     font-family: 'Quicksand', sans-serif;
     font-size: clamp(17px, 4vw, 22px);
@@ -335,10 +326,33 @@ body {
     margin: 12px 0;
 }
 
-/* ===== SEPARADORES ESTILO TINTA NEGRA (bolígrafo/pluma) ===== */
+/* ===== CONTENEDOR DE HUELLAS ===== */
+.huellas-container {
+    width: 100%;
+    margin: 15px 0;
+    min-height: 90px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(218, 196, 155, 0.3);
+    border-radius: 20px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.huellas-canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    background: transparent;
+}
+
+/* ===== SEPARADORES ===== */
 .separador-pluma {
     width: 100%;
-    margin: 30px 0;
+    margin: 25px 0;
     text-align: center;
     position: relative;
 }
@@ -368,14 +382,14 @@ body {
 .linea-punteada {
     width: 60%;
     height: 2px;
-    margin: 15px auto;
+    margin: 12px auto;
     background: repeating-linear-gradient(90deg, #2a2418 0px, #2a2418 6px, transparent 6px, transparent 15px);
 }
 
 .ramita {
     width: 100px;
     height: 30px;
-    margin: 10px auto;
+    margin: 8px auto;
     background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMzAiPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSAzMCwyMCAxMCwxNSIvPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSA3MCwyMCA5MCwxNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiMyYTI0MTgiLz48Y2lyY2xlIGN4PSI5MCIgY3k9IjE1IiByPSIyIiBmaWxsPSIjMmEyNDE4Ii8+PC9zdmc+');
     background-repeat: no-repeat;
     background-position: center;
@@ -388,12 +402,11 @@ body {
     font-size: 22px;
     letter-spacing: 8px;
     color: #2a2418;
-    margin: 10px 0;
+    margin: 8px 0;
     opacity: 0.5;
     font-family: 'Cinzel', serif;
 }
 
-/* ===== ESTILOS ADICIONALES ===== */
 .imagen-hero {
     display: block;
     width: 100%;
@@ -486,367 +499,25 @@ textarea { border-radius: 28px; min-height: 100px; }
 
 @keyframes flotarFlor { 100% { transform: translateY(8px); } }
 
-/* ============================================
-   MEDIA QUERIES PARA MÓVILES (2412x1080 y similares)
-   ============================================ */
-
-/* Para pantallas de hasta 768px de ancho (tablets y móviles grandes) */
+/* Media queries */
 @media (max-width: 768px) {
-    
-    /* Ajustes generales del body */
-    body {
-        padding: 0 12px;
-    }
-    
-    /* ===== SOBRE Y CARTA ===== */
-    .envelope {
-        width: min(320px, 85vw);
-        height: calc(min(320px, 85vw) * 1.5);
-        max-height: 70vh;
-    }
-    
-    .envelope.zoom-in {
-        transform: scale(1.6); /* Zoom más suave en móvil */
-    }
-    
-    .seal {
-        width: min(100px, 22vw);
-        height: min(100px, 22vw);
-    }
-    
-    .hint {
-        font-size: 18px;
-        white-space: nowrap;
-        bottom: -40px;
-        padding: 4px 18px;
-    }
-    
-    /* ===== CARTA INTERIOR ===== */
-    .carta-interior {
-        width: 85%;
-        max-width: 400px;
-    }
-    
-    #texto-carta {
-        font-size: 22px;
-        padding: 10px;
-        line-height: 1.4;
-    }
-    
-    .magic-line {
-        margin-bottom: 8px;
-    }
-    
-    /* ===== VARITA ===== */
-    .wand {
-        width: 120px;
-    }
-    
-    .wand-hint {
-        font-size: 14px;
-        padding: 4px 12px;
-        white-space: nowrap;
-    }
-    
-    /* ===== WEB PRINCIPAL ===== */
-    .main {
-        padding: 15px 10px 40px 10px;
-    }
-    
-    .seccion {
-        padding: 1rem 0;
-    }
-    
-    .contenido-seccion {
-        padding: 0.8rem 0.8rem;
-    }
-    
-    /* ===== TIPOGRAFÍA MÓVIL ===== */
-    .titulo-principal {
-        font-size: 52px;
-        margin-bottom: 0.3rem;
-    }
-    
-    .titulo-seccion {
-        font-size: 32px;
-    }
-    
-    .subtitulo {
-        font-size: 24px;
-        margin: 12px 0 5px;
-    }
-    
-    .texto-contenido {
-        font-size: 16px;
-        margin: 10px 0;
-    }
-    
-    /* ===== SEPARADORES ===== */
-    .separador-pluma {
-        margin: 18px 0;
-    }
-    
-    .linea-onda {
-        width: 85%;
-        height: 15px;
-    }
-    
-    .linea-doble-onda {
-        width: 90%;
-        height: 22px;
-    }
-    
-    .linea-punteada {
-        width: 75%;
-        margin: 10px auto;
-    }
-    
-    .ramita {
-        width: 65px;
-        height: 20px;
-    }
-    
-    .simbolo-tinta {
-        font-size: 16px;
-        letter-spacing: 5px;
-        margin: 6px 0;
-    }
-    
-    /* ===== IMÁGENES ===== */
-    .imagen-hero {
-        max-width: 95%;
-        border-radius: 25px;
-    }
-    
-    .imagen-icon {
-        width: 50px;
-        margin-bottom: 0.5rem;
-    }
-    
-    /* ===== BOTONES E INPUTS ===== */
-    .countdown {
-        font-size: 22px;
-        padding: 8px 18px;
-        margin: 12px 0;
-    }
-    
-    .btn {
-        font-size: 15px;
-        padding: 8px 20px;
-        margin: 5px;
-    }
-    
-    input, textarea {
-        width: 95%;
-        padding: 12px;
-        font-size: 14px;
-    }
-    
-    textarea {
-        min-height: 80px;
-    }
-    
-    .qr-container {
-        margin: 15px 0;
-        padding: 12px;
-    }
-    
-    .qr-code img {
-        width: 100px;
-        height: 100px;
-    }
-    
-    /* ===== FLORES ===== */
-    .flor-seccion {
-        max-width: 55px;
-    }
+    body { padding: 0 12px; }
+    .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
+    .envelope.zoom-in { transform: scale(1.6); }
+    .seal { width: min(100px, 22vw); height: min(100px, 22vw); }
+    .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
+    .carta-interior { width: 85%; max-width: 400px; }
+    #texto-carta { font-size: 22px; }
+    .wand { width: 120px; }
+    .titulo-principal { font-size: 52px; }
+    .titulo-seccion { font-size: 32px; }
+    .texto-contenido { font-size: 16px; }
 }
 
-/* ============================================
-   PANTALLAS MUY PEQUEÑAS (hasta 480px)
-   ============================================ */
 @media (max-width: 480px) {
-    
-    body {
-        padding: 0 8px;
-    }
-    
-    .envelope {
-        width: min(280px, 90vw);
-        height: calc(min(280px, 90vw) * 1.5);
-    }
-    
-    .envelope.zoom-in {
-        transform: scale(1.4);
-    }
-    
-    .seal {
-        width: min(80px, 20vw);
-        height: min(80px, 20vw);
-    }
-    
-    .hint {
-        font-size: 14px;
-        bottom: -35px;
-        padding: 3px 14px;
-        white-space: nowrap;
-    }
-    
-    #texto-carta {
-        font-size: 18px;
-    }
-    
-    .wand {
-        width: 100px;
-    }
-    
-    .wand-hint {
-        font-size: 12px;
-        padding: 3px 10px;
-    }
-    
-    .titulo-principal {
-        font-size: 42px;
-    }
-    
-    .titulo-seccion {
-        font-size: 28px;
-    }
-    
-    .subtitulo {
-        font-size: 22px;
-    }
-    
-    .texto-contenido {
-        font-size: 14px;
-    }
-    
-    .countdown {
-        font-size: 18px;
-        padding: 6px 14px;
-    }
-    
-    .btn {
-        font-size: 13px;
-        padding: 7px 16px;
-    }
-    
-    .simbolo-tinta {
-        font-size: 14px;
-        letter-spacing: 3px;
-    }
-    
-    .linea-onda, .linea-doble-onda {
-        background-size: auto 80%;
-    }
-    
-    .flor-seccion {
-        max-width: 45px;
-    }
-    
-    .imagen-icon {
-        width: 45px;
-    }
-}
-
-/* ============================================
-   PANTALLAS ALTA RESOLUCIÓN (2412x1080 en adelante)
-   Ajustes para proporciones específicas
-   ============================================ */
-@media (min-width: 2000px) and (max-height: 1200px) {
-    /* Para pantallas alargadas como 2412x1080 */
-    
-    .envelope {
-        width: min(450px, 60vw);
-        height: calc(min(450px, 60vw) * 1.5);
-    }
-    
-    .envelope.zoom-in {
-        transform: scale(2.0);
-    }
-    
-    .seal {
-        width: min(140px, 18vw);
-        height: min(140px, 18vw);
-    }
-    
-    .wand {
-        width: 160px;
-    }
-    
-    .carta-interior {
-        width: 60%;
-        max-width: 500px;
-    }
-    
-    #texto-carta {
-        font-size: 28px;
-    }
-}
-
-/* ============================================
-   ORIENTACIÓN HORIZONTAL (landscape) en móviles
-   ============================================ */
-@media (max-width: 900px) and (orientation: landscape) {
-    
-    .envelope {
-        width: min(300px, 50vw);
-        height: calc(min(300px, 50vw) * 1.5);
-        max-height: 85vh;
-    }
-    
-    .envelope.zoom-in {
-        transform: scale(1.5);
-    }
-    
-    .carta-interior {
-        width: 50%;
-    }
-    
-    #texto-carta {
-        font-size: 20px;
-    }
-    
-    .wand {
-        width: 110px;
-    }
-    
-    .main {
-        padding: 10px 15px;
-    }
-    
-    .seccion {
-        padding: 0.8rem 0;
-    }
-    
-    .titulo-principal {
-        font-size: 38px;
-    }
-    
-    .titulo-seccion {
-        font-size: 26px;
-    }
-    
-    .texto-contenido {
-        font-size: 14px;
-    }
-}
-
-/* ============================================
-   MEJORAS PARA PANTALLAS CON NOTCH / ISLA DINÁMICA
-   ============================================ */
-@supports (padding-top: env(safe-area-inset-top)) {
-    body {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-        padding-left: max(12px, env(safe-area-inset-left));
-        padding-right: max(12px, env(safe-area-inset-right));
-    }
-    
-    .intro {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
+    .envelope { width: min(280px, 90vw); height: calc(min(280px, 90vw) * 1.5); }
+    .envelope.zoom-in { transform: scale(1.4); }
+    .titulo-principal { font-size: 42px; }
 }
 </style>
 </head>
@@ -864,27 +535,26 @@ textarea { border-radius: 28px; min-height: 100px; }
     </div>
 </div>
 
-<!-- CARTA INTERIOR (transparente, sobre el sobre abierto) -->
+<!-- CARTA INTERIOR -->
 <div id="cartaInterior" class="carta-interior">
     <div id="texto-carta"></div>
 </div>
 
-<!-- VARITA MÁGICA -->
+<!-- VARITA -->
 <div class="wand-container" id="wandContainer">
     <img id="wand" class="wand" src="barita.png" alt="Varita" style="display: none;">
     <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
 </div>
 
-<!-- WEB PRINCIPAL -->
+<!-- WEB PRINCIPAL CON HUELLAS -->
 <div class="main" id="main">
     
-    <!-- Separador inicial -->
     <div class="separador-pluma">
         <div class="linea-onda"></div>
         <div class="simbolo-tinta">✧ ⚡ ✧</div>
     </div>
+    <div class="huellas-container" id="huellas-sep1"><canvas class="huellas-canvas" id="canvas-sep1" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Perritos -->
     <div class="seccion" id="seccion-perritos">
         <img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'">
     </div>
@@ -894,8 +564,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="ramita"></div>
         <div class="simbolo-tinta">🐾</div>
     </div>
+    <div class="huellas-container" id="huellas-sep2"><canvas class="huellas-canvas" id="canvas-sep2" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Título -->
     <div class="seccion" id="seccion-titulo">
         <div class="contenido-seccion">
             <h1 class="titulo-principal">Ivon & Julio</h1>
@@ -909,8 +579,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="simbolo-tinta">✿ ❀ ✿</div>
     </div>
+    <div class="huellas-container" id="huellas-sep3"><canvas class="huellas-canvas" id="canvas-sep3" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Boda -->
     <div class="seccion" id="seccion-boda">
         <div class="contenido-seccion">
             <h2 class="titulo-seccion">📜 La Gran Celebración</h2>
@@ -934,8 +604,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="simbolo-tinta">⚜️ ✧ ⚜️</div>
         <div class="linea-punteada"></div>
     </div>
+    <div class="huellas-container" id="huellas-sep4"><canvas class="huellas-canvas" id="canvas-sep4" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Información -->
     <div class="seccion" id="seccion-info">
         <div class="contenido-seccion">
             <h2 class="titulo-seccion">📜 Avisos Importantes</h2>
@@ -951,8 +621,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="ramita"></div>
     </div>
+    <div class="huellas-container" id="huellas-sep5"><canvas class="huellas-canvas" id="canvas-sep5" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Regalos -->
     <div class="seccion" id="seccion-regalos">
         <div class="contenido-seccion">
             <h2 class="titulo-seccion">🎁 Lista de Regalos</h2>
@@ -969,8 +639,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-punteada"></div>
         <div class="simbolo-tinta">✧ ⚡ ✧</div>
     </div>
+    <div class="huellas-container" id="huellas-sep6"><canvas class="huellas-canvas" id="canvas-sep6" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Álbum -->
     <div class="seccion" id="seccion-album">
         <div class="contenido-seccion">
             <h2 class="titulo-seccion">📸 Álbum Mágico</h2>
@@ -987,8 +657,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-onda"></div>
         <div class="simbolo-tinta">✿ ✦ ✿</div>
     </div>
+    <div class="huellas-container" id="huellas-sep7"><canvas class="huellas-canvas" id="canvas-sep7" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Mensajes -->
     <div class="seccion" id="seccion-mensajes">
         <div class="contenido-seccion">
             <h2 class="titulo-seccion">💬 Búho Mensajero</h2>
@@ -1004,8 +674,8 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="ramita"></div>
     </div>
+    <div class="huellas-container" id="huellas-sep8"><canvas class="huellas-canvas" id="canvas-sep8" width="900" height="80"></canvas></div>
     
-    <!-- Sección: Audio -->
     <div class="seccion" id="seccion-audio">
         <div class="contenido-seccion">
             <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
@@ -1013,16 +683,339 @@ textarea { border-radius: 28px; min-height: 100px; }
         </div>
     </div>
     
-    <!-- Separador final -->
     <div class="separador-pluma">
         <div class="linea-punteada"></div>
         <div class="simbolo-tinta">✧ ✦ ✧</div>
         <div class="linea-onda"></div>
     </div>
-    
+    <div class="huellas-container" id="huellas-sep9"><canvas class="huellas-canvas" id="canvas-sep9" width="900" height="80"></canvas></div>
 </div>
 
 <script>
+// ============================================
+// SISTEMA DE HUELLAS - ANIMACIÓN PROGRESIVA
+// Como el Mapa del Merodeador: aparece una por una, izquierda-derecha-izquierda-derecha
+// Las huellas más antiguas se desvanecen gradualmente
+// ============================================
+
+const IMAGES = {
+    human_left: null,
+    human_right: null,
+    dog_left: null,
+    dog_right: null
+};
+
+let imagesLoaded = 0;
+let allImagesReady = false;
+
+function loadImage(src, key) {
+    if (!src) return;
+    const img = new Image();
+    img.onload = () => {
+        IMAGES[key] = img;
+        imagesLoaded++;
+        console.log(`✅ ${key} cargada`);
+        if (imagesLoaded === 4) allImagesReady = true;
+    };
+    img.onerror = () => console.warn(`⚠️ No se pudo cargar ${key}`);
+    img.src = src;
+}
+
+loadImage('huellaI.png', 'human_left');
+loadImage('huellaD.png', 'human_right');
+loadImage('huella_canI.png', 'dog_left');
+loadImage('huella_canD.png', 'dog_right');
+
+// Estado global de cada canvas
+class HuellaAnimator {
+    constructor(canvasId, containerId) {
+        this.canvas = document.getElementById(canvasId);
+        this.container = document.getElementById(containerId);
+        this.ctx = this.canvas?.getContext('2d');
+        this.huellas = [];        // Array de huellas activas {x, y, lado, tipo, opacidad, edad}
+        this.indicePaso = 0;      // Índice de la siguiente huella a mostrar
+        this.fase = 'human';      // 'human' o 'dog'
+        this.activo = false;
+        this.intervalo = null;
+        this.totalHuellas = 0;     // Cantidad total a mostrar (calculada por ancho)
+        this.posiciones = [];      // Posiciones pre-calculadas X,Y
+        this.ultimoLado = 'right'; // Para alternar
+    }
+    
+    // Calcular cuántas huellas caben según el ancho del canvas
+    calcularCantidad() {
+        if (!this.canvas) return 12;
+        const ancho = this.canvas.clientWidth;
+        const espaciado = 55; // px entre huellas
+        let cantidad = Math.floor(ancho / espaciado);
+        cantidad = Math.max(8, Math.min(22, cantidad));
+        return cantidad;
+    }
+    
+    // Generar posiciones X,Y para cada huella
+    generarPosiciones(cantidad) {
+        if (!this.canvas) return [];
+        const ancho = this.canvas.clientWidth;
+        const alto = this.canvas.clientHeight;
+        const startX = ancho * 0.08;
+        const endX = ancho * 0.92;
+        const stepX = (endX - startX) / (cantidad - 1);
+        const baseY = alto / 2;
+        const posiciones = [];
+        
+        for (let i = 0; i < cantidad; i++) {
+            const x = startX + (i * stepX);
+            const y = baseY + Math.sin(i * 0.7) * 6;
+            posiciones.push({ x, y, idx: i });
+        }
+        return posiciones;
+    }
+    
+    // Inicializar el animador
+    init() {
+        if (!this.canvas || !this.ctx) return;
+        this.redimensionarCanvas();
+        this.totalHuellas = this.calcularCantidad();
+        this.posiciones = this.generarPosiciones(this.totalHuellas);
+        this.huellas = [];
+        this.indicePaso = 0;
+        this.activo = true;
+        this.dibujarFondo();
+        this.iniciarAnimacion();
+    }
+    
+    redimensionarCanvas() {
+        if (!this.canvas || !this.container) return;
+        const rect = this.container.getBoundingClientRect();
+        this.canvas.width = rect.width;
+        this.canvas.height = rect.height;
+    }
+    
+    dibujarFondo() {
+        if (!this.ctx || !this.canvas) return;
+        // Fondo transparente (solo línea de guía)
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = '#c4a77d';
+        this.ctx.lineWidth = 1;
+        this.ctx.setLineDash([6, 10]);
+        this.ctx.moveTo(20, this.canvas.height/2);
+        this.ctx.lineTo(this.canvas.width - 20, this.canvas.height/2);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]);
+    }
+    
+    // Dibujar una huella individual
+    dibujarHuella(x, y, lado, tipo, opacidad) {
+        if (!this.ctx) return;
+        let img = null;
+        if (tipo === 'human') {
+            img = lado === 'left' ? IMAGES.human_left : IMAGES.human_right;
+        } else {
+            img = lado === 'left' ? IMAGES.dog_left : IMAGES.dog_right;
+        }
+        if (!img || !img.complete) return;
+        
+        this.ctx.save();
+        this.ctx.globalAlpha = opacidad;
+        this.ctx.translate(x, y);
+        this.ctx.rotate(90 * Math.PI / 180);
+        const size = 32;
+        const scale = size / img.naturalWidth;
+        const drawW = img.naturalWidth * scale;
+        const drawH = img.naturalHeight * scale;
+        this.ctx.drawImage(img, -drawW/2, -drawH/2, drawW, drawH);
+        this.ctx.restore();
+    }
+    
+    // Redibujar todas las huellas activas
+    redibujar() {
+        if (!this.ctx || !this.canvas) return;
+        this.dibujarFondo();
+        for (let i = 0; i < this.huellas.length; i++) {
+            const h = this.huellas[i];
+            this.dibujarHuella(h.x, h.y, h.lado, h.tipo, h.opacidad);
+        }
+    }
+    
+    // Agregar una nueva huella (izquierda o derecha alternada)
+    agregarHuella() {
+        if (!this.activo) return;
+        if (this.indicePaso >= this.totalHuellas) {
+            // Terminó la secuencia, esperar un momento y reiniciar o cambiar fase
+            if (this.intervalo) {
+                clearInterval(this.intervalo);
+                this.intervalo = null;
+            }
+            return;
+        }
+        
+        const pos = this.posiciones[this.indicePaso];
+        if (!pos) return;
+        
+        // Alternar lado: izquierda, derecha, izquierda, derecha...
+        const lado = this.indicePaso % 2 === 0 ? 'left' : 'right';
+        
+        // Nueva huella con opacidad máxima
+        const nuevaHuella = {
+            x: pos.x,
+            y: pos.y,
+            lado: lado,
+            tipo: this.fase,
+            opacidad: 0.95,
+            edad: 0
+        };
+        
+        this.huellas.push(nuevaHuella);
+        
+        // Reducir opacidad de las huellas más antiguas
+        for (let i = 0; i < this.huellas.length; i++) {
+            const antiguedad = this.huellas.length - 1 - i;
+            // Las más viejas se desvanecen
+            let nuevaOpacidad = 0.95 - (antiguedad * 0.12);
+            nuevaOpacidad = Math.max(0.2, Math.min(0.95, nuevaOpacidad));
+            this.huellas[i].opacidad = nuevaOpacidad;
+        }
+        
+        // Limitar cantidad de huellas visibles (las más viejas desaparecen)
+        const maxHuellasVisible = 12;
+        while (this.huellas.length > maxHuellasVisible) {
+            this.huellas.shift();
+        }
+        
+        this.redibujar();
+        this.indicePaso++;
+    }
+    
+    // Iniciar la animación (paso cada 400ms)
+    iniciarAnimacion() {
+        if (this.intervalo) clearInterval(this.intervalo);
+        this.indicePaso = 0;
+        this.huellas = [];
+        this.redibujar();
+        
+        this.intervalo = setInterval(() => {
+            this.agregarHuella();
+            // Cuando termina la secuencia
+            if (this.indicePaso >= this.totalHuellas) {
+                clearInterval(this.intervalo);
+                this.intervalo = null;
+                // Notificar que este canvas terminó su secuencia
+                if (window.onHuellaSecuenciaCompleta) {
+                    window.onHuellaSecuenciaCompleta();
+                }
+            }
+        }, 420);
+    }
+    
+    // Cambiar de fase (human ↔ dog) y reiniciar animación
+    cambiarFase(nuevaFase) {
+        this.fase = nuevaFase;
+        this.indicePaso = 0;
+        this.huellas = [];
+        this.redibujar();
+        if (this.intervalo) clearInterval(this.intervalo);
+        this.intervalo = setInterval(() => {
+            this.agregarHuella();
+            if (this.indicePaso >= this.totalHuellas) {
+                clearInterval(this.intervalo);
+                this.intervalo = null;
+                if (window.onHuellaSecuenciaCompleta) {
+                    window.onHuellaSecuenciaCompleta();
+                }
+            }
+        }, 420);
+    }
+    
+    detener() {
+        if (this.intervalo) {
+            clearInterval(this.intervalo);
+            this.intervalo = null;
+        }
+        this.activo = false;
+    }
+}
+
+// ============================================
+// GESTOR GLOBAL DE HUELLAS
+// ============================================
+let animadores = [];
+let contadorCompletados = 0;
+let faseGlobal = 'human';
+let intervaloCambioFase = null;
+
+function iniciarTodosLosAnimadores() {
+    const canvasIds = [
+        'canvas-sep1', 'canvas-sep2', 'canvas-sep3', 'canvas-sep4',
+        'canvas-sep5', 'canvas-sep6', 'canvas-sep7', 'canvas-sep8', 'canvas-sep9'
+    ];
+    const containerIds = [
+        'huellas-sep1', 'huellas-sep2', 'huellas-sep3', 'huellas-sep4',
+        'huellas-sep5', 'huellas-sep6', 'huellas-sep7', 'huellas-sep8', 'huellas-sep9'
+    ];
+    
+    animadores = [];
+    for (let i = 0; i < canvasIds.length; i++) {
+        const animador = new HuellaAnimator(canvasIds[i], containerIds[i]);
+        animadores.push(animador);
+    }
+    
+    // Esperar a que las imágenes carguen
+    const esperar = setInterval(() => {
+        if (allImagesReady) {
+            clearInterval(esperar);
+            console.log('🎬 Iniciando animación de huellas - Mapa del Merodeador');
+            faseGlobal = 'human';
+            contadorCompletados = 0;
+            
+            for (const anim of animadores) {
+                anim.init();
+            }
+            
+            // Cambiar de fase después de que todos terminen su secuencia
+            window.onHuellaSecuenciaCompleta = () => {
+                contadorCompletados++;
+                if (contadorCompletados >= animadores.length) {
+                    // Todos los canvas terminaron su secuencia
+                    contadorCompletados = 0;
+                    // Cambiar fase
+                    faseGlobal = faseGlobal === 'human' ? 'dog' : 'human';
+                    console.log(`🔄 Cambiando fase a: ${faseGlobal === 'human' ? '👣 HUMANOS' : '🐾 PERRITOS'}`);
+                    for (const anim of animadores) {
+                        anim.cambiarFase(faseGlobal);
+                    }
+                }
+            };
+        }
+    }, 200);
+    
+    // Timeout de seguridad
+    setTimeout(() => {
+        if (!allImagesReady) {
+            console.warn('⚠️ Timeout, iniciando animación con imágenes por defecto');
+            clearInterval(esperar);
+            for (const anim of animadores) {
+                anim.init();
+            }
+        }
+    }, 5000);
+}
+
+// Redimensionar al cambiar tamaño de ventana
+window.addEventListener('resize', () => {
+    setTimeout(() => {
+        for (const anim of animadores) {
+            if (anim && anim.activo) {
+                anim.redimensionarCanvas();
+                anim.totalHuellas = anim.calcularCantidad();
+                anim.posiciones = anim.generarPosiciones(anim.totalHuellas);
+                anim.indicePaso = Math.min(anim.indicePaso, anim.totalHuellas - 1);
+                anim.redibujar();
+            }
+        }
+    }, 200);
+});
+
 // ============================================
 // WHATSAPP
 // ============================================
@@ -1246,7 +1239,7 @@ function mostrarVarita() {
 }
 
 // ============================================
-// APERTURA DEL SOBRE CON ZOOM
+// APERTURA DEL SOBRE
 // ============================================
 let sobreAbierto = false;
 let transicionIniciada = false;
@@ -1287,6 +1280,7 @@ function cerrarCartaATransicion() {
             iniciarCountdown();
             iniciarAlbumObserver();
             agregarFlores();
+            iniciarTodosLosAnimadores(); // Iniciar las huellas al mostrar web principal
         }, 1000);
     }, 800);
 }

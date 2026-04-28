@@ -7,33 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; min-height: 100%; background: #2a2418; overflow-x: hidden; }
-body { font-family: 'Quicksand', sans-serif; color: #3b2f1b; padding: 0 20px; }
-
-/* ===== FONDO PERGAMINO LARGO (sobre_back3 como textura) ===== */
-.bg-slideshow { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    z-index: -2; 
-    pointer-events: none; 
-}
-.bg-slideshow img { 
-    position: absolute; 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    opacity: 0; 
-    transition: opacity 2.5s ease; 
-}
-.bg-slideshow img.active { 
-    opacity: 0.25; 
+html, body { width: 100%; min-height: 100%; overflow-x: hidden; }
+body { 
+    font-family: 'Quicksand', sans-serif; 
+    color: #3b2f1b; 
+    padding: 0 20px; 
+    background: #2a2418; /* fallback */
 }
 
-/* Fondo fijo tipo pergamino (sobre_back3 como fondo único) */
-.pergamino-fixed {
+/* ===== FONDO PERGAMINO FIJO (sobre_back3.png) ===== */
+.fondo-pergamino {
     position: fixed;
     top: 0;
     left: 0;
@@ -41,23 +24,38 @@ body { font-family: 'Quicksand', sans-serif; color: #3b2f1b; padding: 0 20px; }
     height: 100%;
     z-index: -3;
     pointer-events: none;
-    background: url('sobre_back3.png') no-repeat center center;
+    background-image: url('sobre_back3.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
-    opacity: 0.7;
+    opacity: 0.85;
 }
 
-/* Capa de desvanecimiento para que el texto sea legible */
-.overlay-sutil {
+/* Capa semitransparente para mejorar legibilidad del texto */
+.capa-legibilidad {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(30, 25, 18, 0.35);
+    background: rgba(30, 25, 18, 0.4);
     z-index: -2;
     pointer-events: none;
 }
 
+/* Slideshow oculto pero mantenido por compatibilidad */
+.bg-slideshow { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: -1; 
+    pointer-events: none; 
+    display: none;
+}
+
+/* ===== INTRO DEL SOBRE (COMPLETAMENTE ORIGINAL) ===== */
 .intro { 
     position: fixed; 
     top: 0; 
@@ -132,8 +130,8 @@ body { font-family: 'Quicksand', sans-serif; color: #3b2f1b; padding: 0 20px; }
 }
 .flap-left { left: 0; background-position: left; transform-origin: 37px center; }
 .flap-right { right: 0; background-position: right; transform-origin: calc(100% - 32px) center; }
-.envelope.open .flap-left { transform: rotateY(-105deg); }
-.envelope.open .flap-right { transform: rotateY(105deg); }
+.envelope.open .flap-left { transform: rotateY(-105deg); filter: drop-shadow(-10px 8px 15px rgba(0,0,0,0.35)); }
+.envelope.open .flap-right { transform: rotateY(105deg); filter: drop-shadow(10px 8px 15px rgba(0,0,0,0.35)); }
 .envelope.open .envelope-body { opacity: 0; }
 .envelope.open .envelope-back { opacity: 1; }
 
@@ -260,7 +258,7 @@ body { font-family: 'Quicksand', sans-serif; color: #3b2f1b; padding: 0 20px; }
 .dust-particle { position: absolute; width: 6px; height: 6px; background: radial-gradient(circle, #ffd700, #ff8c00); border-radius: 50%; animation: dustFloat 0.6s ease-out forwards; }
 @keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
 
-/* ===== MAIN: SECCIONES CON FONDO TRANSPARENTE ===== */
+/* ===== WEB PRINCIPAL: SECCIONES CON FONDO TRANSPARENTE ===== */
 .main { 
     opacity: 0; 
     transition: opacity 1.8s ease; 
@@ -288,7 +286,7 @@ body { font-family: 'Quicksand', sans-serif; color: #3b2f1b; padding: 0 20px; }
     width: 100%; 
     max-width: 900px; 
     box-shadow: 0 20px 35px rgba(0,0,0,0.25); 
-    border: 2px solid rgba(200, 165, 90, 0.6); 
+    border: 2px solid rgba(200, 165, 90, 0.7); 
     position: relative; 
     z-index: 2; 
     margin: 0 auto;
@@ -340,7 +338,7 @@ p {
     font-family: 'Quicksand', sans-serif;
     font-weight: 500;
     color: #fff3e3;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 .countdown-small { 
     font-size: clamp(26px, 6vw, 36px); 
@@ -384,9 +382,6 @@ input, textarea {
     font-size: clamp(16px, 3.5vw, 18px); 
 }
 textarea { border-radius: 28px; min-height: 100px; }
-#galeria { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px; }
-#galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; cursor: pointer; transition: transform 0.2s; }
-#galeria img:hover { transform: scale(1.05); }
 
 .flor-seccion {
     position: absolute;
@@ -435,15 +430,9 @@ textarea { border-radius: 28px; min-height: 100px; }
 </head>
 <body>
 
-<!-- FONDO: PERGAMINO LARGO DE SOBRE_BACK3 que se desplaza con el scroll -->
-<div class="pergamino-fixed"></div>
-<div class="overlay-sutil"></div>
-
-<!-- SLIDESHOW (fondo adicional opcional, se mantiene por compatibilidad) -->
-<div class="bg-slideshow">
-    <img src="fondo.jpg" id="bg1" class="active" alt="Fondo boda">
-    <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
-</div>
+<!-- FONDO PERGAMINO: exactamente la misma imagen que usa el sobre -->
+<div class="fondo-pergamino"></div>
+<div class="capa-legibilidad"></div>
 
 <!-- INTRO DEL SOBRE (COMPLETAMENTE ORIGINAL) -->
 <div class="intro" id="intro">
@@ -979,7 +968,6 @@ function cerrarCarta() {
             document.getElementById("intro").style.display = "none";
             document.getElementById("main").classList.add("show");
             document.body.style.overflow = "auto";
-            iniciarFondoRotativo();
             agregarFloresASecciones();
             iniciarCountdown();
             iniciarAlbumObserver();
@@ -1027,12 +1015,6 @@ if (selloElement) {
 // ============================================
 // FUNCIONES ADICIONALES
 // ============================================
-let intervaloFondo;
-function iniciarFondoRotativo() {
-    const bg1 = document.getElementById("bg1"), bg2 = document.getElementById("bg2");
-    if(bg1 && bg2) { if(intervaloFondo) clearInterval(intervaloFondo); intervaloFondo = setInterval(() => { bg1.classList.toggle("active"); bg2.classList.toggle("active"); }, 4000); }
-}
-
 function iniciarCountdown() {
     const bodaFecha = new Date('August 14, 2026 19:00:00').getTime();
     const countdownEl = document.getElementById('countdownBoda');

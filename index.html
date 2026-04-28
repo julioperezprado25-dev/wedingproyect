@@ -3,75 +3,403 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio - Nuestra Boda Mágica</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<title>Ivon & Julio · Boda Mágica · Harry Potter</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; min-height: 100%; background: #fef5e6; overflow-x: hidden; }
-body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-.bg-slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
-.bg-slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 2.5s ease; }
-.bg-slideshow img.active { opacity: 0.18; }
+html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
 
-.intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1509; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease; }
-.envelope { position: relative; width: min(300px, 80vw); height: min(420px, 70vh); perspective: 1600px; cursor: default; }
-.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back3.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.5s ease; z-index: 0; border-radius: 12px; }
-.envelope-back-expanded { position: fixed; top: 50%; left: 50%; width: 100%; height: 100%; background: url('sobre_back3.png') no-repeat center center; background-size: cover; transform: translate(-50%, -50%) scale(0); opacity: 0; z-index: 10000; transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease; pointer-events: none; }
-.envelope-back-expanded.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 20px 30px rgba(0,0,0,0.4); z-index: 1; transition: opacity 0.3s; }
-.flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s; z-index: 3; }
-.flap-left { left: 0; background-position: left; transform-origin: 37px center; }
-.flap-right { right: 0; background-position: right; transform-origin: calc(100% - 32px) center; }
-.envelope.open .flap-left { transform: rotateY(-105deg); filter: drop-shadow(-10px 8px 15px rgba(0,0,0,0.35)); }
-.envelope.open .flap-right { transform: rotateY(105deg); filter: drop-shadow(10px 8px 15px rgba(0,0,0,0.35)); }
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: #2c2418;
+    padding: 0 20px;
+    position: relative;
+    background: #c9a87b; /* fallback */
+}
+
+/* === FONDO PERGAMINO REAL (sin depender de imágenes externas) === */
+.parchment-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
+    pointer-events: none;
+    background: linear-gradient(145deg, #e8d5a8 0%, #d4bc8a 30%, #c4a46a 70%, #b8925a 100%);
+    /* Textura de pergamino con ruido suave */
+}
+
+.parchment-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(45deg, rgba(160, 120, 70, 0.08) 0px, rgba(160, 120, 70, 0.08) 2px, transparent 2px, transparent 8px),
+        repeating-linear-gradient(135deg, rgba(100, 70, 40, 0.05) 0px, rgba(100, 70, 40, 0.05) 1px, transparent 1px, transparent 6px);
+    pointer-events: none;
+}
+
+/* Manchas de pergamino (simulando antigüedad) */
+.parchment-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(110, 70, 35, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 85% 70%, rgba(80, 50, 25, 0.1) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.overlay-tint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 40%, rgba(70, 45, 25, 0.1), rgba(35, 25, 15, 0.2));
+    pointer-events: none;
+    z-index: -4;
+}
+
+/* Partículas mágicas (polvo de estrella) */
+.floating-dust {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -3;
+}
+
+.dust-particle-bg {
+    position: absolute;
+    background: radial-gradient(circle, #f3e0a8, #b8862c);
+    border-radius: 50%;
+    opacity: 0.35;
+    animation: floatDust 22s infinite linear;
+}
+
+@keyframes floatDust {
+    0% { transform: translateY(0vh) scale(0.2); opacity: 0; }
+    20% { opacity: 0.5; }
+    80% { opacity: 0.3; }
+    100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+}
+
+/* === ICONOS HARRY POTTER ESTILO MAPA DEL MERODEADOR (tinta negra/pluma) === */
+.hp-deco {
+    position: fixed;
+    z-index: 9;
+    pointer-events: none;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.hp-deco svg {
+    width: 100%;
+    height: auto;
+    opacity: 0.85;
+}
+
+/* Snitch dorada con trazo negro */
+.snitch {
+    width: 55px;
+    right: 20px;
+    top: 12%;
+    animation: snitchFly 5s infinite alternate ease-in-out;
+}
+
+.glasses {
+    width: 62px;
+    left: 15px;
+    bottom: 10%;
+    animation: floatGlasses 7s infinite alternate;
+}
+
+.hallow {
+    width: 68px;
+    right: 3%;
+    bottom: 18%;
+    animation: rotateHallow 13s infinite linear;
+}
+
+.potion {
+    width: 50px;
+    left: 4%;
+    top: 20%;
+    animation: floatPotion 8s infinite alternate;
+}
+
+.scar {
+    width: 45px;
+    right: 8%;
+    top: 28%;
+    animation: pulseScar 3s infinite ease-in-out;
+}
+
+@keyframes snitchFly {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(10px, -18px) rotate(15deg); }
+}
+
+@keyframes floatGlasses {
+    0% { transform: translateY(0px) rotate(-5deg); }
+    100% { transform: translateY(-18px) rotate(5deg); }
+}
+
+@keyframes rotateHallow {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.06); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes floatPotion {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-14px); }
+}
+
+@keyframes pulseScar {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+}
+
+.escoba-deco {
+    position: fixed;
+    bottom: 20px;
+    left: 18px;
+    width: 68px;
+    z-index: 8;
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.sombrero-deco {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    width: 62px;
+    z-index: 8;
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.escoba-deco svg, .sombrero-deco svg {
+    width: 100%;
+    animation: levitate 3.5s infinite alternate;
+}
+
+@keyframes levitate {
+    100% { transform: translateY(-6px); }
+}
+
+/* === INTRO: SOBRE, SELLO Y VARITA (MANTENIDO ORIGINAL) === */
+.intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1e1910;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
+
+.envelope {
+    position: relative;
+    width: min(300px, 80vw);
+    height: min(420px, 70vh);
+    perspective: 1600px;
+    cursor: default;
+}
+
+.envelope-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre_back3.png') no-repeat center center;
+    background-size: 100% 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+    border-radius: 12px;
+}
+
+.envelope-back-expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: url('sobre_back3.png') no-repeat center center;
+    background-size: cover;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: 10000;
+    transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1), opacity 0.8s ease;
+    pointer-events: none;
+}
+
+.envelope-back-expanded.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.envelope-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('sobre.png') no-repeat center center;
+    background-size: 100% 100%;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.flap-left, .flap-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url('sobre.png') no-repeat;
+    background-size: 200% 100%;
+    transition: transform 1.5s cubic-bezier(0.4, 0.8, 0.3, 1.2), opacity 0.8s;
+    z-index: 3;
+}
+
+.flap-left {
+    left: 0;
+    background-position: left;
+    transform-origin: 37px center;
+}
+
+.flap-right {
+    right: 0;
+    background-position: right;
+    transform-origin: calc(100% - 32px) center;
+}
+
+.envelope.open .flap-left { transform: rotateY(-105deg); }
+.envelope.open .flap-right { transform: rotateY(105deg); }
 .envelope.open .envelope-body { opacity: 0; }
 .envelope.open .envelope-back { opacity: 1; }
 
-.seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(200px, 40vw); height: min(200px, 40vw); cursor: pointer; z-index: 20; transition: transform 0.15s ease; }
-.seal img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
-.seal:active { transform: translate(-50%, -50%) scale(0.96); }
-.hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Great Vibes', cursive; font-size: clamp(20px, 6vw, 28px); color: #ffdd99; text-shadow: 0 0 15px #ffaa33; animation: glowHint 1.5s infinite; white-space: nowrap; background: rgba(0,0,0,0.35); padding: 5px 24px; border-radius: 50px; pointer-events: none; }
-@keyframes glowHint { 0% { opacity: 0.6; } 100% { opacity: 1; } }
-.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
-@keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; } }
-
-.letter-overlay { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    z-index: 10001; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    pointer-events: none; 
-    opacity: 0; 
-    transition: opacity 0.5s ease; 
+.seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(200px, 40vw);
+    height: min(200px, 40vw);
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.15s ease;
 }
+
+.seal img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+.seal:active { transform: translate(-50%, -50%) scale(0.96); }
+
+.hint {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(20px, 6vw, 28px);
+    color: #ffdd99;
+    text-shadow: 0 0 15px #ffaa33;
+    animation: glowHint 1.5s infinite;
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px 24px;
+    border-radius: 50px;
+}
+
+@keyframes glowHint {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
+
+@keyframes dustFadeOut {
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; }
+}
+
+/* === CARTA MAGICA + VARITA === */
+.letter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
 .letter-overlay.show { opacity: 1; pointer-events: auto; }
 
-.letter-content { 
+.letter-content {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 50px 45px; 
-    max-width: 90%; 
-    width: 700px; 
-    text-align: center; 
+    padding: 50px 45px;
+    max-width: 90%;
+    width: 700px;
+    text-align: center;
     position: relative;
 }
 
-.magic-text-wrapper { position: relative; min-height: 400px; }
-#texto { font-family: 'Great Vibes', cursive; font-size: 32px; line-height: 1.5; color: #4a3720; text-shadow: 2px 2px 5px rgba(255,248,220,0.7);font-weight: 600;letter-spacing: 3px; }
+#texto {
+    font-family: 'Great Vibes', cursive;
+    font-size: 36px;
+    line-height: 1.5;
+    color: #fef0cf;
+    text-shadow: 3px 3px 12px #1f2e0c, 0 0 12px #b57c2e;
+    font-weight: 600;
+    background: rgba(10, 15, 5, 0.5);
+    border-radius: 70px;
+    padding: 25px 20px;
+    backdrop-filter: blur(6px);
+}
+
 .magic-line { margin-bottom: 15px; opacity: 0; transition: opacity 0.3s ease; }
 .magic-line.revealed { opacity: 1; }
 .magic-letter { display: inline-block; opacity: 0; filter: blur(8px); transform: scale(0.6); }
 
 @keyframes smokeMaterialize {
     0% { opacity: 0; filter: blur(12px); transform: scale(0.5) translateY(15px); }
-    50% { opacity: 0.7; filter: blur(3px); transform: scale(0.9) translateY(-2px); }
     100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); }
 }
 
@@ -89,197 +417,391 @@ body { font-family: 'Great Vibes', cursive; color: #3b2f1b; padding: 0 20px; }
     position: absolute;
     width: 200px;
     height: auto;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
+    filter: drop-shadow(0 0 20px #ffdb8e);
     transform-origin: center;
-    transition: none;
     cursor: pointer;
     pointer-events: auto;
 }
 
 .wand-hint {
-    position: fixed;
     font-family: 'Great Vibes', cursive;
     font-size: 20px;
     color: #ffdd99;
-    text-shadow: 0 0 15px #ffaa33;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.7);
     padding: 5px 15px;
     border-radius: 30px;
     white-space: nowrap;
     pointer-events: none;
     animation: glowHint 1.5s infinite;
+    position: fixed;
     z-index: 10003;
 }
 
 @keyframes wandWiggleLight1 {
-    0% { transform: rotate(0deg) scale(1); }
+    0%, 100% { transform: rotate(0deg); }
     30% { transform: rotate(6deg) scale(1.03); }
-    70% { transform: rotate(-5deg) scale(1.02); }
-    100% { transform: rotate(0deg) scale(1); }
 }
+
 @keyframes wandWiggleLight2 {
-    0% { transform: rotate(0deg) scale(1); }
+    0%, 100% { transform: rotate(0deg); }
     30% { transform: rotate(-7deg) scale(1.03); }
-    70% { transform: rotate(5deg) scale(1.02); }
-    100% { transform: rotate(0deg) scale(1); }
 }
+
 @keyframes wandCurveMove {
     0% { transform: translate(0, 0) rotate(0deg); }
-    20% { transform: translate(15px, -20px) rotate(12deg); }
-    40% { transform: translate(5px, -8px) rotate(5deg); }
-    60% { transform: translate(20px, -25px) rotate(15deg); }
-    80% { transform: translate(-5px, -3px) rotate(-3deg); }
-    100% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(20px, -25px) rotate(15deg); }
 }
+
 @keyframes wandDustFade {
-    0% { opacity: 1; filter: blur(0px) drop-shadow(0 0 20px gold); transform: scale(1); }
-    30% { opacity: 0.9; filter: blur(2px) drop-shadow(0 0 30px gold); transform: scale(1.05); }
-    60% { opacity: 0.5; filter: blur(5px) drop-shadow(0 0 15px orange); transform: scale(0.95); }
-    100% { opacity: 0; filter: blur(15px); transform: scale(0.7); visibility: hidden; }
+    100% { opacity: 0; filter: blur(15px); transform: scale(0.5); visibility: hidden; }
 }
+
 .wand-wiggle-1 { animation: wandWiggleLight1 0.35s ease-in-out; }
 .wand-wiggle-2 { animation: wandWiggleLight2 0.35s ease-in-out; }
 .wand-curve { animation: wandCurveMove 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 .wand-dust { animation: wandDustFade 0.8s forwards; }
 
-@keyframes sparklePop {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(1.8); opacity: 0; }
-}
 .sparkle {
     position: absolute;
     width: 30px;
     height: 30px;
-    background: radial-gradient(circle, gold, #ffaa00, transparent);
+    background: radial-gradient(circle, gold, #e6b422, transparent);
     border-radius: 50%;
-    pointer-events: none;
     animation: sparklePop 0.5s ease-out forwards;
 }
+
+@keyframes sparklePop {
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
 .dust-particle {
     position: absolute;
     width: 6px;
     height: 6px;
-    background: radial-gradient(circle, #ffd700, #ff8c00);
+    background: radial-gradient(circle, #ffd966, #cb7b3c);
     border-radius: 50%;
-    pointer-events: none;
     animation: dustFloat 0.6s ease-out forwards;
 }
+
 @keyframes dustFloat {
-    0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
     100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
 }
 
-.main { opacity: 0; transition: opacity 1.8s ease; position: relative; z-index: 10; min-height: 100vh; width: 100%; }
-.main.show { opacity: 1; }
-.seccion { min-height: auto; display: flex; align-items: center; justify-content: center; text-align: center; padding: 1.5rem 0; position: relative; width: 100%; }
-.contenido-seccion { 
-    background: rgba(255, 252, 240, 0.94); 
-    border-radius: clamp(30px, 6vw, 48px); 
-    padding: clamp(1.8rem, 5vw, 2.5rem) clamp(1.2rem, 4vw, 2rem); 
-    width: 100%; 
-    max-width: 900px; 
-    box-shadow: 0 20px 35px rgba(0,0,0,0.12); 
-    border: 1px solid rgba(200, 165, 90, 0.5); 
-    backdrop-filter: blur(4px); 
-    position: relative; 
-    z-index: 2; 
-    margin: 0 auto;
-    overflow: visible;
+/* === MAIN: SECCIONES CON FONDO TRANSPARENTE Y MARCOS === */
+.main {
+    opacity: 0;
+    transition: opacity 1.8s ease;
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    width: 100%;
 }
-.imagen-hero { display: block; width: 100%; max-width: 800px; height: auto; margin: 0 auto 1.5rem auto; border-radius: 32px; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15)); object-fit: contain; }
-.imagen-icon { display: block; width: 100%; max-width: 150px; height: auto; margin: 0 auto 1.5rem auto; border-radius: 20px; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.15)); object-fit: contain; }
-.titulo { font-size: clamp(52px, 12vw, 90px); font-family: 'Great Vibes', cursive; color: #b47c2e; margin-bottom: 1rem; }
-h2 { font-size: clamp(36px, 8vw, 50px); font-family: 'Great Vibes', cursive; color: #b8860b; margin-bottom: 20px; }
-h3 { font-size: clamp(30px, 8vw, 40px); font-family: 'Great Vibes', cursive; color: #e07562; margin-bottom: 20px; }
-.countdown-small { font-size: clamp(26px, 6vw, 36px); font-weight: bold; background: #e9d6b0; display: inline-block; padding: 10px 28px; border-radius: 60px; margin: 18px 0; font-family: 'Great Vibes', cursive; }
-.btn { background: #c49a3b; border: none; color: white; font-family: 'Great Vibes', cursive; font-size: clamp(18px, 4vw, 20px); padding: 14px 32px; margin: 10px; border-radius: 40px; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-.btn:hover { background: #a57c2a; transform: scale(1.02); }
-input, textarea { width: 90%; padding: 14px; margin: 12px 0; border-radius: 60px; border: 1px solid #dbb879; font-family: 'Great Vibes', cursive; background: #fffdf5; font-size: clamp(16px, 3.5vw, 18px); }
-textarea { border-radius: 28px; min-height: 100px; }
-#galeria { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px; }
-#galeria img { width: clamp(110px, 25vw, 140px); height: clamp(110px, 25vw, 140px); object-fit: cover; border-radius: 20px; border: 3px solid #dbb162; cursor: pointer; transition: transform 0.2s; }
-#galeria img:hover { transform: scale(1.05); }
-p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
 
-/* Estilos para las flores dentro de las secciones */
+.main.show { opacity: 1; }
+
+.seccion {
+    min-height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.8rem 0;
+    position: relative;
+    width: 100%;
+}
+
+.contenido-seccion {
+    background: rgba(25, 20, 12, 0.7);
+    backdrop-filter: blur(6px);
+    border-radius: clamp(32px, 7vw, 56px);
+    padding: clamp(1.8rem, 5vw, 2.8rem) clamp(1.4rem, 4vw, 2.2rem);
+    width: 100%;
+    max-width: 980px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(250, 210, 130, 0.3);
+    border: 2px solid;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Bordes diferenciados: Gryffindor (rojo) y Slytherin (verde) */
+#seccion-titulo .contenido-seccion { border-color: #b53a2e; box-shadow: 0 0 0 1px rgba(200, 70, 50, 0.3), 0 20px 35px rgba(0, 0, 0, 0.4); }
+#seccion-boda .contenido-seccion { border-color: #2a7a32; }
+#seccion-info .contenido-seccion { border-color: #c99a3e; }
+#seccion-regalos .contenido-seccion { border-color: #b53a2e; }
+#seccion-album .contenido-seccion { border-color: #2a7a32; }
+#seccion-mensajes .contenido-seccion { border-color: #c99a3e; }
+#seccion-audio .contenido-seccion { border-color: #b53a2e; }
+
+.contenido-seccion::before {
+    content: "⚡";
+    position: absolute;
+    font-size: 32px;
+    opacity: 0.35;
+    bottom: -10px;
+    right: -8px;
+    transform: rotate(12deg);
+    color: #e6bc7a;
+}
+
+.contenido-seccion::after {
+    content: "🪄";
+    position: absolute;
+    font-size: 28px;
+    opacity: 0.35;
+    top: -12px;
+    left: -10px;
+    transform: rotate(-8deg);
+    color: #e6bc7a;
+}
+
+.imagen-hero {
+    display: block;
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    margin: 0 auto 0.8rem auto;
+    border-radius: 50px;
+    filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.4));
+    border: 2px solid #e9bc6e;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px;
+}
+
+.imagen-icon {
+    width: 70px;
+    height: auto;
+    margin: 0 auto 0.6rem;
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.4));
+}
+
+.titulo {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(58px, 13vw, 108px);
+    color: #ffefcd;
+    text-shadow: 0 5px 12px #2c4722, 0 0 12px #dfb05e;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(36px, 8vw, 52px);
+    color: #ffe2aa;
+    text-shadow: 0 2px 6px #14230c;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #c9aa6b;
+    display: inline-block;
+    padding-bottom: 6px;
+}
+
+h3 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 36px);
+    color: #ffdfa0;
+    margin: 20px 0 6px;
+}
+
+p, .text-magia {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(17px, 4vw, 21px);
+    font-weight: 500;
+    color: #fff3e3;
+    line-height: 1.45;
+    margin: 12px 0;
+}
+
+.gryffindor-text { color: #e6836b; text-shadow: 0 0 2px #5a1e1e; }
+.slytherin-text { color: #8dc78f; text-shadow: 0 0 2px #174d1a; }
+
+.countdown-small {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 42px);
+    font-weight: bold;
+    background: #1f2f17e6;
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 80px;
+    margin: 20px 0;
+    color: #ffeaaf;
+    box-shadow: 0 0 14px #cea14b;
+    border: 1px solid #e6c67a;
+}
+
+.btn {
+    background: #4f6b2e;
+    border: none;
+    color: #fff8e7;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(17px, 4vw, 19px);
+    padding: 12px 28px;
+    margin: 8px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 0 #2d401b;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.btn:hover {
+    background: #749a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2d401b;
+}
+
+input, textarea {
+    width: 90%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 100px;
+    border: 1px solid #d9b16b;
+    background: #fffef5f0;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    color: #2c2b1c;
+}
+
+textarea { border-radius: 35px; }
+
 .flor-seccion {
     position: absolute;
     z-index: 6;
     pointer-events: none;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
-    transition: all 0.3s ease;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.3));
 }
 
 .flor-seccion img {
     width: 100% !important;
     height: auto !important;
-    display: block !important;
     animation: flotarFlor 5s infinite alternate ease-in-out;
 }
 
-.flor-seccion {
-    transform: rotate(0deg) scale(1);
-}
-
 @keyframes flotarFlor {
-    0% { transform: translateY(0px); }
     100% { transform: translateY(8px); }
 }
 
-/* Estilo para el QR */
 .qr-container {
-    text-align: center;
-    margin: 30px 0;
+    background: rgba(70, 60, 35, 0.7);
+    backdrop-filter: blur(6px);
+    border-radius: 48px;
     padding: 20px;
-    background: rgba(197, 155, 42, 0.1);
-    border-radius: 25px;
+    margin: 20px 0;
+    border: 1px solid #deb86e;
 }
-.qr-container p {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-.qr-code {
-    display: flex;
-    justify-content: center;
-    margin: 15px 0;
-}
+
 .qr-code img {
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 25px;
+    box-shadow: 0 0 0 3px #efcd8a;
+    background: #fdf7e6;
+    padding: 6px;
 }
-.drive-link {
-    font-size: 14px;
-    color: #c49a3b;
-    word-break: break-all;
-    cursor: pointer;
-    text-decoration: underline;
+
+.magic-badge {
+    display: inline-flex;
+    background: #2b3e1ac9;
+    border-radius: 60px;
+    padding: 5px 20px;
+    margin: 8px 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #faeab6;
+    gap: 8px;
+    align-items: center;
+    backdrop-filter: blur(4px);
 }
 
 @media (max-width: 768px) {
-    .wand { width: 180px; }
-    .wand-hint { font-size: 16px; }
-    #texto { font-size: 26px; font-weight: 400;}
-    .letter-content { padding: 30px 25px; }
-    .imagen-icon { width: 100%; max-width: 70px; height: auto; margin: 0 ; }
-    .flor-seccion{max-width: 100px;}
+    .wand { width: 160px; }
+    .flor-seccion { max-width: 85px; }
+    .hp-deco { opacity: 0.6; }
 }
+
 @media (max-width: 480px) {
-    .wand { width: 130px; }
-    .wand-hint { font-size: 14px; white-space: normal; width: 120px; text-align: center; }
-    #texto { font-size: 22px; font-weight: 400;}
-    .letter-content { padding: 25px 20px; }
-    .imagen-icon { width: 100%; max-width: 50px; height: auto; margin: 0 ; }
-    .flor-seccion{max-width: 60px;}
+    .wand { width: 120px; }
+    .titulo { font-size: 48px; }
 }
 </style>
 </head>
 <body>
 
-<div class="bg-slideshow">
-    <img src="fondo.jpg" id="bg1" class="active" alt="Fondo boda">
-    <img src="fondo2.jpg" id="bg2" alt="Fondo boda 2">
+<!-- FONDO PERGAMINO (CSS puro, no depende de imágenes) -->
+<div class="parchment-bg"></div>
+<div class="overlay-tint"></div>
+<div class="floating-dust" id="dustBg"></div>
+
+<!-- ICONOS HARRY POTTER - ESTILO MAPA DEL MERODEADOR (SVG inline con trazo negro) -->
+<div class="hp-deco snitch">
+    <svg viewBox="0 0 100 100" fill="none" stroke="#1a1a1a" stroke-width="2">
+        <circle cx="50" cy="50" r="18" fill="#d4a017" stroke="#1a1a1a" stroke-width="2.5"/>
+        <path d="M50 32 L50 20 M50 80 L50 68 M32 50 L20 50 M80 50 L68 50" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M38 38 L28 28 M62 62 L72 72 M38 62 L28 72 M62 38 L72 28" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M50 38 L50 32 M50 68 L50 62" stroke="#1a1a1a" stroke-width="2"/>
+        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M50 44 L50 40 M50 60 L50 56" stroke="#1a1a1a" stroke-width="1.5"/>
+    </svg>
 </div>
 
+<div class="hp-deco glasses">
+    <svg viewBox="0 0 100 60" fill="none" stroke="#1a1a1a" stroke-width="2.5">
+        <circle cx="30" cy="28" r="16" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+        <circle cx="70" cy="28" r="16" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+        <line x1="46" y1="28" x2="54" y2="28" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="30" y1="44" x2="30" y2="52" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="70" y1="44" x2="70" y2="52" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M30 52 L25 56 M70 52 L75 56" stroke="#1a1a1a" stroke-width="2"/>
+    </svg>
+</div>
+
+<div class="hp-deco hallow">
+    <svg viewBox="0 0 80 100" fill="none" stroke="#1a1a1a" stroke-width="2.5">
+        <line x1="40" y1="15" x2="40" y2="85" stroke="#1a1a1a" stroke-width="3"/>
+        <line x1="15" y1="45" x2="65" y2="45" stroke="#1a1a1a" stroke-width="3"/>
+        <circle cx="40" cy="50" r="22" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+        <line x1="40" y1="15" x2="15" y2="45" stroke="#1a1a1a" stroke-width="2"/>
+        <line x1="40" y1="15" x2="65" y2="45" stroke="#1a1a1a" stroke-width="2"/>
+    </svg>
+</div>
+
+<div class="hp-deco potion">
+    <svg viewBox="0 0 60 80" fill="none" stroke="#1a1a1a" stroke-width="2.5">
+        <path d="M25 20 L35 20 L38 50 L22 50 Z" fill="none" stroke="#1a1a1a"/>
+        <ellipse cx="30" cy="50" rx="10" ry="4" stroke="#1a1a1a"/>
+        <path d="M30 15 L30 20" stroke="#1a1a1a"/>
+        <path d="M25 15 H35" stroke="#1a1a1a"/>
+        <path d="M26 65 L34 65 L36 80 L24 80 Z" fill="none" stroke="#1a1a1a"/>
+        <circle cx="30" cy="60" r="3" fill="#5a9e3a" stroke="none"/>
+        <circle cx="28" cy="70" r="2" fill="#c44a2a" stroke="none"/>
+    </svg>
+</div>
+
+<div class="hp-deco scar">
+    <svg viewBox="0 0 40 50" fill="none" stroke="#1a1a1a" stroke-width="2">
+        <path d="M20 10 L15 25 L22 30 L18 45" stroke="#1a1a1a" stroke-width="2.5" fill="none"/>
+        <path d="M20 10 L28 18 L32 15" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+    </svg>
+</div>
+
+<div class="escoba-deco">
+    <svg viewBox="0 0 80 40" fill="none" stroke="#1a1a1a" stroke-width="2">
+        <line x1="15" y1="20" x2="65" y2="20" stroke="#1a1a1a" stroke-width="3"/>
+        <path d="M65 15 L72 20 L65 25" fill="#6b3a1a" stroke="#1a1a1a"/>
+        <line x1="25" y1="12" x2="20" y2="28" stroke="#1a1a1a"/>
+        <line x1="35" y1="10" x2="30" y2="30" stroke="#1a1a1a"/>
+        <line x1="45" y1="12" x2="42" y2="28" stroke="#1a1a1a"/>
+    </svg>
+</div>
+
+<div class="sombrero-deco">
+    <svg viewBox="0 0 60 50" fill="none" stroke="#1a1a1a" stroke-width="2">
+        <path d="M10 25 L30 10 L50 25 Z" fill="#5a3a1a" stroke="#1a1a1a"/>
+        <path d="M8 25 Q30 40 52 25" stroke="#1a1a1a" fill="none"/>
+        <path d="M20 20 L28 15" stroke="#1a1a1a"/>
+        <ellipse cx="30" cy="25" rx="22" ry="5" stroke="#1a1a1a" fill="none"/>
+    </svg>
+</div>
+
+<!-- INTRO (SOBRE + SELLO + VARITA) -->
 <div class="intro" id="intro">
     <div class="envelope" id="sobre">
         <div class="envelope-back"></div>
@@ -290,9 +812,7 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
         <div class="hint" id="hint">✨ Presiona el sello ✨</div>
     </div>
 </div>
-
 <div id="sobreBackExpandido" class="envelope-back-expanded"></div>
-
 <div id="cartaOverlay" class="letter-overlay">
     <div class="letter-content">
         <div class="magic-text-wrapper" id="magicWrapper">
@@ -300,897 +820,322 @@ p { font-size: clamp(18px, 4vw, 24px); margin: 12px 0; line-height: 1.4; }
         </div>
     </div>
 </div>
-
 <div class="wand-container" id="wandContainer">
-    <img id="wand" class="wand" src="barita.png" alt="Barita mágica" style="display: none;">
+    <img id="wand" class="wand" src="barita.png" alt="Varita mágica" style="display: none;">
     <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
 </div>
 
 <div class="main" id="main">
-    <!-- Sección 1: Imagen de perritos -->
+    <!-- Sección perritos -->
     <div class="seccion" id="seccion-perritos">
         <img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'">
+        <div class="magic-badge"><span>🐾✨</span> Nuestros Patronus</div>
     </div>
-    
-    <!-- Sección 2: Título y fecha -->
+
     <div class="seccion" id="seccion-titulo">
         <div class="contenido-seccion">
             <h1 class="titulo">Ivon & Julio</h1>
-            <p>Nos llena de alegría invitarte a celebrar</p>
-            <p>uno de los días más importantes de nuestras vidas juntos</p>
-            <p style="margin-top:25px;font-size:28px;font-weight:bold;">💍 14 de agosto, 2026 💍</p>
+            <p>✦ Una boda encantada llena de magia y hechizos de amor ✦</p>
+            <p>Nos llena de alegría invitarte a este gran día</p>
+            <p class="gryffindor-text" style="font-family: 'Cinzel';">💍 14 de agosto, 2026 💍</p>
         </div>
     </div>
-   
-    <!-- Sección 3: Información de la boda y mapas -->
+
     <div class="seccion" id="seccion-boda">
         <div class="contenido-seccion">
-            <h2>📅 La Boda</h2>
+            <h2>📜 La Gran Celebración</h2>
             <div class="countdown-small" id="countdownBoda"></div>
             <p><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
-            <h3>Ceremonia Religiosa</h3>  
+            <div class="magic-badge"><span>🏰⚡</span> Ceremonia Mágica</div>
+            <h3 class="slytherin-text">Ceremonia Religiosa</h3>
             <img src="iglesiaV.png" class="imagen-icon" onerror="this.style.display='none'">
             <p><strong>📍 Hora:</strong> 7:00 P.M.</p>
             <p><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
             <p><strong>🏠 Dirección:</strong> Av. República Dominicana 458, Jesús María</p>
-            <div>
-                <button class="btn" onclick="abrirMapsI()">📍 Google Maps</button>
-                <button class="btn" onclick="abrirWazeI()">🚗 Waze</button>
-            </div>
-            
-            <h3>Recepción</h3>  
+            <div><button class="btn" onclick="abrirMapsI()">📍 Google Maps</button><button class="btn" onclick="abrirWazeI()">🚗 Waze</button></div>
+            <h3 class="gryffindor-text">Recepción</h3>
             <img src="fiestaV.png" class="imagen-icon" onerror="this.style.display='none'">
             <p><strong>📍 Hora:</strong> 8:30 P.M.</p>
             <p><strong>🏠 Dirección:</strong> Av. José de la Riva Agüero, 2009, San Miguel</p>
-            <div>
-                <button class="btn" onclick="abrirMapsR()">📍 Google Maps</button>
-                <button class="btn" onclick="abrirWazeR()">🚗 Waze</button>
-            </div>
+            <div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div>
         </div>
     </div>
-    
-    <!-- Sección 4: Información importante -->
+
     <div class="seccion" id="seccion-info">
         <div class="contenido-seccion">
-            <h2>🎁 Información importante</h2>
-            <p> - <strong>👔 Código de vestimenta:</strong> Formal / Etiqueta</p>
-            <p> - Por favor, confirmar asistencia antes del 15 de julio.</p>
-            <p> - Estacionamiento disponible en el local de recepción.</p>
-            <p> - Habrá servicio de catering y barra libre.</p>
-            <p> - Llevar abrigo.</p>
+            <h2>📜 Avisos Importantes</h2>
+            <p class="slytherin-text">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta (toque mágico bienvenido)</p>
+            <p>📅 Confirmar asistencia antes del 15 de julio</p>
+            <p>🚗 Estacionamiento disponible en el local de recepción</p>
+            <p class="gryffindor-text">🍷 Servicio de catering y barra libre</p>
+            <p>🧣 Llevar abrigo, la noche será encantada</p>
         </div>
-    </div>  
+    </div>
 
-    <!-- Sección 5: Lista de regalos -->
     <div class="seccion" id="seccion-regalos">
         <div class="contenido-seccion">
             <h2>🎁 Lista de Regalos</h2>
             <p>Tu presencia es el mejor obsequio que podemos recibir.</p>
-            <p>Los regalos van por <strong>nuestra cuenta...</strong></p>
-            <div style="background:rgba(197,155,42,0.2);padding:20px;border-radius:25px;margin-top:20px;">
-                <h3 style="font-size:24px;">💰 Nuestra cuenta</h3>
-                <p style="font-size:22px;font-weight:bold;word-break:break-all;">193 205 253 18 0 43</p>
+            <p class="slytherin-text">Los regalos van por <strong>nuestra cuenta...</strong></p>
+            <div style="background: rgba(0, 0, 0, 0.5); border-radius: 45px; padding: 20px; margin-top: 20px;">
+                <h3 style="font-size: 28px;">💰 Nuestra cuenta</h3>
+                <p style="font-size: 28px; font-weight: bold; word-break: break-all;" class="gryffindor-text">193 205 253 18 0 43</p>
+                <span class="magic-badge">⚡ Gringotts ⚡</span>
             </div>
         </div>
     </div>
 
-<!-- Sección 6: Álbum de fotos -->
-<div class="seccion" id="seccion-album">
-    <div class="contenido-seccion">
-        <h2>📸 Álbum de Fotos</h2>
-        
-        <div class="qr-container">
-            <p>📱 Escanea el QR para subir tus fotos al álbum de la boda</p>
-            <div class="qr-code" id="qrCode"></div>
-            <button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos al álbum</button>
-            <p style="font-size: 14px; margin-top: 15px;">* Todas las fotos se guardarán en el recuerdo de nuestra boda</p>
+    <div class="seccion" id="seccion-album">
+        <div class="contenido-seccion">
+            <h2>📸 Álbum Mágico</h2>
+            <div class="qr-container">
+                <p>🔮 Escanea el QR y comparte tus fotos del gran día</p>
+                <div class="qr-code" id="qrCode"></div>
+                <button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos al recuerdo</button>
+                <p style="font-size: 14px;" class="slytherin-text">* Las fotos quedarán en el Pensadero de nuestra boda</p>
+            </div>
         </div>
     </div>
-</div>
 
-    <!-- Sección 7: Mensajes para los novios CON WHATSAPP -->
     <div class="seccion" id="seccion-mensajes">
         <div class="contenido-seccion">
-            <h2>💬 Mensajes para los novios</h2>
-            <p style="font-size: 18px;">Déjanos tu mensaje de felicitación por WhatsApp</p>
-            
+            <h2>💬 Búho Mensajero</h2>
+            <p style="font-size: 18px;" class="gryffindor-text">Déjanos tu mensaje de felicitación por WhatsApp</p>
             <input type="text" id="nombre" placeholder="✏️ Tu nombre completo">
             <input type="tel" id="telefono" placeholder="📱 Tu número de teléfono (ej: 51987654321)">
             <textarea id="mensajeInput" placeholder="💝 Escribe tu mensaje de felicitación..."></textarea>
-            
-            <button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar mensaje por WhatsApp 💌</button>
-            <p style="font-size: 14px; margin-top: 15px; color: #888;">* Tu mensaje se abrirá en WhatsApp para ser enviado a los novios</p>
+            <button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button>
         </div>
     </div>
-    
-    <!-- Sección 8: Botón de música y cierre -->
+
     <div class="seccion" id="seccion-audio">
         <div class="contenido-seccion">
             <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
-            <p style="margin-top:30px;font-size:24px;">✨ Gracias por ser parte de este momento especial ✨</p>
+            <p style="margin-top: 30px; font-family: 'Great Vibes'; font-size: 28px;" class="slytherin-text">✨ Expecto Amor ✨</p>
         </div>
     </div>
 </div>
 
 <script>
+    // Polvo mágico
+    function crearPolvoMagico() {
+        const container = document.getElementById('dustBg');
+        if (!container) return;
+        for (let i = 0; i < 70; i++) {
+            let dust = document.createElement('div');
+            dust.classList.add('dust-particle-bg');
+            let size = 3 + Math.random() * 8;
+            dust.style.width = size + 'px';
+            dust.style.height = size + 'px';
+            dust.style.left = Math.random() * 100 + '%';
+            dust.style.bottom = '-' + Math.random() * 25 + 'vh';
+            dust.style.animationDuration = 10 + Math.random() * 18 + 's';
+            dust.style.animationDelay = Math.random() * 15 + 's';
+            container.appendChild(dust);
+        }
+    }
+    crearPolvoMagico();
 
-// ============================================
-// WHATSAPP - MENSAJES
-// ============================================
-
-// NÚMEROS DE WHATSAPP DE LOS NOVIOS (CAMBIAR POR LOS REALES)
-const NUMERO_NOVIA = "51987654321";   // ← CAMBIA por el número de Ivon
-const NUMERO_NOVIO = "51912345678";   // ← CAMBIA por el número de Julio
-
-function enviarMensajeWhatsApp() {
-    const nombre = document.getElementById("nombre")?.value.trim();
-    const telefono = document.getElementById("telefono")?.value.trim();
-    const mensaje = document.getElementById("mensajeInput")?.value.trim();
-    
-    // Validaciones
-    if (!nombre) {
-        alert("💕 Por favor ingresa tu nombre");
-        return;
-    }
-    if (!telefono) {
-        alert("💕 Por favor ingresa tu número de teléfono");
-        return;
-    }
-    if (!mensaje) {
-        alert("💕 Por favor escribe tu mensaje");
-        return;
-    }
-    
-    // Validar formato de teléfono (básico)
-    if (!/^[0-9]{10,15}$/.test(telefono.replace(/[^0-9]/g, ''))) {
-        alert("📱 Por favor ingresa un número de teléfono válido (solo números)");
-        return;
-    }
-    
-    // Formatear mensaje para WhatsApp
-    const textoWhatsApp = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤 Invitado:* ${nombre}\n*📱 Teléfono:* ${telefono}\n\n*💝 Mensaje:*\n"${mensaje}"\n\n---\n📅 Fecha: 14 de agosto, 2026\n✨ ¡Los esperamos! ✨`;
-    
-    // Codificar mensaje
-    const mensajeCodificado = encodeURIComponent(textoWhatsApp);
-    
-    // Preguntar a quién enviar
-    const opcion = confirm(`✨ ¿A quién quieres enviar tu mensaje?\n\n✓ Aceptar = Enviar a Ivon (Novia)\n✓ Cancelar = Enviar a Julio (Novio)`);
-    
-    let numeroDestino;
-    let destinatario;
-    
-    if (opcion) {
-        numeroDestino = NUMERO_NOVIA;
-        destinatario = "Ivon";
-    } else {
-        numeroDestino = NUMERO_NOVIO;
-        destinatario = "Julio";
-    }
-    
-    // Crear link de WhatsApp
-    const linkWhatsApp = `https://wa.me/${numeroDestino}?text=${mensajeCodificado}`;
-    
-    // Abrir WhatsApp
-    window.open(linkWhatsApp, '_blank');
-    
-    // Limpiar campos
-    document.getElementById("nombre").value = "";
-    document.getElementById("telefono").value = "";
-    document.getElementById("mensajeInput").value = "";
-    
-    alert(`✨ ¡Gracias ${nombre}! Tu mensaje se abrirá en WhatsApp para enviarlo a ${destinatario} ✨`);
-}
-
-// ============================================
-// CONFIGURACIÓN DE FLORES POR SECCIÓN
-// ============================================
-const floresPorSeccion = {
-    'seccion-perritos': [],
-    
-    'seccion-titulo': [
-        { 
-            src: 'flores_derechaC.png', 
-            position: { bottom: 'clamp(5px, 1.5vw, 10px)', right: 'clamp(-25px, -3vw, -15px)' }, 
-            size: 'clamp(60px, 12vw, 120px)',
-            rotation: 0,
-            scale: 0.9
-        },
-        { 
-            src: 'flores_izquierdaD.png', 
-            position: { bottom: 'clamp(-20px, -5vw, -45px)', left: 'clamp(-35px, -4vw, -22px)' }, 
-            size: 'clamp(80px, 15vw, 160px)',
-            rotation: 0,
-            scale: 1
-        }
-    ],
-    
-    'seccion-boda': [
-        { 
-            src: 'flor_rosa_1.png', 
-            position: { top: 'clamp(-30px, -3vw, -20px)', right: 'clamp(-25px, -3vw, -15px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: -135,
-            scale: 1.2,
-            flipX: true
-        },
-        { 
-            src: 'flor_rosa_1.png', 
-            position: { top: 'clamp(-30px, -3vw, -20px)', left: 'clamp(-25px, -3vw, -15px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: 135,
-            scale: 1.2,
-            flipX: true
-        },
-        { 
-            src: 'flores_izquierdaD.png', 
-            position: { bottom: 'clamp(-20px, -4vw, -40px)', left: 'clamp(-15px, -2vw, -10px)' }, 
-            size: 'clamp(90px, 17vw, 180px)',
-            rotation: 0,
-            scale: 1
-        },
-        { 
-            src: 'flores_izquierdaD.png', 
-            position: { bottom: 'clamp(-20px, -4vw, -40px)', right: 'clamp(-15px, -2vw, -10px)' }, 
-            size: 'clamp(90px, 17vw, 180px)',
-            rotation: 0,
-            scale: 1,
-            flipX: true
-        }
-    ],
-    
-    'seccion-info': [
-        { 
-            src: 'flor_verde_2.png', 
-            position: { top: 'clamp(35%, 40%, 45%)', left: 'clamp(-35px, -4vw, -20px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: 0,
-            scale: 1
-        },
-        { 
-            src: 'flor_verde_2.png', 
-            position: { top: 'clamp(35%, 40%, 45%)', right: 'clamp(-35px, -4vw, -20px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: 0,
-            scale: 1,
-            flipX: true
-        }
-    ],
-    
-    'seccion-regalos': [
-        { 
-            src: 'flor_verde_1.png', 
-            position: { top: 'clamp(-30px, -3vw, -20px)', left: 'clamp(-25px, -3vw, -15px)' }, 
-            size: 'clamp(60px, 11vw, 110px)',
-            rotation: 45,
-            scale: 0.9
-        },
-        { 
-            src: 'flor_verde_1.png', 
-            position: { top: 'clamp(-30px, -3vw, -20px)', right: 'clamp(-25px, -3vw, -15px)' }, 
-            size: 'clamp(60px, 11vw, 110px)',
-            rotation: -45,
-            scale: 0.9,
-            flipX: true
-        }
-    ],
-    
-    'seccion-album': [
-        { 
-            src: 'flor_rosa_3.png', 
-            position: { top: 'clamp(-20px, -4vw, -40px)', right: 'clamp(-20px, -4vw, -40px)' }, 
-            size: 'clamp(55px, 9vw, 100px)',
-            rotation: -30,
-            scale: 1.0
-        },
-        { 
-            src: 'flor_rosa_3.png', 
-            position: { top: 'clamp(-20px, -4vw, -40px)', left: 'clamp(-20px, -4vw, -40px)' }, 
-            size: 'clamp(55px, 9vw, 100px)',
-            rotation: 30,
-            scale: 1,
-            flipX: true
-        }
-    ],
-    
-    'seccion-mensajes': [
-        { 
-            src: 'flor_rosa_1.png', 
-            position: { top: 'clamp(-20px, -2vw, -15px)', left: 'clamp(-20px, -2vw, -15px)' }, 
-            size: 'clamp(55px, 9vw, 100px)',
-            rotation: -45,
-            scale: 1.2
-        },
-        { 
-            src: 'flores_derechaC.png', 
-            position: { bottom: 'clamp(-10px, -1vw, -5px)', right: 'clamp(-30px, -3.5vw, -20px)' }, 
-            size: 'clamp(45px, 7vw, 80px)',
-            rotation: 0,
-            scale: 0.95,
-            flipY: true
-        }
-    ],
-    
-    'seccion-audio': [
-        { 
-            src: 'flores_izquierdaU.png', 
-            position: { top: 'clamp(5px, 2vw, 15px)', right: 'clamp(-15px, -2vw, -10px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: 0,
-            scale: 1.0,
-            flipX: true
-        },
-        { 
-            src: 'flores_izquierdaU.png', 
-            position: { top: 'clamp(5px, 2vw, 15px)', left: 'clamp(-15px, -2vw, -10px)' }, 
-            size: 'clamp(80px, 14vw, 150px)',
-            rotation: 0,
-            scale: 1.0
-        }
-    ]
-};
-
-function aplicarTransformaciones(florDiv, config) {
-    let transformValue = '';
-    
-    if (config.rotation !== undefined && config.rotation !== 0) {
-        transformValue += `rotate(${config.rotation}deg) `;
-    }
-    
-    let scaleX = 1, scaleY = 1;
-    if (config.scale !== undefined && config.scale !== 1) {
-        scaleX = config.scale;
-        scaleY = config.scale;
-    }
-    
-    if (config.flipX) scaleX = scaleX * -1;
-    if (config.flipY) scaleY = scaleY * -1;
-    
-    if (scaleX !== 1 || scaleY !== 1) {
-        transformValue += `scale(${scaleX}, ${scaleY}) `;
-    }
-    
-    if (transformValue.trim() !== '') {
-        florDiv.style.transform = transformValue.trim();
-    }
-}
-
-function agregarFloresASecciones() {
-    for (const [seccionId, flores] of Object.entries(floresPorSeccion)) {
-        const seccion = document.getElementById(seccionId);
-        if (!seccion) continue;
-        
-        const contenidoSeccion = seccion.querySelector('.contenido-seccion');
-        if (!contenidoSeccion) {
-            if (seccionId === 'seccion-perritos') continue;
-            continue;
-        }
-        
-        flores.forEach(flor => {
-            const florDiv = document.createElement('div');
-            florDiv.className = 'flor-seccion';
-            
-            if (flor.position.top !== undefined) florDiv.style.top = flor.position.top;
-            if (flor.position.bottom !== undefined) florDiv.style.bottom = flor.position.bottom;
-            if (flor.position.left !== undefined) florDiv.style.left = flor.position.left;
-            if (flor.position.right !== undefined) florDiv.style.right = flor.position.right;
-            
-            if (flor.size) {
-                florDiv.style.width = flor.size;
-                florDiv.style.height = 'auto';
+    // Música
+    const canciones = {
+        boda: { elemento: null, src: "musica.mp3", volume: 0.7, loop: true },
+        magia: { elemento: null, src: "magic.mp3", volume: 0.6, loop: false },
+        intro: { elemento: null, src: "Potterw.mp3", volume: 0.45, loop: true }
+    };
+    function inicializarSistemaMusica() {
+        for (const [key, cancion] of Object.entries(canciones)) {
+            if (!cancion.elemento) {
+                const audio = new Audio();
+                audio.src = cancion.src;
+                audio.loop = cancion.loop;
+                audio.volume = 0;
+                cancion.elemento = audio;
             }
-            
-            const img = document.createElement('img');
-            img.src = flor.src;
-            img.alt = 'Flor decorativa';
-            img.style.width = '100%';
-            img.style.height = 'auto';
-            img.style.display = 'block';
-            img.style.animation = `flotarFlor 5s infinite alternate ease-in-out`;
-            
-            img.onerror = () => {
-                florDiv.style.display = 'none';
-            };
-            
-            florDiv.appendChild(img);
-            contenidoSeccion.appendChild(florDiv);
-            aplicarTransformaciones(florDiv, flor);
-        });
+        }
     }
-}
-
-// ============================================
-// SISTEMA DE MÚSICA
-// ============================================
-const canciones = {
-    boda: { elemento: null, src: "musica.mp3", volume: 0.7, loop: true },
-    magia: { elemento: null, src: "magic.mp3", volume: 0.6, loop: false },
-    intro: { elemento: null, src: "Potterw.mp3", volume: 0.4, loop: true }
-};
-
-let introAudioGlobal = null;
-
-function inicializarSistemaMusica() {
-    for (const [key, cancion] of Object.entries(canciones)) {
-        if (!cancion.elemento) {
-            const audio = new Audio();
-            audio.src = cancion.src;
-            audio.loop = cancion.loop;
+    function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
+        const cancion = canciones[nombreCancion];
+        if (!cancion || !cancion.elemento) return;
+        const audio = cancion.elemento;
+        if (fadeIn) {
             audio.volume = 0;
-            cancion.elemento = audio;
-        }
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log);
+            let vol = 0;
+            const target = cancion.volume;
+            const inter = setInterval(() => { vol = Math.min(target, vol + 0.05); audio.volume = vol; if (vol >= target - 0.01) clearInterval(inter); }, duracionFade);
+        } else { audio.volume = cancion.volume; audio.play().catch(e => console.log); }
     }
-}
-
-function reproducirCancion(nombreCancion, fadeIn = true, duracionFade = 200) {
-    const cancion = canciones[nombreCancion];
-    if (!cancion || !cancion.elemento) return;
-    
-    const audio = cancion.elemento;
-    
-    if (fadeIn) {
-        audio.volume = 0;
-        audio.currentTime = 0;
-        audio.play().catch(e => console.log("Error reproduciendo:", e));
-        
-        let vol = 0;
-        const targetVol = cancion.volume;
-        const fadeInterval = setInterval(() => {
-            vol = Math.min(targetVol, vol + 0.05);
-            audio.volume = vol;
-            if (vol >= targetVol - 0.01) clearInterval(fadeInterval);
-        }, duracionFade);
-    } else {
-        audio.volume = cancion.volume;
-        audio.play().catch(e => console.log("Error reproduciendo:", e));
+    function detenerCancion(nombreCancion, fadeOut = true, duracionFade = 200) {
+        const cancion = canciones[nombreCancion];
+        if (!cancion || !cancion.elemento) return;
+        const audio = cancion.elemento;
+        if (fadeOut && !audio.paused) {
+            let vol = audio.volume;
+            const inter = setInterval(() => { vol = Math.max(0, vol - 0.05); audio.volume = vol; if (vol <= 0.01) { clearInterval(inter); audio.pause(); audio.currentTime = 0; } }, duracionFade);
+        } else { audio.pause(); audio.currentTime = 0; }
     }
-}
-
-function detenerCancion(nombreCancion, fadeOut = true, duracionFade = 200) {
-    const cancion = canciones[nombreCancion];
-    if (!cancion || !cancion.elemento) return;
-    const audio = cancion.elemento;
-    if (fadeOut && !audio.paused) {
-        let vol = audio.volume;
-        const fadeInterval = setInterval(() => {
-            vol = Math.max(0, vol - 0.05);
-            audio.volume = vol;
-            if (vol <= 0.01) {
-                clearInterval(fadeInterval);
-                audio.pause();
-                audio.currentTime = 0;
-            }
-        }, duracionFade);
-    } else {
-        audio.pause();
-        audio.currentTime = 0;
+    window.musicaMuted = false;
+    function toggleAudio() {
+        const boda = canciones.boda;
+        if (!boda || !boda.elemento) return;
+        if (!window.musicaMuted) { boda.elemento.muted = true; window.musicaMuted = true; document.getElementById("audioBtn").textContent = "🔇 Activar Música"; }
+        else { boda.elemento.muted = false; window.musicaMuted = false; document.getElementById("audioBtn").textContent = "🔊 Silenciar Música"; }
     }
-}
-
-function toggleAudio() {
-    const cancionActual = canciones.boda;
-    if (!cancionActual || !cancionActual.elemento) return;
-    if (!window.musicaMuted) {
-        cancionActual.elemento.muted = true;
-        window.musicaMuted = true;
-        document.getElementById("audioBtn").textContent = "🔇 Activar Música";
-    } else {
-        cancionActual.elemento.muted = false;
-        window.musicaMuted = false;
-        document.getElementById("audioBtn").textContent = "🔊 Silenciar Música";
-    }
-}
-
-function reproducirIntro() {
-    return new Promise((resolve) => {
+    async function reproducirIntro() {
         try {
-            if (window.potterwAudioGlobal) {
-                window.potterwAudioGlobal.pause();
-                window.potterwAudioGlobal.src = "";
-                window.potterwAudioGlobal.load();
-                window.potterwAudioGlobal = null;
-            }
-            
-            if (canciones.intro && canciones.intro.elemento) {
-                canciones.intro.elemento.pause();
-                canciones.intro.elemento.src = "";
-                canciones.intro.elemento.load();
-                canciones.intro.elemento = null;
-            }
-            
-            const nuevoAudio = new Audio();
-            const timestamp = Date.now();
-            nuevoAudio.src = "Potterw.mp3?" + timestamp;
-            nuevoAudio.loop = true;
-            nuevoAudio.volume = 0.4;
-            nuevoAudio.load();
-            
-            const playPromise = nuevoAudio.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    window.potterwAudioGlobal = nuevoAudio;
-                    canciones.intro.elemento = nuevoAudio;
-                    resolve();
-                }).catch(error => {
-                    console.log("Error reproduciendo:", error);
-                    resolve();
-                });
-            } else {
-                resolve();
-            }
-        } catch(e) {
-            console.log("Excepción:", e);
-            resolve();
-        }
-    });
-}
-    
-// ============================================
-// TEXTO DE LA CARTA
-// ============================================
-const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
-let wand = document.getElementById("wand");
-let wandHint = document.getElementById("wandHint");
-let lineElements = [];
-let cartaCerrada = false;
-let movimientosIniciados = false;
+            if (window.potterwAudioGlobal) window.potterwAudioGlobal.pause();
+            if (canciones.intro.elemento) { canciones.intro.elemento.pause(); canciones.intro.elemento.src = ""; }
+            const nuevo = new Audio();
+            nuevo.src = "Potterw.mp3?" + Date.now();
+            nuevo.loop = true; nuevo.volume = 0.45;
+            await nuevo.play();
+            window.potterwAudioGlobal = nuevo;
+            canciones.intro.elemento = nuevo;
+        } catch (e) { console.log(e); }
+    }
 
-const WAND_POSITION = { x: "50%", y: "30%" };
-
-function crearEstructuraTexto() {
-    const container = document.getElementById("texto");
-    if (!container) return;
-    container.innerHTML = "";
-    lineElements = [];
-    lineasCarta.forEach((linea) => {
-        const divLinea = document.createElement("div");
-        divLinea.className = "magic-line";
-        if (linea.trim() === "") {
-            divLinea.style.height = "25px";
-            divLinea.innerHTML = "&nbsp;";
-        } else {
-            [...linea].forEach(ch => {
-                const span = document.createElement('span');
-                span.className = 'magic-letter';
-                span.style.opacity = "0";
-                span.innerHTML = ch === ' ' ? '&nbsp;' : ch;
-                divLinea.appendChild(span);
-            });
-        }
-        container.appendChild(divLinea);
-        lineElements.push(divLinea);
-    });
-}
-
-function revealAllLines() {
-    return new Promise((resolve) => {
-        const allPromises = [];
-        lineElements.forEach((lineDiv, idx) => {
-            if (lineasCarta[idx].trim() === "") {
-                lineDiv.classList.add("revealed");
-                return;
-            }
-            const letterSpans = lineDiv.querySelectorAll('.magic-letter');
-            if (letterSpans.length === 0) {
-                lineDiv.classList.add("revealed");
-                return;
-            }
-            const promise = new Promise((res) => {
-                letterSpans.forEach((span, i) => {
-                    span.style.animation = 'none';
-                    span.offsetHeight;
-                    span.style.animation = `smokeMaterialize 0.5s forwards ease-out ${i * 0.025}s`;
-                });
-                setTimeout(() => { lineDiv.classList.add("revealed"); res(); }, 800);
-            });
-            allPromises.push(promise);
+    // Carta y varita
+    const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
+    let wand = document.getElementById("wand"), wandHint = document.getElementById("wandHint"), lineElements = [], cartaCerrada = false, movimientosIniciados = false;
+    const WAND_POSITION = { x: "50%", y: "30%" };
+    function crearEstructuraTexto() {
+        const container = document.getElementById("texto");
+        if (!container) return;
+        container.innerHTML = "";
+        lineElements = [];
+        lineasCarta.forEach(linea => {
+            const divLinea = document.createElement("div"); divLinea.className = "magic-line";
+            if (linea.trim() === "") divLinea.style.height = "25px", divLinea.innerHTML = "&nbsp;";
+            else [...linea].forEach(ch => { const span = document.createElement('span'); span.className = 'magic-letter'; span.style.opacity = "0"; span.innerHTML = ch === ' ' ? '&nbsp;' : ch; divLinea.appendChild(span); });
+            container.appendChild(divLinea); lineElements.push(divLinea);
         });
-        Promise.all(allPromises).then(resolve);
-    });
-}
-
-function createSparkle(x, y) {
-    const sparkle = document.createElement("div");
-    sparkle.className = "sparkle";
-    sparkle.style.left = x + "px";
-    sparkle.style.top = y + "px";
-    sparkle.style.position = "fixed";
-    sparkle.style.zIndex = "10005";
-    document.body.appendChild(sparkle);
-    let scale = 0, opacity = 1;
-    const startTime = performance.now();
-    function animateSparkle(currentTime) {
-        const t = Math.min(1, (currentTime - startTime) / 500);
-        scale = t * 1.5;
-        opacity = 1 - t;
-        sparkle.style.transform = `scale(${scale})`;
-        sparkle.style.opacity = opacity;
-        if (t < 1) requestAnimationFrame(animateSparkle);
-        else if (sparkle.remove) sparkle.remove();
     }
-    requestAnimationFrame(animateSparkle);
-}
-
-function createSparkleShower(x, y, count = 8) {
-    for (let i = 0; i < count; i++) {
-        setTimeout(() => createSparkle(x + (Math.random() - 0.5) * 80, y + (Math.random() - 0.5) * 80), i * 30);
+    function revealAllLines() {
+        return new Promise((resolve) => {
+            const allPromises = [];
+            lineElements.forEach((lineDiv, idx) => {
+                if (lineasCarta[idx].trim() === "") { lineDiv.classList.add("revealed"); return; }
+                const letterSpans = lineDiv.querySelectorAll('.magic-letter');
+                if (letterSpans.length === 0) { lineDiv.classList.add("revealed"); return; }
+                const promise = new Promise(res => {
+                    letterSpans.forEach((span, i) => { span.style.animation = `smokeMaterialize 0.5s forwards ease-out ${i * 0.025}s`; });
+                    setTimeout(() => { lineDiv.classList.add("revealed"); res(); }, 800);
+                });
+                allPromises.push(promise);
+            });
+            Promise.all(allPromises).then(resolve);
+        });
     }
-}
-
-function createDustParticles(x, y, count = 15) {
-    for (let i = 0; i < count; i++) {
-        const particle = document.createElement("div");
-        particle.className = "dust-particle";
-        particle.style.position = "fixed";
-        particle.style.left = x + "px";
-        particle.style.top = y + "px";
-        document.body.appendChild(particle);
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 30 + Math.random() * 60;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        let opacity = 0.9, scale = 1;
-        const startTime = performance.now();
-        function animateParticle(currentTime) {
-            const t = Math.min(1, (currentTime - startTime) / 600);
-            opacity = 0.9 * (1 - t);
-            scale = 1 - t;
-            particle.style.left = (x + tx * t) + "px";
-            particle.style.top = (y + ty * t) + "px";
-            particle.style.opacity = opacity;
-            particle.style.transform = `scale(${scale})`;
-            if (t < 1) requestAnimationFrame(animateParticle);
-            else if (particle.remove) particle.remove();
+    function createSparkleShower(x, y, count = 12) { for (let i = 0; i < count; i++) { const sp = document.createElement("div"); sp.className = "sparkle"; sp.style.left = x + (Math.random() - 0.5) * 80 + "px"; sp.style.top = y + (Math.random() - 0.5) * 80 + "px"; sp.style.position = "fixed"; sp.style.zIndex = "10005"; document.body.appendChild(sp); setTimeout(() => sp.remove(), 500); } }
+    function createDustParticles(x, y, count = 18) {
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement("div"); p.className = "dust-particle"; p.style.position = "fixed"; p.style.left = x + "px"; p.style.top = y + "px"; document.body.appendChild(p);
+            const angle = Math.random() * Math.PI * 2; const tx = Math.cos(angle) * (30 + Math.random() * 60); const ty = Math.sin(angle) * (30 + Math.random() * 60);
+            let start = performance.now(); function anim(t) { let prog = Math.min(1, (t - start) / 600); p.style.left = x + tx * prog + "px"; p.style.top = y + ty * prog + "px"; p.style.opacity = 0.9 * (1 - prog); p.style.transform = `scale(${1 - prog})`; if (prog < 1) requestAnimationFrame(anim); else p.remove(); } requestAnimationFrame(anim);
         }
-        requestAnimationFrame(animateParticle);
     }
-}
-
-function wiggleWand1() { return new Promise(r => { wand.classList.add("wand-wiggle-1"); setTimeout(() => { wand.classList.remove("wand-wiggle-1"); r(); }, 350); }); }
-function wiggleWand2() { return new Promise(r => { wand.classList.add("wand-wiggle-2"); setTimeout(() => { wand.classList.remove("wand-wiggle-2"); r(); }, 350); }); }
-function wiggleWand3WithCurve() { return new Promise(r => { wand.classList.add("wand-curve"); const rect = wand.getBoundingClientRect(); createSparkleShower(rect.left-50, rect.top-50, 12); setTimeout(() => { const r2 = wand.getBoundingClientRect(); createSparkleShower(r2.left, r2.top, 8); }, 300); setTimeout(() => { wand.classList.remove("wand-curve"); const r3 = wand.getBoundingClientRect(); createSparkleShower(r3.left, r3.top, 15); r(); }, 600); }); }
-function fadeWandToDust() { return new Promise(r => { const rect = wand.getBoundingClientRect(); createDustParticles(rect.left + rect.width/2, rect.top + rect.height/2, 20); wand.classList.add("wand-dust"); setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; wand.classList.remove("wand-dust"); r(); }, 800); }); }
-
-async function animateMagicWand() {
-    if (movimientosIniciados) return;
-    movimientosIniciados = true;
-    
-    if (window.potterwAudioGlobal) {
-        window.potterwAudioGlobal.pause();
-        window.potterwAudioGlobal.src = "";
-        window.potterwAudioGlobal = null;
+    async function animateMagicWand() {
+        if (movimientosIniciados) return;
+        movimientosIniciados = true;
+        if (window.potterwAudioGlobal) window.potterwAudioGlobal.pause();
+        if (canciones.intro.elemento) canciones.intro.elemento.pause();
+        reproducirCancion('magia', true, 200);
+        if (wandHint) wandHint.style.display = "none";
+        wand.classList.add("wand-wiggle-1"); await new Promise(r => setTimeout(r, 350)); wand.classList.remove("wand-wiggle-1");
+        wand.classList.add("wand-wiggle-2"); await new Promise(r => setTimeout(r, 350)); wand.classList.remove("wand-wiggle-2");
+        wand.classList.add("wand-curve"); const rect = wand.getBoundingClientRect(); createSparkleShower(rect.left - 50, rect.top - 50, 14); await new Promise(r => setTimeout(r, 600)); wand.classList.remove("wand-curve");
+        createDustParticles(rect.left + rect.width / 2, rect.top + rect.height / 2, 22);
+        wand.classList.add("wand-dust"); setTimeout(() => { wand.style.display = "none"; if (wandHint) wandHint.style.display = "none"; }, 800);
+        await revealAllLines();
+        reproducirCancion('boda', true, 300);
+        await new Promise(r => setTimeout(r, 7000));
+        setTimeout(() => { if (!cartaCerrada) cerrarCarta(); }, 500);
     }
-    
-    if (canciones.intro && canciones.intro.elemento) {
-        canciones.intro.elemento.pause();
-        canciones.intro.elemento.src = "";
-        canciones.intro.elemento = null;
+    function mostrarBaritaYEsperar() {
+        crearEstructuraTexto();
+        wand.style.display = "block"; wand.style.left = WAND_POSITION.x; wand.style.top = WAND_POSITION.y; wand.style.cursor = "pointer";
+        if (wandHint) { wandHint.style.display = "block"; setTimeout(() => { const cartaRect = document.querySelector('.letter-content').getBoundingClientRect(); wandHint.style.left = (cartaRect.left + cartaRect.width / 2 - wandHint.offsetWidth / 2) + "px"; wandHint.style.top = cartaRect.top + 20 + "px"; }, 100); }
+        const clickHandler = () => { wand.removeEventListener("click", clickHandler); wand.removeEventListener("touchstart", clickHandler); animateMagicWand(); };
+        wand.addEventListener("click", clickHandler); wand.addEventListener("touchstart", clickHandler);
     }
-    
-    reproducirCancion('magia', true, 200);
-    
-    if (wandHint) wandHint.style.display = "none";
-    
-    await wiggleWand1();
-    await new Promise(r => setTimeout(r, 150));
-    await wiggleWand2();
-    await new Promise(r => setTimeout(r, 150));
-    await wiggleWand3WithCurve();
-    await new Promise(r => setTimeout(r, 200));
-    
-    fadeWandToDust();
-    const textPromise = revealAllLines();
-    reproducirCancion('boda', true, 300);
-    await textPromise;
-    await new Promise(r => setTimeout(r, 7000));
-    
-    setTimeout(() => { if (!cartaCerrada) cerrarCarta(); }, 500);
-}
-
-function mostrarBaritaYEsperar() {
-    crearEstructuraTexto();
-    wand.style.display = "block";
-    wand.style.left = WAND_POSITION.x;
-    wand.style.top = WAND_POSITION.y;
-    wand.style.cursor = "pointer";
-    
-    if (wandHint) {
-        wandHint.style.display = "block";
-        
-        setTimeout(() => { 
-            const cartaContent = document.querySelector('.letter-content');
-            const cartaRect = cartaContent.getBoundingClientRect();
-            const textoAncho = wandHint.offsetWidth;
-            const centroCartaX = cartaRect.left + (cartaRect.width / 2);
-            const posX = centroCartaX - (textoAncho / 2);
-            const posY = cartaRect.top + 20;
-            wandHint.style.left = posX + "px";
-            wandHint.style.top = posY + "px";
-        }, 100);
-    }
-    
-    const clickHandler = () => { 
-        wand.removeEventListener("click", clickHandler); 
-        wand.removeEventListener("touchstart", clickHandler); 
-        animateMagicWand(); 
-    };
-    wand.addEventListener("click", clickHandler);
-    wand.addEventListener("touchstart", clickHandler);
-}
-
-function cerrarCarta() {
-    if (cartaCerrada) return;
-    cartaCerrada = true;
-    document.getElementById("cartaOverlay").classList.remove("show");
-    setTimeout(() => {
-        document.getElementById("sobreBackExpandido").classList.remove("show");
-        document.getElementById("intro").style.opacity = "0";
+    function cerrarCarta() {
+        if (cartaCerrada) return;
+        cartaCerrada = true;
+        document.getElementById("cartaOverlay").classList.remove("show");
         setTimeout(() => {
-            document.getElementById("intro").style.display = "none";
-            document.getElementById("main").classList.add("show");
-            document.body.style.overflow = "auto";
-            iniciarFondoRotativo();
-            agregarFloresASecciones();
-            iniciarCountdown();
-            iniciarAlbumObserver();
-        }, 500);
-    }, 300);
-}
-
-function iniciarAnimacionMagica() { mostrarBaritaYEsperar(); }
-
-// ============================================
-// APERTURA DEL SOBRE
-// ============================================
-let yaAbierto = false;
-
-function abrirSobre() {
-    if (yaAbierto) return;
-    yaAbierto = true;
-    
-    if (window.potterwAudioGlobal) {
-        window.potterwAudioGlobal.pause();
-        window.potterwAudioGlobal.src = "";
-        window.potterwAudioGlobal = null;
+            document.getElementById("sobreBackExpandido").classList.remove("show");
+            document.getElementById("intro").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("intro").style.display = "none";
+                document.getElementById("main").classList.add("show");
+                document.body.style.overflow = "auto";
+                agregarFloresASecciones();
+                iniciarCountdown();
+                iniciarAlbumObserver();
+            }, 500);
+        }, 300);
     }
-    
-    if (canciones.intro && canciones.intro.elemento) {
-        canciones.intro.elemento.pause();
-        canciones.intro.elemento.src = "";
-        canciones.intro.elemento = null;
+    function abrirSobre() {
+        if (window.yaAbierto) return; window.yaAbierto = true;
+        if (window.potterwAudioGlobal) window.potterwAudioGlobal.pause();
+        if (canciones.intro.elemento) canciones.intro.elemento.pause();
+        setTimeout(() => reproducirIntro().catch(e => console.log), 50);
+        const sello = document.getElementById("sello"), sobre = document.getElementById("sobre"), sobreBackExpandido = document.getElementById("sobreBackExpandido");
+        if (sello) sello.classList.add("fade-dust"); document.getElementById("hint")?.classList.add("fade-dust");
+        setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 400);
+        setTimeout(() => { if (sobreBackExpandido) sobreBackExpandido.classList.add("show"); if (sobre) sobre.style.opacity = "0"; setTimeout(() => { if (sobre) sobre.style.display = "none"; }, 500); }, 1800);
+        setTimeout(() => { document.getElementById("cartaOverlay").classList.add("show"); mostrarBaritaYEsperar(); }, 5000);
     }
-    
-    setTimeout(() => {
-        reproducirIntro().catch(() => console.log("Error en intro"));
-    }, 50);
-    
-    const sello = document.getElementById("sello");
-    const sobre = document.getElementById("sobre");
-    const sobreBackExpandido = document.getElementById("sobreBackExpandido");
-    const cartaOverlay = document.getElementById("cartaOverlay");
-    const hint = document.getElementById("hint");
-    
-    if (sello) sello.classList.add("fade-dust");
-    if (hint) hint.classList.add("fade-dust");
-    
-    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 400);
-    
-    setTimeout(() => {
-        if (sobreBackExpandido) sobreBackExpandido.classList.add("show");
-        if (sobre) sobre.style.opacity = "0";
-        setTimeout(() => { if (sobre) sobre.style.display = "none"; }, 500);
-    }, 1800);
-    
-    setTimeout(() => {
-        if (cartaOverlay) cartaOverlay.classList.add("show");
-        iniciarAnimacionMagica();
-    }, 5000);
-}
+    document.getElementById("sello")?.addEventListener("click", (e) => abrirSobre());
+    document.getElementById("sello")?.addEventListener("touchstart", (e) => { e.preventDefault(); abrirSobre(); });
 
-// EVENTOS DEL SELLO
-const selloElement = document.getElementById("sello");
-if (selloElement) {
-    selloElement.addEventListener("click", function(e) {
-        e.stopPropagation();
-        abrirSobre();
-    });
-    selloElement.addEventListener("touchstart", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        abrirSobre();
-    });
-}
-
-// ============================================
-// FUNCIONES ADICIONALES
-// ============================================
-let intervaloFondo;
-function iniciarFondoRotativo() {
-    const bg1 = document.getElementById("bg1"), bg2 = document.getElementById("bg2");
-    if(bg1 && bg2) { if(intervaloFondo) clearInterval(intervaloFondo); intervaloFondo = setInterval(() => { bg1.classList.toggle("active"); bg2.classList.toggle("active"); }, 4000); }
-}
-
-function iniciarCountdown() {
-    const bodaFecha = new Date('August 14, 2026 19:00:00').getTime();
-    const countdownEl = document.getElementById('countdownBoda');
-    if(!countdownEl) return;
-    setInterval(() => {
-        const d = bodaFecha - new Date().getTime();
-        if(d < 0) { countdownEl.innerHTML = '🎉 ¡Es hoy! 🎉'; return; }
-        countdownEl.innerHTML = `${Math.floor(d/(1000*60*60*24))}d ${Math.floor((d%(1000*60*60*24))/(1000*60*60))}h ${Math.floor((d%(1000*60*60))/(1000*60))}m ${Math.floor((d%1000*60))/1000}s`;
-    }, 1000);
-}
-
-function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); }
-function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
-function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); }
-function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
-
-function enviarMensaje() {
-    enviarMensajeWhatsApp();
-}
-
-// ============================================
-// INICIALIZACIÓN
-// ============================================
-document.body.style.overflow = "hidden";
-window.musicaMuted = false;
-inicializarSistemaMusica();
-
-if (wand) {
-    wand.onerror = function() {
-        this.style.background = "linear-gradient(135deg, #FFD700, #FFA500)";
-        this.style.borderRadius = "20% 20% 35% 35%";
+    // Flores en secciones
+    const floresPorSeccion = {
+        'seccion-titulo': [{ src: 'flores_derechaC.png', position: { bottom: '5px', right: '-20px' }, size: 'clamp(70px,12vw,130px)' }, { src: 'flores_izquierdaD.png', position: { bottom: '-30px', left: '-30px' }, size: 'clamp(90px,15vw,170px)' }],
+        'seccion-boda': [{ src: 'flor_rosa_1.png', position: { top: '-25px', right: '-20px' }, size: 'clamp(80px,13vw,150px)', rotation: -135, flipX: true }, { src: 'flor_rosa_1.png', position: { top: '-25px', left: '-20px' }, size: 'clamp(80px,13vw,150px)', rotation: 135, flipX: true }, { src: 'flores_izquierdaD.png', position: { bottom: '-35px', left: '-15px' }, size: 'clamp(90px,16vw,180px)' }, { src: 'flores_izquierdaD.png', position: { bottom: '-35px', right: '-15px' }, size: 'clamp(90px,16vw,180px)', flipX: true }],
+        'seccion-info': [{ src: 'flor_verde_2.png', position: { top: '40%', left: '-30px' }, size: 'clamp(80px,13vw,150px)' }, { src: 'flor_verde_2.png', position: { top: '40%', right: '-30px' }, size: 'clamp(80px,13vw,150px)', flipX: true }],
+        'seccion-regalos': [{ src: 'flor_verde_1.png', position: { top: '-25px', left: '-20px' }, size: 'clamp(65px,11vw,120px)', rotation: 45 }, { src: 'flor_verde_1.png', position: { top: '-25px', right: '-20px' }, size: 'clamp(65px,11vw,120px)', rotation: -45, flipX: true }],
+        'seccion-album': [{ src: 'flor_rosa_3.png', position: { top: '-30px', right: '-30px' }, size: 'clamp(60px,10vw,110px)', rotation: -30 }, { src: 'flor_rosa_3.png', position: { top: '-30px', left: '-30px' }, size: 'clamp(60px,10vw,110px)', rotation: 30, flipX: true }],
+        'seccion-mensajes': [{ src: 'flor_rosa_1.png', position: { top: '-18px', left: '-18px' }, size: 'clamp(60px,10vw,110px)', rotation: -45 }, { src: 'flores_derechaC.png', position: { bottom: '-8px', right: '-28px' }, size: 'clamp(50px,8vw,90px)', flipY: true }],
+        'seccion-audio': [{ src: 'flores_izquierdaU.png', position: { top: '8px', right: '-15px' }, size: 'clamp(85px,14vw,160px)', flipX: true }, { src: 'flores_izquierdaU.png', position: { top: '8px', left: '-15px' }, size: 'clamp(85px,14vw,160px)' }]
     };
-}
-
-// Función para generar el QR (coloca esto en tu <script>)
-// ============================================
-// ÁLBUM DE FOTOS - GOOGLE FORMS
-// ============================================
-
-const URL_FORMULARIO_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8";
-
-// Función para abrir el formulario
-function abrirFormularioFotos() {
-    window.open(URL_FORMULARIO_FOTOS, '_blank');
-}
-
-// Función para generar el QR (CORREGIDA - nombre correcto)
-function generarQRAlbum() {
-    const qrDiv = document.getElementById("qrCode");
-    if (!qrDiv) {
-        console.log("No se encontró el elemento qrCode");
-        return;
-    }
-    
-    qrDiv.innerHTML = "";
-    const qrImg = document.createElement("img");
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(URL_FORMULARIO_FOTOS)}`;
-    qrImg.style.width = "150px";
-    qrImg.style.height = "150px";
-    qrImg.style.borderRadius = "15px";
-    qrImg.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
-    qrImg.alt = "QR para subir fotos";
-    qrDiv.appendChild(qrImg);
-}
-
-// Observar cuándo la sección del álbum es visible
-function iniciarAlbumObserver() {
-    const seccionAlbum = document.getElementById("seccion-album");
-    if (!seccionAlbum) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            generarQRAlbum();  // ← AHORA LLAMA AL NOMBRE CORRECTO
-            observer.disconnect();
+    function agregarFloresASecciones() {
+        for (const [secId, flores] of Object.entries(floresPorSeccion)) {
+            const sec = document.getElementById(secId); if (!sec) continue;
+            const cont = sec.querySelector('.contenido-seccion'); if (!cont) continue;
+            flores.forEach(f => {
+                const div = document.createElement('div'); div.className = 'flor-seccion';
+                if (f.position.top) div.style.top = f.position.top; if (f.position.bottom) div.style.bottom = f.position.bottom;
+                if (f.position.left) div.style.left = f.position.left; if (f.position.right) div.style.right = f.position.right;
+                if (f.size) { div.style.width = f.size; div.style.height = 'auto'; }
+                const img = document.createElement('img'); img.src = f.src; img.style.width = '100%'; img.style.animation = 'flotarFlor 5s infinite alternate'; div.appendChild(img); cont.appendChild(div);
+                let transform = ''; if (f.rotation) transform += `rotate(${f.rotation}deg) `;
+                let sx = 1, sy = 1; if (f.flipX) sx *= -1; if (f.flipY) sy *= -1; if (sx !== 1 || sy !== 1) transform += `scale(${sx},${sy})`;
+                if (transform) div.style.transform = transform;
+            });
         }
-    }, { threshold: 0.3 });
-    
-    observer.observe(seccionAlbum);
-}
-
-
+    }
+    function iniciarCountdown() { const bodaFecha = new Date('August 14, 2026 19:00:00').getTime(); const el = document.getElementById('countdownBoda'); if (!el) return; setInterval(() => { const d = bodaFecha - new Date().getTime(); if (d < 0) { el.innerHTML = '🎉 ¡Es hoy! 🎉'; return; } el.innerHTML = `${Math.floor(d / (1000 * 3600 * 24))}d ${Math.floor((d % (1000 * 3600 * 24)) / (1000 * 3600))}h ${Math.floor((d % (1000 * 3600)) / (1000 * 60))}m`; }, 1000); }
+    function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); }
+    function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
+    function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); }
+    function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
+    const NUMERO_NOVIA = "51987654321", NUMERO_NOVIO = "51912345678";
+    function enviarMensajeWhatsApp() {
+        const nombre = document.getElementById("nombre")?.value.trim(), telefono = document.getElementById("telefono")?.value.trim(), mensaje = document.getElementById("mensajeInput")?.value.trim();
+        if (!nombre || !telefono || !mensaje) return alert("💕 Completa todos los campos");
+        const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤 Invitado:* ${nombre}\n*📱 Teléfono:* ${telefono}\n\n*💝 Mensaje:*\n"${mensaje}"\n✨¡Gracias por tus palabras mágicas!`;
+        const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? NUMERO_NOVIA : NUMERO_NOVIO;
+        window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank');
+        document.getElementById("nombre").value = ""; document.getElementById("telefono").value = ""; document.getElementById("mensajeInput").value = "";
+    }
+    const URL_FORMULARIO_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8";
+    function abrirFormularioFotos() { window.open(URL_FORMULARIO_FOTOS, '_blank'); }
+    function generarQRAlbum() { const qrDiv = document.getElementById("qrCode"); if (!qrDiv) return; qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(URL_FORMULARIO_FOTOS)}" style="width:150px;height:150px;border-radius:25px;box-shadow:0 4px 12px rgba(0,0,0,0.4);" alt="QR">`; }
+    function iniciarAlbumObserver() { const sec = document.getElementById("seccion-album"); if (!sec) return; new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { generarQRAlbum(); this.disconnect(); } }, { threshold: 0.3 }).observe(sec); }
+    document.body.style.overflow = "hidden";
+    inicializarSistemaMusica();
 </script>
-</body>                                                                                                                                                                                                                                                                                                                        
-</html>
+</body>
+    </html>

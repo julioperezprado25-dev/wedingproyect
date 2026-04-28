@@ -335,7 +335,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(218, 196, 155, 0.3);
+    background: transparent;
     border-radius: 20px;
     padding: 10px;
     overflow: hidden;
@@ -504,7 +504,7 @@ textarea { border-radius: 28px; min-height: 100px; }
     body { padding: 0 12px; }
     .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
     .envelope.zoom-in { transform: scale(1.6); }
-    .seal { width: min(100px, 22vw); height: min(100px, 22vw); }
+    .seal { width: min(120px, 22vw); height: min(120px, 22vw); }
     .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
     .carta-interior { width: 85%; max-width: 400px; }
     #texto-carta { font-size: 22px; }
@@ -746,31 +746,51 @@ class HuellaAnimator {
     calcularCantidad() {
         if (!this.canvas) return 12;
         const ancho = this.canvas.clientWidth;
-        const espaciado = 55; // px entre huellas
+        const espaciado = 80; // px entre huellas
         let cantidad = Math.floor(ancho / espaciado);
         cantidad = Math.max(8, Math.min(22, cantidad));
         return cantidad;
     }
     
     // Generar posiciones X,Y para cada huella
-    generarPosiciones(cantidad) {
-        if (!this.canvas) return [];
-        const ancho = this.canvas.clientWidth;
-        const alto = this.canvas.clientHeight;
-        const startX = ancho * 0.08;
-        const endX = ancho * 0.92;
-        const stepX = (endX - startX) / (cantidad - 1);
-        const baseY = alto / 2;
-        const posiciones = [];
-        
-        for (let i = 0; i < cantidad; i++) {
-            const x = startX + (i * stepX);
-            const y = baseY + Math.sin(i * 0.7) * 6;
-            posiciones.push({ x, y, idx: i });
-        }
-        return posiciones;
-    }
+    // Generar posiciones X,Y para cada huella
+generarPosiciones(cantidad, tipo) {
+    if (!this.canvas) return [];
+    const ancho = this.canvas.clientWidth;
+    const alto = this.canvas.clientHeight;
+    const startX = ancho * 0.08;
+    const endX = ancho * 0.92;
+    const stepX = (endX - startX) / (cantidad - 1);
     
+    // ============================================
+    // 🔧 AQUÍ MODIFICAS LA SEPARACIÓN VERTICAL
+    // ============================================
+    let posiciones = [];
+    
+    for (let i = 0; i < cantidad; i++) {
+        const x = startX + (i * stepX);
+        
+        let y;
+        if (tipo === 'human') {
+            if (i % 2 === 0) {  // Huella izquierda (pares)
+                y = alto * 0.2;   // ← Más arriba (38% del alto)
+            } else {              // Huella derecha (impares)
+                y = alto * 0.9;   // ← Más abajo (58% del alto)
+            }
+            // SEPARACIÓN VERTICAL = 0.58 - 0.38 = 0.20 → 20% del alto
+        } else {
+            if (i % 2 === 0) {  // Huella izquierda (pares)
+                y = alto * 0.3;   // ← Perritos más centrados
+            } else {              // Huella derecha (impares)
+                y = alto * 0.8;   // ← Perritos más centrados
+            }
+            // SEPARACIÓN VERTICAL = 0.56 - 0.44 = 0.12 → 12% del alto
+        }
+        
+        posiciones.push({ x, y, idx: i });
+    }
+    return posiciones;
+}
     // Inicializar el animador
     init() {
         if (!this.canvas || !this.ctx) return;
@@ -820,7 +840,14 @@ class HuellaAnimator {
         this.ctx.globalAlpha = opacidad;
         this.ctx.translate(x, y);
         this.ctx.rotate(90 * Math.PI / 180);
-        const size = 32;
+        let size = 32;  // Tamaño por defecto (en píxeles)
+    
+   	 // Si quieres tamaños diferentes para humanos y perritos:
+   	 if (tipo === 'human') {
+    	    size = 38;   // Huella humana MÁS GRANDE
+   	 } else {
+    	    size = 28;   // Huella de perrito más pequeña
+   	 }
         const scale = size / img.naturalWidth;
         const drawW = img.naturalWidth * scale;
         const drawH = img.naturalHeight * scale;
@@ -872,13 +899,13 @@ class HuellaAnimator {
         for (let i = 0; i < this.huellas.length; i++) {
             const antiguedad = this.huellas.length - 1 - i;
             // Las más viejas se desvanecen
-            let nuevaOpacidad = 0.95 - (antiguedad * 0.12);
+            let nuevaOpacidad = 0.95 - (antiguedad * 0.6);
             nuevaOpacidad = Math.max(0.2, Math.min(0.95, nuevaOpacidad));
             this.huellas[i].opacidad = nuevaOpacidad;
         }
         
         // Limitar cantidad de huellas visibles (las más viejas desaparecen)
-        const maxHuellasVisible = 12;
+        const maxHuellasVisible = 3;
         while (this.huellas.length > maxHuellasVisible) {
             this.huellas.shift();
         }

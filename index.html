@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio · Boda Mágica · Mapa del Merodeador</title>
+<title>Ivon & Julio · Boda Mágica · Huellas Mágicas</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Great+Vibes&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 * {
@@ -30,7 +30,7 @@ body {
     background-color: #dac49b;
 }
 
-/* ===== INTRO DEL SOBRE (MANTENIDO) ===== */
+/* ===== INTRO DEL SOBRE ===== */
 .intro {
     position: fixed;
     top: 0;
@@ -55,7 +55,9 @@ body {
     transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
 }
 
-.envelope.zoom-in { transform: scale(2.4); }
+.envelope.zoom-in {
+    transform: scale(2.4);
+}
 
 .envelope-back {
     position: absolute;
@@ -326,27 +328,15 @@ body {
     margin: 12px 0;
 }
 
-/* ===== CONTENEDOR DE HUELLAS ===== */
-.huellas-container {
+/* ===== CONTENEDOR DE HUELLAS MÁGICAS ===== */
+.huellas-magicas-container {
     width: 100%;
     margin: 15px 0;
-    min-height: 90px;
+    min-height: 100px;
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border-radius: 20px;
-    padding: 10px;
     overflow: hidden;
-}
-
-.huellas-canvas {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 80px;
-    background: transparent;
+    background: rgba(218, 196, 155, 0.3);
+    border-radius: 20px;
 }
 
 /* ===== SEPARADORES ===== */
@@ -499,12 +489,11 @@ textarea { border-radius: 28px; min-height: 100px; }
 
 @keyframes flotarFlor { 100% { transform: translateY(8px); } }
 
-/* Media queries */
 @media (max-width: 768px) {
     body { padding: 0 12px; }
     .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
     .envelope.zoom-in { transform: scale(1.6); }
-    .seal { width: min(120px, 22vw); height: min(120px, 22vw); }
+    .seal { width: min(100px, 22vw); height: min(100px, 22vw); }
     .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
     .carta-interior { width: 85%; max-width: 400px; }
     #texto-carta { font-size: 22px; }
@@ -546,14 +535,14 @@ textarea { border-radius: 28px; min-height: 100px; }
     <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
 </div>
 
-<!-- WEB PRINCIPAL CON HUELLAS -->
+<!-- WEB PRINCIPAL -->
 <div class="main" id="main">
     
     <div class="separador-pluma">
         <div class="linea-onda"></div>
         <div class="simbolo-tinta">✧ ⚡ ✧</div>
     </div>
-    <div class="huellas-container" id="huellas-sep1"><canvas class="huellas-canvas" id="canvas-sep1" width="900" height="80"></canvas></div>
+    <div id="huellas-sep1" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-perritos">
         <img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'">
@@ -564,7 +553,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="ramita"></div>
         <div class="simbolo-tinta">🐾</div>
     </div>
-    <div class="huellas-container" id="huellas-sep2"><canvas class="huellas-canvas" id="canvas-sep2" width="900" height="80"></canvas></div>
+    <div id="huellas-sep2" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-titulo">
         <div class="contenido-seccion">
@@ -579,7 +568,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="simbolo-tinta">✿ ❀ ✿</div>
     </div>
-    <div class="huellas-container" id="huellas-sep3"><canvas class="huellas-canvas" id="canvas-sep3" width="900" height="80"></canvas></div>
+    <div id="huellas-sep3" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-boda">
         <div class="contenido-seccion">
@@ -604,7 +593,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="simbolo-tinta">⚜️ ✧ ⚜️</div>
         <div class="linea-punteada"></div>
     </div>
-    <div class="huellas-container" id="huellas-sep4"><canvas class="huellas-canvas" id="canvas-sep4" width="900" height="80"></canvas></div>
+    <div id="huellas-sep4" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-info">
         <div class="contenido-seccion">
@@ -621,7 +610,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="ramita"></div>
     </div>
-    <div class="huellas-container" id="huellas-sep5"><canvas class="huellas-canvas" id="canvas-sep5" width="900" height="80"></canvas></div>
+    <div id="huellas-sep5" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-regalos">
         <div class="contenido-seccion">
@@ -639,7 +628,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-punteada"></div>
         <div class="simbolo-tinta">✧ ⚡ ✧</div>
     </div>
-    <div class="huellas-container" id="huellas-sep6"><canvas class="huellas-canvas" id="canvas-sep6" width="900" height="80"></canvas></div>
+    <div id="huellas-sep6" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-album">
         <div class="contenido-seccion">
@@ -657,7 +646,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-onda"></div>
         <div class="simbolo-tinta">✿ ✦ ✿</div>
     </div>
-    <div class="huellas-container" id="huellas-sep7"><canvas class="huellas-canvas" id="canvas-sep7" width="900" height="80"></canvas></div>
+    <div id="huellas-sep7" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-mensajes">
         <div class="contenido-seccion">
@@ -674,7 +663,7 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="linea-doble-onda"></div>
         <div class="ramita"></div>
     </div>
-    <div class="huellas-container" id="huellas-sep8"><canvas class="huellas-canvas" id="canvas-sep8" width="900" height="80"></canvas></div>
+    <div id="huellas-sep8" class="huellas-magicas-container"></div>
     
     <div class="seccion" id="seccion-audio">
         <div class="contenido-seccion">
@@ -688,360 +677,217 @@ textarea { border-radius: 28px; min-height: 100px; }
         <div class="simbolo-tinta">✧ ✦ ✧</div>
         <div class="linea-onda"></div>
     </div>
-    <div class="huellas-container" id="huellas-sep9"><canvas class="huellas-canvas" id="canvas-sep9" width="900" height="80"></canvas></div>
+    <div id="huellas-sep9" class="huellas-magicas-container"></div>
 </div>
 
 <script>
 // ============================================
-// SISTEMA DE HUELLAS - ANIMACIÓN PROGRESIVA
-// Como el Mapa del Merodeador: aparece una por una, izquierda-derecha-izquierda-derecha
-// Las huellas más antiguas se desvanecen gradualmente
+// SISTEMA DE HUELLAS MÁGICAS (PISADAS CON HUMO)
+// Basado en el código proporcionado
 // ============================================
 
-const IMAGES = {
-    human_left: null,
-    human_right: null,
-    dog_left: null,
-    dog_right: null
-};
-
-let imagesLoaded = 0;
-let allImagesReady = false;
-
-function loadImage(src, key) {
-    if (!src) return;
-    const img = new Image();
-    img.onload = () => {
-        IMAGES[key] = img;
-        imagesLoaded++;
-        console.log(`✅ ${key} cargada`);
-        if (imagesLoaded === 4) allImagesReady = true;
-    };
-    img.onerror = () => console.warn(`⚠️ No se pudo cargar ${key}`);
-    img.src = src;
-}
-
-loadImage('huellaI.png', 'human_left');
-loadImage('huellaD.png', 'human_right');
-loadImage('huella_canI.png', 'dog_left');
-loadImage('huella_canD.png', 'dog_right');
-
-// Estado global de cada canvas
-class HuellaAnimator {
-    constructor(canvasId, containerId) {
-        this.canvas = document.getElementById(canvasId);
+class PisadasMagicas {
+    constructor(containerId, tipo = 'human') {
         this.container = document.getElementById(containerId);
-        this.ctx = this.canvas?.getContext('2d');
-        this.huellas = [];        // Array de huellas activas {x, y, lado, tipo, opacidad, edad}
-        this.indicePaso = 0;      // Índice de la siguiente huella a mostrar
-        this.fase = 'human';      // 'human' o 'dog'
+        this.tipo = tipo; // 'human' o 'dog'
+        this.x = 50;
+        this.y = 70;
+        this.stepCount = 0;
+        this.intervalId = null;
         this.activo = false;
-        this.intervalo = null;
-        this.totalHuellas = 0;     // Cantidad total a mostrar (calculada por ancho)
-        this.posiciones = [];      // Posiciones pre-calculadas X,Y
-        this.ultimoLado = 'right'; // Para alternar
-    }
-    
-    // Calcular cuántas huellas caben según el ancho del canvas
-    calcularCantidad() {
-        if (!this.canvas) return 12;
-        const ancho = this.canvas.clientWidth;
-        const espaciado = 80; // px entre huellas
-        let cantidad = Math.floor(ancho / espaciado);
-        cantidad = Math.max(8, Math.min(22, cantidad));
-        return cantidad;
-    }
-    
-    // Generar posiciones X,Y para cada huella
-    // Generar posiciones X,Y para cada huella
-generarPosiciones(cantidad, tipo) {
-    if (!this.canvas) return [];
-    const ancho = this.canvas.clientWidth;
-    const alto = this.canvas.clientHeight;
-    const startX = ancho * 0.08;
-    const endX = ancho * 0.92;
-    const stepX = (endX - startX) / (cantidad - 1);
-    
-    // ============================================
-    // 🔧 AQUÍ MODIFICAS LA SEPARACIÓN VERTICAL
-    // ============================================
-    let posiciones = [];
-    
-    for (let i = 0; i < cantidad; i++) {
-        const x = startX + (i * stepX);
         
-        let y;
-        if (tipo === 'human') {
-            if (i % 2 === 0) {  // Huella izquierda (pares)
-                y = alto * 0.2;   // ← Más arriba (38% del alto)
-            } else {              // Huella derecha (impares)
-                y = alto * 0.9;   // ← Más abajo (58% del alto)
-            }
-            // SEPARACIÓN VERTICAL = 0.58 - 0.38 = 0.20 → 20% del alto
-        } else {
-            if (i % 2 === 0) {  // Huella izquierda (pares)
-                y = alto * 0.3;   // ← Perritos más centrados
-            } else {              // Huella derecha (impares)
-                y = alto * 0.8;   // ← Perritos más centrados
-            }
-            // SEPARACIÓN VERTICAL = 0.56 - 0.44 = 0.12 → 12% del alto
-        }
-        
-        posiciones.push({ x, y, idx: i });
-    }
-    return posiciones;
-}
-    // Inicializar el animador
-    init() {
-        if (!this.canvas || !this.ctx) return;
-        this.redimensionarCanvas();
-        this.totalHuellas = this.calcularCantidad();
-        this.posiciones = this.generarPosiciones(this.totalHuellas);
-        this.huellas = [];
-        this.indicePaso = 0;
-        this.activo = true;
-        this.dibujarFondo();
-        this.iniciarAnimacion();
-    }
-    
-    redimensionarCanvas() {
-        if (!this.canvas || !this.container) return;
-        const rect = this.container.getBoundingClientRect();
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
-    }
-    
-    dibujarFondo() {
-        if (!this.ctx || !this.canvas) return;
-        // Fondo transparente (solo línea de guía)
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = '#c4a77d';
-        this.ctx.lineWidth = 1;
-        this.ctx.setLineDash([6, 10]);
-        this.ctx.moveTo(20, this.canvas.height/2);
-        this.ctx.lineTo(this.canvas.width - 20, this.canvas.height/2);
-        this.ctx.stroke();
-        this.ctx.setLineDash([]);
-    }
-    
-    // Dibujar una huella individual
-    dibujarHuella(x, y, lado, tipo, opacidad) {
-        if (!this.ctx) return;
-        let img = null;
-        if (tipo === 'human') {
-            img = lado === 'left' ? IMAGES.human_left : IMAGES.human_right;
-        } else {
-            img = lado === 'left' ? IMAGES.dog_left : IMAGES.dog_right;
-        }
-        if (!img || !img.complete) return;
-        
-        this.ctx.save();
-        this.ctx.globalAlpha = opacidad;
-        this.ctx.translate(x, y);
-        this.ctx.rotate(90 * Math.PI / 180);
-        let size = 32;  // Tamaño por defecto (en píxeles)
-    
-   	 // Si quieres tamaños diferentes para humanos y perritos:
-   	 if (tipo === 'human') {
-    	    size = 38;   // Huella humana MÁS GRANDE
-   	 } else {
-    	    size = 28;   // Huella de perrito más pequeña
-   	 }
-        const scale = size / img.naturalWidth;
-        const drawW = img.naturalWidth * scale;
-        const drawH = img.naturalHeight * scale;
-        this.ctx.drawImage(img, -drawW/2, -drawH/2, drawW, drawH);
-        this.ctx.restore();
-    }
-    
-    // Redibujar todas las huellas activas
-    redibujar() {
-        if (!this.ctx || !this.canvas) return;
-        this.dibujarFondo();
-        for (let i = 0; i < this.huellas.length; i++) {
-            const h = this.huellas[i];
-            this.dibujarHuella(h.x, h.y, h.lado, h.tipo, h.opacidad);
-        }
-    }
-    
-    // Agregar una nueva huella (izquierda o derecha alternada)
-    agregarHuella() {
-        if (!this.activo) return;
-        if (this.indicePaso >= this.totalHuellas) {
-            // Terminó la secuencia, esperar un momento y reiniciar o cambiar fase
-            if (this.intervalo) {
-                clearInterval(this.intervalo);
-                this.intervalo = null;
-            }
-            return;
-        }
-        
-        const pos = this.posiciones[this.indicePaso];
-        if (!pos) return;
-        
-        // Alternar lado: izquierda, derecha, izquierda, derecha...
-        const lado = this.indicePaso % 2 === 0 ? 'left' : 'right';
-        
-        // Nueva huella con opacidad máxima
-        const nuevaHuella = {
-            x: pos.x,
-            y: pos.y,
-            lado: lado,
-            tipo: this.fase,
-            opacidad: 0.95,
-            edad: 0
+        // Configuración de imágenes según tipo
+        this.imagenes = {
+            human: { left: 'huellaI.png', right: 'HuellaD.png' },
+            dog: { left: 'huella_canI.png', right: 'huella_canD.png' }
         };
-        
-        this.huellas.push(nuevaHuella);
-        
-        // Reducir opacidad de las huellas más antiguas
-        for (let i = 0; i < this.huellas.length; i++) {
-            const antiguedad = this.huellas.length - 1 - i;
-            // Las más viejas se desvanecen
-            let nuevaOpacidad = 0.95 - (antiguedad * 0.6);
-            nuevaOpacidad = Math.max(0.2, Math.min(0.95, nuevaOpacidad));
-            this.huellas[i].opacidad = nuevaOpacidad;
-        }
-        
-        // Limitar cantidad de huellas visibles (las más viejas desaparecen)
-        const maxHuellasVisible = 3;
-        while (this.huellas.length > maxHuellasVisible) {
-            this.huellas.shift();
-        }
-        
-        this.redibujar();
-        this.indicePaso++;
     }
     
-    // Iniciar la animación (paso cada 400ms)
-    iniciarAnimacion() {
-        if (this.intervalo) clearInterval(this.intervalo);
-        this.indicePaso = 0;
-        this.huellas = [];
-        this.redibujar();
+    iniciar() {
+        if (this.intervalId) return;
+        this.x = 50;
+        this.stepCount = 0;
+        this.activo = true;
         
-        this.intervalo = setInterval(() => {
-            this.agregarHuella();
-            // Cuando termina la secuencia
-            if (this.indicePaso >= this.totalHuellas) {
-                clearInterval(this.intervalo);
-                this.intervalo = null;
-                // Notificar que este canvas terminó su secuencia
-                if (window.onHuellaSecuenciaCompleta) {
-                    window.onHuellaSecuenciaCompleta();
-                }
-            }
-        }, 420);
-    }
-    
-    // Cambiar de fase (human ↔ dog) y reiniciar animación
-    cambiarFase(nuevaFase) {
-        this.fase = nuevaFase;
-        this.indicePaso = 0;
-        this.huellas = [];
-        this.redibujar();
-        if (this.intervalo) clearInterval(this.intervalo);
-        this.intervalo = setInterval(() => {
-            this.agregarHuella();
-            if (this.indicePaso >= this.totalHuellas) {
-                clearInterval(this.intervalo);
-                this.intervalo = null;
-                if (window.onHuellaSecuenciaCompleta) {
-                    window.onHuellaSecuenciaCompleta();
-                }
-            }
-        }, 420);
+        // Limpiar contenedor
+        this.container.innerHTML = '';
+        
+        this.intervalId = setInterval(() => {
+            this.crearPisada();
+        }, 500);
     }
     
     detener() {
-        if (this.intervalo) {
-            clearInterval(this.intervalo);
-            this.intervalo = null;
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+            this.intervalId = null;
         }
         this.activo = false;
     }
+    
+    limpiar() {
+        this.detener();
+        this.container.innerHTML = '';
+    }
+    
+    crearPisada() {
+        if (!this.activo) return;
+        
+        const img = document.createElement('img');
+        img.classList.add('step');
+        
+        // Obtener la imagen según el tipo y lado
+        const imagenesTipo = this.imagenes[this.tipo];
+        const esIzquierda = this.stepCount % 2 === 0;
+        
+        if (esIzquierda) {
+            img.src = imagenesTipo.left;
+            img.classList.add('left');
+            img.style.top = this.y + "px";
+        } else {
+            img.src = imagenesTipo.right;
+            img.classList.add('right');
+            img.style.top = (this.y - 15) + "px";
+        }
+        
+        img.style.left = this.x + "px";
+        
+        // Estilos adicionales
+        img.style.position = 'absolute';
+        img.style.width = '38px';
+        img.style.height = 'auto';
+        img.style.transformOrigin = 'center';
+        img.style.pointerEvents = 'none';
+        img.style.animation = 'fadeSmoke 2.5s ease-out forwards';
+        
+        this.container.appendChild(img);
+        
+        // Avance horizontal
+        this.x += 55;
+        
+        // Si llega al final del contenedor, reiniciar
+        const containerWidth = this.container.clientWidth;
+        if (this.x > containerWidth - 60) {
+            this.x = 50;
+            // Limpiar huellas viejas
+            setTimeout(() => {
+                const steps = this.container.querySelectorAll('.step');
+                if (steps.length > 8) {
+                    const extra = steps.length - 6;
+                    for (let i = 0; i < extra; i++) {
+                        if (steps[i]) steps[i].remove();
+                    }
+                }
+            }, 100);
+        }
+        
+        // Eliminar después de animación
+        setTimeout(() => {
+            if (img && img.remove) img.remove();
+        }, 2600);
+        
+        this.stepCount++;
+    }
 }
 
+// Agregar estilos de animación al documento
+const styleSheet = document.createElement("style");
+styleSheet.textContent = `
+    .step {
+        position: absolute;
+        width: 38px;
+        height: auto;
+        transform-origin: center;
+        pointer-events: none;
+        animation: fadeSmoke 2.5s ease-out forwards;
+    }
+    .step.left {
+        transform: rotate(85deg);
+    }
+    .step.right {
+        transform: rotate(95deg);
+    }
+    @keyframes fadeSmoke {
+        0% {
+            opacity: 1;
+            filter: blur(0px);
+        }
+        40% {
+            opacity: 0.8;
+        }
+        70% {
+            opacity: 0.4;
+            filter: blur(4px);
+        }
+        100% {
+            opacity: 0;
+            filter: blur(10px);
+        }
+    }
+`;
+document.head.appendChild(styleSheet);
+
 // ============================================
-// GESTOR GLOBAL DE HUELLAS
+// INICIALIZADOR DE TODAS LAS HUELLAS
 // ============================================
-let animadores = [];
-let contadorCompletados = 0;
-let faseGlobal = 'human';
+
+let pisadasActivas = [];
+let faseActual = 'human';
 let intervaloCambioFase = null;
 
-function iniciarTodosLosAnimadores() {
-    const canvasIds = [
-        'canvas-sep1', 'canvas-sep2', 'canvas-sep3', 'canvas-sep4',
-        'canvas-sep5', 'canvas-sep6', 'canvas-sep7', 'canvas-sep8', 'canvas-sep9'
-    ];
-    const containerIds = [
+function inicializarTodasLasHuellas() {
+    // Detener todas las pisadas existentes
+    for (const pisada of pisadasActivas) {
+        pisada.detener();
+    }
+    pisadasActivas = [];
+    
+    // Contenedores de huellas
+    const contenedores = [
         'huellas-sep1', 'huellas-sep2', 'huellas-sep3', 'huellas-sep4',
         'huellas-sep5', 'huellas-sep6', 'huellas-sep7', 'huellas-sep8', 'huellas-sep9'
     ];
     
-    animadores = [];
-    for (let i = 0; i < canvasIds.length; i++) {
-        const animador = new HuellaAnimator(canvasIds[i], containerIds[i]);
-        animadores.push(animador);
+    // Crear nuevas pisadas según la fase actual
+    for (const contId of contenedores) {
+        const pisada = new PisadasMagicas(contId, faseActual);
+        pisada.iniciar();
+        pisadasActivas.push(pisada);
     }
-    
-    // Esperar a que las imágenes carguen
-    const esperar = setInterval(() => {
-        if (allImagesReady) {
-            clearInterval(esperar);
-            console.log('🎬 Iniciando animación de huellas - Mapa del Merodeador');
-            faseGlobal = 'human';
-            contadorCompletados = 0;
-            
-            for (const anim of animadores) {
-                anim.init();
-            }
-            
-            // Cambiar de fase después de que todos terminen su secuencia
-            window.onHuellaSecuenciaCompleta = () => {
-                contadorCompletados++;
-                if (contadorCompletados >= animadores.length) {
-                    // Todos los canvas terminaron su secuencia
-                    contadorCompletados = 0;
-                    // Cambiar fase
-                    faseGlobal = faseGlobal === 'human' ? 'dog' : 'human';
-                    console.log(`🔄 Cambiando fase a: ${faseGlobal === 'human' ? '👣 HUMANOS' : '🐾 PERRITOS'}`);
-                    for (const anim of animadores) {
-                        anim.cambiarFase(faseGlobal);
-                    }
-                }
-            };
-        }
-    }, 200);
-    
-    // Timeout de seguridad
-    setTimeout(() => {
-        if (!allImagesReady) {
-            console.warn('⚠️ Timeout, iniciando animación con imágenes por defecto');
-            clearInterval(esperar);
-            for (const anim of animadores) {
-                anim.init();
-            }
-        }
-    }, 5000);
 }
 
-// Redimensionar al cambiar tamaño de ventana
-window.addEventListener('resize', () => {
-    setTimeout(() => {
-        for (const anim of animadores) {
-            if (anim && anim.activo) {
-                anim.redimensionarCanvas();
-                anim.totalHuellas = anim.calcularCantidad();
-                anim.posiciones = anim.generarPosiciones(anim.totalHuellas);
-                anim.indicePaso = Math.min(anim.indicePaso, anim.totalHuellas - 1);
-                anim.redibujar();
-            }
-        }
-    }, 200);
-});
+function cambiarFaseHuellas() {
+    faseActual = faseActual === 'human' ? 'dog' : 'human';
+    console.log(`🔄 Cambiando huellas a: ${faseActual === 'human' ? '👣 HUMANAS' : '🐾 PERRITAS'}`);
+    
+    // Detener todas
+    for (const pisada of pisadasActivas) {
+        pisada.detener();
+    }
+    
+    // Reiniciar con nueva fase
+    const contenedores = [
+        'huellas-sep1', 'huellas-sep2', 'huellas-sep3', 'huellas-sep4',
+        'huellas-sep5', 'huellas-sep6', 'huellas-sep7', 'huellas-sep8', 'huellas-sep9'
+    ];
+    
+    pisadasActivas = [];
+    for (let i = 0; i < contenedores.length; i++) {
+        const pisada = new PisadasMagicas(contenedores[i], faseActual);
+        pisada.iniciar();
+        pisadasActivas.push(pisada);
+    }
+}
+
+function iniciarBucleHuellas() {
+    inicializarTodasLasHuellas();
+    
+    // Cambiar fase cada 8 segundos
+    if (intervaloCambioFase) clearInterval(intervaloCambioFase);
+    intervaloCambioFase = setInterval(() => {
+        cambiarFaseHuellas();
+    }, 8000);
+}
 
 // ============================================
 // WHATSAPP
@@ -1307,7 +1153,7 @@ function cerrarCartaATransicion() {
             iniciarCountdown();
             iniciarAlbumObserver();
             agregarFlores();
-            iniciarTodosLosAnimadores(); // Iniciar las huellas al mostrar web principal
+            iniciarBucleHuellas();
         }, 1000);
     }, 800);
 }

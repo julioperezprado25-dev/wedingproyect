@@ -252,7 +252,7 @@ body {
     border-radius: 50%;
     animation: dustFloat 0.6s ease-out forwards;
 }
-@keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
+@keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0); } }
 
 /* ===== WEB PRINCIPAL ===== */
 .main {
@@ -328,11 +328,11 @@ body {
     margin: 12px 0;
 }
 
-/* ===== CONTENEDOR DE HUELLAS MÁGICAS ===== */
+/* ===== CONTENEDOR DE HUELLAS MÁGICAS - MÁS PEQUEÑO ===== */
 .huellas-magicas-container {
     width: 100%;
     margin: 15px 0;
-    min-height: 100px;
+    min-height: 65px;
     position: relative;
     overflow: hidden;
     background: rgba(218, 196, 155, 0.3);
@@ -501,12 +501,14 @@ textarea { border-radius: 28px; min-height: 100px; }
     .titulo-principal { font-size: 52px; }
     .titulo-seccion { font-size: 32px; }
     .texto-contenido { font-size: 16px; }
+    .huellas-magicas-container { min-height: 50px; }
 }
 
 @media (max-width: 480px) {
     .envelope { width: min(280px, 90vw); height: calc(min(280px, 90vw) * 1.5); }
     .envelope.zoom-in { transform: scale(1.4); }
     .titulo-principal { font-size: 42px; }
+    .huellas-magicas-container { min-height: 45px; }
 }
 </style>
 </head>
@@ -682,39 +684,61 @@ textarea { border-radius: 28px; min-height: 100px; }
 
 <script>
 // ============================================
-// SISTEMA DE HUELLAS MÁGICAS (PISADAS CON HUMO)
-// Basado en el código proporcionado
+// SISTEMA DE HUELLAS MÁGICAS - VERSIÓN CORREGIDA
+// Contenedor más pequeño, huellas más chicas, más lento, más pasos
 // ============================================
 
 class PisadasMagicas {
     constructor(containerId, tipo = 'human') {
         this.container = document.getElementById(containerId);
-        this.tipo = tipo; // 'human' o 'dog'
-        this.x = 50;
-        this.y = 70;
+        this.tipo = tipo;
+        this.x = 30;                    // Posición inicial X
+        this.y = 30;                    // Posición Y (centrada)
         this.stepCount = 0;
         this.intervalId = null;
         this.activo = false;
         
-        // Configuración de imágenes según tipo
+        // CONFIGURACIÓN AJUSTABLE
+        this.TAMANO_HUELLA = 24;        // Tamaño más pequeño (antes 38)
+        this.ESPACIADO = 40;            // Separación entre huellas (antes 55)
+        this.INTERVALO_MS = 700;        // Más lento (antes 500)
+        this.PASOS_MAXIMOS = 16;        // Más pasos antes de reiniciar
+        
+        // Imágenes según tipo
         this.imagenes = {
-            human: { left: 'huellaI.png', right: 'huellaD.png' },
+            human: { left: 'huellaI.png', right: 'HuellaD.png' },
             dog: { left: 'huella_canI.png', right: 'huella_canD.png' }
         };
+        
+        // Tamaños responsivos
+        this.ajustarPorPantalla();
+    }
+    
+    ajustarPorPantalla() {
+        const anchoPantalla = window.innerWidth;
+        if (anchoPantalla <= 480) {
+            this.TAMANO_HUELLA = 18;
+            this.ESPACIADO = 32;
+        } else if (anchoPantalla <= 768) {
+            this.TAMANO_HUELLA = 20;
+            this.ESPACIADO = 35;
+        } else {
+            this.TAMANO_HUELLA = 24;
+            this.ESPACIADO = 40;
+        }
     }
     
     iniciar() {
         if (this.intervalId) return;
-        this.x = 50;
+        this.ajustarPorPantalla();
+        this.x = 30;
         this.stepCount = 0;
         this.activo = true;
-        
-        // Limpiar contenedor
         this.container.innerHTML = '';
         
         this.intervalId = setInterval(() => {
             this.crearPisada();
-        }, 500);
+        }, this.INTERVALO_MS);
     }
     
     detener() {
@@ -733,10 +757,20 @@ class PisadasMagicas {
     crearPisada() {
         if (!this.activo) return;
         
+        // Verificar si llegó al final
+        const containerWidth = this.container.clientWidth;
+        if (this.x > containerWidth - this.TAMANO_HUELLA - 20) {
+            this.x = 30;
+            // Eliminar huellas viejas
+            const steps = this.container.querySelectorAll('.step');
+            for (let i = 0; i < steps.length; i++) {
+                if (steps[i]) steps[i].remove();
+            }
+        }
+        
         const img = document.createElement('img');
         img.classList.add('step');
         
-        // Obtener la imagen según el tipo y lado
         const imagenesTipo = this.imagenes[this.tipo];
         const esIzquierda = this.stepCount % 2 === 0;
         
@@ -747,59 +781,44 @@ class PisadasMagicas {
         } else {
             img.src = imagenesTipo.right;
             img.classList.add('right');
-            img.style.top = (this.y - 15) + "px";
+            img.style.top = (this.y - 8) + "px";
         }
         
         img.style.left = this.x + "px";
-        
-        // Estilos adicionales
         img.style.position = 'absolute';
-        img.style.width = '38px';
-        img.style.height = 'auto';
+        img.style.width = this.TAMANO_HUELLA + "px";
+        img.style.height = "auto";
         img.style.transformOrigin = 'center';
         img.style.pointerEvents = 'none';
-        img.style.animation = 'fadeSmoke 2.5s ease-out forwards';
+        img.style.animation = 'fadeSmoke 2.8s ease-out forwards';
         
         this.container.appendChild(img);
         
         // Avance horizontal
-        this.x += 55;
+        this.x += this.ESPACIADO;
         
-        // Si llega al final del contenedor, reiniciar
-        const containerWidth = this.container.clientWidth;
-        if (this.x > containerWidth - 60) {
-            this.x = 50;
-            // Limpiar huellas viejas
-            setTimeout(() => {
-                const steps = this.container.querySelectorAll('.step');
-                if (steps.length > 8) {
-                    const extra = steps.length - 6;
-                    for (let i = 0; i < extra; i++) {
-                        if (steps[i]) steps[i].remove();
-                    }
-                }
-            }, 100);
-        }
-        
-        // Eliminar después de animación
+        // Eliminar después de la animación
         setTimeout(() => {
             if (img && img.remove) img.remove();
-        }, 2600);
+        }, 2900);
         
         this.stepCount++;
+        
+        // Reiniciar contador después de muchos pasos
+        if (this.stepCount >= this.PASOS_MAXIMOS) {
+            this.stepCount = 0;
+        }
     }
 }
 
-// Agregar estilos de animación al documento
+// Agregar estilos de animación
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
     .step {
         position: absolute;
-        width: 38px;
-        height: auto;
         transform-origin: center;
         pointer-events: none;
-        animation: fadeSmoke 2.5s ease-out forwards;
+        animation: fadeSmoke 2.8s ease-out forwards;
     }
     .step.left {
         transform: rotate(85deg);
@@ -809,19 +828,19 @@ styleSheet.textContent = `
     }
     @keyframes fadeSmoke {
         0% {
-            opacity: 1;
+            opacity: 0.95;
             filter: blur(0px);
         }
         40% {
-            opacity: 0.8;
+            opacity: 0.7;
         }
         70% {
-            opacity: 0.4;
-            filter: blur(4px);
+            opacity: 0.3;
+            filter: blur(3px);
         }
         100% {
             opacity: 0;
-            filter: blur(10px);
+            filter: blur(8px);
         }
     }
 `;
@@ -842,30 +861,28 @@ function inicializarTodasLasHuellas() {
     }
     pisadasActivas = [];
     
-    // Contenedores de huellas
     const contenedores = [
         'huellas-sep1', 'huellas-sep2', 'huellas-sep3', 'huellas-sep4',
         'huellas-sep5', 'huellas-sep6', 'huellas-sep7', 'huellas-sep8', 'huellas-sep9'
     ];
     
-    // Crear nuevas pisadas según la fase actual
     for (const contId of contenedores) {
         const pisada = new PisadasMagicas(contId, faseActual);
         pisada.iniciar();
         pisadasActivas.push(pisada);
     }
+    
+    console.log(`🐾 Iniciadas huellas ${faseActual === 'human' ? 'HUMANAS' : 'PERRITAS'} en ${contenedores.length} contenedores`);
 }
 
 function cambiarFaseHuellas() {
     faseActual = faseActual === 'human' ? 'dog' : 'human';
     console.log(`🔄 Cambiando huellas a: ${faseActual === 'human' ? '👣 HUMANAS' : '🐾 PERRITAS'}`);
     
-    // Detener todas
     for (const pisada of pisadasActivas) {
         pisada.detener();
     }
     
-    // Reiniciar con nueva fase
     const contenedores = [
         'huellas-sep1', 'huellas-sep2', 'huellas-sep3', 'huellas-sep4',
         'huellas-sep5', 'huellas-sep6', 'huellas-sep7', 'huellas-sep8', 'huellas-sep9'
@@ -882,12 +899,22 @@ function cambiarFaseHuellas() {
 function iniciarBucleHuellas() {
     inicializarTodasLasHuellas();
     
-    // Cambiar fase cada 8 segundos
     if (intervaloCambioFase) clearInterval(intervaloCambioFase);
     intervaloCambioFase = setInterval(() => {
         cambiarFaseHuellas();
     }, 8000);
 }
+
+// Redimensionar y reajustar
+window.addEventListener('resize', () => {
+    setTimeout(() => {
+        if (pisadasActivas.length > 0) {
+            for (const pisada of pisadasActivas) {
+                pisada.ajustarPorPantalla();
+            }
+        }
+    }, 200);
+});
 
 // ============================================
 // WHATSAPP
@@ -1246,4 +1273,4 @@ document.body.style.overflow = "hidden";
 inicializarMusica();
 </script>
 </body>
-</html>
+    </html>

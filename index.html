@@ -332,7 +332,7 @@ body {
 .huellas-magicas-container {
     width: 100%;
     margin: 15px 0;
-    min-height: 65px;
+    min-height: 40px;
     position: relative;
     overflow: hidden;
     background: rgba(218, 196, 155, 0.3);
@@ -501,14 +501,14 @@ textarea { border-radius: 28px; min-height: 100px; }
     .titulo-principal { font-size: 52px; }
     .titulo-seccion { font-size: 32px; }
     .texto-contenido { font-size: 16px; }
-    .huellas-magicas-container { min-height: 50px; }
+    .huellas-magicas-container { min-height: 30px; }
 }
 
 @media (max-width: 480px) {
     .envelope { width: min(280px, 90vw); height: calc(min(280px, 90vw) * 1.5); }
     .envelope.zoom-in { transform: scale(1.4); }
     .titulo-principal { font-size: 42px; }
-    .huellas-magicas-container { min-height: 45px; }
+    .huellas-magicas-container { min-height: 30px; }
 }
 </style>
 </head>
@@ -699,7 +699,7 @@ class PisadasMagicas {
         this.activo = false;
         
         // CONFIGURACIÓN AJUSTABLE
-        this.TAMANO_HUELLA = 24;        // Tamaño más pequeño (antes 38)
+        this.TAMANO_HUELLA = 20;        // Tamaño más pequeño (antes 38)
         this.ESPACIADO = 40;            // Separación entre huellas (antes 55)
         this.INTERVALO_MS = 700;        // Más lento (antes 500)
         this.PASOS_MAXIMOS = 16;        // Más pasos antes de reiniciar
@@ -717,13 +717,13 @@ class PisadasMagicas {
     ajustarPorPantalla() {
         const anchoPantalla = window.innerWidth;
         if (anchoPantalla <= 480) {
-            this.TAMANO_HUELLA = 18;
+            this.TAMANO_HUELLA = 15;
             this.ESPACIADO = 32;
         } else if (anchoPantalla <= 768) {
             this.TAMANO_HUELLA = 20;
             this.ESPACIADO = 35;
         } else {
-            this.TAMANO_HUELLA = 24;
+            this.TAMANO_HUELLA = 20;
             this.ESPACIADO = 40;
         }
     }
@@ -777,11 +777,11 @@ class PisadasMagicas {
         if (esIzquierda) {
             img.src = imagenesTipo.left;
             img.classList.add('left');
-            img.style.top = this.y + "px";
+            img.style.top = (this.y -10)+ "px";
         } else {
             img.src = imagenesTipo.right;
             img.classList.add('right');
-            img.style.top = (this.y - 8) + "px";
+            img.style.top = (this.y + 10) + "px";
         }
         
         img.style.left = this.x + "px";

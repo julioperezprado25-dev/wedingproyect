@@ -544,7 +544,7 @@ textarea { border-radius: 28px; min-height: 100px; }
     body { padding: 0 12px; }
     .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
     .envelope.zoom-in { transform: scale(1.6); }
-    .seal { width: min(100px, 40vw); height: min(100px, 40vw); }
+    .seal { width: min(100px, 70vw); height: min(100px, 70vw); }
     .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
     .carta-interior { width: 85%; max-width: 400px; }
     #texto-carta { font-size: 22px; }
@@ -556,6 +556,14 @@ textarea { border-radius: 28px; min-height: 100px; }
 }
 
 @media (max-width: 480px) {
+    body { padding: 0 12px; }
+    .seal { width: min(100px, 60vw); height: min(100px, 60vw); }
+    .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
+    .carta-interior { width: 85%; max-width: 400px; }
+    #texto-carta { font-size: 22px; }
+    .wand { width: 120px; }
+    .titulo-seccion { font-size: 32px; }
+    .texto-contenido { font-size: 16px; }
     .envelope { width: min(280px, 90vw); height: calc(min(280px, 90vw) * 1.5); }
     .envelope.zoom-in { transform: scale(1.4); }
     .titulo-principal { font-size: 42px; }

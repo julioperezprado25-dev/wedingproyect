@@ -496,19 +496,6 @@ textarea { border-radius: 28px; min-height: 100px; }
     pointer-events: none;         /* Para que no interfiera con clics */
 }
 
-/* Ajuste responsivo */
-@media (max-width: 768px) {
-    .huellas-magicas-container {
-        min-height: 100px;
-    }
-}
-
-@media (max-width: 480px) {
-    .huellas-magicas-container {
-        min-height: 85px;
-    }
-}
-
 /* Estilos base para cada huella - SIN transformaciones aquí (se aplican en JS) */
 .step {
     position: absolute;
@@ -544,7 +531,7 @@ textarea { border-radius: 28px; min-height: 100px; }
     body { padding: 0 12px; }
     .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
     .envelope.zoom-in { transform: scale(1.6); }
-    .seal { width: min(100px, 70vw); height: min(100px, 70vw); }
+    .seal { width: min(200px, 70vw); height: min(200px, 70vw); }
     .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
     .carta-interior { width: 85%; max-width: 400px; }
     #texto-carta { font-size: 22px; }
@@ -557,7 +544,7 @@ textarea { border-radius: 28px; min-height: 100px; }
 
 @media (max-width: 480px) {
     body { padding: 0 12px; }
-    .seal { width: min(100px, 60vw); height: min(100px, 60vw); }
+    .seal { width: min(200px, 60vw); height: min(200px, 60vw); }
     .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
     .carta-interior { width: 85%; max-width: 400px; }
     #texto-carta { font-size: 22px; }

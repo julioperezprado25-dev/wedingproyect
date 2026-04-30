@@ -291,6 +291,15 @@ body {
     box-shadow: none;
 }
 
+
+.titulo-grande {
+    font-family: 'Tangerine', cursive;
+    font-size: clamp(70px, 14vw, 110px);
+    color: #1a1509;
+    text-shadow: 0 2px 6px rgba(200, 170, 100, 0.3);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
 .titulo-principal {
     font-family: 'Great Vibes', cursive;
     font-size: clamp(64px, 14vw, 110px);
@@ -319,7 +328,7 @@ body {
 }
 
 .texto-contenido {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Allura', cursive;
     font-size: clamp(17px, 4vw, 22px);
     font-weight: 500;
     font-style: italic;
@@ -391,13 +400,14 @@ body {
 
 .imagen-hero {
     display: block;
-    width: 100%;
-    max-width: 750px;
+    width: calc(100% + 120px);  /* Un poco más ancho que el contenedor */
+    max-width: none;
     height: auto;
-    margin: 0 auto;
-    border-radius: 40px;
+    margin-left: -20px;        /* Centra el exceso */
+    margin-right: -20px;
+    border-radius: 0;
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
-    background: transparent;
+    background: transparent !important;
 }
 
 .imagen-icon {
@@ -540,6 +550,7 @@ textarea { border-radius: 28px; min-height: 100px; }
     .titulo-seccion { font-size: 32px; }
     .texto-contenido { font-size: 16px; }
     .huellas-magicas-container { min-height: 45px; }
+
 }
 
 @media (max-width: 480px) {
@@ -555,16 +566,7 @@ textarea { border-radius: 28px; min-height: 100px; }
     .envelope.zoom-in { transform: scale(1.4); }
     .titulo-principal { font-size: 42px; }
     .huellas-magicas-container { min-height: 40px; }
-    .imagen-hero {
-     display: block;
-     width: 100%;
-     max-width: 500px;
-     height: auto;
-     margin: 0 auto;
-     border-radius: 40px;
-     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
-     background: transparent;
-}
+   
 }
 </style>
 </head>
@@ -596,12 +598,52 @@ textarea { border-radius: 28px; min-height: 100px; }
 <!-- WEB PRINCIPAL -->
 <div class="main" id="main">
     <div class="separador-pluma"><div class="linea-onda"></div><div class="simbolo-tinta">✧ ⚡ ✧</div></div>
-    <div id="huellas-sep1" class="huellas-magicas-container"></div>
+   <!--<div id="huellas-sep1" class="huellas-magicas-container"></div>*/-->
     <div class="seccion" id="seccion-perritos"><img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'"></div>
+    
+     <div class="seccion" id="titulo">
+       <div class="contenido-seccion">
+              <h1 class="titulo-grande">Ivon & Julio</h1>
+               <p style="font-size: clamp(20px, 5vw, 26px);">Nos llena de alegría invitarte a celebrar</p>
+                <p style="font-size: clamp(22px, 5.5vw, 28px);">el día más importante de nuestras vidas</p>
+                <p style="margin-top: 25px; font-size: clamp(26px, 6vw, 32px); font-weight: bold;">💍 14 de agosto, 2026 💍</p>
+        </div>
+     </div>
+    
     <div class="separador-pluma"><div class="linea-punteada"></div><div class="ramita"></div><div class="simbolo-tinta">🐾</div></div>
     <div id="huellas-sep2" class="huellas-magicas-container"></div>
-    <div class="seccion" id="seccion-titulo"><div class="contenido-seccion"><h1 class="titulo-principal">Ivon & Julio</h1><p class="texto-contenido">✦ Nos llena de alegría invitarte a celebrar ✦</p><p class="texto-contenido">uno de los días más importantes de nuestras vidas juntos</p><p class="texto-contenido" style="font-size:28px; font-weight:bold; margin-top:20px;">💍 14 de agosto, 2026 💍</p></div></div>
+
+    <div class="seccion" id="seccion-nosotros"><div class="contenido-seccion">
+      <h1 class="titulo-principal">¿Cómo inició esto?</h1>
+    <p class="texto-contenido">✦ Una conversación sin nombre,
+un "hola" que cruzó distancias invisibles.</p>
+  <p class="texto-contenido">El mapa de nuestra vida trazó un destino
+que aún no podíamos leer.</p>
+  <p class="texto-contenido">No necesitamos hechizos complicados:
+la magia más real está en lo cotidiano.</p>
+  <p class="text-contenido">Hoy, ese encuentro fortuito
+se convierte en un "sí, acepto".</p>
+<p class="text-contenido">Gracias por ser parte de nuestra magia.
+*Siempre.*</p>
+</div></div>
     <div class="separador-pluma"><div class="linea-doble-onda"></div><div class="simbolo-tinta">✿ ❀ ✿</div></div>
+<!--Nuestra Historia
+
+Una conversación sin nombre,
+un "hola" que cruzó distancias invisibles.
+El mapa de nuestra vida trazó un destino
+que aún no podíamos leer.
+
+Lo que parecía casualidad se volvió costumbre,
+y la costumbre, amor.
+No necesitamos hechizos complicados:
+la magia más real está en lo cotidiano.
+
+Hoy, ese encuentro fortuito
+se convierte en un "sí, acepto".
+
+Gracias por ser parte de nuestra magia.
+*Siempre.*-->
     <div id="huellas-sep3" class="huellas-magicas-container"></div>
     <div class="seccion" id="seccion-boda"><div class="contenido-seccion"><h2 class="titulo-seccion">📜 La Gran Celebración</h2><div class="countdown" id="countdownBoda"></div><p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p><h3 class="subtitulo">Ceremonia Religiosa</h3><img src="iglesiaV.png" class="imagen-icon" onerror="this.style.display='none'"><p class="texto-contenido"><strong>📍 Hora:</strong> 7:00 P.M.</p><p class="texto-contenido"><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p><div><button class="btn" onclick="abrirMapsI()">📍 Google Maps</button><button class="btn" onclick="abrirWazeI()">🚗 Waze</button></div><h3 class="subtitulo">Recepción Mágica</h3><img src="fiestaV.png" class="imagen-icon" onerror="this.style.display='none'"><p class="texto-contenido"><strong>📍 Hora:</strong> 8:30 P.M.</p><p class="texto-contenido"><strong>🏠 Dirección:</strong> Av. José de la Riva Agüero, 2009, San Miguel</p><div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div></div></div>
     <div class="separador-pluma"><div class="linea-onda"></div><div class="simbolo-tinta">⚜️ ✧ ⚜️</div><div class="linea-punteada"></div></div>
@@ -830,7 +872,7 @@ let intervaloCambioFase = null;
 function inicializarTodasLasHuellas() {
     pisadasActivas.forEach(p => p.detener());
     pisadasActivas = [];
-    const contenedores = ['huellas-sep1','huellas-sep2','huellas-sep3','huellas-sep4','huellas-sep5','huellas-sep6','huellas-sep7','huellas-sep8','huellas-sep9'];
+    const contenedores = ['huellas-sep2','huellas-sep3','huellas-sep4','huellas-sep5','huellas-sep6','huellas-sep7','huellas-sep8','huellas-sep9'];
     contenedores.forEach(id => {
         const pisada = new PisadasMagicas(id, faseActual);
         pisada.iniciar();
@@ -842,7 +884,7 @@ function cambiarFaseHuellas() {
     faseActual = faseActual === 'human' ? 'dog' : 'human';
     for (let p of pisadasActivas) p.detener();
     pisadasActivas = [];
-    const contenedores = ['huellas-sep1','huellas-sep2','huellas-sep3','huellas-sep4','huellas-sep5','huellas-sep6','huellas-sep7','huellas-sep8','huellas-sep9'];
+    const contenedores = ['huellas-sep2','huellas-sep3','huellas-sep4','huellas-sep5','huellas-sep6','huellas-sep7','huellas-sep8','huellas-sep9'];
     contenedores.forEach(id => {
         const pisada = new PisadasMagicas(id, faseActual);
         pisada.iniciar();
@@ -881,7 +923,7 @@ window.musicaMuted = false;
 function toggleAudio() { if(canciones.boda.elemento) { canciones.boda.elemento.muted = !window.musicaMuted; window.musicaMuted = !window.musicaMuted; document.getElementById("audioBtn").textContent = window.musicaMuted ? "🔇 Activar Música" : "🔊 Silenciar Música"; } }
 async function reproducirIntroMusica() { try { if(window.potterwAudio) window.potterwAudio.pause(); if(canciones.intro.elemento) canciones.intro.elemento.pause(); const nuevo=new Audio(); nuevo.src="Potterw.mp3?"+Date.now(); nuevo.loop=true; nuevo.volume=0.4; await nuevo.play(); window.potterwAudio=nuevo; canciones.intro.elemento=nuevo; } catch(e){} }
 
-const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
+const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "has sido invitado a celebrar","","este momento tan especial", "", "Con amor,", "Ivon & Julio"];
 let wand=document.getElementById("wand"), wandHint=document.getElementById("wandHint"), lineElements=[], varitaActivada=false;
 function crearTextoMagico() { const container=document.getElementById("texto-carta"); if(!container) return; container.innerHTML=""; lineElements=[]; lineasCarta.forEach(linea=>{ const div=document.createElement("div"); div.className="magic-line"; if(linea.trim()===""){ div.style.height="30px"; div.innerHTML="&nbsp;"; } else { [...linea].forEach(ch=>{ const span=document.createElement('span'); span.className='magic-letter'; span.style.opacity="0"; span.innerHTML=ch===' '?'&nbsp;':ch; div.appendChild(span); }); } container.appendChild(div); lineElements.push(div); }); }
 function revelarTexto(){ return new Promise((resolve)=>{ const promises=[]; lineElements.forEach((lineDiv,idx)=>{ if(lineasCarta[idx].trim()===""){ lineDiv.classList.add("revealed"); return; } const letters=lineDiv.querySelectorAll('.magic-letter'); if(letters.length===0){ lineDiv.classList.add("revealed"); return; } const promise=new Promise(res=>{ letters.forEach((span,i)=>{ span.style.animation=`smokeMaterialize 0.45s forwards ease-out ${i*0.02}s`; }); setTimeout(()=>{ lineDiv.classList.add("revealed"); res(); },700); }); promises.push(promise); }); Promise.all(promises).then(resolve); }); }

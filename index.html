@@ -178,7 +178,7 @@ body {
     color: transparent;
 }
 
-/* SECCIONES */
+/* SECCIONES - CENTRADO PERFECTO */
 .seccion-con-fondo {
     background: transparent;
     border-radius: 35px;
@@ -186,18 +186,24 @@ body {
     margin: 30px 0;
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
+/* BLOQUE DE TÍTULO CENTRAL */
 .titulo-bloque {
     background: rgba(0,0,0,0.75);
     backdrop-filter: blur(4px);
-    padding: 14px 20px;
+    padding: 14px 24px;
     border-radius: 60px;
     margin-bottom: 30px;
     display: inline-block;
     width: auto;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     border: 1px solid rgba(255,215,0,0.3);
+    text-align: center;
 }
 
 .titulo-flotante {
@@ -210,6 +216,7 @@ body {
     text-shadow: 0 0 10px rgba(255,215,0,0.5);
     animation: flotarTrasladar 1.2s ease-out forwards;
     display: block;
+    width: 100%;
 }
 
 @keyframes flotarTrasladar {
@@ -334,7 +341,7 @@ body {
 input, textarea { width: 100%; max-width: 380px; padding: 11px 15px; margin: 6px 0; border-radius: 50px; border: 2px solid #b8965a; font-family: 'Quicksand', sans-serif; background: rgba(255,250,235,0.95); font-size: 14px; color: #2c2416; display: block; transition: all 0.2s; }
 input:focus, textarea:focus { outline: none; border-color: #6b4c2a; box-shadow: 0 0 0 3px rgba(107,76,42,0.2); }
 textarea { border-radius: 25px; min-height: 85px; }
-.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; }
+.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; }
 .qr-code { display: flex; justify-content: center; margin: 12px 0; }
 .qr-code img { border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
@@ -460,13 +467,17 @@ textarea { border-radius: 25px; min-height: 85px; }
             <p class="texto-contenido" style="font-size:26px; font-weight:700; margin-top:15px;">💍 14 de agosto, 2026 💍</p>
         </div>
         
-        <div class="seccion-con-fondo"><div class="titulo-bloque"><h2 class="titulo-flotante">✨ Nuestra Historia ✨</h2></div>
+        <!-- Sección Nuestra Historia: CON TÍTULO CENTRADO -->
+        <div class="seccion-con-fondo">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">✨ Nuestra Historia ✨</h2></div>
             <p class="texto-contenido">Todo comenzó con un "hola" sin nombre, una conversación que cruzó distancias invisibles. El mapa de nuestras vidas trazó un destino que aún no sabíamos leer. No hicieron falta hechizos complicados; la magia más real estaba en los pequeños momentos cotidianos: las risas compartidas, los silencios cómplices y la certeza de que, juntos, cualquier desafío se volvía liviano.</p>
             <p class="texto-contenido">Hoy, ese encuentro fortuito se convierte en un "sí, acepto". Y entre varitas y pergaminos, prometemos caminar siempre de la mano, en esta y en todas nuestras aventuras.</p>
             <p class="texto-contenido"><strong><em style="font-family: 'Playfair Display', serif; font-size: 1.2em;">Always</em></strong></p>
         </div>
         
-        <div class="seccion-con-fondo" id="seccion-boda"><div class="titulo-bloque"><h2 class="titulo-flotante">La Gran Celebración</h2></div>
+        <!-- Sección La Gran Celebración: CON TÍTULO CENTRADO -->
+        <div class="seccion-con-fondo" id="seccion-boda">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">La Gran Celebración</h2></div>
             <div class="countdown" id="countdownBoda"></div>
             <p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
             <h3 class="subtitulo">⛪ Ceremonia Religiosa</h3>
@@ -479,26 +490,32 @@ textarea { border-radius: 25px; min-height: 85px; }
             <div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div>
         </div>
         
-        <div class="seccion-con-fondo" id="seccion-info"><div class="titulo-bloque"><h2 class="titulo-flotante">Avisos Importantes</h2></div>
+        <!-- Sección Avisos Importantes: CON TÍTULO CENTRADO -->
+        <div class="seccion-con-fondo" id="seccion-info">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">Avisos Importantes</h2></div>
             <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
             <p class="texto-contenido">📅 Confirmar asistencia antes del 15 de julio</p>
             <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
         
-        <div class="seccion-con-fondo" id="seccion-regalos"><div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
+        <!-- Sección Lista de Regalos: CON TÍTULO CENTRADO -->
+        <div class="seccion-con-fondo" id="seccion-regalos">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
             <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p><p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
-            <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px;">
+            <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
                 <h3 class="subtitulo" style="font-size:22px;">💰 Nuestra cuenta</h3>
                 <p class="texto-contenido" style="font-size:24px; font-weight:800; letter-spacing:2px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;"><span id="numeroCuenta">193 205 253 18 0 43</span><button class="btn btn-copiar" onclick="copiarCuenta()">📋 Copiar</button></p>
             </div>
         </div>
         
+        <!-- Sección Álbum Mágico: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-album">
             <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Álbum Mágico</h2></div>
             <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
         
+        <!-- Sección Búho Mensajero: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-mensajes">
             <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Búho Mensajero</h2></div>
@@ -524,14 +541,13 @@ function inicializarMusica() { for(const [key, c] of Object.entries(canciones)) 
 function reproducirCancion(nombre, fadeIn = true) { const c = canciones[nombre]; if(c?.elemento) { const audio = c.elemento; if(fadeIn) { audio.volume = 0; audio.currentTime = 0; audio.play().catch(e=>console.log); let vol = 0; const interval = setInterval(() => { vol = Math.min(c.volume, vol+0.05); audio.volume = vol; if(vol>=c.volume-0.01) clearInterval(interval); }, 200); } else { audio.volume = c.volume; audio.play().catch(e=>console.log); } } }
 window.musicaMuted = false; function toggleAudio() { const boda = canciones.boda; if(boda?.elemento) { if(!window.musicaMuted) { boda.elemento.muted = true; window.musicaMuted = true; document.getElementById("audioBtn").textContent = "🔇 Activar Música"; } else { boda.elemento.muted = false; window.musicaMuted = false; document.getElementById("audioBtn").textContent = "🔊 Silenciar Música"; } } }
 
-// ==================== HUELLAS MÁGICAS (INTEGRACIÓN COMPLETA) ====================
+// ==================== HUELLAS MÁGICAS ====================
 const TAMANO_HUMANO = 32;
 const TAMANO_PERRO = 24;
 const VELOCIDAD_HUELLAS = 700;
 
-// Configuración de los bucles - AJUSTA LAS POSICIONES SEGÚN TUS SECCIONES
 const BUCLE_CONFIGS = [
-    { nombre: "Título", inicioX: 60, inicioY: 420, finX: 600, finY: 520, separacionLateral: 16, tipoInicial: 'human' },
+    { nombre: "Título", inicioX: 80, inicioY: 200, finX: 100, finY: 150, separacionLateral: 16, tipoInicial: 'human' },
     { nombre: "Historia", inicioX: 80, inicioY: 780, finX: 580, finY: 900, separacionLateral: 14, tipoInicial: 'dog' },
     { nombre: "Ceremonia", inicioX: 50, inicioY: 1250, finX: 650, finY: 1380, separacionLateral: 15, tipoInicial: 'human' },
     { nombre: "Avisos", inicioX: 100, inicioY: 1780, finX: 550, finY: 1900, separacionLateral: 13, tipoInicial: 'dog' },
@@ -789,4 +805,4 @@ inicializarMusica();
 document.body.style.overflow = "hidden";
 </script>
 </body>
-</html> 
+</html>

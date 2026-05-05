@@ -38,23 +38,6 @@ body {
     background-size: 100% auto;
 }
 
-/* Estrellas mágicas */
-.estrella-magica {
-    position: fixed;
-    width: 3px;
-    height: 3px;
-    background: gold;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1;
-    animation: parpadeoEstrella 3s infinite;
-}
-
-@keyframes parpadeoEstrella {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.4); }
-}
-
 /* Contenedor principal */
 .main {
     opacity: 0;
@@ -291,19 +274,24 @@ body {
 }
 .carta-interior.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
 
-/* Contenedor de huellas */
+/* Contenedor de huellas - FIX: Posicionamiento relativo para scroll natural */
 .huellas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+#canvasHuellas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-#canvasHuellas {
-    display: block;
-    width: 100%;
+    height: 100%;
     pointer-events: none;
 }
 
@@ -422,12 +410,12 @@ textarea { border-radius: 25px; min-height: 85px; }
 </head>
 <body>
 
-    <!-- CAPA DE HUELLAS (se integra aquí) -->
+    <!-- CAPA DE HUELLAS - FIX: fixed para que siga el scroll natural -->
     <div class="huellas-container" id="huellasContainer">
         <canvas id="canvasHuellas"></canvas>
     </div>
 
-    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995572.png" class="sombrero-seleccionador" id="sombrero" alt="Sombrero Seleccionador" onerror="this.style.display='none'">
+    <img src="sombrero.png" class="sombrero-seleccionador" id="sombrero" alt="Sombrero Seleccionador" onerror="this.style.display='none'">
     <div id="mensajeSombrero" class="mensaje-sombrero">🎩 ¡Gryffindor! 🦁</div>
 
     <div class="intro" id="intro">
@@ -467,7 +455,6 @@ textarea { border-radius: 25px; min-height: 85px; }
             <p class="texto-contenido" style="font-size:26px; font-weight:700; margin-top:15px;">💍 14 de agosto, 2026 💍</p>
         </div>
         
-        <!-- Sección Nuestra Historia: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo">
             <div class="titulo-bloque"><h2 class="titulo-flotante">✨ Nuestra Historia ✨</h2></div>
             <p class="texto-contenido">Todo comenzó con un "hola" sin nombre, una conversación que cruzó distancias invisibles. El mapa de nuestras vidas trazó un destino que aún no sabíamos leer. No hicieron falta hechizos complicados; la magia más real estaba en los pequeños momentos cotidianos: las risas compartidas, los silencios cómplices y la certeza de que, juntos, cualquier desafío se volvía liviano.</p>
@@ -475,7 +462,6 @@ textarea { border-radius: 25px; min-height: 85px; }
             <p class="texto-contenido"><strong><em style="font-family: 'Playfair Display', serif; font-size: 1.2em;">Always</em></strong></p>
         </div>
         
-        <!-- Sección La Gran Celebración: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-boda">
             <div class="titulo-bloque"><h2 class="titulo-flotante">La Gran Celebración</h2></div>
             <div class="countdown" id="countdownBoda"></div>
@@ -490,7 +476,6 @@ textarea { border-radius: 25px; min-height: 85px; }
             <div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div>
         </div>
         
-        <!-- Sección Avisos Importantes: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-info">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Avisos Importantes</h2></div>
             <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
@@ -498,7 +483,6 @@ textarea { border-radius: 25px; min-height: 85px; }
             <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
         
-        <!-- Sección Lista de Regalos: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-regalos">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
             <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p><p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
@@ -508,14 +492,12 @@ textarea { border-radius: 25px; min-height: 85px; }
             </div>
         </div>
         
-        <!-- Sección Álbum Mágico: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-album">
             <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Álbum Mágico</h2></div>
             <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
         
-        <!-- Sección Búho Mensajero: CON TÍTULO CENTRADO -->
         <div class="seccion-con-fondo" id="seccion-mensajes">
             <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
             <div class="titulo-bloque"><h2 class="titulo-flotante">Búho Mensajero</h2></div>
@@ -541,11 +523,12 @@ function inicializarMusica() { for(const [key, c] of Object.entries(canciones)) 
 function reproducirCancion(nombre, fadeIn = true) { const c = canciones[nombre]; if(c?.elemento) { const audio = c.elemento; if(fadeIn) { audio.volume = 0; audio.currentTime = 0; audio.play().catch(e=>console.log); let vol = 0; const interval = setInterval(() => { vol = Math.min(c.volume, vol+0.05); audio.volume = vol; if(vol>=c.volume-0.01) clearInterval(interval); }, 200); } else { audio.volume = c.volume; audio.play().catch(e=>console.log); } } }
 window.musicaMuted = false; function toggleAudio() { const boda = canciones.boda; if(boda?.elemento) { if(!window.musicaMuted) { boda.elemento.muted = true; window.musicaMuted = true; document.getElementById("audioBtn").textContent = "🔇 Activar Música"; } else { boda.elemento.muted = false; window.musicaMuted = false; document.getElementById("audioBtn").textContent = "🔊 Silenciar Música"; } } }
 
-// ==================== HUELLAS MÁGICAS ====================
+// ==================== HUELLAS MÁGICAS (FIX: Sincronización con scroll) ====================
 const TAMANO_HUMANO = 32;
 const TAMANO_PERRO = 24;
 const VELOCIDAD_HUELLAS = 700;
 
+// Coordenadas en pixeles relativas al scroll (absolutas en la página)
 const BUCLE_CONFIGS = [
     { nombre: "Título", inicioX: 80, inicioY: 200, finX: 100, finY: 150, separacionLateral: 16, tipoInicial: 'human' },
     { nombre: "Historia", inicioX: 80, inicioY: 780, finX: 580, finY: 900, separacionLateral: 14, tipoInicial: 'dog' },
@@ -556,7 +539,6 @@ const BUCLE_CONFIGS = [
     { nombre: "Mensajes", inicioX: 60, inicioY: 3250, finX: 620, finY: 3400, separacionLateral: 13, tipoInicial: 'human' }
 ];
 
-const container = document.getElementById('huellasContainer');
 const canvas = document.getElementById('canvasHuellas');
 const ctx = canvas.getContext('2d');
 
@@ -711,7 +693,7 @@ class BucleHuellas {
             if (h.fadeStart) opacidad = Math.max(0, 1 - ((ahora - h.fadeStart) / h.fadeDuration));
             if (opacidad > 0) {
                 const yDibujo = h.huella.y - scrollY;
-                if (yDibujo > -100 && yDibujo < canvas.height + 100) {
+                if (yDibujo > -100 && yDibujo < window.innerHeight + 100) {
                     if (imagenesListas && imgHumanDer.complete && imgDogDer.complete)
                         dibujarHuellaConImagen(h.huella.x, yDibujo, h.huella.angulo, h.tipo, h.huella.lado, opacidad);
                     else
@@ -740,11 +722,9 @@ function ejecutarSiguienteBucle() {
     }
 }
 
-function redimensionarCanvasHuellas() {
-    const alturaTotal = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight);
+function redimensionarCanvas() {
     canvas.width = window.innerWidth;
-    canvas.height = alturaTotal + 200;
-    container.style.height = canvas.height + 'px';
+    canvas.height = window.innerHeight;
 }
 
 function animarHuellas() {
@@ -756,22 +736,23 @@ function animarHuellas() {
 }
 
 function inicializarHuellas() {
-    console.log("🚀 Inicializando huellas en la web principal");
+    console.log("🚀 Inicializando huellas");
     bucles = [];
     BUCLE_CONFIGS.forEach((cfg, i) => {
         const bucle = new BucleHuellas(cfg, i);
         bucles.push(bucle);
-        console.log(`   ${cfg.nombre}: (${cfg.inicioX},${cfg.inicioY}) → (${cfg.finX},${cfg.finY})`);
     });
     bucleActualIndex = 0;
     ejecutarSiguienteBucle();
 }
 
-window.addEventListener('resize', () => setTimeout(redimensionarCanvasHuellas, 100));
-setTimeout(() => { redimensionarCanvasHuellas(); inicializarHuellas(); animarHuellas(); }, 500);
+window.addEventListener('resize', () => { redimensionarCanvas(); });
+redimensionarCanvas();
+inicializarHuellas();
+animarHuellas();
 
 // ==================== CARTA Y VARITA ====================
-const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
+const lineasCarta = ["✨ Travesura realizada... ✨", "", "¡Nos casamos!", "", "Has sido invitado a celebrar", "", "este momento tan especial", "","", "Con amor,", "Ivon & Julio"];
 let varitaActivada = false, wand, wandHint;
 function crearTextoMagico() { const container = document.getElementById("texto-carta"); if(!container) return; container.innerHTML = ""; lineasCarta.forEach(linea => { const div = document.createElement("div"); div.className = "magic-line"; if(linea.trim() === "") div.style.height = "25px"; else { [...linea].forEach(ch => { const span = document.createElement('span'); span.className = 'magic-letter'; span.innerHTML = ch === ' ' ? '&nbsp;' : ch; div.appendChild(span); }); } container.appendChild(div); }); }
 function revelarTexto() { const lines = document.querySelectorAll('#texto-carta .magic-line'); lines.forEach((line, idx) => { if(lineasCarta[idx].trim() === "") { line.classList.add("revealed"); return; } const letters = line.querySelectorAll('.magic-letter'); letters.forEach((span, i) => { span.style.animation = `tintaAparece 0.45s cubic-bezier(0.2,0.9,0.4,1.1) forwards ${i * 0.02}s`; }); setTimeout(() => line.classList.add("revealed"), 600); }); }

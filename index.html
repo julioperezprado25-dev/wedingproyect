@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>Ivon & Julio · Boda Mágica · Huellas Mágicas</title>
+<meta name="theme-color" content="#1a1509">
+<title>Ivon & Julio · Boda Mágica · Harry Potter</title>
 
-<!-- En el <head> - Agrega Tangerine -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet"> 
-<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Pinyon+Script&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=EB+Garamond&family=Cedarville+Cursive&family=Mr+De+Haviland:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * {
     margin: 0;
@@ -20,245 +24,38 @@ html, body {
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {
+    position: relative;
     font-family: 'Quicksand', sans-serif;
-    color: #1a1509;
-    padding: 0;
-    margin: 0;
+    color: #2c2416;
+    background-color: #dac49b;
     background-image: url("sobre_back4.png");
     background-repeat: repeat-y;
     background-position: center top;
     background-size: 100% auto;
-    background-color: #dac49b;
 }
 
-/* ===== INTRO DEL SOBRE ===== */
-.intro {
+/* Estrellas mágicas */
+.estrella-magica {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #1a1509;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 1s ease;
-    overflow: hidden;
-}
-
-.envelope {
-    position: relative;
-    width: min(340px, 85vw);
-    height: min(460px, 72vh);
-    perspective: 1800px;
-    cursor: default;
-    transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-}
-
-.envelope.zoom-in {
-    transform: scale(2.4);
-}
-
-.envelope-back {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('sobre_back4.png') no-repeat center center;
-    background-size: 100% 100%;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-    z-index: 0;
-    border-radius: 12px;
-}
-
-.envelope-body {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('sobre.png') no-repeat center center;
-    background-size: 100% 100%;
-    box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+    width: 3px;
+    height: 3px;
+    background: gold;
+    border-radius: 50%;
+    pointer-events: none;
     z-index: 1;
+    animation: parpadeoEstrella 3s infinite;
 }
 
-.flap-left, .flap-right {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    background: url('sobre.png') no-repeat;
-    background-size: 200% 100%;
-    transition: transform 1.2s cubic-bezier(0.4, 0.8, 0.3, 1.2);
-    z-index: 3;
+@keyframes parpadeoEstrella {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.4); }
 }
 
-.flap-left { left: 0; background-position: left; transform-origin: 0px center; }
-.flap-right { right: 0; background-position: right; transform-origin: calc(100% - 0px) center; }
-
-.envelope.open .flap-left { transform: rotateY(-110deg); }
-.envelope.open .flap-right { transform: rotateY(110deg); }
-.envelope.open .envelope-body { opacity: 0; }
-.envelope.open .envelope-back { opacity: 1; }
-
-.seal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(200px, 40vw);
-    height: min(200px, 40vw);
-    cursor: pointer;
-    z-index: 20;
-    transition: transform 0.15s ease;
-}
-
-.seal img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
-.seal:active { transform: translate(-50%, -50%) scale(0.96); }
-
-.hint {
-    position: absolute;
-    bottom: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(20px, 6vw, 28px);
-    color: #ffdd99;
-    text-shadow: 0 0 15px #ffaa33;
-    animation: glowHint 1.5s infinite;
-    white-space: nowrap;
-    background: rgba(0,0,0,0.35);
-    padding: 5px 24px;
-    border-radius: 50px;
-    pointer-events: none;
-}
-
-@keyframes glowHint { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
-@keyframes dustFadeOut {
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); filter: blur(10px); visibility: hidden; }
-}
-
-/* ===== CARTA INTERIOR ===== */
-.carta-interior {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    width: 80%;
-    max-width: 650px;
-    z-index: 10001;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    pointer-events: none;
-}
-
-.carta-interior.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
-    pointer-events: auto;
-}
-
-#texto-carta {
-    font-family: 'Great Vibes', cursive;
-    font-size: 40px;
-    line-height: 1.5;
-    color: #1a1509;
-    text-shadow: 0 1px 2px rgba(255,245,200,0.8);
-    background: transparent;
-    padding: 20px;
-}
-
-.magic-line { margin-bottom: 12px; opacity: 0; transition: opacity 0.3s ease; }
-.magic-line.revealed { opacity: 1; }
-.magic-letter {
-    display: inline-block;
-    opacity: 0;
-    filter: blur(8px);
-    transform: scale(0.6);
-}
-@keyframes smokeMaterialize {
-    0% { opacity: 0; filter: blur(12px); transform: scale(0.5) translateY(15px); }
-    100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); }
-}
-
-/* ===== VARITA MÁGICA ===== */
-.wand-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10002;
-}
-
-.wand {
-    position: absolute;
-    width: 180px;
-    height: auto;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9));
-    transform-origin: center;
-    cursor: pointer;
-    pointer-events: auto;
-}
-
-.wand-hint {
-    position: fixed;
-    font-family: 'Great Vibes', cursive;
-    font-size: 20px;
-    color: #ffdd99;
-    background: rgba(0,0,0,0.6);
-    padding: 5px 15px;
-    border-radius: 30px;
-    white-space: nowrap;
-    animation: glowHint 1.5s infinite;
-    z-index: 10003;
-    pointer-events: none;
-}
-
-@keyframes wandWiggleLight1 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(6deg) scale(1.03); } }
-@keyframes wandWiggleLight2 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-7deg) scale(1.03); } }
-@keyframes wandCurveMove { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(20px,-25px) rotate(15deg); } }
-@keyframes wandDustFade { 100% { opacity: 0; filter: blur(15px); transform: scale(0.5); visibility: hidden; } }
-
-.wand-wiggle-1 { animation: wandWiggleLight1 0.35s ease-in-out; }
-.wand-wiggle-2 { animation: wandWiggleLight2 0.35s ease-in-out; }
-.wand-curve { animation: wandCurveMove 0.6s cubic-bezier(0.68,-0.55,0.265,1.55); }
-.wand-dust { animation: wandDustFade 0.8s forwards; }
-
-.sparkle {
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    background: radial-gradient(circle, gold, #ffaa00, transparent);
-    border-radius: 50%;
-    animation: sparklePop 0.5s ease-out forwards;
-}
-@keyframes sparklePop { 100% { transform: scale(1.6); opacity: 0; } }
-
-.dust-particle {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: radial-gradient(circle, #ffd700, #ff8c00);
-    border-radius: 50%;
-    animation: dustFloat 0.6s ease-out forwards;
-}
-@keyframes dustFloat { 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
-
-/* ===== WEB PRINCIPAL ===== */
+/* Contenedor principal */
 .main {
     opacity: 0;
     transition: opacity 1.5s ease;
@@ -266,1511 +63,730 @@ body {
     z-index: 10;
     min-height: 100vh;
     width: 100%;
-    max-width: 1000px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 20px 20px 60px 20px;
+    padding: 20px 16px 80px 16px;
+    background: transparent;
 }
 
 .main.show { opacity: 1; }
 
-.seccion {
-    min-height: auto;
+/* ===== PERGAMINOS ===== */
+.pergamino {
+    background: transparent;
+    border-radius: 0 30px 0 30px;
+    padding: 28px 20px;
+    margin: 25px 0;
+    position: relative;
+    width: 100%;
+}
+
+.pergamino:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+    transition: transform 0.6s cubic-bezier(0.2, 0.95, 0.3, 1.05);
+}
+
+.pergamino::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -8px;
+    width: 16px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(80,50,20,0.25) 0%, rgba(80,50,20,0.05) 100%);
+    border-radius: 8px 0 0 8px;
+    pointer-events: none;
+}
+
+.pergamino::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -8px;
+    width: 16px;
+    height: 100%;
+    background: linear-gradient(270deg, rgba(80,50,20,0.25) 0%, rgba(80,50,20,0.05) 100%);
+    border-radius: 0 8px 8px 0;
+    pointer-events: none;
+}
+
+.enrollado-superior {
+    position: absolute;
+    top: -6px;
+    left: 15px;
+    width: 35px;
+    height: 20px;
+    background: linear-gradient(135deg, rgba(80,50,20,0.3) 0%, transparent 70%);
+    border-radius: 0 0 20px 0;
+    pointer-events: none;
+}
+
+.enrollado-inferior {
+    position: absolute;
+    bottom: -6px;
+    right: 15px;
+    width: 35px;
+    height: 20px;
+    background: linear-gradient(315deg, rgba(80,50,20,0.3) 0%, transparent 70%);
+    border-radius: 20px 0 0 0;
+    pointer-events: none;
+}
+
+.tinta-derramada {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    width: 60px;
+    height: 30px;
+    background: radial-gradient(ellipse, rgba(60,40,20,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.sello-pergamino {
+    position: absolute;
+    bottom: -10px;
+    right: 25px;
+    width: 38px;
+    height: 38px;
+    background: radial-gradient(ellipse, #b83d2a, #8b2a1a);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 1.8rem 0;
-    position: relative;
-    width: 100%;
-    overflow: visible !important; 
-}
-
-.contenido-seccion {
-    background: transparent !important;
-    backdrop-filter: none;
-    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.5rem);
-    width: 100%;
-    max-width: 850px;
-    margin: 0 auto;
-    border: none;
-    box-shadow: none;
-    position: relative;
+    font-size: 18px;
+    color: gold;
+    opacity: 0.75;
+    pointer-events: none;
     z-index: 2;
 }
 
 .titulo-principal {
-    font-family: 'Alex Brush', cursive;
-    font-size: clamp(64px, 14vw, 110px);
-    color: #1a1509;
-    text-shadow: 0 2px 6px rgba(200, 170, 100, 0.3);
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
-}
-
-.titulo-seccion {
-    font-family: 'Alex Brush', cursive;
-    font-size: clamp(36px, 8vw, 52px);
-    font-weight: 600;
-    font-style: italic;
-    color: #1a1509;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.subtitulo {
-    font-family: 'Parisienne', serif;
-    font-size: clamp(26px, 6vw, 36px);
-    font-weight: 500;
-    font-style: italic;
-    color: #2a1a0a;
-    margin: 18px 0 8px;
-}
-
-.texto-contenido {
-    font-family: 'Cormorant Garamond',cursive;
-    font-size: clamp(17px, 4vw, 22px);
-    font-weight: 500;
-    font-style: italic;
-    color: #1a1509;
-    line-height: 1.5;
-    margin: 12px 0;
-}
-
-/* ===== CONTENEDORES DE HUELLAS MÁGICAS ===== */
-.huellas-magicas-container {
-    width: 100%;
-    margin: 20px 0;
-    min-height: 200px;
-    position: relative;
-    overflow: visible;
-    background: transparent !important;
-    border-radius: 20px;
-}
-
-.cuerpo-pensadero {
-    position: absolute;
-    bottom: 10px;      /* Valor negativo para que sobresalga hacia abajo */
-    left: 10px;        /* Valor negativo para que sobresalga hacia la izquierda */
-    width: min(300px, 20vw);
-    height: auto;
-    z-index: 15;
-    pointer-events: none;  /* Para que no interfiera con clicks */
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
-    
-    /* Efecto flotante opcional */
-    animation: flotar_img 6s infinite alternate;
-}
-
-
-        /* Ajustes responsivos */
-        @media (max-width: 768px) {
-            .cuerpo-pensadero {
-                width: min(130px, 20vw);
-                bottom: -30px;
-                left: -20px;
-                animation: flotar_img 6s infinite alternate;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cuerpo-pensadero {
-                width: min(90px, 18vw);
-                bottom: -20px;
-                left: -15px;
-                animation: flotar_img 6s infinite alternate; /* Opcional: quitar animación en móviles */
-            }
-        }
-
-        /*Cuerpo para imagen en seccion de carta*/
-.cuerpo-img_carta {
-    position: absolute;
-    bottom: -20px;      /* Valor negativo para que sobresalga hacia abajo */
-    right: 10px;        /* Valor negativo para que sobresalga hacia la izquierda */
-    width: min(300px, 20vw);
-    height: auto;
-    z-index: 15;
-    pointer-events: none;  /* Para que no interfiera con clicks */
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
-    
-    /* Efecto flotante opcional */
-    animation: flotar_img 6s infinite alternate;
-}
-
-
-        /* Ajustes responsivos */
-        @media (max-width: 768px) {
-            .cuerpo-img_carta {
-                width: min(130px, 20vw);
-                bottom: -30px;
-                left: -20px;
-                animation: flotar_img 6s infinite alternate;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cuerpo-img_carta {
-                width: min(90px, 18vw);
-                bottom: -20px;
-                left: -15px;
-                animation: flotar_img 6s infinite alternate; /* Opcional: quitar animación en móviles */
-            }
-        }
-
-.huellas-magicas-overlay {
-    position: absolute;
-    top: -40px;
-    right: -30px;
-    width: 320px;
-    height: 260px;
-    z-index: 1;
-    pointer-events: none;
-    overflow: visible;
-    background: transparent;
-}
-
-
-/* ===== SEPARADORES ===== */
-.separador-pluma {
-    width: 100%;
-    margin: 25px 0;
-    text-align: center;
-    position: relative;
-}
-
-.linea-onda {
-    width: 70%;
-    height: 20px;
-    margin: 0 auto;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAiPjxwYXRoIGQ9Ik0wLDEwIEMyMCw1IDQwLDE1IDYwLDEwIEM4MCw1IDEwMCwxNSAxMjAsMTAgQzE0MCw1IDE2MCwxNSAxODAsMTAgQzE5MCw3IDIwMCwxMCAyMDAsMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMjQxOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz48L3N2Zz4=');
-    background-repeat: repeat-x;
-    background-position: center;
-    background-size: auto 100%;
-    opacity: 0.6;       
-}
-
-.linea-doble-onda {
-    width: 85%;
-    height: 30px;
-    margin: 0 auto;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMzAiPjxwYXRoIGQ9Ik0wLDUgQzE1LDggMzAsMiA0NSw1IEM2MCw4IDc1LDIgOTAsNSBDMTA1LDggMTIwLDIgMTM1LDUgQzE1MCw4IDE2NSwyIDE4MCw1IEMxOTAsNyAyMDAsNSAyMDAsNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmEyNDE4IiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNMzAsMTUgQzQ1LDE4IDYwLDEyIDc1LDE1IEM5MCwxOCAxMDUsMTIgMTIwLDE1IEMxMzUsMTggMTUwLDEyIDE2NSwxNSBDMTgwLDE4IDE5MCwxNSAyMDAsMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJhMjQxOCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+');
-    background-repeat: repeat-x;
-    background-position: center;
-    background-size: auto 100%;
-    opacity: 0.5;
-}
-
-.linea-punteada {
-    width: 60%;
-    height: 2px;
-    margin: 12px auto;
-    background: repeating-linear-gradient(90deg, #2a2418 0px, #2a2418 6px, transparent 6px, transparent 15px);
-}
-
-.ramita {
-    width: 100px;
-    height: 30px;
-    margin: 8px auto;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMzAiPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSAzMCwyMCAxMCwxNSIvPjxwYXRoIGQ9Ik01MCw1IEM1MCwxNSA3MCwyMCA5MCwxNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTUiIHI9IjIiIGZpbGw9IiMyYTI0MTgiLz48Y2lyY2xlIGN4PSI5MCIgY3k9IjE1IiByPSIyIiBmaWxsPSIjMmEyNDE4Ii8+PC9zdmc+');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    opacity: 0.5;
-}
-
-.simbolo-tinta {
-    text-align: center;
-    font-size: 22px;
-    letter-spacing: 8px;
-    color: #2a2418;
-    margin: 8px 0;
-    opacity: 0.5;
     font-family: 'Cinzel', serif;
+    font-size: clamp(52px, 12vw, 85px);
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 4px;
+    text-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #3a2815, #6b4c2a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.imagen-hero {
+/* SECCIONES */
+.seccion-con-fondo {
+    background: transparent;
+    border-radius: 35px;
+    padding: 20px 18px;
+    margin: 30px 0;
+    position: relative;
+    width: 100%;
+}
+
+.titulo-bloque {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    padding: 14px 20px;
+    border-radius: 60px;
+    margin-bottom: 30px;
+    display: inline-block;
+    width: auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,215,0,0.3);
+}
+
+.titulo-flotante {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(24px, 6vw, 38px);
+    font-weight: 700;
+    color: #FFD966;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    animation: flotarTrasladar 1.2s ease-out forwards;
+    display: block;
+}
+
+@keyframes flotarTrasladar {
+    0% { transform: translateX(60px) translateY(-20px); opacity: 0; filter: blur(8px); }
+    40% { transform: translateX(-8px) translateY(4px); opacity: 0.8; }
+    100% { transform: translateX(0) translateY(0); opacity: 1; filter: blur(0); }
+}
+
+.imagen-hero-perritos {
     display: block;
     width: 100vw;
-    max-width: 110vw;
+    max-width: 100vw;
     height: auto;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    border-radius: 40px;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+    margin: 0 calc(-50vw + 50%);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    object-fit: cover;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.2));
+}
+
+@media (min-width: 768px) {
+    .imagen-hero-perritos { width: 100%; margin: 0 auto; left: auto; transform: none; border-radius: 30px; }
+}
+
+/* Texto carta interior - cursiva elegante */
+#texto-carta {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: clamp(28px, 7vw, 48px);
+    line-height: 1.5;
+    color: #2c1a0a;
+    text-align: center;
+    width: 100%;
     background: transparent;
 }
 
-.imagen-icon {
-    width: 65px;
-    height: auto;
-    margin: 0 auto 0.8rem;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-}
-
-.countdown {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(28px, 6vw, 42px);
-    font-weight: bold;
+.magic-line { margin-bottom: 12px; opacity: 0; transition: opacity 0.2s ease; text-align: center; }
+.magic-line.revealed { opacity: 1; }
+.magic-letter {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(10px);
+    transform: scale(0.5);
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
     font-style: italic;
-    background: rgba(200, 180, 140, 0.4);
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 60px;
-    margin: 18px 0;
-    color: #1a1509;
 }
+@keyframes tintaAparece {
+    0% { opacity: 0; filter: blur(14px); transform: scale(0.3) translateY(15px); letter-spacing: 8px; }
+    100% { opacity: 1; filter: blur(0); transform: scale(1) translateY(0); letter-spacing: normal; }
+}
+.magic-letter { animation: tintaAparece 0.5s cubic-bezier(0.2,0.9,0.4,1.1) forwards; }
 
-.btn {
-    background: #8b6b3a;
-    border: none;
-    color: #f5f0e0;
-    font-family: 'Cinzel', serif;
-    font-size: clamp(17px, 4vw, 19px);
-    padding: 12px 28px;
-    margin: 8px;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 0 #5a4020;
-    font-weight: 600;
-    margin-left: 0;
-    margin-right: auto;
-    display: inline-block;
-}
-
-.btn:hover {
-    background: #a8844a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #5a4020;
-}
-/* Estilos globales (para toda la web) */
-input, textarea {
-    width: 100%;
-    max-width: 380px;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 60px;
-    border: 2px solid #8b6b3a;
-    font-family: 'Quicksand', sans-serif;
-    background: rgba(255, 253, 245, 0.85);
-    font-size: 16px;
-    color: #1a1509;
-    display: block;  /* Para que se apilen verticalmente */
-}
-
-textarea {
-    border-radius: 28px;
-    min-height: 100px;
-}
-/* Contenedor principal - centra el título */
-#seccion-mensajes .contenido-seccion {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* Título centrado */
-}
-
-/* Grupo izquierda - alinea todo a la izquierda */
-#seccion-mensajes .izquierda {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;  /* Todo a la izquierda */
-}
-
-/* Título se mantiene centrado */
-#seccion-mensajes .titulo-seccion {
+.carta-interior {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 92%;
+    max-width: 700px;
+    z-index: 10001;
     text-align: center;
-    width: 100%;
-}
-
-/* Inputs y textarea */
-#seccion-mensajes input,
-#seccion-mensajes textarea {
-    width: 100%;
-    max-width: 380px;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 60px;
-    border: 2px solid #8b6b3a;
-    font-family: 'Quicksand', sans-serif;
-    background: rgba(255, 253, 245, 0.85);
-    font-size: 16px;
-    color: #1a1509;
-}
-
-#seccion-mensajes textarea {
-    border-radius: 28px;
-    min-height: 100px;
-}
-
-/* Texto descriptivo */
-#seccion-mensajes .texto-contenido {
-    text-align: left;
-}
-
-/* Botón alineado a la izquierda */
-#seccion-mensajes .btn {
-    margin-left: 0;
-    margin-top: 10px;
-}
-.qr-container {
-    text-align: center;
-    margin: 25px 0;
-    padding: 20px;
-    background: rgba(200, 180, 140, 0.3);
-    border-radius: 30px;
-}
-
-.qr-code { display: flex; justify-content: center; margin: 15px 0; }
-.qr-code img { border-radius: 18px; }
-
-.flor-seccion {
-    position: absolute;
-    z-index: 6;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease;
     pointer-events: none;
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+    background: transparent;
+    padding: 20px;
+}
+.carta-interior.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+
+/* Contenedor de huellas */
+.huellas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1000;
 }
 
-.flor-seccion img {
-    width: 100% !important;
-    height: auto !important;
+#canvasHuellas {
+    display: block;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* Elementos decorativos */
+.cuerpo-pensadero, .cuerpo-img_carta {
+    position: absolute;
+    bottom: -25px;
+    width: min(100px, 14vw);
+    height: auto;
+    z-index: 15;
+    pointer-events: none;
+    filter: drop-shadow(0 5px 12px rgba(0,0,0,0.2));
     animation: flotar_img 5s infinite alternate;
+    opacity: 0.85;
+}
+.cuerpo-pensadero { left: -25px; }
+.cuerpo-img_carta { right: -25px; }
+@keyframes flotar_img {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(6px) rotate(2deg); }
 }
 
-@keyframes flotar_img {
-    0% { transform: translateY(0px); }
-    100% { transform: translateY(8px); }
+/* Separadores */
+.separador-pluma { width: 100%; margin: 12px 0; text-align: center; }
+.linea-onda { width: 60%; height: 18px; margin: 8px auto; background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAiPjxwYXRoIGQ9Ik0wLDEwIEMyMCw1IDQwLDE1IDYwLDEwIEM4MCw1IDEwMCwxNSAxMjAsMTAgQzE0MCw1IDE2MCwxNSAxODAsMTAgQzE5MCw3IDIwMCwxMCAyMDAsMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhhNmIzYSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48L3N2Zz4='); background-repeat: repeat-x; background-size: auto 100%; opacity: 0.5; }
+.linea-punteada { width: 50%; height: 2px; margin: 12px auto; background: repeating-linear-gradient(90deg, #8a6b3a 0px, #8a6b3a 5px, transparent 5px, transparent 15px); opacity: 0.5; }
+.simbolo-tinta { text-align: center; font-size: 20px; letter-spacing: 6px; color: #8a6b3a; margin: 8px 0; opacity: 0.6; font-family: 'Cinzel', serif; }
+.subtitulo { font-family: 'Playfair Display', serif; font-size: clamp(20px, 5vw, 26px); font-weight: 600; color: #5a3a1a; margin: 20px 0 10px; text-align: center; }
+.texto-contenido { font-family: 'Cormorant Garamond', serif; font-size: clamp(16px, 4vw, 20px); font-weight: 500; color: #2c2416; line-height: 1.55; margin: 10px 0; text-align: center; }
+.imagen-icon { width: 50px; height: auto; margin: 0 auto 10px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.1)); }
+.countdown { font-family: 'Cinzel', serif; font-size: clamp(24px, 5.5vw, 36px); font-weight: 700; background: rgba(139,107,58,0.25); backdrop-filter: blur(8px); display: inline-block; padding: 10px 22px; border-radius: 60px; margin: 15px 0; color: #3a2815; letter-spacing: 2px; border: 1px solid rgba(139,107,58,0.4); }
+.btn { background: linear-gradient(135deg, #6b4c2a, #4a3218); border: none; color: #f5e6c8; font-family: 'Cinzel', serif; font-size: clamp(13px, 3.5vw, 15px); font-weight: 600; padding: 10px 20px; margin: 6px; border-radius: 50px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 3px 8px rgba(0,0,0,0.2); display: inline-block; letter-spacing: 1px; }
+.btn:hover { background: linear-gradient(135deg, #8a6338, #5a3e20); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
+.btn-copiar { background: linear-gradient(135deg, #2a5a3a, #1a3a22); margin-left: 10px; padding: 8px 16px; font-size: 12px; }
+input, textarea { width: 100%; max-width: 380px; padding: 11px 15px; margin: 6px 0; border-radius: 50px; border: 2px solid #b8965a; font-family: 'Quicksand', sans-serif; background: rgba(255,250,235,0.95); font-size: 14px; color: #2c2416; display: block; transition: all 0.2s; }
+input:focus, textarea:focus { outline: none; border-color: #6b4c2a; box-shadow: 0 0 0 3px rgba(107,76,42,0.2); }
+textarea { border-radius: 25px; min-height: 85px; }
+.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; }
+.qr-code { display: flex; justify-content: center; margin: 12px 0; }
+.qr-code img { border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+.sombrero-seleccionador {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 1100;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+    animation: flotarSombrero 3s infinite alternate;
 }
+.sombrero-seleccionador:hover { transform: scale(1.1); }
+@keyframes flotarSombrero {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-8px) rotate(5deg); }
+}
+.mensaje-sombrero {
+    position: fixed;
+    bottom: 80px;
+    left: 80px;
+    background: rgba(0,0,0,0.8);
+    color: gold;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    z-index: 1101;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+.mensaje-sombrero.show { opacity: 1; }
+
+.wand-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10002; }
+.wand { position: fixed; width: 150px; height: auto; filter: drop-shadow(0 0 25px rgba(255,215,0,0.9)); transform-origin: center; cursor: pointer; pointer-events: auto; }
+.wand-hint { position: fixed; font-family: 'Caveat', serif; font-size: 20px; color: #ffdd99; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); padding: 5px 18px; border-radius: 40px; white-space: nowrap; animation: glowHint 1.5s infinite; z-index: 10003; pointer-events: none; }
+@keyframes sparklePop { 100% { transform: scale(1.8); opacity: 0; } }
+@keyframes wandWiggleLight1 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(8deg) scale(1.05); } }
+@keyframes wandWiggleLight2 { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-9deg) scale(1.05); } }
+@keyframes wandCurveMove { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(25px,-30px) rotate(18deg); } }
+@keyframes wandDustFade { 100% { opacity: 0; filter: blur(15px); transform: scale(0.3); visibility: hidden; } }
+@keyframes glowHint { 0%,100% { opacity: 0.7; } 50% { opacity: 1; text-shadow: 0 0 20px #ffdd66; } }
+.fade-dust { animation: dustFadeOut 1.2s forwards !important; }
+@keyframes dustFadeOut { 100% { opacity: 0; transform: translate(-50%,-50%) scale(0.3); filter: blur(15px); visibility: hidden; } }
+
+.intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(145deg, #1a1509 0%, #2a2010 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1); overflow: hidden; }
+.envelope { position: relative; width: min(500px, 90vw); height: min(600px, 80vh); perspective: 2000px; cursor: default; transition: transform 0.8s cubic-bezier(0.2,0.9,0.4,1.1); }
+.envelope.zoom-in { transform: scale(2.2); }
+.envelope-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre_back4.png') no-repeat center center; background-size: 100% 100%; opacity: 0; transition: opacity 0.6s ease; z-index: 0; border-radius: 12px; }
+.envelope-body { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('sobre.png') no-repeat center center; background-size: 100% 100%; box-shadow: 0 25px 40px rgba(0,0,0,0.5); z-index: 1; }
+.flap-left, .flap-right { position: absolute; top: 0; width: 50%; height: 100%; background: url('sobre.png') no-repeat; background-size: 200% 100%; transition: transform 1.2s cubic-bezier(0.4,0.8,0.3,1.2); z-index: 3; }
+.flap-left { left: 0; background-position: left; transform-origin: 0px center; }
+.flap-right { right: 0; background-position: right; transform-origin: calc(100% - 0px) center; }
+.envelope.open .flap-left { transform: rotateY(-110deg); }
+.envelope.open .flap-right { transform: rotateY(110deg); }
+.envelope.open .envelope-body { opacity: 0; }
+.envelope.open .envelope-back { opacity: 1; }
+.seal { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(250px,60vw); height: min(250px,35vw); cursor: pointer; z-index: 20; transition: transform 0.2s ease; }
+.seal img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
+.seal:active { transform: translate(-50%,-50%) scale(0.96); }
+.hint { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%); font-family: 'Caveat', serif; font-size: clamp(25px,9vw,22px); color: #ffdd99; text-shadow: 0 0 15px #ffaa33; animation: glowHint 1.5s infinite; white-space: nowrap; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); padding: 5px 22px; border-radius: 60px; pointer-events: none; }
 
 @media (max-width: 768px) {
-    body { padding: 0 12px; }
-    .envelope { width: min(320px, 85vw); height: calc(min(320px, 85vw) * 1.5); max-height: 70vh; }
-    .envelope.zoom-in { transform: scale(1.6); }
-    .seal { width: min(100px, 22vw); height: min(100px, 22vw); }
-    .hint { font-size: 18px; bottom: -40px; padding: 4px 18px; }
-    .carta-interior { width: 85%; max-width: 400px; }
-    #texto-carta { font-size: 22px; }
-    .wand { width: 120px; }
-    .titulo-principal { font-size: 52px; }
-    .titulo-seccion { font-size: 32px; }
-    .texto-contenido { font-size: 16px; }
-    .huellas-magicas-container { min-height: 180px; }
+    .main { padding: 16px 14px 60px 14px; }
+    .seccion-con-fondo { padding: 18px 14px; margin: 20px 0; }
 }
-
 @media (max-width: 480px) {
-    .envelope { width: min(280px, 90vw); height: calc(min(280px, 90vw) * 1.5); }
-    .envelope.zoom-in { transform: scale(1.4); }
-    .titulo-principal { font-size: 42px; }
-    .huellas-magicas-container { min-height: 150px; }
-    .seal { width: min(300px, 60vw); height: min(300px, 60vw); }
+    .titulo-principal { font-size: 42px; letter-spacing: 2px; }
+    .titulo-bloque { padding: 10px 16px; }
+    .btn { padding: 6px 12px; font-size: 11px; }
 }
 </style>
 </head>
 <body>
 
-<!-- INTRO DEL SOBRE -->
-<div class="intro" id="intro">
-    <div class="envelope" id="sobre">
-        <div class="envelope-back"></div>
-        <div class="envelope-body"></div>
-        <div class="flap-left"></div>
-        <div class="flap-right"></div>
-        <div class="seal" id="sello"><img src="sello.png" alt="Sello"></div>
-        <div class="hint" id="hint">✨ Presiona el sello ✨</div>
+    <!-- CAPA DE HUELLAS (se integra aquí) -->
+    <div class="huellas-container" id="huellasContainer">
+        <canvas id="canvasHuellas"></canvas>
     </div>
-</div>
 
-<!-- CARTA INTERIOR -->
-<div id="cartaInterior" class="carta-interior">
-    <div id="texto-carta"></div>
-</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/1995/1995572.png" class="sombrero-seleccionador" id="sombrero" alt="Sombrero Seleccionador" onerror="this.style.display='none'">
+    <div id="mensajeSombrero" class="mensaje-sombrero">🎩 ¡Gryffindor! 🦁</div>
 
-<!-- VARITA -->
-<div class="wand-container" id="wandContainer">
-    <img id="wand" class="wand" src="barita.png" alt="Varita" style="display: none;">
-    <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
-</div>
+    <div class="intro" id="intro">
+        <div class="envelope" id="sobre">
+            <div class="envelope-back"></div>
+            <div class="envelope-body"></div>
+            <div class="flap-left"></div>
+            <div class="flap-right"></div>
+            <div class="seal" id="sello"><img src="sello.png" alt="Sello"></div>
+            <div class="hint" id="hint">✨ Presiona el sello ✨</div>
+        </div>
+    </div>
 
-<!-- WEB PRINCIPAL -->
-<div class="main" id="main">
-    
-    <!-- Separador inicial -->
-    <div class="separador-pluma">
-        <div class="linea-onda"></div>
-        <div class="simbolo-tinta">✧ ⚡ ✧</div>
+    <div id="cartaInterior" class="carta-interior"><div id="texto-carta"></div></div>
+
+    <div class="wand-container" id="wandContainer">
+        <img id="wand" class="wand" src="barita.png" alt="Varita" style="display: none;">
+        <div id="wandHint" class="wand-hint" style="display: none;">✨ Presiona la varita ✨</div>
     </div>
-    
-    <!-- ============================================ -->
-    <!-- BUCLE DE HUELLAS PRINCIPAL (DIAGONAL)       -->
-    <!-- Se mostrará al inicio de la web principal   -->
-    <!-- ============================================ -->
-    <div id="huellas-principal" class="huellas-magicas-container"></div>
-    
-    <div class="seccion" id="seccion-perritos">
-        <img src="perritos.png" class="imagen-hero" onerror="this.style.display='none'">
-    </div>
-    
-    <!-- ============================================ -->
-    <!-- SEGUNDO BUCLE DE HUELLAS (EJEMPLO)           -->
-    <!-- Puedes descomentar y configurar otro bucle   -->
-    <!-- ============================================ -->
-    <!--
-    <div class="separador-pluma">
-        <div class="linea-punteada"></div>
-        <div class="ramita"></div>
-        <div class="simbolo-tinta">🐾</div>
-    </div>
-    <div id="huellas-secundarias" class="huellas-magicas-container"></div>
-    -->
-    
-    <div class="separador-pluma">
-        <div class="linea-punteada"></div>
-        <div class="ramita"></div>
-        <div class="simbolo-tinta">🐾</div>
-    </div>
-    
-    <div class="seccion" id="seccion-titulo">
-        <div id="huellas-titulo" class="huellas-magicas-overlay"></div>
-        <div class="contenido-seccion">
+
+    <div class="main" id="main">
+        <div class="separador-pluma"><div class="linea-onda"></div><div class="simbolo-tinta">⚡ ✧ ⚡</div></div>
+        
+        <div class="seccion" id="seccion-perritos">
+            <img src="perritos.png" class="imagen-hero-perritos" onerror="this.style.display='none'" alt="Perritos">
+        </div>
+        
+        <div class="separador-pluma"><div class="linea-punteada"></div></div>
+        
+        <div class="pergamino" id="seccion-titulo">
+            <div class="enrollado-superior"></div><div class="enrollado-inferior"></div>
+            <div class="tinta-derramada"></div>
+            <div class="sello-pergamino">⚡</div>
             <h1 class="titulo-principal">Ivon & Julio</h1>
             <p class="texto-contenido">✦ Nos llena de alegría invitarte a celebrar ✦</p>
-            <p class="texto-contenido">uno de los días más importantes de nuestras vidas juntos</p>
-            <p class="texto-contenido" style="font-size:28px; font-weight:bold; margin-top:20px;">💍 14 de agosto, 2026 💍</p>
+            <p class="texto-contenido">uno de los días más importantes de nuestras vidas</p>
+            <p class="texto-contenido" style="font-size:26px; font-weight:700; margin-top:15px;">💍 14 de agosto, 2026 💍</p>
         </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-doble-onda"></div>
-        <div class="simbolo-tinta">✿ ❀ ✿</div>
-    </div>
-
-     <div class="seccion" id="seccion-nosotros">
-        <div class="contenido-seccion">
-            <h1 class="titulo-principal">¿Cómo inició esto?</h1>
-            <p class="texto-contenido">✦ Una conversación sin nombre, un "hola" que cruzó distancias invisibles.</p>
-            <p class="texto -contenido">El mapa de nuestra vida trazó un destino que aún no podíamos leer.</p>
-            <p class="texto-contenido">No necesitamos hechizos complicados: la magia más real está en lo cotidiano.</p>
-            <p class="texto-contenido">Hoy, ese encuentro fortuito se convierte en un "sí, acepto".</p>
-            <p class="texto-contenido">Gracias por ser parte de nuestra magia.*Siempre.*</p>
+        
+        <div class="seccion-con-fondo"><div class="titulo-bloque"><h2 class="titulo-flotante">✨ Nuestra Historia ✨</h2></div>
+            <p class="texto-contenido">Todo comenzó con un "hola" sin nombre, una conversación que cruzó distancias invisibles. El mapa de nuestras vidas trazó un destino que aún no sabíamos leer. No hicieron falta hechizos complicados; la magia más real estaba en los pequeños momentos cotidianos: las risas compartidas, los silencios cómplices y la certeza de que, juntos, cualquier desafío se volvía liviano.</p>
+            <p class="texto-contenido">Hoy, ese encuentro fortuito se convierte en un "sí, acepto". Y entre varitas y pergaminos, prometemos caminar siempre de la mano, en esta y en todas nuestras aventuras.</p>
+            <p class="texto-contenido"><strong><em style="font-family: 'Playfair Display', serif; font-size: 1.2em;">Always</em></strong></p>
         </div>
-    </div>
-
-    <div id="huellas-area-45" class="huellas-magicas-container" style="min-height: 500px;"></div>
-
-    
-    <div class="seccion" id="seccion-boda">
-        <div class="contenido-seccion">
-            <h2 class="titulo-seccion">📜 La Gran Celebración</h2>
+        
+        <div class="seccion-con-fondo" id="seccion-boda"><div class="titulo-bloque"><h2 class="titulo-flotante">La Gran Celebración</h2></div>
             <div class="countdown" id="countdownBoda"></div>
             <p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
-            <h3 class="subtitulo">Ceremonia Religiosa</h3>
+            <h3 class="subtitulo">⛪ Ceremonia Religiosa</h3>
             <img src="iglesiaV.png" class="imagen-icon" onerror="this.style.display='none'">
-            <p class="texto-contenido"><strong>📍 Hora:</strong> 7:00 P.M.</p>
-            <p class="texto-contenido"><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
+            <p class="texto-contenido"><strong>🕖 Hora:</strong> 7:00 P.M.</p><p class="texto-contenido"><strong>📍 Lugar:</strong> Parroquia San José, Jesús María</p>
             <div><button class="btn" onclick="abrirMapsI()">📍 Google Maps</button><button class="btn" onclick="abrirWazeI()">🚗 Waze</button></div>
-            <h3 class="subtitulo">Recepción Mágica</h3>
+            <h3 class="subtitulo">🎉 Recepción Mágica</h3>
             <img src="fiestaV.png" class="imagen-icon" onerror="this.style.display='none'">
-            <p class="texto-contenido"><strong>📍 Hora:</strong> 8:30 P.M.</p>
-            <p class="texto-contenido"><strong>🏠 Dirección:</strong> Av. José de la Riva Agüero, 2009, San Miguel</p>
+            <p class="texto-contenido"><strong>🕣 Hora:</strong> 8:30 P.M.</p><p class="texto-contenido"><strong>🏠 Dirección:</strong> Av. José de la Riva Agüero, 2009, San Miguel</p>
             <div><button class="btn" onclick="abrirMapsR()">📍 Google Maps</button><button class="btn" onclick="abrirWazeR()">🚗 Waze</button></div>
         </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-onda"></div>
-        <div class="simbolo-tinta">⚜️ ✧ ⚜️</div>
-        <div class="linea-punteada"></div>
-    </div>
-    
-    <div class="seccion" id="seccion-info">
-        <div class="contenido-seccion">
-            <h2 class="titulo-seccion">📜 Avisos Importantes</h2>
+        
+        <div class="seccion-con-fondo" id="seccion-info"><div class="titulo-bloque"><h2 class="titulo-flotante">Avisos Importantes</h2></div>
             <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
             <p class="texto-contenido">📅 Confirmar asistencia antes del 15 de julio</p>
-            <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p>
-            <p class="texto-contenido">🍷 Servicio de catering y barra libre</p>
-            <p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
+            <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-doble-onda"></div>
-        <div class="ramita"></div>
-    </div>
-    
-    <div class="seccion" id="seccion-regalos">
-        <div class="contenido-seccion">
-            <h2 class="titulo-seccion">🎁 Lista de Regalos</h2>
-            <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
-            <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
-            <div style="background:rgba(180, 150, 100, 0.2); border-radius:35px; padding:20px; margin-top:20px;">
-                <h3 class="subtitulo">💰 Nuestra cuenta</h3>
-                <p class="texto-contenido" style="font-size:26px; font-weight:bold;">193 205 253 18 0 43</p>
+        
+        <div class="seccion-con-fondo" id="seccion-regalos"><div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
+            <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p><p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
+            <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px;">
+                <h3 class="subtitulo" style="font-size:22px;">💰 Nuestra cuenta</h3>
+                <p class="texto-contenido" style="font-size:24px; font-weight:800; letter-spacing:2px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;"><span id="numeroCuenta">193 205 253 18 0 43</span><button class="btn btn-copiar" onclick="copiarCuenta()">📋 Copiar</button></p>
             </div>
         </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-punteada"></div>
-        <div class="simbolo-tinta">✧ ⚡ ✧</div>
-    </div>
-    
-    <div class="seccion" id="seccion-album">
-        <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="pensadero">
-        <div class="contenido-seccion">
-            <h2 class="titulo-seccion">Álbum Mágico</h2>
-            <div class="qr-container">
-                <p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p>
-                <div class="qr-code" id="qrCode"></div>
-                <button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button>
-                <p class="texto-contenido" style="font-size:14px;">* Las fotos quedarán en el Pensadero</p>
-            </div>
+        
+        <div class="seccion-con-fondo" id="seccion-album">
+            <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">Álbum Mágico</h2></div>
+            <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-onda"></div>
-        <div class="simbolo-tinta">✿ ✦ ✿</div>
-    </div>
-    
-    <div class="seccion" id="seccion-mensajes">
-        <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="arreglo_carta">
-        <div class="contenido-seccion">
-            <h2 class="titulo-seccion">💬 Búho Mensajero</h2>
-            <div class="izquierda">
-                <p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
-                <input type="text" id="nombre" placeholder="✏️ Tu nombre">
-                <input type="tel" id="telefono" placeholder="📱 Tu teléfono">
-                <textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea>
-                <button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button>    
-            </div>
+        
+        <div class="seccion-con-fondo" id="seccion-mensajes">
+            <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
+            <div class="titulo-bloque"><h2 class="titulo-flotante">Búho Mensajero</h2></div>
+            <div style="width:100%; display: flex; flex-direction: column; align-items: center;"><p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
+            <input type="text" id="nombre" placeholder="✏️ Tu nombre"><input type="tel" id="telefono" placeholder="📱 Tu teléfono"><textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea><button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button></div>
         </div>
+        <div class="separador-pluma"><div class="linea-punteada"></div><div class="simbolo-tinta">⚡ ✧ ⚡</div><div class="linea-onda"></div></div>
+        <div class="pergamino" id="seccion-audio"><div class="enrollado-superior"></div><div class="enrollado-inferior"></div><div class="tinta-derramada"></div><div class="sello-pergamino">🎵</div><button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button><p class="texto-contenido" style="margin-top:20px; font-family:'Cinzel', serif; font-size:28px;">✨ Expecto Amor ✨</p></div>
     </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-doble-onda"></div>
-        <div class="ramita"></div>
-    </div>
-    
-    <div class="seccion" id="seccion-audio">
-        <div class="contenido-seccion">
-            <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
-            <p class="texto-contenido" style="margin-top:30px; font-family:'Great Vibes'; font-size:28px;">✨ Expecto Amor ✨</p>
-        </div>
-    </div>
-    
-    <div class="separador-pluma">
-        <div class="linea-punteada"></div>
-        <div class="simbolo-tinta">✧ ✦ ✧</div>
-        <div class="linea-onda"></div>
-    </div>
-</div>
 
 <script>
-// ============================================
-// CLASE HUELLAS MAGICAS - VERSIÓN CORREGIDA
-// ============================================
+// ==================== FUNCIONES BÁSICAS ====================
+function copiarCuenta() { const num = document.getElementById('numeroCuenta')?.innerText.replace(/\s/g, ''); if(num) { navigator.clipboard.writeText(num).then(() => { const btn = event.target; const orig = btn.innerText; btn.innerText = '✓ Copiado!'; setTimeout(() => btn.innerText = orig, 2000); }); } }
+function enviarMensajeWhatsApp() { const nombre = document.getElementById("nombre")?.value.trim(); const telefono = document.getElementById("telefono")?.value.trim(); const mensaje = document.getElementById("mensajeInput")?.value.trim(); if(!nombre || !telefono || !mensaje) return alert("✨ Por favor completa todos los campos ✨"); const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`; const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? "51987654321" : "51912345678"; window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank'); document.getElementById("nombre").value = ""; document.getElementById("telefono").value = ""; document.getElementById("mensajeInput").value = ""; alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨"); }
+function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); } function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); } function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); } function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
+const URL_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8"; function abrirFormularioFotos() { window.open(URL_FOTOS, '_blank'); } function generarQR() { const qrDiv = document.getElementById("qrCode"); if(qrDiv) qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(URL_FOTOS)}" style="width:110px;height:110px;border-radius:15px;">`; }
+function iniciarAlbumObserver() { const sec = document.getElementById("seccion-album"); if(sec) { const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting) { generarQR(); obs.disconnect(); } }, { threshold: 0.3 }); obs.observe(sec); } }
+function iniciarCountdown() { const el = document.getElementById('countdownBoda'); if(!el) return; const fechaBoda = new Date('August 14, 2026 19:00:00').getTime(); setInterval(() => { const ahora = new Date().getTime(), distancia = fechaBoda - ahora; if(distancia < 0) el.innerHTML = '🎉 ¡Es hoy! 🎉'; else { const dias = Math.floor(distancia / (1000*60*60*24)), horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60)), minutos = Math.floor((distancia % (1000*60*60)) / (1000*60)), segundos = Math.floor((distancia % (1000*60)) / 1000); el.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`; } }, 1000); }
 
-class HuellasMagicas {
-    constructor(contenedorId, tipo = 'human') {
-        this.container = document.getElementById(contenedorId);
-        this.canvas = null;
-        this.ctx = null;
-        this.tipo = tipo;
-        this.intervalId = null;
-        this.activo = false;
-        this.fadeTimerId = null;
-        
-        // Estructura de datos para huellas activas
-        this.huellasActivas = [];  // { huella, opacidad, fadeStartTime, fadeDuration }
-        this.totalHuellas = [];
-        this.indiceActual = 0;
-        this.cicloCompletado = false;
-        
-        // Configuración por defecto
-        this.config = {
-            inicio: { x: 50, y: 80 },
-            fin: { x: 750, y: 120 },
-            tamanoHuella: 28,
-            separacionLateral: 20,
-            tiempoPaso: 550,
-            tiempoDesvanecer: 1000,
-            factorSeparacion: 1.5,
-            maxHuellasSimultaneas: 3
-        };
-        
-        // Imágenes
-        this.imagenes = {
-            human: { left: null, right: null },
-            dog: { left: null, right: null }
-        };
-        
-        this.imagenesCargadas = 0;
-        this.animationId = null;
-        
-        // Crear canvas dentro del contenedor
-        this.crearCanvas();
-        this.cargarImagenes();
-    }
-    
-    crearCanvas() {
-        // Limpiar contenedor
-        this.container.innerHTML = '';
-        
-        // Crear canvas
-        this.canvas = document.createElement('canvas');
-        this.canvas.style.width = '100%';
-        this.canvas.style.display = 'block';
-        this.canvas.style.background = 'transparent';
-        this.container.appendChild(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
-        
-        // Redimensionar
-        this.redimensionarCanvas();
-    }
-    
-    cargarImagenes() {
-        let cargadas = 0;
-        const total = 4;
-        
-        const actualizar = () => {
-            cargadas++;
-            if (cargadas === total) {
-                console.log(`✅ Imágenes listas para ${this.tipo === 'human' ? 'HUMANOS' : 'PERRITOS'}`);
-                if (this.onImagenesListas) this.onImagenesListas();
-                this.iniciarRenderLoop();
-            }
-        };
-        
-        const imgHL = new Image();
-        imgHL.onload = () => { this.imagenes.human.left = imgHL; actualizar(); };
-        imgHL.onerror = () => { this.imagenes.human.left = this.crearPlaceholder('human', 'left'); actualizar(); };
-        imgHL.src = 'huellaI.png';
-        
-        const imgHR = new Image();
-        imgHR.onload = () => { this.imagenes.human.right = imgHR; actualizar(); };
-        imgHR.onerror = () => { this.imagenes.human.right = this.crearPlaceholder('human', 'right'); actualizar(); };
-        imgHR.src = 'HuellaD.png';
-        
-        const imgDL = new Image();
-        imgDL.onload = () => { this.imagenes.dog.left = imgDL; actualizar(); };
-        imgDL.onerror = () => { this.imagenes.dog.left = this.crearPlaceholder('dog', 'left'); actualizar(); };
-        imgDL.src = 'huella_canI.png';
-        
-        const imgDR = new Image();
-        imgDR.onload = () => { this.imagenes.dog.right = imgDR; actualizar(); };
-        imgDR.onerror = () => { this.imagenes.dog.right = this.crearPlaceholder('dog', 'right'); actualizar(); };
-        imgDR.src = 'huella_canD.png';
-    }
-    
-    crearPlaceholder(tipo, lado) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 64;
-        canvas.height = 64;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#2a2418';
+// ==================== MÚSICA ====================
+const canciones = { boda: { elemento: null, src: "musica.mp3", volume: 0.65, loop: true }, magia: { elemento: null, src: "magic.mp3", volume: 0.55, loop: false }, intro: { elemento: null, src: "Potterw.mp3", volume: 0.4, loop: true } };
+function inicializarMusica() { for(const [key, c] of Object.entries(canciones)) { if(!c.elemento) { const audio = new Audio(); audio.src = c.src; audio.loop = c.loop; audio.volume = 0; c.elemento = audio; } } }
+function reproducirCancion(nombre, fadeIn = true) { const c = canciones[nombre]; if(c?.elemento) { const audio = c.elemento; if(fadeIn) { audio.volume = 0; audio.currentTime = 0; audio.play().catch(e=>console.log); let vol = 0; const interval = setInterval(() => { vol = Math.min(c.volume, vol+0.05); audio.volume = vol; if(vol>=c.volume-0.01) clearInterval(interval); }, 200); } else { audio.volume = c.volume; audio.play().catch(e=>console.log); } } }
+window.musicaMuted = false; function toggleAudio() { const boda = canciones.boda; if(boda?.elemento) { if(!window.musicaMuted) { boda.elemento.muted = true; window.musicaMuted = true; document.getElementById("audioBtn").textContent = "🔇 Activar Música"; } else { boda.elemento.muted = false; window.musicaMuted = false; document.getElementById("audioBtn").textContent = "🔊 Silenciar Música"; } } }
+
+// ==================== HUELLAS MÁGICAS (INTEGRACIÓN COMPLETA) ====================
+const TAMANO_HUMANO = 32;
+const TAMANO_PERRO = 24;
+const VELOCIDAD_HUELLAS = 700;
+
+// Configuración de los bucles - AJUSTA LAS POSICIONES SEGÚN TUS SECCIONES
+const BUCLE_CONFIGS = [
+    { nombre: "Título", inicioX: 60, inicioY: 420, finX: 600, finY: 520, separacionLateral: 16, tipoInicial: 'human' },
+    { nombre: "Historia", inicioX: 80, inicioY: 780, finX: 580, finY: 900, separacionLateral: 14, tipoInicial: 'dog' },
+    { nombre: "Ceremonia", inicioX: 50, inicioY: 1250, finX: 650, finY: 1380, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "Avisos", inicioX: 100, inicioY: 1780, finX: 550, finY: 1900, separacionLateral: 13, tipoInicial: 'dog' },
+    { nombre: "Regalos", inicioX: 70, inicioY: 2250, finX: 600, finY: 2380, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "Álbum", inicioX: 90, inicioY: 2750, finX: 580, finY: 2880, separacionLateral: 14, tipoInicial: 'dog' },
+    { nombre: "Mensajes", inicioX: 60, inicioY: 3250, finX: 620, finY: 3400, separacionLateral: 13, tipoInicial: 'human' }
+];
+
+const container = document.getElementById('huellasContainer');
+const canvas = document.getElementById('canvasHuellas');
+const ctx = canvas.getContext('2d');
+
+let imgHumanDer = new Image();
+let imgDogDer = new Image();
+let imagenesListas = false;
+
+imgHumanDer.onload = () => { console.log("✅ huellaD.png cargada"); if(imgDogDer.complete && imgDogDer.naturalWidth > 0) imagenesListas = true; };
+imgHumanDer.onerror = () => { console.warn("⚠️ No se pudo cargar huellaD.png, usando vectorial"); };
+imgHumanDer.src = "huellaD.png";
+
+imgDogDer.onload = () => { console.log("✅ huella_can.png cargada"); if(imgHumanDer.complete && imgHumanDer.naturalWidth > 0) imagenesListas = true; };
+imgDogDer.onerror = () => { console.warn("⚠️ No se pudo cargar huella_can.png, usando vectorial"); };
+imgDogDer.src = "huella_can.png";
+
+function dibujarHuellaVectorial(x, y, angulo, tipo, opacidad) {
+    ctx.save();
+    ctx.globalAlpha = opacidad;
+    ctx.translate(x, y);
+    ctx.rotate(angulo * Math.PI / 180);
+    ctx.fillStyle = tipo === 'human' ? '#4a2a0a' : '#6b3a1a';
+    if (tipo === 'human') {
         ctx.beginPath();
-        ctx.ellipse(32, 40, 12, 18, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 8, 10, 14, 0, 0, Math.PI * 2);
         ctx.fill();
-        for(let i = -1; i <= 1; i++) {
+        for (let i = -1; i <= 1; i++) {
             ctx.beginPath();
-            ctx.ellipse(32 + i*7, 26, 3.5, 6, 0, 0, Math.PI * 2);
+            ctx.ellipse(i * 10, -8, 6, 8, 0, 0, Math.PI * 2);
             ctx.fill();
         }
-        const img = new Image();
-        img.src = canvas.toDataURL();
-        return img;
+    } else {
+        ctx.beginPath();
+        ctx.ellipse(0, 7, 8, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+        for (let i = -1; i <= 1; i++) {
+            ctx.beginPath();
+            ctx.ellipse(i * 8, -5, 5, 7, 0, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.ellipse(0, -10, 5, 7, 0, 0, Math.PI * 2);
+        ctx.fill();
     }
-    
-    actualizarConfiguracion(nuevaConfig) {
-        Object.assign(this.config, nuevaConfig);
+    ctx.restore();
+}
+
+function dibujarHuellaConImagen(x, y, angulo, tipo, lado, opacidad) {
+    let img = null;
+    let invertir = false;
+    if (tipo === 'human') { img = imgHumanDer; invertir = (lado === 'izq'); }
+    else { img = imgDogDer; invertir = (lado === 'izq'); }
+    if (!img || !img.complete || img.naturalWidth === 0) { dibujarHuellaVectorial(x, y, angulo, tipo, opacidad); return; }
+    ctx.save();
+    ctx.globalAlpha = opacidad;
+    ctx.translate(x, y);
+    ctx.rotate(angulo * Math.PI / 180);
+    if (invertir) ctx.scale(-1, 1);
+    const tamaño = tipo === 'human' ? TAMANO_HUMANO : TAMANO_PERRO;
+    const scale = tamaño / img.width;
+    ctx.drawImage(img, -img.width*scale/2, -img.height*scale/2, img.width*scale, img.height*scale);
+    ctx.restore();
+}
+
+class BucleHuellas {
+    constructor(config, idx) {
+        this.nombre = config.nombre;
+        this.inicioX = config.inicioX;
+        this.inicioY = config.inicioY;
+        this.finX = config.finX;
+        this.finY = config.finY;
+        this.separacion = config.separacionLateral;
+        this.tipoActual = config.tipoInicial;
+        this.fase = 0;
+        this.posiciones = [];
+        this.indexActual = 0;
+        this.huellasActivas = [];
+        this.intervalo = null;
+        this.activo = true;
+        this.onCompletado = null;
+        this.generarRecorrido();
     }
-    
-    calcularAngulo() {
-        const dx = this.config.fin.x - this.config.inicio.x;
-        const dy = this.config.fin.y - this.config.inicio.y;
-        let angulo = Math.atan2(dy, dx) * 180 / Math.PI;
-        return 90 + angulo;
-    }
-    
-    calcularCantidadPasos() {
-        const dx = this.config.fin.x - this.config.inicio.x;
-        const dy = this.config.fin.y - this.config.inicio.y;
-        const distancia = Math.sqrt(dx * dx + dy * dy);
-        const separacionCentros = this.config.tamanoHuella * this.config.factorSeparacion;
-        let cantidad = Math.floor(distancia / separacionCentros);
-        cantidad = Math.max(3, Math.min(15, cantidad));
-        return cantidad;
-    }
-    
     generarRecorrido() {
-        this.totalHuellas = [];
-        
-        const cantidadPasos = this.calcularCantidadPasos();
-        const dxTotal = this.config.fin.x - this.config.inicio.x;
-        const dyTotal = this.config.fin.y - this.config.inicio.y;
-        const distanciaTotal = Math.sqrt(dxTotal * dxTotal + dyTotal * dyTotal);
-        const dirX = dxTotal / distanciaTotal;
-        const dirY = dyTotal / distanciaTotal;
-        const perpX = -dirY;
-        const perpY = dirX;
-        const angulo = this.calcularAngulo();
-        
-        for (let i = 0; i < cantidadPasos; i++) {
-            const t = i / (cantidadPasos - 1);
-            const xBase = this.config.inicio.x + (dxTotal * t);
-            const yBase = this.config.inicio.y + (dyTotal * t);
-            const lado = i % 2 === 0 ? 'left' : 'right';
-            const offset = lado === 'left' ? -this.config.separacionLateral : this.config.separacionLateral;
-            
-            this.totalHuellas.push({
-                x: xBase + (perpX * offset),
-                y: yBase + (perpY * offset),
-                lado: lado,
-                angulo: angulo,
-                indice: i
-            });
+        const dx = this.finX - this.inicioX;
+        const dy = this.finY - this.inicioY;
+        const distancia = Math.sqrt(dx*dx + dy*dy);
+        if (distancia < 5) return [];
+        const anguloBase = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+        const paso = 45;
+        const cantidad = Math.max(3, Math.min(10, Math.floor(distancia / paso)));
+        const pos = [];
+        for (let i = 0; i < cantidad; i++) {
+            const t = i / (cantidad - 1);
+            const x = this.inicioX + dx * t;
+            const y = this.inicioY + dy * t;
+            const lado = i % 2 === 0 ? 'der' : 'izq';
+            const offset = lado === 'der' ? this.separacion : -this.separacion;
+            const perpX = -dy / distancia;
+            const perpY = dx / distancia;
+            const variacion = (Math.random() - 0.5) * 8;
+            pos.push({ x: x + perpX * offset, y: y + perpY * offset, angulo: anguloBase + variacion, lado: lado });
         }
-        
-        console.log(`📊 Generados ${cantidadPasos} pasos para ${this.tipo === 'human' ? 'HUMANOS' : 'PERRITOS'}`);
-        return this.totalHuellas;
+        this.posiciones = pos;
+        return pos;
     }
-    
-    dibujarFondo() {
-        if (!this.ctx || !this.canvas) return;
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-       /* // Línea guía del recorrido (opcional)
-        this.ctx.beginPath();
-        this.ctx.strokeStyle = '#8b6b3a';
-        this.ctx.lineWidth = 1.5;
-        this.ctx.setLineDash([6, 8]);
-        this.ctx.moveTo(this.config.inicio.x, this.config.inicio.y);
-        this.ctx.lineTo(this.config.fin.x, this.config.fin.y);
-        this.ctx.stroke();
-        this.ctx.setLineDash([]);*/
+    agregarHuella() {
+        if (!this.activo || this.indexActual >= this.posiciones.length) return;
+        const huella = this.posiciones[this.indexActual];
+        this.huellasActivas.push({ huella: huella, tipo: this.tipoActual, opacidad: 1, fadeStart: null, fadeDuration: 800 });
+        if (this.huellasActivas.length >= 2 && !this.huellasActivas[this.huellasActivas.length-2].fadeStart) {
+            this.huellasActivas[this.huellasActivas.length-2].fadeStart = performance.now();
+            this.huellasActivas[this.huellasActivas.length-2].fadeDuration = 700;
+        }
+        this.indexActual++;
+        if (this.indexActual === this.posiciones.length) {
+            setTimeout(() => {
+                if (this.huellasActivas.length && !this.huellasActivas[this.huellasActivas.length-1].fadeStart) {
+                    this.huellasActivas[this.huellasActivas.length-1].fadeStart = performance.now();
+                    this.huellasActivas[this.huellasActivas.length-1].fadeDuration = 700;
+                }
+            }, 500);
+        }
     }
-    
-    dibujarHuella(huella, opacidad) {
-        if (!this.ctx) return;
-        const img = this.imagenes[this.tipo][huella.lado];
-        if (!img) return;
-        
-        this.ctx.save();
-        this.ctx.globalAlpha = Math.min(1, Math.max(0, opacidad));
-        this.ctx.translate(huella.x, huella.y);
-        this.ctx.rotate(huella.angulo * Math.PI / 180);
-        
-        const size = this.config.tamanoHuella;
-        const scale = size / img.width;
-        const drawW = img.width * scale;
-        const drawH = img.height * scale;
-        this.ctx.drawImage(img, -drawW/2, -drawH/2, drawW, drawH);
-        this.ctx.restore();
+    iniciarCiclo() {
+        if (this.intervalo) clearInterval(this.intervalo);
+        this.generarRecorrido();
+        this.indexActual = 0;
+        this.huellasActivas = [];
+        if (this.posiciones.length === 0) return;
+        this.intervalo = setInterval(() => this.agregarHuella(), VELOCIDAD_HUELLAS);
+        const monitor = setInterval(() => {
+            if (!this.activo) { clearInterval(monitor); return; }
+            if (this.indexActual >= this.posiciones.length && this.huellasActivas.length === 0) {
+                clearInterval(this.intervalo);
+                this.intervalo = null;
+                this.fase++;
+                if (this.fase === 1) {
+                    this.tipoActual = this.tipoActual === 'human' ? 'dog' : 'human';
+                    this.generarRecorrido();
+                    this.indexActual = 0;
+                    this.huellasActivas = [];
+                    if (this.posiciones.length > 0) this.intervalo = setInterval(() => this.agregarHuella(), VELOCIDAD_HUELLAS);
+                    else { clearInterval(monitor); if (this.onCompletado) this.onCompletado(); }
+                } else { clearInterval(monitor); if (this.onCompletado) this.onCompletado(); }
+            }
+        }, 200);
     }
-    
-    iniciarRenderLoop() {
-        if (this.animationId) cancelAnimationFrame(this.animationId);
-        
-        const render = () => {
-            this.redibujarTodas();
-            this.animationId = requestAnimationFrame(render);
-        };
-        this.animationId = requestAnimationFrame(render);
-    }
-    
-    redibujarTodas() {
-        if (!this.ctx || !this.canvas) return;
-        this.dibujarFondo();
-        
+    dibujar(scrollY) {
         const ahora = performance.now();
-        
-        // Actualizar opacidades
-        for (let i = 0; i < this.huellasActivas.length; i++) {
-            const h = this.huellasActivas[i];
-            if (h.fadeStartTime) {
-                const elapsed = ahora - h.fadeStartTime;
-                const progreso = Math.min(1, elapsed / h.fadeDuration);
-                h.opacidad = Math.max(0, 1 - progreso);
-            }
-        }
-        
-        // Eliminar huellas con opacidad 0
-        const eliminadas = this.huellasActivas.filter(h => h.opacidad <= 0).length;
-        this.huellasActivas = this.huellasActivas.filter(h => h.opacidad > 0);
-        
-        if (eliminadas > 0 && this.cicloCompletado && this.huellasActivas.length === 0) {
-            console.log('🏁 Todas las huellas han desaparecido');
-            if (this.onCicloCompletado) {
-                this.onCicloCompletado();
-            }
-            this.cicloCompletado = false;
-        }
-        
-        // Dibujar todas las huellas activas
-        for (const h of this.huellasActivas) {
-            this.dibujarHuella(h.huella, h.opacidad);
-        }
-    }
-    
-    iniciarDesvanecimiento(huellaActiva) {
-        if (!huellaActiva) return;
-        if (huellaActiva.fadeStartTime) return;
-        huellaActiva.fadeStartTime = performance.now();
-        huellaActiva.fadeDuration = this.config.tiempoDesvanecer;
-    }
-    
-    iniciarDesvanecimientoUltimaHuella() {
-        if (this.fadeTimerId) clearTimeout(this.fadeTimerId);
-        
-        this.fadeTimerId = setTimeout(() => {
-            if (this.huellasActivas.length > 0) {
-                const ultimaHuella = this.huellasActivas[this.huellasActivas.length - 1];
-                if (ultimaHuella && !ultimaHuella.fadeStartTime) {
-                    console.log('✨ Iniciando desvanecimiento de la última huella');
-                    this.iniciarDesvanecimiento(ultimaHuella);
+        this.huellasActivas = this.huellasActivas.filter(h => {
+            if (h.fadeStart && ahora - h.fadeStart > h.fadeDuration) return false;
+            let opacidad = h.opacidad;
+            if (h.fadeStart) opacidad = Math.max(0, 1 - ((ahora - h.fadeStart) / h.fadeDuration));
+            if (opacidad > 0) {
+                const yDibujo = h.huella.y - scrollY;
+                if (yDibujo > -100 && yDibujo < canvas.height + 100) {
+                    if (imagenesListas && imgHumanDer.complete && imgDogDer.complete)
+                        dibujarHuellaConImagen(h.huella.x, yDibujo, h.huella.angulo, h.tipo, h.huella.lado, opacidad);
+                    else
+                        dibujarHuellaVectorial(h.huella.x, yDibujo, h.huella.angulo, h.tipo, opacidad);
                 }
             }
-            this.fadeTimerId = null;
-        }, this.config.tiempoDesvanecer);
+            return true;
+        });
     }
-    
-    agregarHuella() {
-        if (!this.activo) return;
-        if (this.indiceActual >= this.totalHuellas.length) return;
-        if (this.huellasActivas.length >= this.config.maxHuellasSimultaneas) return;
-        
-        const nuevaHuella = {
-            huella: this.totalHuellas[this.indiceActual],
-            opacidad: 1,
-            fadeStartTime: null,
-            fadeDuration: null
-        };
-        
-        this.huellasActivas.push(nuevaHuella);
-        
-        if (this.huellasActivas.length >= 2) {
-            const huellaAnterior = this.huellasActivas[this.huellasActivas.length - 2];
-            this.iniciarDesvanecimiento(huellaAnterior);
-        }
-        
-        this.indiceActual++;
-        
-        if (this.indiceActual === this.totalHuellas.length) {
-            console.log(`📌 ÚLTIMA HUELLA AGREGADA (${this.indiceActual}/${this.totalHuellas.length})`);
-            this.cicloCompletado = true;
-            this.iniciarDesvanecimientoUltimaHuella();
-        }
-    }
-    
-    redimensionarCanvas() {
-        if (!this.canvas || !this.container) return;
-        const rect = this.container.getBoundingClientRect();
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
-        
-        // Actualizar puntos de inicio/fin relativos al nuevo tamaño
-        if (this.config.inicio.x === 50 && this.config.fin.x === 750) {
-            this.config.inicio.x = rect.width * 0.08;
-            this.config.fin.x = rect.width * 0.92;
-            this.config.inicio.y = rect.height * 0.4;
-            this.config.fin.y = rect.height * 0.5;
-        }
-        
-        this.dibujarFondo();
-        this.redibujarTodas();
-    }
-    
-    iniciarCiclo() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-        if (this.fadeTimerId) {
-            clearTimeout(this.fadeTimerId);
-            this.fadeTimerId = null;
-        }
-        
-        this.redimensionarCanvas();
-        this.generarRecorrido();
-        this.huellasActivas = [];
-        this.indiceActual = 0;
-        this.cicloCompletado = false;
-        this.activo = true;
-        
-        console.log(`🎬 INICIANDO CICLO de ${this.tipo === 'human' ? 'HUMANOS' : 'PERRITOS'} - ${this.totalHuellas.length} huellas`);
-        
-        this.intervalId = setInterval(() => {
-            this.agregarHuella();
-        }, this.config.tiempoPaso);
-    }
-    
-    detener() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-        if (this.fadeTimerId) {
-            clearTimeout(this.fadeTimerId);
-            this.fadeTimerId = null;
-        }
-        this.activo = false;
-    }
-    
-    limpiar() {
-        this.detener();
-        this.huellasActivas = [];
-        this.indiceActual = 0;
-        this.cicloCompletado = false;
-        if (this.ctx) this.dibujarFondo();
-    }
-    
-    setTipo(tipo) {
-        this.tipo = tipo;
+    iniciar() { this.activo = true; this.fase = 0; this.iniciarCiclo(); }
+    detener() { this.activo = false; if (this.intervalo) clearInterval(this.intervalo); }
+    setOnCompletado(cb) { this.onCompletado = cb; }
+}
+
+let bucles = [];
+let bucleActualIndex = 0;
+let bucleEnEjecucion = null;
+
+function ejecutarSiguienteBucle() {
+    if (bucleActualIndex >= bucles.length) { bucleActualIndex = 0; }
+    if (bucleEnEjecucion) bucleEnEjecucion.detener();
+    bucleEnEjecucion = bucles[bucleActualIndex];
+    if (bucleEnEjecucion) {
+        bucleEnEjecucion.setOnCompletado(() => { bucleActualIndex++; setTimeout(() => ejecutarSiguienteBucle(), 800); });
+        bucleEnEjecucion.iniciar();
     }
 }
 
-// ============================================
-// GESTOR DE HUELLAS EN LA WEB
-// ============================================
-
-let buclePrincipal = null;
-let bucleSecundario = null;
-let intervaloBucleGlobal = null;
-
-function iniciarBuclePrincipal() {
-    if (buclePrincipal) {
-        buclePrincipal.detener();
-    }
-    
-    const contenedor = document.getElementById('huellas-principal');
-    if (!contenedor) return;
-    
-    // Obtener dimensiones del contenedor
-    const rect = contenedor.getBoundingClientRect();
-    
-    // Configuración del RECORRIDO PRINCIPAL (diagonal)
-    const configuracion = {
-        inicio: { x: rect.width * 0.05, y: rect.height * 0.3 },
-        fin: { x: rect.width * 0.95, y: rect.height * 0.6 },
-        tamanoHuella: 32,
-        separacionLateral: 22,
-        tiempoPaso: 550,
-        tiempoDesvanecer: 1000,
-        factorSeparacion: 1.5,
-        maxHuellasSimultaneas: 3
-    };
-    
-    let faseActual = 0;
-    const fases = ['human', 'dog'];
-    const textosFase = ['HUMANOS', 'PERRITOS'];
-    
-    function cambiarFase() {
-        const tipo = fases[faseActual];
-        console.log(`🔄 Bucle principal cambiando a fase: ${textosFase[faseActual]}`);
-        
-        if (buclePrincipal) {
-            buclePrincipal.detener();
-        }
-        
-        buclePrincipal = new HuellasMagicas('huellas-principal', tipo);
-        buclePrincipal.actualizarConfiguracion(configuracion);
-        
-        buclePrincipal.onCicloCompletado = () => {
-            console.log(`✅ Ciclo de ${textosFase[faseActual]} completado`);
-            faseActual = (faseActual + 1) % 2;
-            setTimeout(() => cambiarFase(), 500);
-        };
-        
-        buclePrincipal.iniciarCiclo();
-    }
-    
-    cambiarFase();
+function redimensionarCanvasHuellas() {
+    const alturaTotal = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight);
+    canvas.width = window.innerWidth;
+    canvas.height = alturaTotal + 200;
+    container.style.height = canvas.height + 'px';
 }
 
-// ============================================
-// FUNCIÓN PARA AGREGAR UN NUEVO BUCLE DE HUELLAS
-// ============================================
-// 
-// CÓMO AGREGAR UN NUEVO BUCLE DE HUELLAS:
-// 
-// 1. En el HTML, agrega un contenedor vacío donde quieras las huellas:
-//    <div id="huellas-mibucle" class="huellas-magicas-container"></div>
-//
-// 2. Llama a la función iniciarBuclePersonalizado con los siguientes parámetros:
-//    
-//    iniciarBuclePersonalizado(
-//        'id-del-contenedor',           // ID del div contenedor
-//        {                              // Configuración del recorrido
-//            inicio: { x: 50, y: 80 },  // Punto inicial (X, Y) en píxeles
-//            fin: { x: 750, y: 120 },   // Punto final (X, Y) en píxeles
-//            tamanoHuella: 28,          // Tamaño de la huella (16-60)
-//            separacionLateral: 20,     // Separación entre izquierda y derecha
-//            tiempoPaso: 550,           // Velocidad entre huellas (ms)
-//            tiempoDesvanecer: 1000     // Duración del desvanecimiento (ms)
-//        }
-//    );
-//
-// ============================================
-
-function iniciarBuclePersonalizado(contenedorId, configuracionPersonalizada) {
-    let buclePersonalizado = null;
-    let faseActual = 0;
-    const fases = ['human', 'dog'];
-    const textosFase = ['HUMANOS', 'PERRITOS'];
-    
-    function cambiarFase() {
-        const tipo = fases[faseActual];
-        console.log(`🔄 Bucle en "${contenedorId}" cambiando a fase: ${textosFase[faseActual]}`);
-        
-        if (buclePersonalizado) {
-            buclePersonalizado.detener();
-        }
-        
-        buclePersonalizado = new HuellasMagicas(contenedorId, tipo);
-        
-        // Configuración por defecto + personalizada
-        const config = {
-            inicio: { x: 50, y: 80 },
-            fin: { x: 750, y: 120 },
-            tamanoHuella: 28,
-            separacionLateral: 20,
-            tiempoPaso: 550,
-            tiempoDesvanecer: 1000,
-            factorSeparacion: 1.5,
-            maxHuellasSimultaneas: 3,
-            ...configuracionPersonalizada
-        };
-        
-        buclePersonalizado.actualizarConfiguracion(config);
-        
-        buclePersonalizado.onCicloCompletado = () => {
-            faseActual = (faseActual + 1) % 2;
-            setTimeout(() => cambiarFase(), 500);
-        };
-        
-        buclePersonalizado.iniciarCiclo();
-    }
-    
-    cambiarFase();
-    
-    return {
-        detener: () => {
-            if (buclePersonalizado) buclePersonalizado.detener();
-        }
-    };
+function animarHuellas() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const scrollY = window.scrollY;
+    for (const bucle of bucles) bucle.dibujar(scrollY);
+    requestAnimationFrame(animarHuellas);
 }
 
-//Bucles adicionales
-iniciarBuclePersonalizado('huellas-area-45', {
-    inicio: { x: 80, y: 60 },
-    fin: { x: 700, y: 420 },
-    tamanoHuella: 30,
-    separacionLateral: 22,
-    tiempoPaso: 550,
-    tiempoDesvanecer: 1000,
-    factorSeparacion: 1.5,
-    maxHuellasSimultaneas: 3
-});
-iniciarBuclePersonalizado('huellas-titulo', {
-    inicio: { x: 40, y: 40 },
-    fin: { x: 260, y: 180 },
-    tamanoHuella: 26,
-    separacionLateral: 18,
-    tiempoPaso: 550,
-    tiempoDesvanecer: 1000,
-    factorSeparacion: 1.4,
-    maxHuellasSimultaneas: 3
-});
-
-
-
-// ============================================
-// WHATSAPP Y OTRAS FUNCIONES
-// ============================================
-const NUMERO_NOVIA = "51987654321";
-const NUMERO_NOVIO = "51912345678";
-
-function enviarMensajeWhatsApp() {
-    const nombre = document.getElementById("nombre")?.value.trim();
-    const telefono = document.getElementById("telefono")?.value.trim();
-    const mensaje = document.getElementById("mensajeInput")?.value.trim();
-    if (!nombre || !telefono || !mensaje) return alert("Completa los campos");
-    const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`;
-    const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? NUMERO_NOVIA : NUMERO_NOVIO;
-    window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank');
-    document.getElementById("nombre").value = "";
-    document.getElementById("telefono").value = "";
-    document.getElementById("mensajeInput").value = "";
-    alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨");
+function inicializarHuellas() {
+    console.log("🚀 Inicializando huellas en la web principal");
+    bucles = [];
+    BUCLE_CONFIGS.forEach((cfg, i) => {
+        const bucle = new BucleHuellas(cfg, i);
+        bucles.push(bucle);
+        console.log(`   ${cfg.nombre}: (${cfg.inicioX},${cfg.inicioY}) → (${cfg.finX},${cfg.finY})`);
+    });
+    bucleActualIndex = 0;
+    ejecutarSiguienteBucle();
 }
 
-// ============================================
-// MÚSICA
-// ============================================
-const canciones = {
-    boda: { elemento: null, src: "musica.mp3", volume: 0.65, loop: true },
-    magia: { elemento: null, src: "magic.mp3", volume: 0.55, loop: false },
-    intro: { elemento: null, src: "Potterw.mp3", volume: 0.4, loop: true }
-};
+window.addEventListener('resize', () => setTimeout(redimensionarCanvasHuellas, 100));
+setTimeout(() => { redimensionarCanvasHuellas(); inicializarHuellas(); animarHuellas(); }, 500);
 
-function inicializarMusica() {
-    for (const [key, c] of Object.entries(canciones)) {
-        if (!c.elemento) {
-            const audio = new Audio();
-            audio.src = c.src;
-            audio.loop = c.loop;
-            audio.volume = 0;
-            c.elemento = audio;
-        }
-    }
-}
-
-function reproducirCancion(nombre, fadeIn = true, duracion = 200) {
-    const c = canciones[nombre];
-    if (!c || !c.elemento) return;
-    const audio = c.elemento;
-    if (fadeIn) {
-        audio.volume = 0;
-        audio.currentTime = 0;
-        audio.play().catch(e => console.log);
-        let vol = 0;
-        const interval = setInterval(() => {
-            vol = Math.min(c.volume, vol + 0.05);
-            audio.volume = vol;
-            if (vol >= c.volume - 0.01) clearInterval(interval);
-        }, duracion);
-    } else { audio.volume = c.volume; audio.play().catch(e => console.log); }
-}
-
-window.musicaMuted = false;
-function toggleAudio() {
-    const boda = canciones.boda;
-    if (!boda || !boda.elemento) return;
-    if (!window.musicaMuted) {
-        boda.elemento.muted = true;
-        window.musicaMuted = true;
-        document.getElementById("audioBtn").textContent = "🔇 Activar Música";
-    } else {
-        boda.elemento.muted = false;
-        window.musicaMuted = false;
-        document.getElementById("audioBtn").textContent = "🔊 Silenciar Música";
-    }
-}
-
-async function reproducirIntroMusica() {
-    try {
-        if (window.potterwAudio) window.potterwAudio.pause();
-        if (canciones.intro.elemento) { canciones.intro.elemento.pause(); canciones.intro.elemento.src = ""; }
-        const nuevo = new Audio();
-        nuevo.src = "Potterw.mp3?" + Date.now();
-        nuevo.loop = true;
-        nuevo.volume = 0.4;
-        await nuevo.play();
-        window.potterwAudio = nuevo;
-        canciones.intro.elemento = nuevo;
-    } catch(e) { console.log(e); }
-}
-
-// ============================================
-// TEXTO MÁGICO Y VARITA
-// ============================================
+// ==================== CARTA Y VARITA ====================
 const lineasCarta = ["✨ Travesura realizada... ✨", "", "💖 ¡Nos casamos! 💖", "", "✨ Has sido invitado ✨", "", "🌟 a celebrar este momento tan especial 🌟", "", "Con amor,", "Ivon & Julio"];
-let wand = document.getElementById("wand");
-let wandHint = document.getElementById("wandHint");
-let lineElements = [];
-let varitaActivada = false;
+let varitaActivada = false, wand, wandHint;
+function crearTextoMagico() { const container = document.getElementById("texto-carta"); if(!container) return; container.innerHTML = ""; lineasCarta.forEach(linea => { const div = document.createElement("div"); div.className = "magic-line"; if(linea.trim() === "") div.style.height = "25px"; else { [...linea].forEach(ch => { const span = document.createElement('span'); span.className = 'magic-letter'; span.innerHTML = ch === ' ' ? '&nbsp;' : ch; div.appendChild(span); }); } container.appendChild(div); }); }
+function revelarTexto() { const lines = document.querySelectorAll('#texto-carta .magic-line'); lines.forEach((line, idx) => { if(lineasCarta[idx].trim() === "") { line.classList.add("revealed"); return; } const letters = line.querySelectorAll('.magic-letter'); letters.forEach((span, i) => { span.style.animation = `tintaAparece 0.45s cubic-bezier(0.2,0.9,0.4,1.1) forwards ${i * 0.02}s`; }); setTimeout(() => line.classList.add("revealed"), 600); }); }
+function crearChispa(x,y) { const sp = document.createElement("div"); sp.style.cssText = `position:fixed; left:${x}px; top:${y}px; width:22px; height:22px; background:radial-gradient(circle, gold, #ffaa00, transparent); border-radius:50%; z-index:10005; pointer-events:none; animation:sparklePop 0.5s ease-out forwards;`; document.body.appendChild(sp); setTimeout(() => sp.remove(), 500); }
+function crearPolvo(x,y,count=10) { for(let i=0;i<count;i++) { const p = document.createElement("div"); p.style.cssText = `position:fixed; left:${x}px; top:${y}px; width:5px; height:5px; background:radial-gradient(circle, #ffd700, #ff8c00); border-radius:50%; z-index:10005; pointer-events:none;`; document.body.appendChild(p); const angle = Math.random() * Math.PI * 2; const tx = Math.cos(angle) * (20 + Math.random() * 40); const ty = Math.sin(angle) * (20 + Math.random() * 40); let start = performance.now(); function anim(t) { let prog = Math.min(1, (t - start) / 500); p.style.left = x + tx * prog + "px"; p.style.top = y + ty * prog + "px"; p.style.opacity = 0.9 * (1 - prog); p.style.transform = `scale(${1 - prog})`; if(prog < 1) requestAnimationFrame(anim); else p.remove(); } requestAnimationFrame(anim); } }
+async function animarVarita() { if(varitaActivada) return; varitaActivada = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); reproducirCancion('magia', true); if(wandHint) wandHint.style.display = "none"; wand.style.animation = "wandWiggleLight1 0.35s ease-in-out"; await new Promise(r => setTimeout(r, 350)); wand.style.animation = "wandWiggleLight2 0.35s ease-in-out"; await new Promise(r => setTimeout(r, 350)); wand.style.animation = "wandCurveMove 0.6s cubic-bezier(0.68,-0.55,0.265,1.55)"; const rect = wand.getBoundingClientRect(); for(let i=0;i<10;i++) setTimeout(() => crearChispa(rect.left + (Math.random()-0.5)*70, rect.top + (Math.random()-0.5)*70), i*40); await new Promise(r => setTimeout(r, 600)); wand.style.animation = ""; crearPolvo(rect.left + rect.width/2, rect.top + rect.height/2, 12); wand.style.animation = "wandDustFade 0.8s forwards"; setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; }, 800); revelarTexto(); reproducirCancion('boda', true); }
+function mostrarVarita() { wand = document.getElementById("wand"); wandHint = document.getElementById("wandHint"); crearTextoMagico(); wand.style.display = "block"; wand.style.left = "50%"; wand.style.top = "45%"; wand.style.cursor = "pointer"; if(wandHint) { wandHint.style.display = "block"; setTimeout(() => { const cartaRect = document.getElementById("cartaInterior").getBoundingClientRect(); wandHint.style.left = (cartaRect.left + cartaRect.width/2 - wandHint.offsetWidth/2) + "px"; wandHint.style.top = cartaRect.top - 40 + "px"; }, 100); } wand.addEventListener("click", () => animarVarita()); wand.addEventListener("touchstart", (e) => { e.preventDefault(); animarVarita(); }); }
 
-function crearTextoMagico() {
-    const container = document.getElementById("texto-carta");
-    if (!container) return;
-    container.innerHTML = "";
-    lineElements = [];
-    lineasCarta.forEach(linea => {
-        const div = document.createElement("div");
-        div.className = "magic-line";
-        if (linea.trim() === "") {
-            div.style.height = "30px";
-            div.innerHTML = "&nbsp;";
-        } else {
-            [...linea].forEach(ch => {
-                const span = document.createElement('span');
-                span.className = 'magic-letter';
-                span.style.opacity = "0";
-                span.innerHTML = ch === ' ' ? '&nbsp;' : ch;
-                div.appendChild(span);
-            });
-        }
-        container.appendChild(div);
-        lineElements.push(div);
-    });
-}
-
-function revelarTexto() {
-    return new Promise((resolve) => {
-        const promises = [];
-        lineElements.forEach((lineDiv, idx) => {
-            if (lineasCarta[idx].trim() === "") { lineDiv.classList.add("revealed"); return; }
-            const letters = lineDiv.querySelectorAll('.magic-letter');
-            if (letters.length === 0) { lineDiv.classList.add("revealed"); return; }
-            const promise = new Promise(res => {
-                letters.forEach((span, i) => { span.style.animation = `smokeMaterialize 0.45s forwards ease-out ${i * 0.02}s`; });
-                setTimeout(() => { lineDiv.classList.add("revealed"); res(); }, 700);
-            });
-            promises.push(promise);
-        });
-        Promise.all(promises).then(resolve);
-    });
-}
-
-function crearChispa(x, y) {
-    const sp = document.createElement("div");
-    sp.className = "sparkle";
-    sp.style.left = x + "px";
-    sp.style.top = y + "px";
-    sp.style.position = "fixed";
-    sp.style.zIndex = "10005";
-    document.body.appendChild(sp);
-    setTimeout(() => sp.remove(), 500);
-}
-
-function crearPolvo(x, y, count = 12) {
-    for (let i = 0; i < count; i++) {
-        const p = document.createElement("div");
-        p.className = "dust-particle";
-        p.style.position = "fixed";
-        p.style.left = x + "px";
-        p.style.top = y + "px";
-        document.body.appendChild(p);
-        const angle = Math.random() * Math.PI * 2;
-        const tx = Math.cos(angle) * (25 + Math.random() * 50);
-        const ty = Math.sin(angle) * (25 + Math.random() * 50);
-        let start = performance.now();
-        function anim(t) {
-            let prog = Math.min(1, (t - start) / 600);
-            p.style.left = x + tx * prog + "px";
-            p.style.top = y + ty * prog + "px";
-            p.style.opacity = 0.9 * (1 - prog);
-            p.style.transform = `scale(${1 - prog})`;
-            if (prog < 1) requestAnimationFrame(anim);
-            else p.remove();
-        }
-        requestAnimationFrame(anim);
-    }
-}
-
-async function animarVarita() {
-    if (varitaActivada) return;
-    varitaActivada = true;
-    if (window.potterwAudio) window.potterwAudio.pause();
-    if (canciones.intro.elemento) canciones.intro.elemento.pause();
-    reproducirCancion('magia', true, 200);
-    if (wandHint) wandHint.style.display = "none";
-    wand.classList.add("wand-wiggle-1");
-    await new Promise(r => setTimeout(r, 350));
-    wand.classList.remove("wand-wiggle-1");
-    wand.classList.add("wand-wiggle-2");
-    await new Promise(r => setTimeout(r, 350));
-    wand.classList.remove("wand-wiggle-2");
-    wand.classList.add("wand-curve");
-    const rect = wand.getBoundingClientRect();
-    for (let i = 0; i < 12; i++) setTimeout(() => crearChispa(rect.left + (Math.random() - 0.5) * 80, rect.top + (Math.random() - 0.5) * 80), i * 40);
-    await new Promise(r => setTimeout(r, 600));
-    wand.classList.remove("wand-curve");
-    crearPolvo(rect.left + rect.width/2, rect.top + rect.height/2, 18);
-    wand.classList.add("wand-dust");
-    setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; }, 800);
-    await revelarTexto();
-    reproducirCancion('boda', true, 300);
-}
-
-function mostrarVarita() {
-    crearTextoMagico();
-    wand.style.display = "block";
-    wand.style.left = "50%";
-    wand.style.top = "45%";
-    wand.style.cursor = "pointer";
-    if (wandHint) {
-        wandHint.style.display = "block";
-        setTimeout(() => {
-            const cartaRect = document.getElementById("cartaInterior").getBoundingClientRect();
-            wandHint.style.left = (cartaRect.left + cartaRect.width/2 - wandHint.offsetWidth/2) + "px";
-            wandHint.style.top = cartaRect.top - 40 + "px";
-        }, 100);
-    }
-    const handler = () => {
-        wand.removeEventListener("click", handler);
-        wand.removeEventListener("touchstart", handler);
-        animarVarita();
-    };
-    wand.addEventListener("click", handler);
-    wand.addEventListener("touchstart", handler);
-}
-
-// ============================================
-// APERTURA DEL SOBRE
-// ============================================
-let sobreAbierto = false;
-let transicionIniciada = false;
-
-function abrirSobre() {
-    if (sobreAbierto) return;
-    sobreAbierto = true;
-    if (window.potterwAudio) window.potterwAudio.pause();
-    if (canciones.intro.elemento) canciones.intro.elemento.pause();
-    setTimeout(() => reproducirIntroMusica().catch(e => console.log), 50);
-    const sello = document.getElementById("sello");
-    const sobre = document.getElementById("sobre");
-    const hint = document.getElementById("hint");
-    if (sello) sello.classList.add("fade-dust");
-    if (hint) hint.classList.add("fade-dust");
-    setTimeout(() => { if (sobre) sobre.classList.add("open"); }, 300);
-    setTimeout(() => { if (sobre) sobre.classList.add("zoom-in"); }, 1500);
-    setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200);
-}
-
-function cerrarCartaATransicion() {
-    if (transicionIniciada) return;
-    transicionIniciada = true;
-    const cartaDiv = document.getElementById("cartaInterior");
-    const introDiv = document.getElementById("intro");
-    const mainDiv = document.getElementById("main");
-    cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-    cartaDiv.style.opacity = "0";
-    cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)";
-    setTimeout(() => {
-        cartaDiv.classList.remove("show");
-        introDiv.style.transition = "opacity 1s ease";
-        introDiv.style.opacity = "0";
-        setTimeout(() => {
-            introDiv.style.display = "none";
-            mainDiv.classList.add("show");
-            document.body.style.overflow = "auto";
-            iniciarCountdown();
-            iniciarAlbumObserver();
-            agregarFlores();
-            // Iniciar el bucle de huellas principal
-            iniciarBuclePrincipal();
-        }, 1000);
-    }, 800);
-}
-
-function esperarFinMagiaYTransicionar() {
-    const checkInterval = setInterval(() => {
-        const magia = canciones.magia.elemento;
-        if (magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) {
-            clearInterval(checkInterval);
-            setTimeout(() => cerrarCartaATransicion(), 1500);
-        }
-    }, 500);
-    setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 8000);
-}
-
-const animarVaritaOriginal = animarVarita;
-window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); };
-animarVarita = window.animarVarita;
-
-// ============================================
-// FLORES DECORATIVAS
-// ============================================
-const floresData = {
-    'seccion-titulo': [{ src: 'flores_derechaC.png', pos: { bottom: '5px', right: '-18px' }, size: '70px' }],
-    'seccion-boda': [{ src: 'flor_rosa_1.png', pos: { top: '-20px', right: '-15px' }, size: '80px' }, { src: 'flor_rosa_1.png', pos: { top: '-20px', left: '-15px' }, size: '80px' }],
-    'seccion-regalos': [{ src: 'flor_verde_1.png', pos: { top: '-20px', left: '-18px' }, size: '65px' }]
-};
-
-function agregarFlores() {
-    for (const [secId, flores] of Object.entries(floresData)) {
-        const sec = document.getElementById(secId);
-        if (!sec) continue;
-        const cont = sec.querySelector('.contenido-seccion');
-        if (!cont) continue;
-        flores.forEach(f => {
-            const div = document.createElement('div');
-            div.className = 'flor-seccion';
-            div.style.position = 'absolute';
-            if (f.pos.top) div.style.top = f.pos.top;
-            if (f.pos.bottom) div.style.bottom = f.pos.bottom;
-            if (f.pos.left) div.style.left = f.pos.left;
-            if (f.pos.right) div.style.right = f.pos.right;
-            if (f.size) { div.style.width = f.size; div.style.height = 'auto'; }
-            const img = document.createElement('img');
-            img.src = f.src;
-            img.style.width = '100%';
-            img.onerror = () => div.remove();
-            div.appendChild(img);
-            cont.appendChild(div);
-        });
-    }
-}
-
-// ============================================
-// FUNCIONES ADICIONALES
-// ============================================
-// ============================================
-// COUNTDOWN CORREGIDO
-// ============================================
-function iniciarCountdown() {
-    const el = document.getElementById('countdownBoda');
-    if (!el) {
-        console.log("⚠️ No se encontró el elemento countdownBoda");
-        return;
-    }
-    
-    const fechaBoda = new Date('August 14, 2026 19:00:00').getTime();
-    
-    function actualizar() {
-        const ahora = new Date().getTime();
-        const distancia = fechaBoda - ahora;
-        
-        if (distancia < 0) {
-            el.innerHTML = '🎉 ¡Es hoy! 🎉';
-            return;
-        }
-        
-        const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-        const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-        const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-        
-        el.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
-    }
-    
-    // Ejecutar inmediatamente
-    actualizar();
-    
-    // Actualizar cada segundo
-    setInterval(actualizar, 1000);
-}
-
-function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); }
-function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); }
-function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); }
-function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
-
-const URL_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8";
-function abrirFormularioFotos() { window.open(URL_FOTOS, '_blank'); }
-function generarQR() {
-    const qrDiv = document.getElementById("qrCode");
-    if (!qrDiv) return;
-    qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(URL_FOTOS)}" style="width:140px;height:140px;border-radius:15px;">`;
-}
-function iniciarAlbumObserver() {
-    const sec = document.getElementById("seccion-album");
-    if (!sec) return;
-    const observer = new IntersectionObserver(([e]) => { 
-    if (e.isIntersecting) { 
-        generarQR(); 
-        observer.disconnect();  // ✅ Deja de observar después de ejecutar
-    } 
-}, { threshold: 0.3 });
-observer.observe(sec);
-}
-
+let sobreAbierto = false, transicionIniciada = false;
+function abrirSobre() { if(sobreAbierto) return; sobreAbierto = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); setTimeout(() => { const audio = new Audio("Potterw.mp3"); audio.loop = true; audio.volume = 0.4; audio.play().catch(e=>console.log); canciones.intro.elemento = audio; }, 50); const sello = document.getElementById("sello"); const sobre = document.getElementById("sobre"); const hint = document.getElementById("hint"); if(sello) sello.classList.add("fade-dust"); if(hint) hint.classList.add("fade-dust"); setTimeout(() => { if(sobre) sobre.classList.add("open"); }, 300); setTimeout(() => { if(sobre) sobre.classList.add("zoom-in"); }, 1500); setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200); }
+function cerrarCartaATransicion() { if(transicionIniciada) return; transicionIniciada = true; const cartaDiv = document.getElementById("cartaInterior"); const introDiv = document.getElementById("intro"); const mainDiv = document.getElementById("main"); cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease"; cartaDiv.style.opacity = "0"; cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)"; setTimeout(() => { cartaDiv.classList.remove("show"); introDiv.style.transition = "opacity 1s ease"; introDiv.style.opacity = "0"; setTimeout(() => { introDiv.style.display = "none"; mainDiv.classList.add("show"); document.body.style.overflow = "auto"; iniciarCountdown(); iniciarAlbumObserver(); }, 1000); }, 800); }
+function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 1500); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 8000); }
+const animarVaritaOriginal = animarVarita; window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); }; animarVarita = window.animarVarita;
 document.getElementById("sello")?.addEventListener("click", (e) => { e.stopPropagation(); abrirSobre(); });
 document.getElementById("sello")?.addEventListener("touchstart", (e) => { e.preventDefault(); e.stopPropagation(); abrirSobre(); });
 
-document.body.style.overflow = "hidden";
+const sombreroElem = document.getElementById('sombrero');
+const mensajeSombreroElem = document.getElementById('mensajeSombrero');
+const frases = ['🎩 ¡Gryffindor! 🦁', '🎩 ¡Hufflepuff! 🦡', '🎩 ¡Ravenclaw! 🦅', '🎩 ¡Slytherin! 🐍', '🎩 ¡Magia pura! ✨'];
+let indiceFrase = 0;
+if(sombreroElem) {
+    sombreroElem.addEventListener('click', () => {
+        mensajeSombreroElem.textContent = frases[indiceFrase % frases.length];
+        mensajeSombreroElem.classList.add('show');
+        setTimeout(() => mensajeSombreroElem.classList.remove('show'), 2000);
+        indiceFrase++;
+    });
+}
+
 inicializarMusica();
+document.body.style.overflow = "hidden";
 </script>
 </body>
-</html>
+</html> 

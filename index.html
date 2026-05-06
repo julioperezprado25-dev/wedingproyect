@@ -298,7 +298,7 @@ body {
 /* Elementos decorativos */
 .cuerpo-pensadero, .cuerpo-img_carta {
     position: absolute;
-    bottom: -25px;
+    bottom: 50%;
     width: min(100px, 14vw);
     height: auto;
     z-index: 15;
@@ -307,7 +307,7 @@ body {
     animation: flotar_img 5s infinite alternate;
     opacity: 0.85;
 }
-.cuerpo-pensadero { left: -25px; }
+.cuerpo-pensadero { left: 20%; }
 .cuerpo-img_carta { right: -25px; }
 @keyframes flotar_img {
     0% { transform: translateY(0px) rotate(0deg); }
@@ -825,7 +825,7 @@ function mostrarVarita() { wand = document.getElementById("wand"); wandHint = do
 let sobreAbierto = false, transicionIniciada = false;
 function abrirSobre() { if(sobreAbierto) return; sobreAbierto = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); setTimeout(() => { const audio = new Audio("potterd.mp3"); audio.loop = true; audio.volume = 0.4; audio.play().catch(e=>console.log); canciones.intro.elemento = audio; }, 50); const sello = document.getElementById("sello"); const sobre = document.getElementById("sobre"); const hint = document.getElementById("hint"); if(sello) sello.classList.add("fade-dust"); if(hint) hint.classList.add("fade-dust"); setTimeout(() => { if(sobre) sobre.classList.add("open"); }, 300); setTimeout(() => { if(sobre) sobre.classList.add("zoom-in"); }, 1500); setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200); }
 function cerrarCartaATransicion() { if(transicionIniciada) return; transicionIniciada = true; const cartaDiv = document.getElementById("cartaInterior"); const introDiv = document.getElementById("intro"); const mainDiv = document.getElementById("main"); cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease"; cartaDiv.style.opacity = "0"; cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)"; setTimeout(() => { cartaDiv.classList.remove("show"); introDiv.style.transition = "opacity 1s ease"; introDiv.style.opacity = "0"; setTimeout(() => { introDiv.style.display = "none"; mainDiv.classList.add("show"); document.body.style.overflow = "auto"; iniciarCountdown(); iniciarAlbumObserver(); }, 1000); }, 800); }
-function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 1500); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 8000); }
+function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 1500); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 10000); }
 const animarVaritaOriginal = animarVarita; window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); }; animarVarita = window.animarVarita;
 document.getElementById("sello")?.addEventListener("click", (e) => { e.stopPropagation(); abrirSobre(); });
 document.getElementById("sello")?.addEventListener("touchstart", (e) => { e.preventDefault(); e.stopPropagation(); abrirSobre(); });

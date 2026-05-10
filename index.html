@@ -62,6 +62,7 @@ body {
     margin: 25px 0;
     position: relative;
     width: 100%;
+    z-index: 11;
 }
 
 .pergamino:hover {
@@ -173,12 +174,13 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    z-index: 11;
 }
 
 /* BLOQUE DE TÍTULO CENTRAL */
 .titulo-bloque {
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(4px);
+    background: transparent;
+    backdrop-filter: none;
     padding: 14px 24px;
     border-radius: 60px;
     margin-bottom: 30px;
@@ -187,19 +189,21 @@ body {
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     border: 1px solid rgba(255,215,0,0.3);
     text-align: center;
+    z-index: 2;
 }
 
 .titulo-flotante {
     font-family: 'Cinzel', serif;
     font-size: clamp(24px, 6vw, 38px);
     font-weight: 700;
-    color: #FFD966;
+    background: transparent;
     text-align: center;
     letter-spacing: 2px;
     text-shadow: 0 0 10px rgba(255,215,0,0.5);
     animation: flotarTrasladar 1.2s ease-out forwards;
     display: block;
     width: 100%;
+    
 }
 
 @keyframes flotarTrasladar {
@@ -282,7 +286,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1000;
+    z-index: 1;
     overflow: hidden;
 }
 
@@ -293,22 +297,47 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 1;
 }
 
-/* Elementos decorativos */
 .cuerpo-pensadero, .cuerpo-img_carta {
-    position: absolute;
-    bottom: 50%;
-    width: min(100px, 14vw);
+    position: relative;
+    display: block;
+    margin: 5px auto;
     height: auto;
-    z-index: 15;
-    pointer-events: none;
     filter: drop-shadow(0 5px 12px rgba(0,0,0,0.2));
+    object-fit: contenid;
     animation: flotar_img 5s infinite alternate;
-    opacity: 0.85;
 }
-.cuerpo-pensadero { left: 20%; }
-.cuerpo-img_carta { right: -25px; }
+
+/* Pensadero - posición y transparencia */
+.cuerpo-pensadero { 
+    top: 1% ;     /* ← Posición */
+    left: 1%;  
+    transform: translate(-50%,-50%);/* ← Posición */
+    opacity: 0.8;       /* ← Translúcido (40%) */
+    width:  min(300px, 40vw);
+    height: auto;
+    z-index: 0;   /* ← Detrás contenid*/
+    margin-top: -50px;
+    margin-bottom: -15px;
+  
+}
+
+/* Cartas (se mantiene igual) */
+.cuerpo-img_carta { 
+    top: 1% ;     /* ← Posición */
+    left: 1%;  
+    transform: translate(-50%,-50%);/* ← Posición */
+    opacity: 0.8;       /* ← Translúcido (40%) */
+    width:  min(300px, 40vw);
+    height: auto;
+    z-index: 0;
+    margin-top: -5px;
+    margin-bottom: -5px;
+/* ← Detrás del contenido */
+}
+
 @keyframes flotar_img {
     0% { transform: translateY(0px) rotate(0deg); }
     100% { transform: translateY(6px) rotate(2deg); }
@@ -329,7 +358,7 @@ body {
 input, textarea { width: 100%; max-width: 380px; padding: 11px 15px; margin: 6px 0; border-radius: 50px; border: 2px solid #b8965a; font-family: 'Quicksand', sans-serif; background: rgba(255,250,235,0.95); font-size: 14px; color: #2c2416; display: block; transition: all 0.2s; }
 input:focus, textarea:focus { outline: none; border-color: #6b4c2a; box-shadow: 0 0 0 3px rgba(107,76,42,0.2); }
 textarea { border-radius: 25px; min-height: 85px; }
-.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; z-index:4; }
 .qr-code { display: flex; justify-content: center; margin: 12px 0; }
 .qr-code img { border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
@@ -406,6 +435,22 @@ textarea { border-radius: 25px; min-height: 85px; }
     .titulo-bloque { padding: 10px 16px; }
     .btn { padding: 6px 12px; font-size: 11px; }
 }
+/* Centrar botón de audio */
+#seccion-audio {
+    text-align: center;
+}
+
+#seccion-audio .btn {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* También puedes centrar el botón de enviar por si acaso */
+#seccion-mensajes .btn {
+    display: inline-block;
+    margin: 10px auto;
+}
+
 </style>
 </head>
 <body>
@@ -445,14 +490,11 @@ textarea { border-radius: 25px; min-height: 85px; }
         
         <div class="separador-pluma"><div class="linea-punteada"></div></div>
         
-        <div class="pergamino" id="seccion-titulo">
-            <div class="enrollado-superior"></div><div class="enrollado-inferior"></div>
-            <div class="tinta-derramada"></div>
-            <div class="sello-pergamino">⚡</div>
+        <div class="seccion-con-fondo" id="seccion-titulo">
             <h1 class="titulo-principal">Ivon & Julio</h1>
             <p class="texto-contenido">✦ Nos llena de alegría invitarte a celebrar ✦</p>
             <p class="texto-contenido">uno de los días más importantes de nuestras vidas</p>
-            <p class="texto-contenido" style="font-size:26px; font-weight:700; margin-top:15px;">💍 14 de agosto, 2026 💍</p>
+            <p class="texto-contenido" style="font-size:24px; font-weight:800; margin-top:10px;">💍 14 de agosto, 2026 💍</p>
         </div>
         
         <div class="seccion-con-fondo">
@@ -483,34 +525,83 @@ textarea { border-radius: 25px; min-height: 85px; }
             <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
         
-        <div class="seccion-con-fondo" id="seccion-regalos">
-            <div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
-            <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p><p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
-            <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
-                <h3 class="subtitulo" style="font-size:22px;">💰 Nuestra cuenta</h3>
-                <p class="texto-contenido" style="font-size:24px; font-weight:800; letter-spacing:2px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;"><span id="numeroCuenta">193 205 253 18 0 43</span><button class="btn btn-copiar" onclick="copiarCuenta()">📋 Copiar</button></p>
-            </div>
+<div class="seccion-con-fondo" id="seccion-regalos">
+    <div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
+    <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
+    <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
+    <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
+        <h3 class="subtitulo" style="font-size:22px;">💰 Nuestra cuenta</h3>
+        
+        <!-- Cuenta bancaria -->
+        <div class="cuenta-item">
+            <div class="cuenta-label">🏦 Cuenta Bancaria</div>
+            <div class="cuenta-valor" id="cuentaNumero">193205253 18043</div>
+            <button class="btn btn-copiar" onclick="copiarTexto('cuentaNumero', 'cuenta bancaria')">
+                📋 Copiar cuenta
+            </button>
         </div>
         
+        <!-- CCI -->
+        <div class="cuenta-item" style="margin-top: 15px;">
+            <div class="cuenta-label">💳 CCI (Código de Cuenta Interbancario)</div>
+            <div class="cuenta-valor" id="cciNumero">00219312052531804318</div>
+            <button class="btn btn-copiar" onclick="copiarTexto('cciNumero', 'CCI')">
+                📋 Copiar CCI
+            </button>
+        </div>
+    </div>
+</div>
+        
         <div class="seccion-con-fondo" id="seccion-album">
-            <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
+         
             <div class="titulo-bloque"><h2 class="titulo-flotante">Álbum Mágico</h2></div>
+            <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
             <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-mensajes">
-            <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
+         
             <div class="titulo-bloque"><h2 class="titulo-flotante">Búho Mensajero</h2></div>
+            <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
             <div style="width:100%; display: flex; flex-direction: column; align-items: center;"><p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
             <input type="text" id="nombre" placeholder="✏️ Tu nombre"><input type="tel" id="telefono" placeholder="📱 Tu teléfono"><textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea><button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button></div>
         </div>
         <div class="separador-pluma"><div class="linea-punteada"></div><div class="simbolo-tinta">⚡ ✧ ⚡</div><div class="linea-onda"></div></div>
-        <div class="pergamino" id="seccion-audio"><div class="enrollado-superior"></div><div class="enrollado-inferior"></div><div class="tinta-derramada"></div><div class="sello-pergamino">🎵</div><button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button><p class="texto-contenido" style="margin-top:20px; font-family:'Cinzel', serif; font-size:28px;">✨ Expecto Amor ✨</p></div>
+        <div class="seccion-con-fondo" id="seccion-audio">
+          <button class="btn" id="audioBtn" onclick="toggleAudio()">🔊 Silenciar Música</button>
+          <p class="texto-contenido" style="margin-top:20px; font-family:'Cinzel', serif; font-size:28px;">✨ Expecto Amor ✨</p></div>
     </div>
 
 <script>
 // ==================== FUNCIONES BÁSICAS ====================
-function copiarCuenta() { const num = document.getElementById('numeroCuenta')?.innerText.replace(/\s/g, ''); if(num) { navigator.clipboard.writeText(num).then(() => { const btn = event.target; const orig = btn.innerText; btn.innerText = '✓ Copiado!'; setTimeout(() => btn.innerText = orig, 2000); }); } }
+// Función para copiar texto específico
+// Función para copiar texto específico (VERSIÓN CORREGIDA)
+function copiarTexto(elementoId, nombre) {
+    const elemento = document.getElementById(elementoId);
+    if (!elemento) {
+        alert(`✨ No se encontró el elemento ${nombre} ✨`);
+        return;
+    }
+    
+    const texto = elemento.innerText.trim();
+    
+    if(!texto) {
+        alert(`✨ No hay texto para copiar en ${nombre} ✨`);
+        return;
+    }
+    
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(texto).then(() => {
+        // ÉXITO: Cambiar el texto del botón que se presionó
+        const btn = event.target;
+        const textoOriginal = btn.innerText;
+        btn.innerText = '✓ Copiado!';
+        setTimeout(() => {
+            btn.innerText = textoOriginal;
+        }, 2000);
+    });
+}
+
 function enviarMensajeWhatsApp() { const nombre = document.getElementById("nombre")?.value.trim(); const telefono = document.getElementById("telefono")?.value.trim(); const mensaje = document.getElementById("mensajeInput")?.value.trim(); if(!nombre || !telefono || !mensaje) return alert("✨ Por favor completa todos los campos ✨"); const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`; const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? "51987654321" : "51912345678"; window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank'); document.getElementById("nombre").value = ""; document.getElementById("telefono").value = ""; document.getElementById("mensajeInput").value = ""; alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨"); }
 function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); } function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); } function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); } function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
 const URL_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8"; function abrirFormularioFotos() { window.open(URL_FOTOS, '_blank'); } function generarQR() { const qrDiv = document.getElementById("qrCode"); if(qrDiv) qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(URL_FOTOS)}" style="width:110px;height:110px;border-radius:15px;">`; }
@@ -556,8 +647,9 @@ console.log(`Área disponible: ${anchoDisponible} x ${altoDisponible}`);
 //360x4022
 const BUCLE_CONFIGS = [
     { nombre: "Título", inicioX: 10, inicioY: 300, finX: 40, finY: 230, separacionLateral: 16, tipoInicial: 'human' },
-    { nombre: "Historia", inicioX: anchoDocumento-100, inicioY: 300, finX:anchoDocumento-20, finY: 350, separacionLateral: 14, tipoInicial: 'dog' },
-    { nombre: "Ceremonia", inicioX: 100, inicioY:400 , finX: 200, finY: 500, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "Titulo2", inicioX: anchoDocumento-100, inicioY: 300, finX:anchoDocumento-20, finY: 350, separacionLateral: 14, tipoInicial: 'dog' },
+    { nombre: "Titulo 3", inicioX: 100, inicioY:400 , finX: 200, finY: 500, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "Nuestra H", inicioX: 100, inicioY:1000, finX: anchoDocumento-100, finY: 800, separacionLateral: 15, tipoInicial: 'human' },    
     { nombre: "Avisos", inicioX: 100, inicioY: 1780, finX: 550, finY: 1900, separacionLateral: 13, tipoInicial: 'dog' },
     { nombre: "Regalos", inicioX: 70, inicioY: 2250, finX: 600, finY: 2380, separacionLateral: 15, tipoInicial: 'human' },
     { nombre: "Álbum", inicioX: 90, inicioY: 2750, finX: 580, finY: 2880, separacionLateral: 14, tipoInicial: 'dog' },
@@ -825,7 +917,7 @@ function mostrarVarita() { wand = document.getElementById("wand"); wandHint = do
 let sobreAbierto = false, transicionIniciada = false;
 function abrirSobre() { if(sobreAbierto) return; sobreAbierto = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); setTimeout(() => { const audio = new Audio("potterd.mp3"); audio.loop = true; audio.volume = 0.4; audio.play().catch(e=>console.log); canciones.intro.elemento = audio; }, 50); const sello = document.getElementById("sello"); const sobre = document.getElementById("sobre"); const hint = document.getElementById("hint"); if(sello) sello.classList.add("fade-dust"); if(hint) hint.classList.add("fade-dust"); setTimeout(() => { if(sobre) sobre.classList.add("open"); }, 300); setTimeout(() => { if(sobre) sobre.classList.add("zoom-in"); }, 1500); setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200); }
 function cerrarCartaATransicion() { if(transicionIniciada) return; transicionIniciada = true; const cartaDiv = document.getElementById("cartaInterior"); const introDiv = document.getElementById("intro"); const mainDiv = document.getElementById("main"); cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease"; cartaDiv.style.opacity = "0"; cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)"; setTimeout(() => { cartaDiv.classList.remove("show"); introDiv.style.transition = "opacity 1s ease"; introDiv.style.opacity = "0"; setTimeout(() => { introDiv.style.display = "none"; mainDiv.classList.add("show"); document.body.style.overflow = "auto"; iniciarCountdown(); iniciarAlbumObserver(); }, 1000); }, 800); }
-function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 1500); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 10000); }
+function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 5000); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 10000); }
 const animarVaritaOriginal = animarVarita; window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); }; animarVarita = window.animarVarita;
 document.getElementById("sello")?.addEventListener("click", (e) => { e.stopPropagation(); abrirSobre(); });
 document.getElementById("sello")?.addEventListener("touchstart", (e) => { e.preventDefault(); e.stopPropagation(); abrirSobre(); });

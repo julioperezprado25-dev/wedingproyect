@@ -13,6 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Fuentes manuscritas para boda mágica -->
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cedarville+Cursive&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 * {
     margin: 0;
@@ -149,7 +151,8 @@ body {
 }
 
 .titulo-principal {
-    font-family: 'Cinzel', serif;
+    font-family: 'Dancing Script', serif;
+    
     font-size: clamp(52px, 12vw, 85px);
     font-weight: 900;
     text-align: center;
@@ -167,7 +170,7 @@ body {
     background: transparent;
     border-radius: 35px;
     padding: 20px 18px;
-    margin: 30px 0;
+    margin: 10px 0;
     position: relative;
     width: 100%;
     display: flex;
@@ -179,31 +182,48 @@ body {
 
 /* BLOQUE DE TÍTULO CENTRAL */
 .titulo-bloque {
-    background: transparent;
-    backdrop-filter: none;
-    padding: 14px 24px;
-    border-radius: 60px;
-    margin-bottom: 30px;
+    background: transparent !important;
+    background-size: cover;  /* ← La imagen se ajusta automágicamente */
+    /* background-size: contain;  ← Alternativa */
+    border: none;
+    box-shadow: none;
+    padding: 15px 30px;  /* ← Padding fijo, la imagen se adapta */
     display: inline-block;
-    width: auto;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,215,0,0.3);
-    text-align: center;
-    z-index: 2;
+    min-width: 150px;  /* ← Ancho mínimo para títulos cortos */
 }
-
 .titulo-flotante {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(24px, 6vw, 38px);
+    font-family: 'Alex Brush', serif;
+    font-size: clamp(30px, 10vw, 40px);
     font-weight: 700;
     background: transparent;
     text-align: center;
     letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    color: #3E2723;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
     animation: flotarTrasladar 1.2s ease-out forwards;
     display: block;
     width: 100%;
     
+}
+
+/* Estilos para todos los títulos curvos */
+.titulo-en-curva {
+    display: inline-block;
+    width: 100%;
+    max-width: 600px;
+}
+
+.titulo-en-curva svg {
+    width: 100%;
+    height: auto;
+}
+
+.titulo-en-curva text {
+    font-family: 'Alex Brush', serif;
+    font-size: clamp(50px, 20vw, 60px);
+    font-weight: 700;
+    color: #34211e;
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
 }
 
 @keyframes flotarTrasladar {
@@ -306,7 +326,7 @@ body {
     margin: 5px auto;
     height: auto;
     filter: drop-shadow(0 5px 12px rgba(0,0,0,0.2));
-    object-fit: contenid;
+    object-fit: contain;
     animation: flotar_img 5s infinite alternate;
 }
 
@@ -320,7 +340,7 @@ body {
     height: auto;
     z-index: 0;   /* ← Detrás contenid*/
     margin-top: -50px;
-    margin-bottom: -15px;
+    margin-bottom: -50px;
   
 }
 
@@ -333,8 +353,8 @@ body {
     width:  min(300px, 40vw);
     height: auto;
     z-index: 0;
-    margin-top: -5px;
-    margin-bottom: -5px;
+    margin-top: -40px;
+    margin-bottom: -50px;
 /* ← Detrás del contenido */
 }
 
@@ -358,7 +378,7 @@ body {
 input, textarea { width: 100%; max-width: 380px; padding: 11px 15px; margin: 6px 0; border-radius: 50px; border: 2px solid #b8965a; font-family: 'Quicksand', sans-serif; background: rgba(255,250,235,0.95); font-size: 14px; color: #2c2416; display: block; transition: all 0.2s; }
 input:focus, textarea:focus { outline: none; border-color: #6b4c2a; box-shadow: 0 0 0 3px rgba(107,76,42,0.2); }
 textarea { border-radius: 25px; min-height: 85px; }
-.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: rgba(139,107,58,0.15); border-radius: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; z-index:4; }
+.qr-container { text-align: center; margin: 20px 0; padding: 15px; background: transparent !important; border-radius: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; z-index:4; }
 .qr-code { display: flex; justify-content: center; margin: 12px 0; }
 .qr-code img { border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
@@ -428,7 +448,7 @@ textarea { border-radius: 25px; min-height: 85px; }
 
 @media (max-width: 768px) {
     .main { padding: 16px 14px 60px 14px; }
-    .seccion-con-fondo { padding: 18px 14px; margin: 20px 0; }
+    .seccion-con-fondo { padding: 18px 14px; margin: 10px 0; }
 }
 @media (max-width: 480px) {
     .titulo-principal { font-size: 42px; letter-spacing: 2px; }
@@ -492,20 +512,48 @@ textarea { border-radius: 25px; min-height: 85px; }
         
         <div class="seccion-con-fondo" id="seccion-titulo">
             <h1 class="titulo-principal">Ivon & Julio</h1>
-            <p class="texto-contenido">✦ Nos llena de alegría invitarte a celebrar ✦</p>
+            <p class="texto-contenido">Nos llena de alegría invitarte a celebrar</p>
             <p class="texto-contenido">uno de los días más importantes de nuestras vidas</p>
             <p class="texto-contenido" style="font-size:24px; font-weight:800; margin-top:10px;">💍 14 de agosto, 2026 💍</p>
         </div>
         
         <div class="seccion-con-fondo">
-            <div class="titulo-bloque"><h2 class="titulo-flotante">✨ Nuestra Historia ✨</h2></div>
+            
+            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+                <defs>
+                    <linearGradient id="gradienteOro" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#25241b"/>
+                        <stop offset="50%" style="stop-color:#25241b"/>
+                        <stop offset="100%" style="stop-color:#25241b"/>
+                    </linearGradient>
+                    
+                    <!-- Diferentes tipos de curva -->
+                    <path id="curvaSuave" d="M 30,60 Q 250,20 470,60"/>
+                    <path id="curvaFuerte" d="M 30,70 Q 250,10 470,70"/>
+                    <path id="curvaInvertida" d="M 30,40 Q 250,90 470,40"/>
+                </defs>
+                
+                <text font-size="40" text-anchor="middle">
+                    <textPath href="#curvaSuave" startOffset="50%">
+                        Nuestra Historia
+                    </textPath>
+                </text>
+            </svg>
+
             <p class="texto-contenido">Todo comenzó con un "hola" sin nombre, una conversación que cruzó distancias invisibles. El mapa de nuestras vidas trazó un destino que aún no sabíamos leer. No hicieron falta hechizos complicados; la magia más real estaba en los pequeños momentos cotidianos: las risas compartidas, los silencios cómplices y la certeza de que, juntos, cualquier desafío se volvía liviano.</p>
             <p class="texto-contenido">Hoy, ese encuentro fortuito se convierte en un "sí, acepto". Y entre varitas y pergaminos, prometemos caminar siempre de la mano, en esta y en todas nuestras aventuras.</p>
             <p class="texto-contenido"><strong><em style="font-family: 'Playfair Display', serif; font-size: 1.2em;">Always</em></strong></p>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-boda">
-            <div class="titulo-bloque"><h2 class="titulo-flotante">La Gran Celebración</h2></div>
+
+            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+                <text text-anchor="middle" fill="url(#gradienteOro)" >
+                    <textPath href="#curvaSuave" startOffset="50%">
+                        La Gran Celebración
+                    </textPath>
+                </text>
+            </svg>                                                  
             <div class="countdown" id="countdownBoda"></div>
             <p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
             <h3 class="subtitulo">⛪ Ceremonia Religiosa</h3>
@@ -519,49 +567,73 @@ textarea { border-radius: 25px; min-height: 85px; }
         </div>
         
         <div class="seccion-con-fondo" id="seccion-info">
-            <div class="titulo-bloque"><h2 class="titulo-flotante">Avisos Importantes</h2></div>
+            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+                <text  text-anchor="middle" fill="url(#gradienteOro)" >
+                    <textPath href="#curvaSuave" startOffset="50%">
+                        Avisos Importantes
+                    </textPath>
+                </text>
+            </svg>                                                          
             <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
             <p class="texto-contenido">📅 Confirmar asistencia antes del 15 de julio</p>
             <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
         
-<div class="seccion-con-fondo" id="seccion-regalos">
-    <div class="titulo-bloque"><h2 class="titulo-flotante">Lista de Regalos</h2></div>
-    <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
-    <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
-    <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
-        <h3 class="subtitulo" style="font-size:22px;">💰 Nuestra cuenta</h3>
-        
-        <!-- Cuenta bancaria -->
-        <div class="cuenta-item">
-            <div class="cuenta-label">🏦 Cuenta Bancaria</div>
-            <div class="cuenta-valor" id="cuentaNumero">193205253 18043</div>
-            <button class="btn btn-copiar" onclick="copiarTexto('cuentaNumero', 'cuenta bancaria')">
-                📋 Copiar cuenta
-            </button>
+        <div class="seccion-con-fondo" id="seccion-regalos">
+            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+                <text text-anchor="middle" fill="url(#gradienteOro)">
+                    <textPath href="#curvaSuave" startOffset="50%">
+                        Lista de regalos
+                    </textPath>
+                </text>
+            </svg>
+            <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
+            <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
+            <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
+                <h3 class="subtitulo" style="font-size:28px;">💰 Nuestra cuenta</h3>
+                
+                <!-- Cuenta bancaria -->
+                <div class="cuenta-item">
+                    <div class="cuenta-label">🏦 Cuenta Bancaria</div>
+                    <div class="cuenta-valor" id="cuentaNumero">193205253 18043</div>
+                    <button class="btn btn-copiar" onclick="copiarTexto('cuentaNumero', 'cuenta bancaria')">
+                        📋 Copiar cuenta
+                    </button>
+                </div>
+                
+                <!-- CCI -->
+                <div class="cuenta-item" style="margin-top: 15px;">
+                    <div class="cuenta-label">💳 CCI (Código de Cuenta Interbancario)</div>
+                    <div class="cuenta-valor" id="cciNumero">00219312052531804318</div>
+                    <button class="btn btn-copiar" onclick="copiarTexto('cciNumero', 'CCI')">
+                        📋 Copiar CCI
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <!-- CCI -->
-        <div class="cuenta-item" style="margin-top: 15px;">
-            <div class="cuenta-label">💳 CCI (Código de Cuenta Interbancario)</div>
-            <div class="cuenta-valor" id="cciNumero">00219312052531804318</div>
-            <button class="btn btn-copiar" onclick="copiarTexto('cciNumero', 'CCI')">
-                📋 Copiar CCI
-            </button>
-        </div>
-    </div>
-</div>
         
         <div class="seccion-con-fondo" id="seccion-album">
          
-            <div class="titulo-bloque"><h2 class="titulo-flotante">Álbum Mágico</h2></div>
+        <svg class="titulo-en-curva" viewBox="0 0 500 100">
+            <text text-anchor="middle" fill="url(#gradienteOro)">
+                <textPath href="#curvaSuave" startOffset="50%">
+                    Album Mágico
+                </textPath>
+            </text>
+        </svg>
             <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
             <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-mensajes">
          
-            <div class="titulo-bloque"><h2 class="titulo-flotante">Búho Mensajero</h2></div>
+            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+                <text  text-anchor="middle" fill="url(#gradienteOro)" >
+                    <textPath href="#curvaSuave" startOffset="50%">
+                        Búho Mensajero
+                    </textPath>
+                </text>
+            </svg>
             <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
             <div style="width:100%; display: flex; flex-direction: column; align-items: center;"><p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
             <input type="text" id="nombre" placeholder="✏️ Tu nombre"><input type="tel" id="telefono" placeholder="📱 Tu teléfono"><textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea><button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button></div>
@@ -602,7 +674,7 @@ function copiarTexto(elementoId, nombre) {
     });
 }
 
-function enviarMensajeWhatsApp() { const nombre = document.getElementById("nombre")?.value.trim(); const telefono = document.getElementById("telefono")?.value.trim(); const mensaje = document.getElementById("mensajeInput")?.value.trim(); if(!nombre || !telefono || !mensaje) return alert("✨ Por favor completa todos los campos ✨"); const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`; const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? "51987654321" : "51912345678"; window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank'); document.getElementById("nombre").value = ""; document.getElementById("telefono").value = ""; document.getElementById("mensajeInput").value = ""; alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨"); }
+function enviarMensajeWhatsApp() { const nombre = document.getElementById("nombre")?.value.trim(); const telefono = document.getElementById("telefono")?.value.trim(); const mensaje = document.getElementById("mensajeInput")?.value.trim(); if(!nombre || !telefono || !mensaje) return alert("✨ Por favor completa todos los campos ✨"); const texto = `*💒 Mensaje de boda - Ivon & Julio*\n\n*👤:* ${nombre}\n*📱:* ${telefono}\n\n*💝:*\n"${mensaje}"`; const destino = confirm("¿Enviar a Ivon? (Aceptar) o a Julio (Cancelar)") ? "51956406186" : "51981800301"; window.open(`https://wa.me/${destino}?text=${encodeURIComponent(texto)}`, '_blank'); document.getElementById("nombre").value = ""; document.getElementById("telefono").value = ""; document.getElementById("mensajeInput").value = ""; alert("✨ ¡Gracias! Mensaje enviado por lechuza ✨"); }
 function abrirMapsR() { window.open("https://maps.app.goo.gl/fLJbAcgaQjW2hXCS6"); } function abrirWazeR() { window.open("https://waze.com/ul/h6mc5mgy3k"); } function abrirMapsI() { window.open("https://maps.app.goo.gl/GqfMrTeU6jpHUNrG9"); } function abrirWazeI() { window.open("https://www.waze.com/en/live-map/directions?latlng=-12.074752579529235%2C-77.04824566841125"); }
 const URL_FOTOS = "https://forms.gle/kwx5YPfocWcmGw2c8"; function abrirFormularioFotos() { window.open(URL_FOTOS, '_blank'); } function generarQR() { const qrDiv = document.getElementById("qrCode"); if(qrDiv) qrDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent(URL_FOTOS)}" style="width:110px;height:110px;border-radius:15px;">`; }
 function iniciarAlbumObserver() { const sec = document.getElementById("seccion-album"); if(sec) { const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting) { generarQR(); obs.disconnect(); } }, { threshold: 0.3 }); obs.observe(sec); } }
@@ -615,8 +687,8 @@ function reproducirCancion(nombre, fadeIn = true) { const c = canciones[nombre];
 window.musicaMuted = false; function toggleAudio() { const boda = canciones.boda; if(boda?.elemento) { if(!window.musicaMuted) { boda.elemento.muted = true; window.musicaMuted = true; document.getElementById("audioBtn").textContent = "🔇 Activar Música"; } else { boda.elemento.muted = false; window.musicaMuted = false; document.getElementById("audioBtn").textContent = "🔊 Silenciar Música"; } } }
 
 // ==================== HUELLAS MÁGICAS (FIX: Sincronización con scroll) ====================
-const TAMANO_HUMANO = 16;
-const TAMANO_PERRO = 12;
+const TAMANO_HUMANO = 14;
+const TAMANO_PERRO = 9;
 const VELOCIDAD_HUELLAS = 600;
 
 // Coordenadas en pixeles relativas al scroll (absolutas en la página)
@@ -646,14 +718,24 @@ console.log(`Área disponible: ${anchoDisponible} x ${altoDisponible}`);
 //tamaaño de documento en un honor: 
 //360x4022
 const BUCLE_CONFIGS = [
-    { nombre: "Título", inicioX: 10, inicioY: 300, finX: 40, finY: 230, separacionLateral: 16, tipoInicial: 'human' },
-    { nombre: "Titulo2", inicioX: anchoDocumento-100, inicioY: 300, finX:anchoDocumento-20, finY: 350, separacionLateral: 14, tipoInicial: 'dog' },
-    { nombre: "Titulo 3", inicioX: 100, inicioY:400 , finX: 200, finY: 500, separacionLateral: 15, tipoInicial: 'human' },
-    { nombre: "Nuestra H", inicioX: 100, inicioY:1000, finX: anchoDocumento-100, finY: 800, separacionLateral: 15, tipoInicial: 'human' },    
-    { nombre: "Avisos", inicioX: 100, inicioY: 1780, finX: 550, finY: 1900, separacionLateral: 13, tipoInicial: 'dog' },
-    { nombre: "Regalos", inicioX: 70, inicioY: 2250, finX: 600, finY: 2380, separacionLateral: 15, tipoInicial: 'human' },
-    { nombre: "Álbum", inicioX: 90, inicioY: 2750, finX: 580, finY: 2880, separacionLateral: 14, tipoInicial: 'dog' },
-    { nombre: "Mensajes", inicioX: 60, inicioY: 3250, finX: 620, finY: 3400, separacionLateral: 13, tipoInicial: 'human' }
+    { nombre: "En perritos 1", inicioX: 10, inicioY:300, finX: 100, finY: 230, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En perritos 2", inicioX: 300, inicioY: 200, finX:anchoDocumento, finY: 300, separacionLateral: 14, tipoInicial: 'dog' },
+    { nombre: "En Titulo 1", inicioX: 100, inicioY:400 , finX: 50, finY: 500, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "En nuestra historia 1", inicioX: 300, inicioY:400 , finX: anchoDocumento-50, finY: 600, separacionLateral: 15, tipoInicial: 'human' },
+    { nombre: "En nuestra historia 2", inicioX: 50, inicioY:750 , finX: anchoDocumento-50, finY: 800, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En nuestra historia 3", inicioX: 50, inicioY:1050 , finX: anchoDocumento-50, finY: 1000, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En celebracion 1", inicioX: 60, inicioY:1200 , finX: 10, finY: 1300, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En celebracion 2", inicioX: 250, inicioY:1300 , finX: anchoDocumento-20, finY: 1500, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En celebracion 3", inicioX: 70, inicioY:1800 , finX: 10, finY: 1600, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En celebracion 4", inicioX: anchoDocumento, inicioY:1700 , finX: anchoDocumento-30, finY: 2000, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En avisos", inicioX: 0, inicioY:2140 , finX: anchoDocumento, finY: 2190, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En Lista de regalos 1", inicioX: 20, inicioY:2300 , finX: 10, finY: 2400, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En Lista de regalos 2", inicioX: anchoDocumento-20, inicioY:2400 , finX: anchoDocumento-20, finY: 2500, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En album 1", inicioX: 20, inicioY:2800 , finX: 10, finY: 3100, separacionLateral: 12, tipoInicial: 'human' },
+    { nombre: "En album 2", inicioX: anchoDocumento-20, inicioY:3100 , finX: anchoDocumento-20, finY: 3500, separacionLateral: 12, tipoInicial: 'human' }
+
+
+    
 ];
 
 const canvas = document.getElementById('canvasHuellas');
@@ -873,7 +955,7 @@ animarHuellas();
 
 let varitaActivada = false, wand, wandHint;
 // ==================== TEXTO MÁGICO SIMPLE ====================
-const lineasCarta = ["✨ Travesura realizada✨", "", "¡Nos casamos!", "", "Has sido invitado a celebrar", "", "este momento tan especial", "", "", "Con amor,", "Ivon & Julio"];
+const lineasCarta = ["Travesura realizada", "", "¡Nos casamos!", "", "Has sido invitado a celebrar", "", "este momento tan especial", "", "", "Con amor,", "Ivon & Julio"];
 
 function crearTextoMagico() {
     const container = document.getElementById("texto-carta");
@@ -895,9 +977,9 @@ function crearTextoMagico() {
                 
                 // SOLO para la primera línea (índice 0)
                 if (idx === 0) {
-                    span.style.fontSize = '21px';        // Más grande
-                    span.style.fontWeight = '900';       // Más gruesa
-                    span.style.fontFamily = "'Cinzel', serif";  // Fuente diferente
+                    span.style.fontSize = '36px';        // Más grande
+                    span.style.fontWeight = '950';       // Más gruesa
+                    span.style.fontFamily = "'Alex Brush'";  // Fuente diferente
                     span.style.letterSpacing = '3px';
                 }
                 // El resto usa los estilos normales de CSS

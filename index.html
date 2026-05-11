@@ -333,13 +333,13 @@ body {
 /* Pensadero - posición y transparencia */
 .cuerpo-pensadero { 
     top: 1% ;     /* ← Posición */
-    left: 1%;  
+    left: -5%;  
     transform: translate(-50%,-50%);/* ← Posición */
     opacity: 0.8;       /* ← Translúcido (40%) */
     width:  min(300px, 40vw);
     height: auto;
     z-index: 0;   /* ← Detrás contenid*/
-    margin-top: -50px;
+    margin-top: -45px;
     margin-bottom: -50px;
   
 }
@@ -519,7 +519,7 @@ textarea { border-radius: 25px; min-height: 85px; }
         
         <div class="seccion-con-fondo">
             
-            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+            <svg class="titulo-en-curva" viewBox="0 0 500 250">
                 <defs>
                     <linearGradient id="gradienteOro" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" style="stop-color:#25241b"/>
@@ -528,7 +528,7 @@ textarea { border-radius: 25px; min-height: 85px; }
                     </linearGradient>
                     
                     <!-- Diferentes tipos de curva -->
-                    <path id="curvaSuave" d="M 30,60 Q 250,20 470,60"/>
+                    <path id="curvaSuave" d="M 30,80 Q 250,30 470,80"/>
                     <path id="curvaFuerte" d="M 30,70 Q 250,10 470,70"/>
                     <path id="curvaInvertida" d="M 30,40 Q 250,90 470,40"/>
                 </defs>
@@ -567,7 +567,7 @@ textarea { border-radius: 25px; min-height: 85px; }
         </div>
         
         <div class="seccion-con-fondo" id="seccion-info">
-            <svg class="titulo-en-curva" viewBox="0 0 500 100">
+            <svg class="titulo-en-curva" viewBox="0 0 500 250">
                 <text  text-anchor="middle" fill="url(#gradienteOro)" >
                     <textPath href="#curvaSuave" startOffset="50%">
                         Avisos Importantes

@@ -191,26 +191,137 @@ body {
     display: inline-block;
     min-width: 150px;  /* ← Ancho mínimo para títulos cortos */
 }
+/* ===== TÍTULOS CON FONDO DE IMAGEN ===== */
 .titulo-flotante {
+    /* Fuente y texto */
     font-family: 'Alex Brush', serif;
-    font-size: clamp(30px, 10vw, 40px);
+    font-size: clamp(30px, 30vw, 60px);
     font-weight: 700;
-    background: transparent;
     text-align: center;
     letter-spacing: 2px;
     color: #3E2723;
     text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
+    
+    /* Animación */
     animation: flotarTrasladar 1.2s ease-out forwards;
-    display: block;
+    
+    /* Layout */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    max-width: 90%;
+    margin: 15px auto;
+    
+    /* Espaciado interno (ajusta estos valores según tu imagen) */
+    padding: 35px 50px;
+    
+    /* Fondo de imagen */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    
+    /* Para que el SVG no opaque el fondo */
+    position: relative;
+    z-index: 1;
+}
+
+/* El SVG dentro del título */
+.titulo-flotante svg {
+    position: relative;
+    z-index: 2;
+    background: transparent;
     width: 100%;
+    height: auto;
+    max-width: 550px;
+    display: block;
+}
+
+/* Fondo Tipo 1 */
+/* Fondo Tipo 1 */
+.fondo-1 {
+    background-image: url('title_bk2.png');
+    background-size: 95% 90%;
+    background-position: center 50%;
+    background-repeat: no-repeat;
+}
+
+/* Fondo Tipo 2 */
+.fondo-2 {
+    background-image: url('title_bk3.png');
+    background-size: 500px 200px;  /* ← Ahora igual que fondo-1 */
+    background-position: center 50%;
+    background-repeat: no-repeat;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .fondo-1, .fondo-2 {
+        background-size: 90% 85%;
+        background-position: center 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .fondo-1{
+        background-size: 85% 80%;
+        background-position: center 50%;
+    }
+   .fondo-2 {
+        background-size: 250px 150px;
+        background-position: center 50%;
+    }
+}
+/* CSS */
+.titulo-flotante[data-posicion="nuestra"] svg {
+    transform: translateY(18px);
+}
+
+.titulo-flotante[data-posicion="gran"] svg {
+    transform: translateY(-15px);
+}
+
+.titulo-flotante[data-posicion="aviso"] svg {
+    transform: translateY(22px);
+}
+
+.titulo-flotante[data-posicion="lista"] svg {
+    transform: translateY(-5px);
+}
+
+.titulo-flotante[data-posicion="album"] svg {
+    transform: translateY(10px);
+}
+.titulo-flotante[data-posicion="mensaje"] svg {
+    transform: translateY(-5px);
+}
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .titulo-flotante {
+        padding: 25px 35px;
+        max-width: 95%;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .titulo-flotante {
+        padding: 20px 30px;
+    }
     
 }
 
-/* Estilos para todos los títulos curvos */
+/* Asegura que todos los textos dentro del SVG sean legibles */
+.titulo-flotante svg text {
+    font-family: 'Alex Brush', serif !important;
+    fill:#3E2723 !important;
+    dominant-baseline: middle;
+}
+
+/* Estilo base para los SVG curvos */
 .titulo-en-curva {
-    display: inline-block;
+    display: block;
     width: 100%;
-    max-width: 600px;
 }
 
 .titulo-en-curva svg {
@@ -218,12 +329,9 @@ body {
     height: auto;
 }
 
-.titulo-en-curva text {
-    font-family: 'Alex Brush', serif;
-    font-size: clamp(50px, 20vw, 60px);
-    font-weight: 700;
-    color: #34211e;
-    text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
+/* Estilos para todos los títulos curvos*/
+
+
 }
 
 @keyframes flotarTrasladar {
@@ -518,7 +626,7 @@ textarea { border-radius: 25px; min-height: 85px; }
         </div>
         
         <div class="seccion-con-fondo">
-            
+         <div class="titulo-flotante fondo-1" data-posicion="nuestra">
             <svg class="titulo-en-curva" viewBox="0 0 500 250">
                 <defs>
                     <linearGradient id="gradienteOro" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -533,27 +641,28 @@ textarea { border-radius: 25px; min-height: 85px; }
                     <path id="curvaInvertida" d="M 30,40 Q 250,90 470,40"/>
                 </defs>
                 
-                <text font-size="40" text-anchor="middle">
+                <text  text-anchor="middle">
                     <textPath href="#curvaSuave" startOffset="50%">
                         Nuestra Historia
                     </textPath>
                 </text>
             </svg>
-
+          </div>
             <p class="texto-contenido">Todo comenzó con un "hola" sin nombre, una conversación que cruzó distancias invisibles. El mapa de nuestras vidas trazó un destino que aún no sabíamos leer. No hicieron falta hechizos complicados; la magia más real estaba en los pequeños momentos cotidianos: las risas compartidas, los silencios cómplices y la certeza de que, juntos, cualquier desafío se volvía liviano.</p>
             <p class="texto-contenido">Hoy, ese encuentro fortuito se convierte en un "sí, acepto". Y entre varitas y pergaminos, prometemos caminar siempre de la mano, en esta y en todas nuestras aventuras.</p>
             <p class="texto-contenido"><strong><em style="font-family: 'Playfair Display', serif; font-size: 1.2em;">Always</em></strong></p>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-boda">
-
+          <div class="titulo-flotante fondo-2" data-posicion="gran">
             <svg class="titulo-en-curva" viewBox="0 0 500 100">
-                <text text-anchor="middle" fill="url(#gradienteOro)" >
+                <text text-anchor="middle" fill="url(#gradienteOro)" y="20">
                     <textPath href="#curvaSuave" startOffset="50%">
                         La Gran Celebración
                     </textPath>
                 </text>
-            </svg>                                                  
+            </svg>                     
+          </div>
             <div class="countdown" id="countdownBoda"></div>
             <p class="texto-contenido"><strong>📆 Fecha:</strong> Viernes 14 de agosto, 2026</p>
             <h3 class="subtitulo">⛪ Ceremonia Religiosa</h3>
@@ -567,19 +676,22 @@ textarea { border-radius: 25px; min-height: 85px; }
         </div>
         
         <div class="seccion-con-fondo" id="seccion-info">
+          <div class="titulo-flotante fondo-1" data-posicion="aviso">
             <svg class="titulo-en-curva" viewBox="0 0 500 250">
                 <text  text-anchor="middle" fill="url(#gradienteOro)" >
                     <textPath href="#curvaSuave" startOffset="50%">
                         Avisos Importantes
                     </textPath>
                 </text>
-            </svg>                                                          
+            </svg>
+           </div>
             <p class="texto-contenido">🧥 <strong>Código de vestimenta:</strong> Formal / Etiqueta</p>
             <p class="texto-contenido">📅 Confirmar asistencia antes del 15 de julio</p>
             <p class="texto-contenido">🚗 Estacionamiento disponible en el local</p><p class="texto-contenido">🍷 Servicio de catering y barra libre</p><p class="texto-contenido">🧣 Llevar abrigo, la noche será encantada</p>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-regalos">
+          <div class="titulo-flotante fondo-2" data-posicion="lista">
             <svg class="titulo-en-curva" viewBox="0 0 500 100">
                 <text text-anchor="middle" fill="url(#gradienteOro)">
                     <textPath href="#curvaSuave" startOffset="50%">
@@ -587,6 +699,8 @@ textarea { border-radius: 25px; min-height: 85px; }
                     </textPath>
                 </text>
             </svg>
+          </div>  
+            
             <p class="texto-contenido">Tu presencia es el mejor obsequio que podemos recibir.</p>
             <p class="texto-contenido">Los regalos van por <strong>nuestra cuenta...</strong></p>
             <div style="background:rgba(139,107,58,0.2); border-radius:35px; padding:20px; margin-top:15px; width:100%; max-width:500px; margin-left:auto; margin-right:auto;">
@@ -594,7 +708,7 @@ textarea { border-radius: 25px; min-height: 85px; }
                 
                 <!-- Cuenta bancaria -->
                 <div class="cuenta-item">
-                    <div class="cuenta-label">🏦 Cuenta Bancaria</div>
+                    <div class="cuenta-label">🏦 Cuenta</div>
                     <div class="cuenta-valor" id="cuentaNumero">193205253 18043</div>
                     <button class="btn btn-copiar" onclick="copiarTexto('cuentaNumero', 'cuenta bancaria')">
                         📋 Copiar cuenta
@@ -603,7 +717,7 @@ textarea { border-radius: 25px; min-height: 85px; }
                 
                 <!-- CCI -->
                 <div class="cuenta-item" style="margin-top: 15px;">
-                    <div class="cuenta-label">💳 CCI (Código de Cuenta Interbancario)</div>
+                    <div class="cuenta-label">💳 CCI</div>
                     <div class="cuenta-valor" id="cciNumero">00219312052531804318</div>
                     <button class="btn btn-copiar" onclick="copiarTexto('cciNumero', 'CCI')">
                         📋 Copiar CCI
@@ -613,20 +727,21 @@ textarea { border-radius: 25px; min-height: 85px; }
         </div>
         
         <div class="seccion-con-fondo" id="seccion-album">
-         
-        <svg class="titulo-en-curva" viewBox="0 0 500 100">
-            <text text-anchor="middle" fill="url(#gradienteOro)">
+          <div class="titulo-flotante fondo-1" data-posicion="album">
+           <svg class="titulo-en-curva" viewBox="0 0 500 250">
+              <text text-anchor="middle" fill="url(#gradienteOro)">
                 <textPath href="#curvaSuave" startOffset="50%">
                     Album Mágico
-                </textPath>
-            </text>
-        </svg>
+                  </textPath>
+              </text>
+          </svg>
+         </div>
             <img id="pensadero" class="cuerpo-pensadero" src="pensador.png" alt="Pensadero">
             <div class="qr-container"><p class="texto-contenido">🔮 Escanea el QR y comparte tus fotos</p><div class="qr-code" id="qrCode"></div><button class="btn" onclick="abrirFormularioFotos()">📸 Subir fotos</button><p class="texto-contenido" style="font-size:12px;">* Las fotos quedarán en el Pensadero</p></div>
         </div>
         
         <div class="seccion-con-fondo" id="seccion-mensajes">
-         
+          <div class="titulo-flotante fondo-2" data-posicion="mensaje">
             <svg class="titulo-en-curva" viewBox="0 0 500 100">
                 <text  text-anchor="middle" fill="url(#gradienteOro)" >
                     <textPath href="#curvaSuave" startOffset="50%">
@@ -634,6 +749,7 @@ textarea { border-radius: 25px; min-height: 85px; }
                     </textPath>
                 </text>
             </svg>
+          </div>
             <img id="cartas" class="cuerpo-img_carta" src="cartas.png" alt="Cartas">
             <div style="width:100%; display: flex; flex-direction: column; align-items: center;"><p class="texto-contenido">Déjanos tu mensaje de felicitación</p>
             <input type="text" id="nombre" placeholder="✏️ Tu nombre"><input type="tel" id="telefono" placeholder="📱 Tu teléfono"><textarea id="mensajeInput" placeholder="💝 Tu mensaje..."></textarea><button class="btn" onclick="enviarMensajeWhatsApp()">📤 Enviar por lechuza 💌</button></div>
@@ -996,8 +1112,92 @@ function crearPolvo(x,y,count=10) { for(let i=0;i<count;i++) { const p = documen
 async function animarVarita() { if(varitaActivada) return; varitaActivada = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); reproducirCancion('magia', true); if(wandHint) wandHint.style.display = "none"; wand.style.animation = "wandWiggleLight1 0.35s ease-in-out"; await new Promise(r => setTimeout(r, 350)); wand.style.animation = "wandWiggleLight2 0.35s ease-in-out"; await new Promise(r => setTimeout(r, 350)); wand.style.animation = "wandCurveMove 0.6s cubic-bezier(0.68,-0.55,0.265,1.55)"; const rect = wand.getBoundingClientRect(); for(let i=0;i<10;i++) setTimeout(() => crearChispa(rect.left + (Math.random()-0.5)*70, rect.top + (Math.random()-0.5)*70), i*40); await new Promise(r => setTimeout(r, 600)); wand.style.animation = ""; crearPolvo(rect.left + rect.width/2, rect.top + rect.height/2, 12); wand.style.animation = "wandDustFade 0.8s forwards"; setTimeout(() => { wand.style.display = "none"; if(wandHint) wandHint.style.display = "none"; }, 800); revelarTexto(); reproducirCancion('boda', true); }
 function mostrarVarita() { wand = document.getElementById("wand"); wandHint = document.getElementById("wandHint"); crearTextoMagico(); wand.style.display = "block"; wand.style.left = "50%"; wand.style.top = "45%"; wand.style.cursor = "pointer"; if(wandHint) { wandHint.style.display = "block"; setTimeout(() => { const cartaRect = document.getElementById("cartaInterior").getBoundingClientRect(); wandHint.style.left = (cartaRect.left + cartaRect.width/2 - wandHint.offsetWidth/2) + "px"; wandHint.style.top = cartaRect.top - 40 + "px"; }, 100); } wand.addEventListener("click", () => animarVarita()); wand.addEventListener("touchstart", (e) => { e.preventDefault(); animarVarita(); }); }
 
+
+// Al inicio del script, después de inicializarMusica()
+// ==================== AUDIO POTTER CORREGIDO ====================
+// ==================== VERSIÓN DEFINITIVA - POTTER FIX ====================
+// ==================== VERSIÓN QUE FUNCIONA SEGURO ====================
+// ==================== SOLUCIÓN DEFINITIVA ====================
 let sobreAbierto = false, transicionIniciada = false;
-function abrirSobre() { if(sobreAbierto) return; sobreAbierto = true; if(canciones.intro.elemento) canciones.intro.elemento.pause(); setTimeout(() => { const audio = new Audio("potterd.mp3"); audio.loop = true; audio.volume = 0.4; audio.play().catch(e=>console.log); canciones.intro.elemento = audio; }, 50); const sello = document.getElementById("sello"); const sobre = document.getElementById("sobre"); const hint = document.getElementById("hint"); if(sello) sello.classList.add("fade-dust"); if(hint) hint.classList.add("fade-dust"); setTimeout(() => { if(sobre) sobre.classList.add("open"); }, 300); setTimeout(() => { if(sobre) sobre.classList.add("zoom-in"); }, 1500); setTimeout(() => { document.getElementById("cartaInterior").classList.add("show"); mostrarVarita(); }, 2200); }
+let potterAudio = null;
+
+function abrirSobre() { 
+    if(sobreAbierto) return; 
+    sobreAbierto = true; 
+    
+    // LIMPIAR cualquier audio previo
+    if(window.audioContext) {
+        window.audioContext.close();
+        window.audioContext = null;
+    }
+    
+    if(canciones.intro.elemento) {
+        canciones.intro.elemento.pause();
+        canciones.intro.elemento.src = '';
+        canciones.intro.elemento = null;
+    }
+    
+    // Crear audio NUEVO con método más simple
+    potterAudio = new Audio();
+    
+    // Usar URL con timestamp para evitar caché corrupta
+    potterAudio.src = "potterd.mp3?t=" + Date.now();
+    
+    potterAudio.loop = true;
+    potterAudio.volume = 0.4;
+    
+    // Cargar explícitamente
+    potterAudio.load();
+    
+    // EVENTO: Cuando esté listo para reproducir
+    potterAudio.addEventListener('canplaythrough', function() {
+        this.play().then(() => {
+            console.log("✅ Potter reproduciendo");
+            canciones.intro.elemento = potterAudio;
+        }).catch(e => {
+            console.error("Error en play:", e);
+            // Fallback a música que funciona
+            if(canciones.magia.elemento) {
+                canciones.magia.elemento.currentTime = 0;
+                canciones.magia.elemento.play();
+                canciones.intro.elemento = canciones.magia.elemento;
+            }
+        });
+    }, { once: true });
+    
+    // Manejar error de carga
+    potterAudio.addEventListener('error', (e) => {
+        console.error("Error de carga:", e);
+        if(canciones.magia.elemento) {
+            canciones.magia.elemento.currentTime = 0;
+            canciones.magia.elemento.play();
+            canciones.intro.elemento = canciones.magia.elemento;
+        }
+    });
+    
+    // Animaciones
+    const sello = document.getElementById("sello"); 
+    const sobre = document.getElementById("sobre"); 
+    const hint = document.getElementById("hint"); 
+    
+    if(sello) sello.classList.add("fade-dust"); 
+    if(hint) hint.classList.add("fade-dust"); 
+    
+    setTimeout(() => { 
+        if(sobre) sobre.classList.add("open"); 
+    }, 300); 
+    
+    setTimeout(() => { 
+        if(sobre) sobre.classList.add("zoom-in"); 
+    }, 1500); 
+    
+    setTimeout(() => { 
+        document.getElementById("cartaInterior").classList.add("show"); 
+        mostrarVarita(); 
+    }, 2200); 
+}
+
+
 function cerrarCartaATransicion() { if(transicionIniciada) return; transicionIniciada = true; const cartaDiv = document.getElementById("cartaInterior"); const introDiv = document.getElementById("intro"); const mainDiv = document.getElementById("main"); cartaDiv.style.transition = "opacity 0.8s ease, transform 0.8s ease"; cartaDiv.style.opacity = "0"; cartaDiv.style.transform = "translate(-50%, -50%) scale(0.8)"; setTimeout(() => { cartaDiv.classList.remove("show"); introDiv.style.transition = "opacity 1s ease"; introDiv.style.opacity = "0"; setTimeout(() => { introDiv.style.display = "none"; mainDiv.classList.add("show"); document.body.style.overflow = "auto"; iniciarCountdown(); iniciarAlbumObserver(); }, 1000); }, 800); }
 function esperarFinMagiaYTransicionar() { const checkInterval = setInterval(() => { const magia = canciones.magia.elemento; if(magia && (magia.ended || magia.currentTime > magia.duration - 0.5)) { clearInterval(checkInterval); setTimeout(() => cerrarCartaATransicion(), 5000); } }, 500); setTimeout(() => { clearInterval(checkInterval); cerrarCartaATransicion(); }, 10000); }
 const animarVaritaOriginal = animarVarita; window.animarVarita = async function() { await animarVaritaOriginal(); esperarFinMagiaYTransicionar(); }; animarVarita = window.animarVarita;
